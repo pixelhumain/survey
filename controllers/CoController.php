@@ -18,18 +18,10 @@ class CoController extends CommunecterController {
   	public function actions()
 	{
 	    return array(
-	        'test'  => 'survey.controllers.actions.TestAction',
+	        'index'  => 'survey.controllers.actions.IndexAction',
+	        'form'  => 'survey.controllers.actions.FormAction',
+	        'edit'  => 'survey.controllers.actions.EditAction',
 	    );
 	}
 
-	public function actionIndex() 
-	{
-    	if(Yii::app()->request->isAjaxRequest)
-       		echo $this->renderPartial("index");
-      	else
-      	{
-	        $this->layout = "//layouts/empty";
-	        $this->render("index");
-      	}
-  	}
 }

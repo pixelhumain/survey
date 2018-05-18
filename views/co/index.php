@@ -3,7 +3,7 @@
 $cssJS = array(
     
     '/plugins/jquery.dynForm.js',
-    '/assets/css/default/dynForm.css',
+    
 
     '/plugins/jQuery-Knob/js/jquery.knob.js',
     '/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
@@ -34,6 +34,10 @@ $cssJS = array(
 '/js/dataHelpers.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
+$cssJS = array(
+'/assets/css/default/dynForm.css',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 ?>
 <a class="btn btn-danger pull-right " href="javascript:;" onclick="$('#todo').slideToggle()">show Todo</a>
 <div class="container " >
@@ -64,96 +68,98 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
                 Scenario<br/>
                 <ul>
                     <li>log out before testing</li>
+                    <li>show scenario steps</li>
+                    <li>make steps dependant</li>
                     <li>1 step User : create account or Login</li>
                     <li>2 add an Element </li>
                     <li>3 answer survey</li>
                 </ul></li>
+            <li>Save Forms in collection "forms"</li>
+            <li>Save > collections "answers" </li>
+            <li>Home page d'un survey </li>
+            <li class="text-red">Ideas : 
+            <ul> 
+                <li>Récompence de gamification pour avoir répondu</li>
+                <li>steps > invite > survey > results</li>
+                <li>ne pas répété les meme réponses</li>
+                <li>view someones Q & A </li>
+                <li>someone can choose on their Q & A public or private </li>
+                <li>visualise a community who answered a survey (list + map)</li>
+                <li>proposer des survey pour des observatoires</li>
+                <li>observatoires d'une fillière</li>
+                <li>question unique</li>
+                <li>add to list of answered : [xxxx,xxx,xxx,...]</li>
+            </ul></li>
         </ul>
     </div>
 
     <div id="commonsChart" class="formChart col-xs-12" >
-        <h3 style="font-variant:small-caps;"><span class="stepFormChart"></span><?php echo Yii::t("chart","Evaluate") ?></h3>
-        <form id="opendata"></form>
+        <h3 style="font-variant:small-caps;"><span class="stepFormChart"></span> <?php echo $form["title"] ?></h3>
+        <div id="surveyDesc">
+            
+            <h4><?php echo $form["description"] ?></h4>
+        </div>
+        <form id="ajaxFormModal"></form>
     </div>
 
 </div>
 
 <script type="text/javascript">
+
+
+
+
 jQuery(document).ready(function() {
-    getSurveyJson("commons");
+    //dySObj.getSurveyJson("commons",parentModuleUrl+'/js/dynForm/commons.js');
+    //dySObj.getSurveyJson("commons",baseUrl+"/survey/co/form/id/commons");
+    dySObj.surveyId = "#ajaxFormModal";
+    dySObj.surveys = <?php echo json_encode( $form ) ?>;
+    dySObj.surveys.answers = {};
+
+    //scenario is a list of many survey definitions that can be put together in different ways
+    //$("#surveyDesc").html("");
+    if(dySObj.surveys.scenario){
+        $("#surveyDesc").append("<h1>"+Object.keys(dySObj.surveys.scenario).length+" easy steps : </h1>");
+        var prev = null;
+        var step = 1;
+        var surveyType = (dySObj.surveys.surveyType) ? dySObj.surveys.surveyType : null ;
+        var str = "";
+        $.each(dySObj.surveys.scenario, function(i,v) { 
+            dySObj.surveys.answers[i] = {};
+            icon = (v.icon) ? v.icon : "fa-square-o";
+            str += '<div class="card col-xs-4" >'+
+              //'<img src="https://unsplash.it/g/300">'+
+              '<div class="card-body padding-15 bg-dark" style="border:6px solid #3071a9;">'+
+                '<h4 class="card-title bold text-white text-center padding-5" style="border-bottom:1px solid white">'+
+                    '<i class="margin-5 fa '+icon+' fa-2x"></i><br/>'+
+                    step+'. '+v.title+
+                '</h4>'+
+                '<p class="card-text">'+v.description+'</p>';
+
+            if( surveyType != "oneSurvey"  && ( prev == null || dySObj.surveys.answers[prev] == {} ) ) {
+                dType = (v.type) ? v.type : "json" ;
+                dynType = (v.dynType) ? v.dynType : "dynForm" ;
+                str +='<a href="javascript:;" onclick="dySObj.openSurvey(\''+i+'\',\''+dType+'\',\''+dynType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a>';
+            }
+            str +='</div></div>';  
+            prev = i;
+            step++;
+        }); 
+        $("#surveyDesc").append("<div class='card-columns'>"+str+'</div>');
+        
+        if ( surveyType == "oneSurvey" ){
+            //build survey json asynchronessly
+            dySObj.buildOneSurveyFromScenario( dySObj.surveys.scenario );
+            $("#surveyDesc").append('<div class="margin-top-15 hidden" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
+        }
+
+    } else {
+        // other wise it's jsut one survey that can be shown
+        dySObj.surveys.commons = <?php echo json_encode( $form ) ?>;  
+        dyFObj.buildSurvey( dySObj.surveyId, dySObj.buildSurveySections( surveys["commons"].json) );
+    }
 });
 
-var surveys = {}
 
-function getSurveyJson(name) {
-    mylog.log("getSurveyJson",name);
-    if(jsonHelper.notNull( "surveys."+name))
-        buildSurvey( buildSurveySections(surveys[name]) );
-    else {
-        var DSPath = parentModuleUrl+'/js/dynForm/'+name+'.js';
-        mylog.log("getSurveyJson ajax",DSPath);
-        $.ajax({
-          type: "GET",
-          url: DSPath,
-          dataType: "json"
-        }).done( function(data){
-            mylog.log("getSurveyJson",data);
-            surveys[name] = data;
-            buildSurvey( buildSurveySections(data) );
-            //toastr.success("values well updated");
-        });
-    }
-}
 
-function buildSurveySections(json){
-    mylog.log( "buildSurveySections" );
-    var surveyObj={};
-    var i=1;
-    $.each(json, function(e,form){
-        surveyObj["section"+i]={dynForm : form, key : e};
-        i++;
-    });
-    return surveyObj;
-}
-
-function buildSurvey(surveyJson) {  
-    mylog.log("buildSurvey",surveyJson);
-    var form = $.dynSurvey({
-        surveyId : "#opendata",
-        surveyObj : surveyJson,
-        surveyValues : {},
-        onLoad : function(){
-            //$(".description1, .description2, .description3, .description4, .description5, .description6").focus().autogrow({vertical: true, horizontal: false});
-        },
-        onSave : function(params) {
-            //mylog.dir( $(params.surveyId).serializeFormJSON() );
-            var result = {};
-            result[str]={};
-            mylog.log(params.surveyObj);
-            $.each( params.surveyObj,function(section,sectionObj) { 
-                result[str][sectionObj.key] = {};
-                mylog.log(sectionObj.dynForm.jsonSchema.properties);
-                $.each( sectionObj.dynForm.jsonSchema.properties,function(field,fieldObj) { 
-                    mylog.log(sectionObj.key+"."+field, $("#"+section+" #"+field).val() );
-                    if( fieldObj.inputType ){
-                        result[str][sectionObj.key][field] = {};
-                        result[str][sectionObj.key][field] = $("#"+section+" #"+field).val();
-                    }
-                });
-            });
-            mylog.dir( result );
-            $.ajax({
-              type: "POST",
-              url: params.savePath,
-              data: {properties:result, id: "<?php echo $_GET["id"] ?>", type: <?php echo $_GET["type"] ?>},
-              dataType: "json"
-            }).done( function(data){
-                toastr.success("values well updated') ?>");
-            });
-        },
-        collection : "commonsChart",
-        key : "SCSurvey",
-        savePath : baseUrl+"/"+moduleId+"/chart/editchart"
-    });
-}
 </script>
