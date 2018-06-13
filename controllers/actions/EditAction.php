@@ -3,37 +3,25 @@ class EditAction extends CAction
 {
     public function run() {
 		$controller=$this->getController();
-		$id=$_POST["id"];
-		$type=$_POST["type"];
-		//echo $idProject;
-		if(!empty($_POST["properties"]) && gettype ($_POST["properties"]) != "string"){
-			if(@$_POST["properties"]["commons"]){
-				$newProperties=$_POST["properties"]["commons"];
-				$label="commons";
-			}else if(@$_POST["properties"]["open"]){
-				$newProperties=$_POST["properties"]["open"];
-				$label="open";
-			}
-			
-		}
-		else{
-			$label=$_POST["properties"];
-			$newProperties=[];
-		}
-		/*$propertiesList=[];
-		if(!empty($newProperties)){
-			foreach ($newProperties as $data){
-				$propertiesList[$data["label"]]=$data["value"];
-			}
-		}*/
+		
+		//imagine a validation process
 
-		if (!empty($newProperties)){
-        	$res = Form::save($type,$id,$newProperties, $label);
-        }
-        else
-        	$res = Form::remove($type,$id, $label);
+		if ( ! Person::logguedAndValid() ) 
+ 			return json_encode(array("result"=>false, "msg"=>Yii::t("common", "You are not loggued or do not have acces to this feature ")));
+ 		
+ 		if( $_POST["h"] != hash('sha256', $_POST["t"].Yii::app()->params["idOpenAgenda"] ) )
+ 			return json_encode( array( "result"=>false, "msg"=>Yii::t("common", "Bad Orgine request")));
 
-  		echo json_encode(array("result"=>true, "properties"=>$newProperties, "msg"=>Yii::t("common", "properties well updated")));
+ 		unset( $_POST["t"] );
+ 		unset( $_POST["h"] );
+ 		$_POST["created"] = time();
+
+ 		$res = "Empty data cannot be saved";
+		if ( !empty($_POST) )
+        	$res = Form::save($_POST);
+        // else
+        // 	$res = Form::remove($type,$id, $label);
+  		echo json_encode(array("result"=>$res, "answers"=>$_POST));
         exit;
 	}
 }

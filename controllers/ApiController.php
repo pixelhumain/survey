@@ -16,8 +16,6 @@ class ApiController extends CommunecterController {
 
   public function actions() {
       return array(
-      	'index'     => 'ressources.controllers.actions.IndexAction',
-      	'test'      => 'ressources.controllers.actions.TestAction'
       );
   }
 

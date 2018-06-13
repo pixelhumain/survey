@@ -21,6 +21,8 @@ class CoController extends CommunecterController {
 	        'index'  => 'survey.controllers.actions.IndexAction',
 	        'form'  => 'survey.controllers.actions.FormAction',
 	        'edit'  => 'survey.controllers.actions.EditAction',
+	        'answers'  => 'survey.controllers.actions.AnswersAction',
+	        'answer'  => 'survey.controllers.actions.AnswerAction',
 	    );
 	}
 

@@ -37,7 +37,7 @@ $(document).ready(function() {
 		function(data){ 
 			descHtml = dataHelper.markdownToHtml(data); 
 			$('#doc').html(descHtml);
-			initKInterface();
+			//initKInterface();
 		},"html");
 });
 

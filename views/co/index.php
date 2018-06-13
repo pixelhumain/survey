@@ -57,6 +57,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
                     <li> add global search for name input</li>
                     <li> test file upload </li>
                     <li> how to set the context Data </li>
+                    <li> test an existing organosation scenario</li>
                 </ul>
             </li>
         	<li>open DynSurvey
@@ -93,12 +94,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
         </ul>
     </div>
 
-    <div id="commonsChart" class="formChart col-xs-12" >
+    <div id="surveyContent" class="formChart col-xs-12" >
         <h3 style="font-variant:small-caps;"><span class="stepFormChart"></span> <?php echo $form["title"] ?></h3>
+         <div id="surveyBtn" class="margin-top-15"></div>
         <div id="surveyDesc">
-            
             <h4><?php echo $form["description"] ?></h4>
         </div>
+       
         <form id="ajaxFormModal"></form>
     </div>
 
@@ -106,15 +108,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 <script type="text/javascript">
 
-
-
-
 jQuery(document).ready(function() {
     //dySObj.getSurveyJson("commons",parentModuleUrl+'/js/dynForm/commons.js');
     //dySObj.getSurveyJson("commons",baseUrl+"/survey/co/form/id/commons");
     dySObj.surveyId = "#ajaxFormModal";
     dySObj.surveys = <?php echo json_encode( $form ) ?>;
-    dySObj.surveys.answers = {};
+    dySObj.surveys.json={};
 
     //scenario is a list of many survey definitions that can be put together in different ways
     //$("#surveyDesc").html("");
@@ -124,10 +123,12 @@ jQuery(document).ready(function() {
         var step = 1;
         var surveyType = (dySObj.surveys.surveyType) ? dySObj.surveys.surveyType : null ;
         var str = "";
+
+        //build front end interface 
+        var sizeCol = 12 / Object.keys(dySObj.surveys.scenario).length;
         $.each(dySObj.surveys.scenario, function(i,v) { 
-            dySObj.surveys.answers[i] = {};
             icon = (v.icon) ? v.icon : "fa-square-o";
-            str += '<div class="card col-xs-4" >'+
+            str += '<div class="card col-xs-'+sizeCol+'" >'+
               //'<img src="https://unsplash.it/g/300">'+
               '<div class="card-body padding-15 bg-dark" style="border:6px solid #3071a9;">'+
                 '<h4 class="card-title bold text-white text-center padding-5" style="border-bottom:1px solid white">'+
@@ -145,12 +146,19 @@ jQuery(document).ready(function() {
             prev = i;
             step++;
         }); 
+
         $("#surveyDesc").append("<div class='card-columns'>"+str+'</div>');
         
         if ( surveyType == "oneSurvey" ){
             //build survey json asynchronessly
-            dySObj.buildOneSurveyFromScenario( dySObj.surveys.scenario );
-            $("#surveyDesc").append('<div class="margin-top-15 hidden" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
+            if(userId)
+                $("#surveyBtn").append('<div class="margin-top-15 hidden" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
+            else 
+                $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Login first to Access <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
+            if(dySObj.surveys.author == userId){
+                $("#surveyBtn").append('<div class="margin-top-15" id="seeAnswers"><a href="/ph/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
+            }
+            dySObj.buildOneSurveyFromScenario();
         }
 
     } else {
@@ -160,6 +168,14 @@ jQuery(document).ready(function() {
     }
 });
 
-
+/*
+"login" : {
+    "title" : "Identity",
+    "description" : "please login to conintu please login to conintu please login ",
+    "path" : "/surveys/login.js",
+    "type" : "script",
+    "icon" : "fa-vcard-o"
+},
+*/
 
 </script>
