@@ -1,5 +1,5 @@
 <?php
-class EditAction extends CAction
+class SaveAction extends CAction
 {
     public function run() {
 		$controller=$this->getController();

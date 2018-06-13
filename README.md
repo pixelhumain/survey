@@ -9,6 +9,9 @@ a survey is build dynamically according to it's structure , it put's together di
 
 # Features 
 - [get a form json data](http://127.0.0.1/ph/survey/co/form/id/commons)
+- [show a survey](http://127.0.0.1/ph/survey/co/index/id/commons)
+- [show answers list](http://127.0.0.1/ph/survey/co/index/id/commons) 
+- [show an answer](http://127.0.0.1/ph/survey/co/answer/id/5b1f7eba539f22636d952522)
 
 
 # console and development 
@@ -200,3 +203,9 @@ This survey contains 5 steps in it's scenario and 3 types of declarations
     }
 }
 ```
+
+# wishlist
+- ponderation et gamification des reponses, ca peut aussi etre un process post process , mais ca peut etre sympas de d'afficher un score au fur et à mesure qu'on rempli une liste de QCM , ex : le question des communes , avec les 15 questions de la transition citoyenne., etes vous une commune en transition.
+- idée de questionnaire : 
+    + imaginer un survey what kind of citizen am I ?
+    + faire le survey du temps citoyen

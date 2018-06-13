@@ -4,7 +4,7 @@ class AnswersAction extends CAction
     public function run($id="commons")
     {
     	$this->getController()->layout = "//layouts/empty";
-    	if ( ! Person::logguedAndValid() ) {
+    	//if ( ! Person::logguedAndValid() ) {
 	    	if(@$answers = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id) )){
 		 		echo $this->getController()->render("answers",array( 
 								 			"results" => $answers,
@@ -12,7 +12,7 @@ class AnswersAction extends CAction
 	 		}
 		 	else 
 		 		echo "No answers found"; 
-		 } else 
-			 echo "<h1>".Yii::t("common","Please Login First")."</h1>";
+		 // } else 
+			//  echo "<h1>".Yii::t("common","Please Login First")."</h1>";
     }
 }

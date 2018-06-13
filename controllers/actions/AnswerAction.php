@@ -3,7 +3,7 @@ class AnswerAction extends CAction
 {
     public function run($id,$view=null)
     {
-    	if ( ! Person::logguedAndValid() ) {
+    	//if ( ! Person::logguedAndValid() ) {
 	 		if( @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("_id"=>new MongoId($id) ) ) ){
 	 			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]));
 	 			if( !$view ){
@@ -19,11 +19,11 @@ class AnswerAction extends CAction
 	 		}
 		 	else 
 		 		echo "Answer not found"; 
-		} 
-		else 
-		{
-			$this->getController()->layout = "//layouts/empty";	
-			echo Yii::t("common","Please Login First");
-		}
+		// } 
+		// else 
+		// {
+		// 	$this->getController()->layout = "//layouts/empty";	
+		// 	echo Yii::t("common","Please Login First");
+		// }
     }
 }

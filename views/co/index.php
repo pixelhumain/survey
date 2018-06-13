@@ -4,7 +4,6 @@ $cssJS = array(
     
     '/plugins/jquery.dynForm.js',
     
-
     '/plugins/jQuery-Knob/js/jquery.knob.js',
     '/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
     '/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
@@ -25,13 +24,15 @@ $cssJS = array(
     '/plugins/ladda-bootstrap/dist/ladda.min.css',
     '/plugins/ladda-bootstrap/dist/ladda-themeless.min.css',
     '/plugins/animate.css/animate.min.css',
-    
-    
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
 $cssJS = array(
-'/js/dataHelpers.js',
+    '/js/dataHelpers.js',
+    '/js/default/formInMap.js',
+    '/js/default/index.js',
+
+    '/js/co.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 $cssJS = array(
