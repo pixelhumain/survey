@@ -67,7 +67,7 @@ This survey contains 5 steps in it's scenario and 3 types of declarations
             "title" : "Add an organization",
             "description" : "Add an organization Add an organization",
             "where" : "parentModuleUrl",
-            "path" : "/js/dynForm/organization.js",
+            "path" : "/js/dynForm/organization2.js",
             "type" : "script",
             "icon" : "fa-users",
             "saveElement" : {
