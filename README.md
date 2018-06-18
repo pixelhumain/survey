@@ -13,6 +13,9 @@ a survey is build dynamically according to it's structure , it put's together di
 - [show answers list](http://127.0.0.1/ph/survey/co/index/id/commons) 
 - [show an answer](http://127.0.0.1/ph/survey/co/answer/id/5b1f7eba539f22636d952522)
 
+## Problems to test
+- for the moment cannot have multiple element creations in a survey because of images, it also means managing 2 instances of fileuploader in the same form session
+    + a solution would be to have a separate form form any save Element part of a survey 
 
 # console and development 
 - a global object is used dySObj
@@ -204,7 +207,12 @@ This survey contains 5 steps in it's scenario and 3 types of declarations
 }
 ```
 
-# wishlist
+# wishlist 
+- url to open a survey directly , without the presentation steps
+- build dynForms onDemand, on click next > builds the form, instead ahead. This will repair the problem of not being able to have many dynForm elements it will also repair the pb of having one single form, might create problems with next and prev though 
+- simple form register page 
+- tree like navigation, certain steps could switch surveys
+    + if answer this then survey1 else survey2
 - ponderation et gamification des reponses, ca peut aussi etre un process post process , mais ca peut etre sympas de d'afficher un score au fur et à mesure qu'on rempli une liste de QCM , ex : le question des communes , avec les 15 questions de la transition citoyenne., etes vous une commune en transition.
 - idée de questionnaire : 
     + imaginer un survey what kind of citizen am I ?

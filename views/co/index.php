@@ -4,6 +4,7 @@ $cssJS = array(
     
     '/plugins/jquery.dynForm.js',
     
+
     '/plugins/jQuery-Knob/js/jquery.knob.js',
     '/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
     '/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
@@ -24,15 +25,13 @@ $cssJS = array(
     '/plugins/ladda-bootstrap/dist/ladda.min.css',
     '/plugins/ladda-bootstrap/dist/ladda-themeless.min.css',
     '/plugins/animate.css/animate.min.css',
+    
+    
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
 $cssJS = array(
-    '/js/dataHelpers.js',
-    '/js/default/formInMap.js',
-    '/js/default/index.js',
-
-    '/js/co.js'
+'/js/dataHelpers.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 $cssJS = array(
@@ -108,18 +107,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 </div>
 
 <script type="text/javascript">
-
+var answers = null;
 jQuery(document).ready(function() {
     //dySObj.getSurveyJson("commons",parentModuleUrl+'/js/dynForm/commons.js');
     //dySObj.getSurveyJson("commons",baseUrl+"/survey/co/form/id/commons");
     dySObj.surveyId = "#ajaxFormModal";
     dySObj.surveys = <?php echo json_encode( $form ) ?>;
+    answers = <?php echo json_encode( $answers ) ?>;
     dySObj.surveys.json={};
 
     //scenario is a list of many survey definitions that can be put together in different ways
     //$("#surveyDesc").html("");
-    if(dySObj.surveys.scenario){
-        $("#surveyDesc").append("<h1>"+Object.keys(dySObj.surveys.scenario).length+" easy steps : </h1>");
+    if(dySObj.surveys.scenario)
+    {
+        
         var prev = null;
         var step = 1;
         var surveyType = (dySObj.surveys.surveyType) ? dySObj.surveys.surveyType : null ;
@@ -127,46 +128,74 @@ jQuery(document).ready(function() {
 
         //build front end interface 
         var sizeCol = 12 / Object.keys(dySObj.surveys.scenario).length;
-        $.each(dySObj.surveys.scenario, function(i,v) { 
-            icon = (v.icon) ? v.icon : "fa-square-o";
-            str += '<div class="card col-xs-'+sizeCol+'" >'+
-              //'<img src="https://unsplash.it/g/300">'+
-              '<div class="card-body padding-15 bg-dark" style="border:6px solid #3071a9;">'+
-                '<h4 class="card-title bold text-white text-center padding-5" style="border-bottom:1px solid white">'+
-                    '<i class="margin-5 fa '+icon+' fa-2x"></i><br/>'+
-                    step+'. '+v.title+
-                '</h4>'+
-                '<p class="card-text">'+v.description+'</p>';
-
-            if( surveyType != "oneSurvey"  && ( prev == null || dySObj.surveys.answers[prev] == {} ) ) {
-                dType = (v.type) ? v.type : "json" ;
-                dynType = (v.dynType) ? v.dynType : "dynForm" ;
-                str +='<a href="javascript:;" onclick="dySObj.openSurvey(\''+i+'\',\''+dType+'\',\''+dynType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a>';
-            }
-            str +='</div></div>';  
-            prev = i;
-            step++;
-        }); 
-
-        $("#surveyDesc").append("<div class='card-columns'>"+str+'</div>');
+        answered = false;
+        $.each(answers,function(aid,ans) { 
+            if(ans.formId == dySObj.surveys.id && userId == ans.user)
+                answered = true;
+        });
         
-        if ( surveyType == "oneSurvey" ){
-            //build survey json asynchronessly
-            if(userId)
-                $("#surveyBtn").append('<div class="margin-top-15 hidden" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
-            else 
-                $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Login first to Access <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
-            if(dySObj.surveys.author == userId){
-                $("#surveyBtn").append('<div class="margin-top-15" id="seeAnswers"><a href="/ph/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
+        if(!answered)
+        {
+            $("#surveyDesc").append("<h1>"+Object.keys(dySObj.surveys.scenario).length+" easy steps : </h1>");
+            $.each(dySObj.surveys.scenario, function(i,v) { 
+                icon = (v.icon) ? v.icon : "fa-square-o";
+                str += '<div class="card col-xs-'+sizeCol+'" >'+
+                  //'<img src="https://unsplash.it/g/300">'+
+                  '<div class="card-body padding-15 bg-dark" style="border:6px solid #3071a9;">'+
+                    '<h4 class="card-title bold text-white text-center padding-5" style="border-bottom:1px solid white">'+
+                        '<i class="margin-5 fa '+icon+' fa-2x"></i><br/>'+
+                        step+'. '+v.title+
+                    '</h4>'+    
+                    '<p class="card-text">'+v.description+'</p>';
+                if(surveyType == "surveyList"){
+                    answered = false;
+                    $.each(answers,function(aid,ans) { 
+                        if(ans.formId == i && userId == ans.user)
+                            answered = true;
+                    });
+                    
+                    if(answered)
+                        str +='<span style="width:100%" class="btn btn-danger">Allready answered</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
+                    else 
+                        str +='<a href="/ph/survey/co/index/id/'+i+'" target="_blank" class="btn btn-primary '+answered+'"  style="width:100%"> '+v.title+' <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
+
+                }else if( surveyType != "oneSurvey" ) {
+                    dType = (v.type) ? v.type : "json" ;
+                    dynType = (v.dynType) ? v.dynType : "dynForm" ;
+                    str +='<a href="javascript:;" onclick="dySObj.openSurvey(\''+i+'\',\''+dType+'\',\''+dynType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a>';
+                }
+
+                str +='</div></div>';  
+                prev = i;
+                step++;
+            }); 
+        
+
+            $("#surveyDesc").append("<div class='card-columns'>"+str+'</div>');
+            
+            if ( surveyType == "oneSurvey" ){
+                //build survey json asynchronessly
+                if(userId)
+                    $("#surveyBtn").append('<div class="margin-top-15 hidden" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
+                else 
+                    $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Login first to Access <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
+                if(dySObj.surveys.author == userId){
+                    $("#surveyBtn").append('<div class="margin-top-15" id="seeAnswers"><a href="/ph/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
+                }
+                dySObj.buildOneSurveyFromScenario();
             }
-            dySObj.buildOneSurveyFromScenario();
+
+        } else {
+            $("#surveyDesc").append("<h1 class='text-center text-red bold'> You allready answered </h1>");
+            //TODO goto read your answers
         }
 
     } else {
         // other wise it's jsut one survey that can be shown
         dySObj.surveys.commons = <?php echo json_encode( $form ) ?>;  
         dyFObj.buildSurvey( dySObj.surveyId, dySObj.buildSurveySections( surveys["commons"].json) );
-    }
+    } 
+
 });
 
 /*
