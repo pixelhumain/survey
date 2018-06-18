@@ -31,7 +31,12 @@ $cssJS = array(
 
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
 $cssJS = array(
-'/js/dataHelpers.js',
+    '/js/dataHelpers.js',
+    '/js/default/formInMap.js',
+    '/js/default/index.js',
+    '/js/sig/geoloc.js',
+    '/js/sig/findAddressGeoPos.js',
+    '/js/co.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 $cssJS = array(
