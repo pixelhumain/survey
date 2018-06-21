@@ -7,6 +7,20 @@ a survey is build dynamically according to it's structure , it put's together di
 - make login + create element 
 - make login + create element + dynSurvey
 
+# TODO
+[ ] connect surveyList step together 
+[ ] secure Login process 
+[ ] géré name exist case 
+[ ] create CustomModule as Network
+[ ] logout redirects to CO2
+[ ] should survey have a home page or simply redirect to CO2 ?
+[ ] design dynform
+[ ] preview answers
+[ ] confirm by Mail with link to answer page 
+
+#BUGS
+- dynforms without images , go into the else condition of afterSave
+
 # Features 
 - [get a form json data](http://127.0.0.1/ph/survey/co/form/id/commons)
 - [show a survey](http://127.0.0.1/ph/survey/co/index/id/commons)
@@ -217,3 +231,4 @@ This survey contains 5 steps in it's scenario and 3 types of declarations
 - idée de questionnaire : 
     + imaginer un survey what kind of citizen am I ?
     + faire le survey du temps citoyen
+- integrate an option to use https://enketo.org/about/#enketo-features
