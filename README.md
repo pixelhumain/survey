@@ -8,15 +8,20 @@ a survey is build dynamically according to it's structure , it put's together di
 - make login + create element + dynSurvey
 
 # TODO
-[ ] connect surveyList step together 
-[ ] secure Login process 
-[ ] géré name exist case 
+[ ] géré name exist case
 [ ] create CustomModule as Network
-[ ] logout redirects to CO2
-[ ] should survey have a home page or simply redirect to CO2 ?
+[ ] logout redirects to CO2 and doesn't logout
 [ ] design dynform
 [ ] preview answers
+    - 
 [ ] confirm by Mail with link to answer page 
+    - to user
+    - to author 
+[ ] make private project , events
+    visible par 
+    - admin du sondage 
+    - propriétaire 
+[ ] link to CTE, sans qu'il soit propriétaire 
 
 #BUGS
 - dynforms without images , go into the else condition of afterSave
@@ -231,4 +236,5 @@ This survey contains 5 steps in it's scenario and 3 types of declarations
 - idée de questionnaire : 
     + imaginer un survey what kind of citizen am I ?
     + faire le survey du temps citoyen
+    + label tiers lieux https://github.com/nicolasloubet/Label-tiers-lieux
 - integrate an option to use https://enketo.org/about/#enketo-features

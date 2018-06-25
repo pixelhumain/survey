@@ -39,25 +39,9 @@ $cssJS = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 ?>
-<a class="btn btn-danger pull-right " href="javascript:;" onclick="$('#todo').slideToggle()">show Todo</a>
+
 <div class="container " >
-    <div class="row" style="display:none" id="todo">
-        <h1 class="text-center bold bg-green padding-15">Surveys Endpoints</h1>
-        <ul>
-        	<ul> 
-                <li>Récompence de gamification pour avoir répondu</li>
-                <li>steps > invite > survey > results</li>
-                <li>ne pas répété les meme réponses</li>
-                <li>view someones Q & A </li>
-                <li>someone can choose on their Q & A public or private </li>
-                <li>visualise a community who answered a survey (list + map)</li>
-                <li>proposer des survey pour des observatoires</li>
-                <li>observatoires d'une fillière</li>
-                <li>question unique</li>
-                <li>add to list of answered : [xxxx,xxx,xxx,...]</li>
-            </ul></li>
-        </ul>
-    </div>
+    
 
     <div id="surveyContent" class="formChart col-xs-12" >
         <?php if(@$form["customTpl"]){
@@ -131,7 +115,7 @@ jQuery(document).ready(function() {
                         if(answered)
                             str +='<span style="width:100%" class="btn btn-danger">Allready answered</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
                         else 
-                            str +='<a href="/ph/survey/co/index/id/'+i+'" target="_blank" class="btn btn-primary '+answered+'"  style="width:100%"> '+v.title+' <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
+                            str +='<a href="/ph/survey/co/index/id/'+i+'" class="btn btn-primary answered'+answered+' hidden"  style="width:100%"> GO <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
 
                     }else if( surveyType != "oneSurvey" ) {
                         dType = (v.type) ? v.type : "json" ;
@@ -143,19 +127,22 @@ jQuery(document).ready(function() {
                     prev = i;
                     step++;
                 }); 
-            
+                
 
                 $("#surveyDesc").append("<div class='card-columns'>"+str+'</div>');
-                
+                $(".answeredfalse").first().removeClass("hidden");
+
                 if ( surveyType == "oneSurvey" ){
                     //build survey json asynchronessly
                     if(userId)
-                        $("#surveyBtn").append('<div class="margin-top-15 hidden" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
+                        $("#surveyBtn").append('<div class="margin-top-15 hidden col-xs-6" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%"> C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>'); 
                     else 
                         $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Login first to Access <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
+
                     if(dySObj.surveys.author == userId){
-                        $("#surveyBtn").append('<div class="margin-top-15" id="seeAnswers"><a href="/ph/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
+                        $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="/ph/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
                     }
+
                     dySObj.buildOneSurveyFromScenario();
                 }
 

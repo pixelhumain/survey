@@ -1,0 +1,208 @@
+{
+    "_id" : ObjectId("5b27a1e35a7c00d4d97509d0"),
+    "id" : "cte",
+    "title" : "projets CTE",
+    "author" : "585bdfdaf6ca47b6118b4583",
+    "customTpl" : "survey.views.custom.cte",
+    "endTpl" : "home",
+    "description" : "What kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are you",
+    "parenType" : "organizations",
+    "parentId" : "592e54d1539f2278258b456c",
+    "surveyType" : "surveyList",
+    "scenario" : {
+        "cte1" : {
+            "title" : "Add an orga",
+            "description" : "Add an orga",
+            "icon" : "fa-users"
+        },
+        "cte2" : {
+            "title" : "Add an project",
+            "description" : "Add an project",
+            "icon" : "fa-lightbulb-o"
+        },
+        "cte3" : {
+            "title" : "Add an event",
+            "description" : "Add an event",
+            "icon" : "fa-calendar"
+        }
+    }
+}
+
+{
+    "_id" : ObjectId("5b2786905a7c00d4d97509cd"),
+    "id" : "cte2",
+    "parentSurvey" : "cte",
+    "title" : "CTE Quel projet?",
+    "author" : "585bdfdaf6ca47b6118b4583",
+    "description" : "What kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are you",
+    "parenType" : "organizations",
+    "parentId" : "592e54d1539f2278258b456c",
+    "surveyType" : "oneSurvey",
+    "scenario" : {
+        "project" : {
+            "title" : "Add an project",
+            "description" : "Add an project",
+            "where" : "parentModuleUrl",
+            "path" : "/js/dynForm/project.js",
+            "type" : "script",
+            "icon" : "fa-lightbulb-o",
+            "saveElement" : {
+                "collection" : "projects",
+                "ctrl" : "project"
+            }
+        },
+        "partizzzzz" : {
+            "title" : "partizzzzz",
+            "description" : "partenaires partenaires partenaires partenaires partenaires ",
+            "icon" : "fa-users",
+            "json" : {
+                "jsonSchema" : {
+                    "title" : "partixxxx",
+                    "type" : "object",
+                    "properties" : {
+                        "separator1" : {
+                            "title" : "Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
+                        },
+                        "description" : {
+                            "inputType" : "textarea",
+                            "placeholder" : "Description",
+                            "class" : "description3"
+                        },
+                        "value" : {
+                            "inputType" : "select",
+                            "placeholder" : "---- Select a value ----",
+                            "options" : {
+                                "0" : "Ne souhaite pas",
+                                "20" : "Pas applicable",
+                                "40" : "Souhait mais pas démarré",
+                                "60" : "Démarré",
+                                "80" : "En progression",
+                                "100" : "Réalisé"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+{
+    "_id" : ObjectId("5b27877a5a7c00d4d97509ce"),
+    "id" : "cte3",
+    "title" : "CTE Quels Events?",
+    "parentSurvey" : "cte",
+    "author" : "585bdfdaf6ca47b6118b4583",
+    "description" : "What kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are you",
+    "parenType" : "organizations",
+    "parentId" : "592e54d1539f2278258b456c",
+    "surveyType" : "oneSurvey",
+    "scenario" : {
+        "event" : {
+            "title" : "Add an event",
+            "description" : "Add an event",
+            "where" : "parentModuleUrl",
+            "path" : "/js/dynForm/project.js",
+            "type" : "script",
+            "icon" : "fa-calendar",
+            "saveElement" : {
+                "collection" : "events",
+                "ctrl" : "event"
+            }
+        },
+        "partiooooo" : {
+            "title" : "partioooooo",
+            "description" : "partenaires partenaires partenaires partenaires partenaires ",
+            "icon" : "fa-users",
+            "json" : {
+                "jsonSchema" : {
+                    "title" : "partixxxx",
+                    "type" : "object",
+                    "properties" : {
+                        "separator1" : {
+                            "title" : "Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
+                        },
+                        "description" : {
+                            "inputType" : "textarea",
+                            "placeholder" : "Description",
+                            "class" : "description3"
+                        },
+                        "value" : {
+                            "inputType" : "select",
+                            "placeholder" : "---- Select a value ----",
+                            "options" : {
+                                "0" : "Ne souhaite pas",
+                                "20" : "Pas applicable",
+                                "40" : "Souhait mais pas démarré",
+                                "60" : "Démarré",
+                                "80" : "En progression",
+                                "100" : "Réalisé"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+{
+    "_id" : ObjectId("5b27866a5a7c00d4d97509cc"),
+    "id" : "cte1",
+    "parentSurvey" : "cte",
+    "title" : "CTE quelle Organisation ?",
+    "author" : "585bdfdaf6ca47b6118b4583",
+    "description" : "What kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are you",
+    "parenType" : "organizations",
+    "parentId" : "592e54d1539f2278258b456c",
+    "surveyType" : "oneSurvey",
+    "scenario" : {
+        "organization" : {
+            "title" : "Add an organization",
+            "description" : "Add an organization Add an organization",
+            "where" : "parentModuleUrl",
+            "path" : "/js/dynForm/organization.js",
+            "type" : "script",
+            "icon" : "fa-users",
+            "saveElement" : {
+                "collection" : "organizations",
+                "ctrl" : "organization"
+            }
+        },
+        "partixxxx" : {
+            "title" : "partixxxx",
+            "description" : "partenaires partenaires partenaires partenaires partenaires ",
+            "icon" : "fa-users",
+            "json" : {
+                "jsonSchema" : {
+                    "title" : "partixxxx",
+                    "type" : "object",
+                    "properties" : {
+                        "separator1" : {
+                            "title" : "Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
+                        },
+                        "description" : {
+                            "inputType" : "textarea",
+                            "placeholder" : "Description",
+                            "class" : "description3"
+                        },
+                        "value" : {
+                            "inputType" : "select",
+                            "placeholder" : "---- Select a value ----",
+                            "options" : {
+                                "0" : "Ne souhaite pas",
+                                "20" : "Pas applicable",
+                                "40" : "Souhait mais pas démarré",
+                                "60" : "Démarré",
+                                "80" : "En progression",
+                                "100" : "Réalisé"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
