@@ -14,7 +14,12 @@ class Form {
    			return $e->getMessage();
   		}
     }
-    
+    public static function countStepSurvey($idParent){
+    	return PHDB::count( self::COLLECTION, array("parentSurvey"=>$idParent));
+    }
+    public static function findOneById($parentSurvey){
+    	return PHDB::findOne( self::COLLECTION, array("id"=>$parentSurvey));
+    }
 	// public static function remove($id){
 	// 	PHDB::update(self::ANSWER_COLLECTION, 
  //            array("_id" => new MongoId($id)) , 
