@@ -141,7 +141,7 @@ jQuery(document).ready(function() {
                         $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Login first to Access <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
 
                     if(dySObj.surveys.author == userId){
-                        $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="/ph/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
+                        $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="'+baseUrl+'/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
                     }
 
                     dySObj.buildOneSurveyFromScenario();
