@@ -12,8 +12,9 @@ a survey is build dynamically according to it's structure , it put's together di
 [ ] create CustomModule as Network
 [ ] logout redirects to CO2 and doesn't logout
 [ ] design dynform
+[ ] link project to organization
 [ ] preview answers
-    - 
+[ ] systeme d'invitation 
 [ ] confirm by Mail with link to answer page 
     - to user
     - to author 
@@ -22,6 +23,8 @@ a survey is build dynamically according to it's structure , it put's together di
     - admin du sondage 
     - propriétaire 
 [ ] link to CTE, sans qu'il soit propriétaire 
+
+ 
 
 #BUGS
 - dynforms without images , go into the else condition of afterSave

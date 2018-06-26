@@ -131,7 +131,7 @@ jQuery(document).ready(function() {
 
                 $("#surveyDesc").append("<div class='card-columns'>"+str+'</div>');
                 $(".answeredfalse").first().removeClass("hidden");
-
+                
                 if ( surveyType == "oneSurvey" ){
                     //build survey json asynchronessly
                     if(userId)
