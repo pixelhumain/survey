@@ -11,6 +11,7 @@ a survey is build dynamically according to it's structure , it put's together di
 [ ] géré name exist case
 [ ] create CustomModule as Network
 [ ] logout redirects to CO2 and doesn't logout
+[ ] upload des fichiers sur element 
 [ ] design dynform
 [ ] link project to organization
 [ ] preview answers
@@ -23,6 +24,11 @@ a survey is build dynamically according to it's structure , it put's together di
     - admin du sondage 
     - propriétaire 
 [ ] link to CTE, sans qu'il soit propriétaire 
+
+# good to have 
+[ ] invite participants
+[ ] invite admins
+[ ] afficher comme sondage dans une news 
 
  
 
