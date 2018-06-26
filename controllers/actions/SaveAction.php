@@ -15,10 +15,25 @@ class SaveAction extends CAction
  		unset( $_POST["t"] );
  		unset( $_POST["h"] );
  		$_POST["created"] = time();
-
  		$res = "Empty data cannot be saved";
-		if ( !empty($_POST) )
-        	$res = Form::save($_POST);
+		if ( !empty($_POST) ){
+			$res = Form::save($_POST);
+        	$countStepSurvey=Form::countStepSurvey($_POST["parentSurvey"]);
+        	$surveyParent=Form::findOneById($_POST["parentSurvey"]);
+        	if($_POST["formId"]==$surveyParent["id"].$countStepSurvey){
+        		$user=array(
+        			"id" =>Yii::app()->session["userId"],
+        			"name" => Yii::app()->session["user"]["name"],
+        			"email" => Yii::app()->session["userEmail"]
+        		);
+        		Mail::confirmSavingSurvey($user, $surveyParent);
+        		$adminSurvey=(is_string ($surveyParent["author"]) )? [$surveyParent["author"]] : $surveyParent["author"];
+        		foreach ($adminSurvey as $id){
+        			$email=Person::getEmailById($id);
+        			Mail::sendNewAnswerToAdmin($email["email"], $user, $surveyParent);
+        		}
+        	}
+		}
         // else
         // 	$res = Form::remove($type,$id, $label);
   		echo json_encode(array("result"=>$res, "answers"=>$_POST));

@@ -63,6 +63,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 <script type="text/javascript">
 var answers = null;
+var surveyContry = "<?php echo @$form["countryCode"] ?>";
 jQuery(document).ready(function() {
     //dySObj.getSurveyJson("commons",parentModuleUrl+'/js/dynForm/commons.js');
     //dySObj.getSurveyJson("commons",baseUrl+"/survey/co/form/id/commons");
@@ -113,7 +114,7 @@ jQuery(document).ready(function() {
                         });
                         
                         if(answered)
-                            str +='<span style="width:100%" class="btn btn-danger">Allready answered</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
+                            str +='<span style="width:100%" class="btn btn-danger">Already answered</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
                         else 
                             str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-primary answered'+answered+' hidden"  style="width:100%"> GO <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
 
@@ -140,7 +141,7 @@ jQuery(document).ready(function() {
                         $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Login first to Access <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
 
                     if(dySObj.surveys.author == userId){
-                        $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="/ph/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
+                        $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="'+baseUrl+'/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
                     }
 
                     dySObj.buildOneSurveyFromScenario();
