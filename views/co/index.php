@@ -115,7 +115,7 @@ jQuery(document).ready(function() {
                         if(answered)
                             str +='<span style="width:100%" class="btn btn-danger">Allready answered</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
                         else 
-                            str +='<a href="/ph/survey/co/index/id/'+i+'" class="btn btn-primary answered'+answered+' hidden"  style="width:100%"> GO <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
+                            str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-primary answered'+answered+' hidden"  style="width:100%"> GO <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
 
                     }else if( surveyType != "oneSurvey" ) {
                         dType = (v.type) ? v.type : "json" ;
