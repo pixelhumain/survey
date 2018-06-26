@@ -31,7 +31,7 @@
 	
 	<div class="col-xs-12">
 		<div class="col-xs-6 padding-20">
-		<h1 class="text-center">CROWD KNOWLEDGE & COLLECTION INTELLIGENCE</h1>
+		<h1 class="text-center">CROWD KNOWLEDGE & COLLECTIVE INTELLIGENCE</h1>
 		<div class="col-xs-6 col-md-offset-2 padding-20">
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -46,7 +46,7 @@
 	<div class="col-xs-12">
 		<div class="col-xs-6"><img class="img-responsive" src='<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/home/glen-noble-18012-unsplash.jpg'> </div>
 		<div class="col-xs-6 padding-20">
-		<h1 class="text-center">KNOWLEDGE COMBINATIONS & EVALUATIONS </h1>
+		<h1 class="text-center">PROJECT MUTUALISATION & EVALUATIONS </h1>
 		<div class="col-xs-6 col-md-offset-2 padding-20">
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

@@ -24,6 +24,7 @@
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
 	<div class="panel-body">
 		<div>	
+			<a href="" class="btn btn-primary btn-xs pull-right margin-10">Invite Admins & Participants</a>
 			<?php //var_dump($projects) ?>
 			<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 				<thead>
