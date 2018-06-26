@@ -63,6 +63,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 <script type="text/javascript">
 var answers = null;
+var surveyContry = "<?php echo @$form["countryCode"] ?>";
 jQuery(document).ready(function() {
     //dySObj.getSurveyJson("commons",parentModuleUrl+'/js/dynForm/commons.js');
     //dySObj.getSurveyJson("commons",baseUrl+"/survey/co/form/id/commons");
