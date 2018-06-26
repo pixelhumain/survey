@@ -37,12 +37,16 @@ if( $this->layout != "//layouts/empty"){
 
 	foreach ($form["scenario"] as $k => $v) {
 		
-		if(@$answers[$k]){?>
+		if(@$answers[$k])
+		{?>
 			<div class="bg-dark col-xs-12 text-center">
-				<h1> <?php echo $v["form"]["title"]; ?></h1>
+				<h1> <?php echo $v["form"]["title"]; ?><a class='btn pull-right btn-default' href="javascript:;" onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();"><i class="fa  fa-eye"></i></a></h1>
 			</div>
+			<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
+
 			<?php 
-				foreach ( $answers[$k]["answers"] as $key => $value) {
+				foreach ( $answers[$k]["answers"] as $key => $value) 
+				{
 				
 				echo "<div class='col-xs-12'>".
 						"<h2> [ step ] ".$v["form"]["scenario"][$key]["title"]."</h2>";
@@ -146,6 +150,7 @@ if( $this->layout != "//layouts/empty"){
 		<?php 
 			echo "<h3 style='color:red' class='text-center'> This step ".$k." hasn't been filed yet.</h3>";
 		}
+		echo "</div>";
 	}
 	?>
 </div>
@@ -159,5 +164,9 @@ if( $this->layout != "//layouts/empty"){
 $(document).ready(function() { 
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );		
 });
+
+function toggleSection (key) { 
+
+}
 
 </script>
