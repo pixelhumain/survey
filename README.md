@@ -7,19 +7,16 @@ a survey is build dynamically according to it's structure , it put's together di
 - make login + create element 
 - make login + create element + dynSurvey
 
-# TODO
-[ ] géré name exist case
+# TODO 
+[clem] géré name exist case
 [ ] create CustomModule as Network
 [ ] logout redirects to CO2 and doesn't logout
 [ ] upload des fichiers sur element 
 [ ] design dynform
 [ ] link project to organization
 [ ] preview answers
-[ ] systeme d'invitation 
-[ ] confirm by Mail with link to answer page 
-    - to user
-    - to author 
-[ ] make private project , events
+[rapha] systeme d'invitation  
+[clem] make private project , events
     visible par 
     - admin du sondage 
     - propriétaire 
