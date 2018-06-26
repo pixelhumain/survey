@@ -18,8 +18,8 @@ class SaveAction extends CAction
  		$res = "Empty data cannot be saved";
 		if ( !empty($_POST) ){
 			$res = Form::save($_POST);
-        	$countStepSurvey=Form::countStepSurvey($_POST["parentSurvey"]);
-        	$surveyParent=Form::findOneById($_POST["parentSurvey"]);
+        	$countStepSurvey=Form::countStep($_POST["parentSurvey"]);
+        	$surveyParent=Form::getById($_POST["parentSurvey"]);
         	if($_POST["formId"]==$surveyParent["id"].$countStepSurvey){
         		$user=array(
         			"id" =>Yii::app()->session["userId"],

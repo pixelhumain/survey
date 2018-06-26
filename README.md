@@ -20,7 +20,7 @@ a survey is build dynamically according to it's structure , it put's together di
     visible par 
     - admin du sondage 
     - propriétaire 
-[ ] link to CTE, sans qu'il soit propriétaire 
+[ ] link to CTE, sans qu'il soit propriétaire links.projectExtern
 
 # good to have 
 [ ] invite participants

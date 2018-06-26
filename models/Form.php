@@ -14,10 +14,10 @@ class Form {
    			return $e->getMessage();
   		}
     }
-    public static function countStepSurvey($idParent){
+    public static function countStep($idParent){
     	return PHDB::count( self::COLLECTION, array("parentSurvey"=>$idParent));
     }
-    public static function findOneById($parentSurvey){
+    public static function getById($parentSurvey){
     	return PHDB::findOne( self::COLLECTION, array("id"=>$parentSurvey));
     }
 	// public static function remove($id){
