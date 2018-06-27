@@ -20,9 +20,9 @@ class IndexAction extends CAction
 	 			}
 	 			if( @$form["parentSurvey"] )
 	 				$form["parentSurvey"] = PHDB::findOne( Form::COLLECTION , array("id"=>$form["parentSurvey"]) );
-	 			
-		 		echo $this->getController()->render("index",array( "form" => $form, 
-		 														   "answers"=>$answers ) );
+	 			$params = array( "form" => $form, 
+	 							 "answers"=>$answers );
+		 		echo $this->getController()->render("index",$params );
 	 		}
 		 	else 
 		 		echo "Form not found";

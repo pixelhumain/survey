@@ -1,10 +1,15 @@
+<style type="text/css">
+	.round{
+		border-radius: 100%;
+		width: 250px;
+		height: 250px;
+		padding-top: 70px;
+		border-color: #333;
+ 	}
+</style>
 <?php 
-	if( $form["author"] != Yii::app()->session["userId"] ){?>
-		<div class="col-lg-offset-1 col-lg-10 col-xs-12 margin-top-50 text-center text-red">	
-			<i class='fa fa-lock fa-4x '></i><br/>
-			<h1 class=''><?php echo Yii::t("project", "Unauthorized Access.")?></h1>
-		</div>
-		<?php 
+	if( $form["author"] != Yii::app()->session["userId"] ){
+		$this->renderPartial("unauthorised");
 	} else {
 	 ?>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
