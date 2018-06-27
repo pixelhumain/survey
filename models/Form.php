@@ -17,7 +17,11 @@ class Form {
     public static function countStep($idParent){
     	return PHDB::count( self::COLLECTION, array("parentSurvey"=>$idParent));
     }
-    public static function getById($parentSurvey){
+    public static function getById($parentSurvey, $fields=array()){
+    	return PHDB::findOne( self::COLLECTION, array("id"=>$parentSurvey));
+    }
+
+    public static function getlinksById($parentSurvey){
     	return PHDB::findOne( self::COLLECTION, array("id"=>$parentSurvey));
     }
 	// public static function remove($id){
