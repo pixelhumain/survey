@@ -51,16 +51,21 @@ class Form {
 	  		} else {
 	  			foreach ($form["links"]["survey"] as $key => $member) {
 		            if ($member['type'] == $type) {
-		            	if(!@$member["toBeValidated"] && !@$member["isInviting"])
-		            		$res[$key] = $member;	
+		            	if ( !empty($role) && @$member[$role] == true ) {
+
+			            	if($role=="isAdmin"){
+			            		if(!@$member["isAdminPending"] && !@$member["toBeValidated"] && !@$member["isInviting"] && $member["isAdmin"] == true)
+			            			$res[$key] = $member;	
+			            	} else {
+			                	$res[$key] = $member;
+
+			            	}
+			            } else if(empty($role) && !@$member["toBeValidated"] && !@$member["isInviting"]){
+			            	$res[$key] = $member;
+			            }
 		            }
-		            if ( $role && @$member[$role] == true ) {
-		            	if($role=="isAdmin"){
-		            		if(!@$member["isAdminPending"] && !@$member["toBeValidated"] && !@$member["isInviting"])
-		            			$res[$key] = $member;	
-		            	} else 
-		                	$res[$key] = $member;
-		            }
+
+		           
 	        	}
 	  		}
 	  	}
