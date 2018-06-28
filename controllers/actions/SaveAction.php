@@ -27,7 +27,13 @@ class SaveAction extends CAction
         			"email" => Yii::app()->session["userEmail"]
         		);
         		Mail::confirmSavingSurvey($user, $surveyParent);
-        		$adminSurvey=(is_string ($surveyParent["author"]) )? [$surveyParent["author"]] : $surveyParent["author"];
+        		$adminSurvey = array($surveyParent["author"]);
+                $link = Form::getSurveyByFormId($id, Person::COLLECTION, "isAdmin");
+
+                foreach ($link as $key => $value) {
+                    $adminSurvey[] = $key;
+                }
+
         		foreach ($adminSurvey as $id){
         			$email=Person::getEmailById($id);
         			Mail::sendNewAnswerToAdmin($email["email"], $user, $surveyParent);

@@ -19,7 +19,7 @@
         Merci pour votre participation au CTE, <br/>
         Votre projet sera très prochainement évalué <br/>
         Et vous serez informé de la suite.<br/><br/>
-        <a href="/ph/survey/co/answer/id/<?php echo $form["id"] ?>/user/<?php echo Yii::app()->session["userId"] ?>" class="btn btn-primary">Revoir vos réponses</a>
+        <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo $form["id"] ?>/user/<?php echo Yii::app()->session["userId"] ?>" class="btn btn-primary">Revoir vos réponses</a>
     <?php } ?>
 
       <?php if(!isset(Yii::app()->session['userId'])) { ?>
