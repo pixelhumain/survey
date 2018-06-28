@@ -73,7 +73,7 @@ jQuery(document).ready(function() {
     //$("#surveyDesc").html("");
     if(userId && dySObj.surveys.scenario )
     {
-        if(Object.keys( dySObj.surveys.parentSurvey.scenario).length > Object.keys( answers).length)
+        if(dySObj.surveys.parentSurvey && Object.keys( dySObj.surveys.parentSurvey.scenario).length > Object.keys( answers).length)
         {
             var prev = null;
             var step = 1;

@@ -15,7 +15,6 @@ a survey is build dynamically according to it's structure , it put's together di
 [ ] preview answers add validation button link to CTE, sans qu'il soit propriétaire links.projectExtern + orgaExtern
 [ ] type d'activité | Badge | status 
 [rapha] systeme d'invitation  
-[tib] link project to organization 
 
 # good to have 
 [ ] invite participants
