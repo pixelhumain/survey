@@ -16,11 +16,11 @@ class Form {
   		}
     }
     public static function countStep($idParent){
-    	return PHDB::count( self::COLLECTION, array("parentSurvey"=>$idParent));
+    	return PHDB::count( self::COLLECTION, array("parentForm"=>$idParent));
     }
 
-    public static function getById($parentSurvey, $fields=array()){
-    	return PHDB::findOne( self::COLLECTION, array("id"=>$parentSurvey), $fields);
+    public static function getById($parentForm, $fields=array()){
+    	return PHDB::findOne( self::COLLECTION, array("id"=>$parentForm), $fields);
     }
 
     public static function getByIdMongo($id,$fields=array()){
@@ -31,7 +31,7 @@ class Form {
     	return self::getByIdMongo($id,array("links"));
     }
 
-    public static function getSurveyByFormId($id, $type="all", $role=null) {
+    public static function getLinksFormsByFormId($id, $type="all", $role=null) {
 	  	$res = array();
 	  	
 	  	$form = self::getLinksById($id);
@@ -39,9 +39,9 @@ class Form {
 	  	if (empty($form)) {
             throw new CTKException(Yii::t("form", "The form id is unkown : contact your admin"));
         }
-	  	if (isset($form) && isset($form["links"]) && isset($form["links"]["survey"])) {
+	  	if (isset($form) && isset($form["links"]) && isset($form["links"]["Form"])) {
 	  		$members=array();
-	  		foreach($form["links"]["survey"] as $key => $member){
+	  		foreach($form["links"]["Form"] as $key => $member){
 	  		 	if(!@$member["toBeValidated"] && !@$member["isInviting"])
 	  		 		$members[$key]= $member;
 	  		}
@@ -49,7 +49,7 @@ class Form {
 	  		if ($type == "all") {
 	  			return $members;
 	  		} else {
-	  			foreach ($form["links"]["survey"] as $key => $member) {
+	  			foreach ($form["links"]["Form"] as $key => $member) {
 		            if ($member['type'] == $type) {
 		            	if ( !empty($role) && @$member[$role] == true ) {
 

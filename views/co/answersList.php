@@ -28,9 +28,8 @@
 	
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
 	<div class="panel-body">
-		<div>; ?>
-			<?php echo '/ph/survey/co/answers/id/'.$form['id'].'#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>
-			<a href="<?php echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbh">Invite Admins & Participants</a>
+		<div>
+			<a href="<?php echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a>
 			<?php //var_dump($projects) ?>
 			<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 				<thead>
@@ -57,4 +56,11 @@
 	</div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		bindLBHLinks();
+	});
+</script>
 <?php } ?>
+
