@@ -15,7 +15,7 @@
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
 	
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-		<h1><?php echo $form["title"] ?> <a href="/ph/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
+		<h1><?php echo $form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
 		<div id="" class="" style="width:80%;  display: -webkit-inline-box;">
 	    	<input type="text" class="form-control" id="input-search-table" 
 	                        placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
@@ -46,7 +46,7 @@
 						<td><?php echo $v["name"]; ?></td>
 						<td><?php echo $v["email"]; ?></td>
 						<td><?php echo $v["user"]; ?></td>
-						<td><a href="/ph/survey/co/answer/id/<?php echo (string)$form["id"]?>/user/<?php echo $v["user"]; ?>" >Read</a></td>
+						<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)$form["id"]?>/user/<?php echo $v["user"]; ?>" >Read</a></td>
 					</tr>
 				<?php } ?>
 				</tbody>

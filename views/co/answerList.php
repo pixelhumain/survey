@@ -25,7 +25,7 @@ if( $this->layout != "//layouts/empty"){
 
 <div class="panel panel-dark col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
 	<div class="col-xs-12 text-center">
-		<h1><a href="/ph/survey/co/answers/id/<?php echo $form["id"]; ?>"><?php echo $form["title"]; ?></a> </h1>
+		<h1><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"><?php echo $form["title"]; ?></a> </h1>
 		<h4 style="text-align: center;padding:10px;">Answers by <?php echo $user["name"]; ?> </h4>
     </div>
 
@@ -36,7 +36,9 @@ if( $this->layout != "//layouts/empty"){
 	<?php 
 
 	foreach ($form["scenario"] as $k => $v) {
-		
+		//var_dump($v);
+		//var_dump($answers);
+		//break;
 		if(@$answers[$k])
 		{?>
 			<div class="bg-dark col-xs-12 text-center">
@@ -47,9 +49,8 @@ if( $this->layout != "//layouts/empty"){
 			<?php 
 				foreach ( $answers[$k]["answers"] as $key => $value) 
 				{
-				
 				echo "<div class='col-xs-12'>".
-						"<h2> [ step ] ".$v["form"]["scenario"][$key]["title"]."</h2>";
+						"<h2> [ step ] ".@$v["form"]["scenario"][$key]["title"]."</h2>";
 				echo '<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">'.
 					'<thead>'.
 						'<tr>'.
@@ -60,11 +61,11 @@ if( $this->layout != "//layouts/empty"){
 					'<tbody class="directoryLines">';
 				if(@$v["form"]["scenario"][$key]["json"])
 				{
-					$formQ = $v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"];
+					$formQ = @$v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"];
 					foreach ($value as $q => $a) 
 					{
 						echo '<tr>';
-							echo "<td>".$formQ[ $q ]["placeholder"]."</td>";
+							echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
 							echo "<td>".$a."</td>";
 						echo '</tr>';
 					}
@@ -106,7 +107,14 @@ if( $this->layout != "//layouts/empty"){
 					if(@$el["tags"]){
 						echo '<tr>';
 							echo "<td> Tags </td>";
-							echo "<td>".$el["tags"]."</td>";
+							echo "<td>";
+							$it=0;
+							foreach($el["tags"] as $v){
+								if($it>0)
+									echo ", ";
+								echo $v;
+							}
+							echo "</td>";
 						echo '</tr>';
 					}
 
