@@ -38,15 +38,28 @@
 						<th>Email</th>
 						<th>userID</th>
 						<th>Read Answers</th>
+						<th>BTN</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
+					
 				<?php  foreach ($results as $key => $v) { ?>
 					<tr>
-						<td><?php echo $v["name"]; ?></td>
-						<td><?php echo $v["email"]; ?></td>
-						<td><?php echo $v["user"]; ?></td>
-						<td><a href="/ph/survey/co/answer/id/<?php echo (string)$form["id"]?>/user/<?php echo $v["user"]; ?>" >Read</a></td>
+						<td><?php echo @$v["name"]; ?></td>
+						<td><?php echo @$v["email"]; ?></td>
+						<td><?php echo (!empty($v["id"]) ? $v["id"] : $v["user"] ); ?></td>
+						<td>
+							<?php
+								if(!empty($v["user"])){
+							?>
+								<a href="/ph/survey/co/answer/id/<?php echo (string)$form["id"]?>/user/<?php echo $v["user"]; ?>" >Read</a>
+							<?php
+								}
+							?>
+						</td>
+						<td>
+							<a href="javascript:;" class="btn btn-primary activeBtn" data-id="<?php echo $v["id"]; ?>" data-type="<?php echo $v["type"]; ?>">Valider</a>
+						</td>
 					</tr>
 				<?php } ?>
 				</tbody>
@@ -60,7 +73,39 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		bindLBHLinks();
+		bindAnwserList()
 	});
+
+
+	function bindAnwserList(){
+
+		$(".activeBtn").on("click",function(e){
+			var params = {
+				id : $(this).data("id"),
+				type : $(this).data("type")
+			};
+
+			$.ajax({
+				type: "POST",
+				url: baseUrl+'/'+activeModuleId+"/form/active/",
+				data:params,
+				dataType: "json",
+				success: function(view){
+					mylog.log("loadDashboardDDA ok");
+					dashboard.ddaView = view;
+					$("#list-dashboard-dda").html(view);
+				},
+				error: function (error) {
+					mylog.log("loadDashboardDDA error", error);
+					
+				}
+					
+			});
+		});
+		
+	}
+
+
 </script>
 <?php } ?>
 
