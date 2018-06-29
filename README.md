@@ -8,19 +8,14 @@ a survey is build dynamically according to it's structure , it put's together di
 - make login + create element + dynSurvey
 
 # TODO 
-[ ] create CustomModule as Network
 [ ] logout redirects to CO2 and doesn't logout
-[ ] upload des fichiers sur element 
 [ ] design dynform
 [ ] preview answers add validation button link to CTE, sans qu'il soit propriétaire links.projectExtern + orgaExtern
-[ ] type d'activité | Badge | status 
+[ ] status :: Badge | status 
 [rapha] systeme d'invitation  
 
 # good to have 
-[ ] invite participants
-[ ] invite admins
 [ ] afficher comme sondage dans une news 
-
 
 #BUGS
 - dynforms without images , go into the else condition of afterSave
