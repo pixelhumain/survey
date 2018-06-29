@@ -13,6 +13,9 @@ a survey is build dynamically according to it's structure , it put's together di
 [ ] preview answers add validation button link to CTE, sans qu'il soit propriétaire links.projectExtern + orgaExtern
 [ ] status :: Badge | status 
 [rapha] systeme d'invitation  
+[ ] make multi admins management
+[ ] gestion des dates d'ouverture d'un sondage 
+[ ] check json editor exists
 
 # good to have 
 [ ] afficher comme sondage dans une news 
