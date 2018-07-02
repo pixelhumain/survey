@@ -67,90 +67,102 @@ jQuery(document).ready(function() {
     dySObj.surveyId = "#ajaxFormModal";
     dySObj.surveys = <?php echo json_encode( $form ) ?>;
     answers = <?php echo json_encode( $answers ) ?>;
+    startDate = <?php echo json_encode( @$startDate )?>;
+    endDate = <?php echo json_encode( @$endDate )?>;
     dySObj.surveys.json={};
 
     //scenario is a list of many survey definitions that can be put together in different ways
     //$("#surveyDesc").html("");
     if(userId && dySObj.surveys.scenario )
     {
-        if(dySObj.surveys.parentSurvey && Object.keys( dySObj.surveys.parentSurvey.scenario).length > Object.keys( answers).length)
-        {
-            var prev = null;
-            var step = 1;
-            var surveyType = (dySObj.surveys.surveyType) ? dySObj.surveys.surveyType : null ;
-            var str = "";
-
-            //build front end interface 
-            var sizeCol = 12 / Object.keys(dySObj.surveys.scenario).length;
-            answered = false;
-            $.each(answers,function(aid,ans) { 
-                if(ans.formId == dySObj.surveys.id && userId == ans.user)
-                    answered = true;
-            });
-            
-            if(!answered)
+        if( startDate && (startDate.sec > (new Date().getTime()/1000)) )
+            $("#surveyDesc").append("<h1 class='text-center text-red bold'> Survey period is not open yet.<br/>Come Back soon! </h1>");
+        else if( endDate && (endDate.sec < (new Date().getTime()/1000)) )
+            $("#surveyDesc").append("<h1 class='text-center text-red bold'> Survey period is over </h1>");
+        else {
+            if( (dySObj.surveys.parentSurvey && 
+                Object.keys( dySObj.surveys.parentSurvey.scenario).length > Object.keys( answers).length ) ||
+                ( Object.keys( dySObj.surveys.scenario).length > Object.keys( answers).length ) )
             {
-                $("#surveyDesc").append("<h4 class='text-center'>"+Object.keys(dySObj.surveys.scenario).length+" easy steps</h4>");
-                $.each(dySObj.surveys.scenario, function(i,v) { 
-                    icon = (v.icon) ? v.icon : "fa-square-o";
-                    str += '<div class="card col-xs-'+sizeCol+'" >'+
-                      //'<img src="https://unsplash.it/g/300">'+
-                      '<div class="card-body padding-15 bg-dark" style="border:6px solid #3071a9;">'+
-                        '<h4 class="card-title bold text-white text-center padding-5" style="border-bottom:1px solid white">'+
-                            '<i class="margin-5 fa '+icon+' fa-2x"></i><br/>'+
-                            step+'. '+v.title+
-                        '</h4>'+    
-                        '<p class="card-text">'+v.description+'</p>';
+                var prev = null;
+                var step = 1;
+                var surveyType = (dySObj.surveys.surveyType) ? dySObj.surveys.surveyType : null ;
+                var str = "";
+
+                //build front end interface 
+                var sizeCol = 12 / Object.keys(dySObj.surveys.scenario).length;
+                answered = false;
+                $.each(answers,function(aid,ans) { 
+                    if(ans.formId == dySObj.surveys.id && userId == ans.user)
+                        answered = true;
+                });
+                
+                if(!answered)
+                {
+                    $("#surveyDesc").append("<h4 class='text-center'>"+Object.keys(dySObj.surveys.scenario).length+" easy steps</h4>");
+                    $.each(dySObj.surveys.scenario, function(i,v) { 
+                        icon = (v.icon) ? v.icon : "fa-square-o";
+                        str += '<div class="card col-xs-'+sizeCol+'" >'+
+                          //'<img src="https://unsplash.it/g/300">'+
+                          '<div class="card-body padding-15 bg-dark" style="border:6px solid #3071a9;">'+
+                            '<h4 class="card-title bold text-white text-center padding-5" style="border-bottom:1px solid white">'+
+                                '<i class="margin-5 fa '+icon+' fa-2x"></i><br/>'+
+                                step+'. '+v.title+
+                            '</h4>'+    
+                            '<p class="card-text">'+v.description+'</p>';
 
 
-                    if(surveyType == "surveyList"){
-                        answered = false;
-                        $.each(answers,function(aid,ans) { 
-                            if(ans.formId == i && userId == ans.user)
-                                answered = true;
-                        });
-                        
-                        if(answered)
-                            str +='<span style="width:100%" class="btn btn-danger">'+
-                                    'Allready answered</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
+                        if(surveyType == "surveyList"){
+                            answered = false;
+                            $.each(answers,function(aid,ans) { 
+                                if(ans.formId == i && userId == ans.user)
+                                    answered = true;
+                            });
+                            
+                            if(answered)
+                                str +='<span style="width:100%" class="btn btn-danger">'+
+                                        'Allready answered</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
+                            else  
+                                str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-primary answered'+answered+' hidden"  style="width:100%"> GO <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
+
+
+                        } else if( surveyType != "oneSurvey" ) {
+                            dType = (v.type) ? v.type : "json" ;
+                            dynType = (v.dynType) ? v.dynType : "dynForm" ;
+                            str +='<a href="javascript:;" onclick="dySObj.openSurvey(\''+i+'\',\''+dType+'\',\''+dynType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a>';
+                        }
+
+                        str +='</div></div>';  
+                        prev = i;
+                        step++;
+                    }); 
+                    
+
+                    $("#surveyDesc").append("<div class='card-columns'>"+str+'</div>');
+                    $(".answeredfalse").first().removeClass("hidden");
+                    
+                    if ( surveyType == "oneSurvey" ){
+                        //build survey json asynchronessly
+                        if(userId)
+                            $("#surveyBtn").append('<div class="margin-top-15 hidden col-xs-6" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%"> C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>'); 
                         else 
-                            str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-primary answered'+answered+' hidden"  style="width:100%"> GO <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
+                            $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Login first to Access <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
 
-                    }else if( surveyType != "oneSurvey" ) {
-                        dType = (v.type) ? v.type : "json" ;
-                        dynType = (v.dynType) ? v.dynType : "dynForm" ;
-                        str +='<a href="javascript:;" onclick="dySObj.openSurvey(\''+i+'\',\''+dType+'\',\''+dynType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a>';
+                        if(dySObj.surveys.author == userId){
+                            $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="'+baseUrl+'/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
+                        }
+
+                        dySObj.buildOneSurveyFromScenario();
                     }
 
-                    str +='</div></div>';  
-                    prev = i;
-                    step++;
-                }); 
-                
-
-                $("#surveyDesc").append("<div class='card-columns'>"+str+'</div>');
-                $(".answeredfalse").first().removeClass("hidden");
-                
-                if ( surveyType == "oneSurvey" ){
-                    //build survey json asynchronessly
-                    if(userId)
-                        $("#surveyBtn").append('<div class="margin-top-15 hidden col-xs-6" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%"> C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>'); 
-                    else 
-                        $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Login first to Access <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
-
-                    if(dySObj.surveys.author == userId){
-                        $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="'+baseUrl+'/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
-                    }
-
-                    dySObj.buildOneSurveyFromScenario();
+                } else {
+                    $("#surveyDesc").append("<h1 class='text-center text-red bold'> You allready answered </h1>");
+                    //TODO goto read your answers
                 }
-
-            } else {
+            } else 
                 $("#surveyDesc").append("<h1 class='text-center text-red bold'> You allready answered </h1>");
-                //TODO goto read your answers
-            }
-        } else 
-            $("#surveyDesc").append("<h1 class='text-center text-red bold'> You allready answered </h1>");
+        } 
+            
     } else {
         // other wise it's jsut one survey that can be shown
         dySObj.surveys.commons = <?php echo json_encode( $form ) ?>;  

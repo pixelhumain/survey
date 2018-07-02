@@ -4,9 +4,16 @@ class AnswersAction extends CAction
     public function run($id)
     {
     	$this->getController()->layout = "//layouts/empty";
-    	//if ( ! Person::logguedAndValid() ) {
-    		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
-    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id) )){
+
+        $form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+    	if ( ! Person::logguedAndValid() ) {
+            $this->getController()->render("co2.views.default.loginSecure");
+        }else if(	Yii::app()->session["userId"] == $form["author"] ||
+					(	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
+						!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
+						$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){ 
+    		if( $form["surveyType"] == "surveyList" && 
+                @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id) )){
     			$results = array();
     			$uniq = array();
     			$uniqO = array();
@@ -64,8 +71,7 @@ class AnswersAction extends CAction
 	 		} 
 		 	else 
 		 		echo "No answers found"; 
-			
-		 // } else 
-			//  echo "<h1>".Yii::t("common","Please Login First")."</h1>";
+		} else 
+			$this->getController()->render("co2.views.default.unauthorised"); 
     }
 }

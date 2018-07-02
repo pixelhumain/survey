@@ -59,8 +59,19 @@
 							?>
 						</td>
 						<td>
-							<?php if( !empty($v["type"]) && Project::COLLECTION == $v["type"]){ ?>
-								<a href="javascript:;" class="btn btn-primary activeBtn" data-id="<?php echo $v["id"]; ?>" data-type="<?php echo $v["type"]; ?>" data-name="<?php echo $v["name"]; ?>" >Valider</a>
+							<?php if( !empty($v["type"]) && Project::COLLECTION == $v["type"]){ 
+									if(empty($form["links"]["projectExtern"][$v["id"]])){
+										?>
+											<a href="javascript:;" class="btn btn-primary activeBtn" data-id="<?php echo $v["id"]; ?>" data-type="<?php echo $v["type"]; ?>" data-name="<?php echo $v["name"]; ?>" >Valider</a>
+
+										<?php
+									}else {
+
+										echo "Déjà valider" ;
+									}
+
+								?>
+								
 							<?php } ?>
 							
 						</td>
