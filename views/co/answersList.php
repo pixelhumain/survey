@@ -17,7 +17,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
  	}
 </style>
 <?php 
-	//var_dump($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]); exit ;
 	if(	Yii::app()->session["userId"] == $form["author"] ||
 		(!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
 			!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
@@ -40,7 +39,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 	<div class="panel-body">
 		<div>
 			<a href="<?php echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a>
-			<?php //var_dump($projects) ?>
 			<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
