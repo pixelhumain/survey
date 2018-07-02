@@ -6,7 +6,6 @@ class AnswersAction extends CAction
     	$this->getController()->layout = "//layouts/empty";
     	//if ( ! Person::logguedAndValid() ) {
     		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
-    		
     		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id) )){
     			$results = array();
     			$uniq = array();
@@ -14,8 +13,7 @@ class AnswersAction extends CAction
     			$uniqP = array();
     			$uniqE = array();
     			
-    			foreach ( $answers as $key => $value) 
-    			{
+    			foreach ( $answers as $key => $value) {
     				if(!in_array( $value["user"], $uniq )){
     					$value["type"] = Person::COLLECTION;
     					$value["id"] = $value["user"];

@@ -8,14 +8,15 @@
  	}
 </style>
 <?php 
-	if( $form["author"] != Yii::app()->session["userId"] ){
-		$this->renderPartial("unauthorised");
-	} else {
-	 ?>
-<div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
+	//var_dump($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]); exit ;
+	if(	Yii::app()->session["userId"] == $form["author"] ||
+		(!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
+			!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
+			$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){ ?>
+	<div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
 	
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-		<h1><?php echo $form["title"] ?> <a href="/ph/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
+		<h1><?php echo $form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
 		<div id="" class="" style="width:80%;  display: -webkit-inline-box;">
 	    	<input type="text" class="form-control" id="input-search-table" 
 	                        placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
@@ -52,13 +53,16 @@
 							<?php
 								if(!empty($v["user"])){
 							?>
-								<a href="/ph/survey/co/answer/id/<?php echo (string)$form["id"]?>/user/<?php echo $v["user"]; ?>" >Read</a>
+								<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)$form["id"]?>/user/<?php echo $v["user"]; ?>" >Read</a>
 							<?php
 								}
 							?>
 						</td>
 						<td>
-							<a href="javascript:;" class="btn btn-primary activeBtn" data-id="<?php echo $v["id"]; ?>" data-type="<?php echo $v["type"]; ?>">Valider</a>
+							<?php if( !empty($v["type"]) && Project::COLLECTION == $v["type"]){ ?>
+								<a href="javascript:;" class="btn btn-primary activeBtn" data-id="<?php echo $v["id"]; ?>" data-type="<?php echo $v["type"]; ?>" data-name="<?php echo $v["name"]; ?>" >Valider</a>
+							<?php } ?>
+							
 						</td>
 					</tr>
 				<?php } ?>
@@ -71,6 +75,8 @@
 </div>
 
 <script type="text/javascript">
+
+	var form =<?php echo json_encode($form); ?>; 
 	jQuery(document).ready(function() {
 		bindLBHLinks();
 		bindAnwserList()
@@ -81,13 +87,15 @@
 
 		$(".activeBtn").on("click",function(e){
 			var params = {
-				id : $(this).data("id"),
-				type : $(this).data("type")
+				childId : $(this).data("id"),
+				childType : $(this).data("type"),
+				childName : $(this).data("name"),
+				parentId : form._id.$id,
 			};
 
 			$.ajax({
 				type: "POST",
-				url: baseUrl+'/'+activeModuleId+"/form/active/",
+				url: baseUrl+'/'+activeModuleId+"/co/active/",
 				data:params,
 				dataType: "json",
 				success: function(view){
@@ -104,8 +112,9 @@
 		});
 		
 	}
-
-
-</script>
-<?php } ?>
+</script> 
+<?php	
+	} else {
+		$this->renderPartial("unauthorised");
+	} ?>
 

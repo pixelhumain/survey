@@ -4,7 +4,6 @@ $cssJS = array(
     
     '/plugins/jquery.dynForm.js',
     
-
     '/plugins/jQuery-Knob/js/jquery.knob.js',
     '/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
     '/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
@@ -25,8 +24,6 @@ $cssJS = array(
     '/plugins/ladda-bootstrap/dist/ladda.min.css',
     '/plugins/ladda-bootstrap/dist/ladda-themeless.min.css',
     '/plugins/animate.css/animate.min.css',
-    
-    
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
@@ -76,7 +73,7 @@ jQuery(document).ready(function() {
     //$("#surveyDesc").html("");
     if(userId && dySObj.surveys.scenario )
     {
-        if(Object.keys( dySObj.surveys.scenario).length > Object.keys( answers).length)
+        if(dySObj.surveys.parentSurvey && Object.keys( dySObj.surveys.parentSurvey.scenario).length > Object.keys( answers).length)
         {
             var prev = null;
             var step = 1;
@@ -115,7 +112,7 @@ jQuery(document).ready(function() {
                         
                         if(answered)
                             str +='<span style="width:100%" class="btn btn-danger">'+
-                                    'Already answered</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
+                                    'Allready answered</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
                         else 
                             str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-primary answered'+answered+' hidden"  style="width:100%"> GO <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
 
