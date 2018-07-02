@@ -93,7 +93,7 @@ jQuery(document).ready(function() {
             
             if(!answered)
             {
-                $("#surveyDesc").append("<h4 class='text-center'>"+Object.keys(dySObj.surveys.scenario).length+" easy steps</h4>");
+                $("#surveyDesc").append("<h4 class='text-center'>"+Object.keys(dySObj.surveys.scenario).length+" étapes nécessaires</h4>");
                 $.each(dySObj.surveys.scenario, function(i,v) { 
                     icon = (v.icon) ? v.icon : "fa-square-o";
                     str += '<div class="card col-xs-'+sizeCol+'" >'+
