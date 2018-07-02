@@ -1,42 +1,44 @@
+/* 1 */
 {
     "_id" : ObjectId("5b27a1e35a7c00d4d97509d0"),
     "id" : "cte",
     "title" : "projets CTE",
-    "author" : "585bdfdaf6ca47b6118b4583",
+    "author" : "55ee8d59e41d756612558516",
     "customTpl" : "survey.views.custom.cte",
     "urlLogo" : "/upload/communecter/surveys/cte/logo.png",
     "countryCode" : "RE",
     "endTpl" : "home",
-    "description" : "What kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are you",
+    "description" : "Bienvenu sur le dépot des projets du CTE. Cette première phase de soumission vise à recenser les projets voulant s'inclure dans la transition écologique des territoires.<br/>Chaque étape du formulaire est nécessaire pour la prise en compte de votre candidature. Chaque dossier s'en suivra d'une phase d'évaluation et de sélection des projets qui participeront à la phase final de vote pour élire les projets qui bénéfieciront de l'aide du Contrat de Transition Ecologique",
     "parenType" : "organizations",
     "parentId" : "592e54d1539f2278258b456c",
     "surveyType" : "surveyList",
     "scenario" : {
         "cte1" : {
-            "title" : "Add an orga",
-            "description" : "Add an orga",
+            "title" : "Porteur de l'action",
+            "description" : "Référencer le porteur de l'action ainsi qu'un référent au sein de la structure",
             "icon" : "fa-users"
         },
         "cte2" : {
-            "title" : "Add an project",
-            "description" : "Add an project",
-            "icon" : "fa-lightbulb-o"
+            "title" : "Dépot de l'action",
+            "description" : "Objectif et prévisionnel de l'action dans le cadre du CTE",
+            "icon" : "fa-list"
         },
         "cte3" : {
-            "title" : "Add an event",
-            "description" : "Add an event",
-            "icon" : "fa-calendar"
+            "title" : "Fiche du projet",
+            "description" : "La fiche qui sera mise en ligne lors de l'ouverture au vote",
+            "icon" : "fa-lightbulb-o"
         }
     }
 }
 
+/* 2 */
 {
-    "_id" : ObjectId("5b2786905a7c00d4d97509cd"),
-    "id" : "cte2",
+    "_id" : ObjectId("5b27877a5a7c00d4d97509ce"),
+    "id" : "cte3",
+    "title" : "Décriver la fiche projet?",
     "parentSurvey" : "cte",
-    "title" : "CTE Quel projet?",
-    "author" : "585bdfdaf6ca47b6118b4583",
-    "description" : "What kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are you",
+    "author" : "55ee8d59e41d756612558516",
+    "description" : "La fiche projet sera celle visible lors de la phase finale des votes",
     "parenType" : "organizations",
     "parentId" : "592e54d1539f2278258b456c",
     "surveyType" : "oneSurvey",
@@ -52,115 +54,24 @@
                 "collection" : "projects",
                 "ctrl" : "project"
             }
-        },
-        "partizzzzz" : {
-            "title" : "partizzzzz",
-            "description" : "partenaires partenaires partenaires partenaires partenaires ",
-            "icon" : "fa-users",
-            "json" : {
-                "jsonSchema" : {
-                    "title" : "partixxxx",
-                    "type" : "object",
-                    "properties" : {
-                        "separator1" : {
-                            "title" : "Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
-                        },
-                        "description" : {
-                            "inputType" : "textarea",
-                            "placeholder" : "Description",
-                            "class" : "description3"
-                        },
-                        "value" : {
-                            "inputType" : "select",
-                            "placeholder" : "---- Select a value ----",
-                            "options" : {
-                                "0" : "Ne souhaite pas",
-                                "20" : "Pas applicable",
-                                "40" : "Souhait mais pas démarré",
-                                "60" : "Démarré",
-                                "80" : "En progression",
-                                "100" : "Réalisé"
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
 
-{
-    "_id" : ObjectId("5b27877a5a7c00d4d97509ce"),
-    "id" : "cte3",
-    "title" : "CTE Quels Events?",
-    "parentSurvey" : "cte",
-    "author" : "585bdfdaf6ca47b6118b4583",
-    "description" : "What kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are you",
-    "parenType" : "organizations",
-    "parentId" : "592e54d1539f2278258b456c",
-    "surveyType" : "oneSurvey",
-    "scenario" : {
-        "event" : {
-            "title" : "Add an event",
-            "description" : "Add an event",
-            "where" : "parentModuleUrl",
-            "path" : "/js/dynForm/project.js",
-            "type" : "script",
-            "icon" : "fa-calendar",
-            "saveElement" : {
-                "collection" : "events",
-                "ctrl" : "event"
-            }
-        },
-        "partiooooo" : {
-            "title" : "partioooooo",
-            "description" : "partenaires partenaires partenaires partenaires partenaires ",
-            "icon" : "fa-users",
-            "json" : {
-                "jsonSchema" : {
-                    "title" : "partixxxx",
-                    "type" : "object",
-                    "properties" : {
-                        "separator1" : {
-                            "title" : "Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
-                        },
-                        "description" : {
-                            "inputType" : "textarea",
-                            "placeholder" : "Description",
-                            "class" : "description3"
-                        },
-                        "value" : {
-                            "inputType" : "select",
-                            "placeholder" : "---- Select a value ----",
-                            "options" : {
-                                "0" : "Ne souhaite pas",
-                                "20" : "Pas applicable",
-                                "40" : "Souhait mais pas démarré",
-                                "60" : "Démarré",
-                                "80" : "En progression",
-                                "100" : "Réalisé"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
+/* 3 */
 {
     "_id" : ObjectId("5b27866a5a7c00d4d97509cc"),
     "id" : "cte1",
     "parentSurvey" : "cte",
     "title" : "CTE quelle Organisation ?",
-    "author" : "585bdfdaf6ca47b6118b4583",
-    "description" : "What kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are youWhat kind of common are you",
+    "author" : "55ee8d59e41d756612558516",
+    "description" : "Le proteur du projet et de l'action est la structure qui garantie la prise en charge de l'action d'un point de vue juridique mais aussi organisationnel.<br/><br/>Un référent devra etre cité pour priviligier une point de contact facile",
     "parenType" : "organizations",
     "parentId" : "592e54d1539f2278258b456c",
     "surveyType" : "oneSurvey",
     "scenario" : {
         "organization" : {
-            "title" : "Add an organization",
+            "title" : "Ajouter une structure porteuse",
             "description" : "Add an organization Add an organization",
             "where" : "parentModuleUrl",
             "path" : "/js/dynForm/organization2.js",
@@ -171,33 +82,58 @@
                 "ctrl" : "organization"
             }
         },
-        "partixxxx" : {
-            "title" : "partixxxx",
-            "description" : "partenaires partenaires partenaires partenaires partenaires ",
-            "icon" : "fa-users",
+        "justificatif" : {
+            "title" : "Justificatifs et référent",
+            "description" : "Jusitifiez de la légalité de votre structure et éligez un référent",
+            "icon" : "fa-user-card",
             "json" : {
                 "jsonSchema" : {
-                    "title" : "partixxxx",
+                    "title" : "Justificatifs et référent",
                     "type" : "object",
                     "properties" : {
-                        "separator1" : {
-                            "title" : "Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
+                        "status" : {
+                            "inputType" : "uploader",
+                            "label" : "Ajouter les statuts :",
+                            "showUploadBtn" : false,
+                            "docType" : "file",
+                            "itemLimit" : 1,
+                            "contentKey" : "survey",
+                            "domElement" : "statusFile",
+                            "placeholder" : "Statuts de la structure",
+                            "linkTo" : "organization",
+                            "endPoint" : "/document/uploadSave/dir/communecter/subDir/status/input/qqfile/docType/file/contentKey/survey/keySurvey/cte1",
+                            "template" : "qq-template-manual-trigger",
+                            "filetypes" : [ 
+                                "pdf"
+                            ]
                         },
-                        "description" : {
-                            "inputType" : "textarea",
-                            "placeholder" : "Description",
-                            "class" : "description3"
+                        "rib" : {
+                            "inputType" : "uploader",
+                            "label" : "Rib de la structure porteuse:",
+                            "showUploadBtn" : false,
+                            "docType" : "file",
+                            "itemLimit" : 1,
+                            "contentKey" : "survey",
+                            "domElement" : "ribFile",
+                            "placeholder" : "RIB de l'organisation",
+                            "linkTo" : "organization",
+                            "endPoint" : "/document/uploadSave/dir/communecter/subDir/rib/input/qqfile/docType/file/contentKey/survey/keySurvey/cte1",
+                            "template" : "qq-template-manual-trigger",
+                            "filetypes" : [ 
+                                "pdf"
+                            ]
                         },
-                        "value" : {
-                            "inputType" : "select",
-                            "placeholder" : "---- Select a value ----",
-                            "options" : {
-                                "0" : "Ne souhaite pas",
-                                "20" : "Pas applicable",
-                                "40" : "Souhait mais pas démarré",
-                                "60" : "Démarré",
-                                "80" : "En progression",
-                                "100" : "Réalisé"
+                        "nameRefence" : {
+                            "inputType" : "text",
+                            "label" : "Nom du référent",
+                            "placeholder" : "Nom du reférent"
+                        },
+                        "mailRefence" : {
+                            "inputType" : "text",
+                            "label" : "Email du référent-e",
+                            "placeholder" : "exemple@mail.com",
+                            "rules" : {
+                                "email" : true
                             }
                         }
                     }
@@ -207,4 +143,107 @@
     }
 }
 
-
+/* 4 */
+{
+    "_id" : ObjectId("5b2786905a7c00d4d97509cd"),
+    "id" : "cte2",
+    "parentSurvey" : "cte",
+    "title" : "CTE Quel action?",
+    "author" : "55ee8d59e41d756612558516",
+    "description" : "Définisser l'action dans le cadre du contrat de transition Ecologique",
+    "parenType" : "organizations",
+    "parentId" : "592e54d1539f2278258b456c",
+    "surveyType" : "oneSurvey",
+    "scenario" : {
+        "objectif" : {
+            "title" : "Objectif et enjeux de l'initiative",
+            "description" : "Objectif de l'initiative on y va on y va",
+            "icon" : "fa-users",
+            "json" : {
+                "jsonSchema" : {
+                    "title" : "partixxxx",
+                    "type" : "object",
+                    "properties" : {
+                        "objectif" : {
+                            "inputType" : "textarea",
+                            "label" : "Objectifs de l'initiative",
+                            "placeholder" : "Décrire les objectifs, les finalités et les usages de l’initiative et les impacts qui en découleront (sur le territoire, sur les personnes, sur les structures, sur le collectif, etc.).",
+                            "class" : "description3"
+                        },
+                        "description" : {
+                            "inputType" : "textarea",
+                            "label" : "Description de l’initiative et des activités développées",
+                            "placeholder" : "Actions prévues, architecture de l’opération (déroulé, étape, moyens humains et techniques, etc.)",
+                            "class" : "description3"
+                        },
+                        "usagers" : {
+                            "inputType" : "textarea",
+                            "label" : "Usagers / Bénéficiaires*",
+                            "placeholder" : "A qui s’adresse l’initiative, quels sont les usagers / bénéficiaires ? Quel(s) bénéfice(s) pour les usagers ?",
+                            "class" : "description3"
+                        },
+                        "cooperateurs" : {
+                            "inputType" : "textarea",
+                            "label" : "Présentation des coopérateurs",
+                            "placeholder" : "Décrire l’ensemble des coopérateurs en précisant leur degré d’implication ? Comment interviennent-ils ? Quel est leur rôle, leur implication, leur participation, leur intérêt dans l’initiative ?",
+                            "class" : "description3"
+                        },
+                        "territoire" : {
+                            "inputType" : "textarea",
+                            "label" : "Territoire",
+                            "placeholder" : "Décrire le territoire de l’action et préciser quelle est l’influence du territoire sur l’initiative ? Le projet s’appuie-t-il sur des ressources du territoire ? Les acteurs du projet, partenaires, fournisseurs sont-ils issus du territoire ? Comment sont-ils impliqués dans l’action ?",
+                            "class" : "description3"
+                        },
+                        "gouvernance" : {
+                            "inputType" : "textarea",
+                            "label" : "Gouvernance de l'initiative",
+                            "placeholder" : "Décrire comment est construite l’initiative avec ses membres, partenaires et usagers. Présenter les modes de prises des décisions de l’initiative (comité de pilotage, espace d’expression et de débat, etc.). De quelles manières sont prises les décisions entre coopérateurs ? Quel est le niveau d’implication de chacun des coopérateurs dans la gouvernance ?",
+                            "class" : "description3"
+                        }
+                    }
+                }
+            }
+        },
+        "previsionnel" : {
+            "title" : "Prévisionnel de l'action",
+            "description" : "Décrivez les ressources, les besoins et le plan prévisionnel",
+            "icon" : "fa-list",
+            "json" : {
+                "jsonSchema" : {
+                    "title" : "Prévisionnel de l'action",
+                    "type" : "object",
+                    "properties" : {
+                        "ressources" : {
+                            "inputType" : "textarea",
+                            "label" : "Ressources",
+                            "placeholder" : "Décrire précisément l’ensemble des ressources mobilisées pour la mise en œuvre de l’action (financement public, activités marchandes, bénévolat, monnaie d’échange, fondations, etc.).",
+                            "class" : "description3"
+                        },
+                        "besoins" : {
+                            "inputType" : "textarea",
+                            "label" : "Quels sont les besoins sur cette action ? En quoi le dispositif du CTE peut etre util",
+                            "placeholder" : "Actions prévues, architecture de l’opération (déroulé, étape, moyens humains et techniques, etc.)",
+                            "class" : "description3"
+                        },
+                        "previsionel" : {
+                            "inputType" : "uploader",
+                            "label" : "Budget prévisionel:",
+                            "showUploadBtn" : false,
+                            "docType" : "file",
+                            "itemLimit" : 1,
+                            "linkTo" : "citoyens",
+                            "contentKey" : "survey",
+                            "placeholder" : "Budget prévisionel",
+                            "domElement" : "previsionelFile",
+                            "endPoint" : "/document/uploadSave/dir/communecter/subDir/previsionel/input/qqfile/docType/file/contentKey/survey/keySurvey/cte2",
+                            "template" : "qq-template-manual-trigger",
+                            "filetypes" : [ 
+                                "pdf"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

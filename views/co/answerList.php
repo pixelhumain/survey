@@ -64,10 +64,17 @@ if( $this->layout != "//layouts/empty"){
 					$formQ = @$v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"];
 					foreach ($value as $q => $a) 
 					{
-						echo '<tr>';
-							echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
-							echo "<td>".$a."</td>";
-						echo '</tr>';
+						if(is_string($a)){
+							echo '<tr>';
+								echo "<td>".$formQ[ $q ]["placeholder"]."</td>";
+								echo "<td>".$a."</td>";
+							echo '</tr>';
+						}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
+							echo '<tr>';
+								echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
+								echo "<td>".$a["type"]."</td>";
+							echo '</tr>';
+						}
 					}
 				//todo search dynamically if key exists
 				} 
@@ -75,10 +82,17 @@ if( $this->layout != "//layouts/empty"){
 				{
 					$formQ = $v["form"]["scenario"]["survey"]["json"][$key]["jsonSchema"]["properties"];
 					foreach ($value as $q => $a) {
-						echo '<tr>';
-							echo "<td>".$formQ[ $q ]["placeholder"]."</td>";
-							echo "<td>".$a."</td>";
-						echo '</tr>';
+						if(is_string($a)){
+							echo '<tr>';
+								echo "<td>".$formQ[ $q ]["placeholder"]."</td>";
+								echo "<td>".$a."</td>";
+							echo '</tr>';
+						}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
+							echo '<tr>';
+								echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
+								echo "<td>".$a["type"]."</td>";
+							echo '</tr>';
+						}
 					}
 				} 
 				else if (@$v["form"]["scenario"][$key]["saveElement"]) 
@@ -135,7 +149,7 @@ if( $this->layout != "//layouts/empty"){
 					if(@$el["profilImageUrl"]){
 						echo '<tr>';
 							echo "<td> profilImageUrl </td>";
-							echo "<td><img src='".Yii::app()->createUrl($el["profilImageUrl"])."'/></td>";
+							echo "<td><img src='".Yii::app()->createUrl($el["profilImageUrl"])."' class='img-responsive'/></td>";
 						echo '</tr>';
 					}
 
@@ -148,7 +162,7 @@ if( $this->layout != "//layouts/empty"){
 
 					echo '<tr>';
 						echo "<td> link </td>";
-						echo "<td> <a target='_blank' class='btn btn-default' href='/ph/co2#page.type.".$value["type"].".id.".$value["id"]."'>".$value["type"]."</a></td>";
+						echo "<td> <a target='_blank' class='btn btn-default' href='".Yii::app()->createUrl("#page.type.".$value["type"].".id.".$value["id"])."'>".$value["type"]."</a></td>";
 					echo '</tr>';
 				}
 				echo "</tbody></table></div>";

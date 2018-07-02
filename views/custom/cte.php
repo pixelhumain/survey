@@ -11,7 +11,7 @@
     <img class="img-responsive" src='<?php echo Yii::app()->getModule("eco")->assetsUrl; ?>/images/custom/leport/tco.png'> 
   </div>
     <div class="col-xs-12" >
-    
+    <?php if(@$form["description"]) echo "<span class='text-center pull-left padding-20'>".$form["description"]."</span>" ?>
     <h2 class="text-center">
     <?php if( count($form["scenario"]) > count($answers)) { ?>
         Inscrivez votre <b> projet de transition écologique</b>
