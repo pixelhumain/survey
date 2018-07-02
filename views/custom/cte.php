@@ -13,7 +13,7 @@
     <div class="col-xs-12" >
     <?php if(@$form["description"]) echo "<span class='text-center pull-left padding-20'>".$form["description"]."</span>" ?>
     <h2 class="text-center">
-    <?php if(count($form["scenario"]) > count($answers)) { ?>
+    <?php if( count($form["scenario"]) > count($answers)) { ?>
         Inscrivez votre <b> projet de transition écologique</b>
     <?php } else {?>
         Merci pour votre participation au CTE, <br/>
