@@ -8,7 +8,7 @@ class AnswerAction extends CAction
     		//todo check if user id authorised 
     			//only admins and user can review an answer
     			//Form::isAuthorised($user)
-    		Rest::json($form); exit;
+    		//Rest::json($form); exit;
 			if(	$user != Yii::app()->session["userId"] && 
 				( 	Yii::app()->session["userId"] != $form["author"] || 
 					!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
