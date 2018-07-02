@@ -1,3 +1,12 @@
+<?php
+$cssAnsScriptFilesModule = array(
+    '/plugins/jquery-simplePagination/jquery.simplePagination.js',
+	'/plugins/jquery-simplePagination/simplePagination.css'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true));
+
+?>
+
 <style type="text/css">
 	.round{
 		border-radius: 100%;
@@ -19,7 +28,7 @@
 		<h1><?php echo $form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
 		<div id="" class="" style="width:80%;  display: -webkit-inline-box;">
 	    	<input type="text" class="form-control" id="input-search-table" 
-	                        placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
+					placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
 		    <button class="btn btn-default hidden-xs menu-btn-start-search-admin btn-directory-type">
 		        <i class="fa fa-search"></i>
 		    </button>
@@ -43,40 +52,6 @@
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
-					
-				<?php  foreach ($results as $key => $v) { ?>
-					<tr>
-						<td><?php echo @$v["name"]; ?></td>
-						<td><?php echo @$v["email"]; ?></td>
-						<td><?php echo (!empty($v["id"]) ? $v["id"] : $v["user"] ); ?></td>
-						<td>
-							<?php
-								if(!empty($v["user"])){
-							?>
-								<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)$form["id"]?>/user/<?php echo $v["user"]; ?>" >Read</a>
-							<?php
-								}
-							?>
-						</td>
-						<td>
-							<?php if( !empty($v["type"]) && Project::COLLECTION == $v["type"]){ 
-									if(empty($form["links"]["projectExtern"][$v["id"]])){
-										?>
-											<a href="javascript:;" class="btn btn-primary activeBtn" data-id="<?php echo $v["id"]; ?>" data-type="<?php echo $v["type"]; ?>" data-name="<?php echo $v["name"]; ?>" >Valider</a>
-
-										<?php
-									}else {
-
-										echo "Déjà valider" ;
-									}
-
-								?>
-								
-							<?php } ?>
-							
-						</td>
-					</tr>
-				<?php } ?>
 				</tbody>
 			</table>
 			
@@ -87,12 +62,110 @@
 
 <script type="text/javascript">
 
-	var form =<?php echo json_encode($form); ?>; 
+	var form =<?php echo json_encode($form); ?>;
+	var data =<?php echo json_encode($results); ?>;
+		console.log("data", data);
+	var searchAdmin={
+		idForm : form._id.$id,
+		text:null,
+		page:"",
+		//type:initType[0]
+	};
+
 	jQuery(document).ready(function() {
 		bindLBHLinks();
-		bindAnwserList()
+		bindAnwserList();
+		if(typeof data != "undefined"){
+			initViewTable(data);
+		}
+
+
+		$("#input-search-table").keyup(function(e){
+			mylog.log("here", e.keyCode);
+			//if(e.keyCode == 13){
+			searchAdmin.page=0;
+			searchAdmin.text = $(this).val();
+			if(searchAdmin.text=="")
+				searchAdmin.text=null;
+			startAdminSearch(true);
+			// Init of search for count
+			if(searchAdmin.text===true)
+				searchAdmin.text=null;
+			//}
+	    });
 	});
 
+
+	function startAdminSearch(initPage){
+		//$("#second-search-bar").val(search);
+	    $('#panelAdmin .directoryLines').html("Recherche en cours. Merci de patienter quelques instants...");
+	    var data = {
+	    	ifForm : form._id.$id,
+	    	text : $("#input-search-table").val(),
+	    }
+
+	    $.ajax({ 
+	        type: "POST",
+	        url: baseUrl+'/'+activeModuleId+"/co/searchadminform/",
+	        //url: baseUrl+"/"+moduleId+"/admin/directory/tpl/json",
+	        data: searchAdmin,
+	        dataType: "json",
+	        success:function(data) { 
+		          initViewTable(data.results);
+		          bindAdminBtnEvents();
+		          if(typeof data.results.count !="undefined")
+		          	refreshCountBadge(data.results.count);
+		          console.log(data.results);
+		          if(initPage)
+		          	initPageTable(data.results.count[searchAdmin.type]);
+	        },
+	        error:function(xhr, status, error){
+	            $("#searchResults").html("erreur");
+	        },
+	        statusCode:{
+	                404: function(){
+	                    $("#searchResults").html("not found");
+	            }
+	        }
+	    });
+	}
+
+	function initViewTable(data){
+		console.log("initViewTable", data);
+		$('#panelAdmin .directoryLines').html("");
+		console.log("valueInit",data);
+		$.each(data, function(key, value){
+
+			entry=buildDirectoryLine(key, value);
+			$("#panelAdmin .directoryLines").append(entry);
+		});
+		bindAnwserList();
+	}
+
+	function buildDirectoryLine(key, value){
+		console.log("buildDirectoryLine", key, value);
+		str = '<tr>';
+			str += '<td>'+value.name+'</td>';
+			str += '<td>'+value.email+'</td>';
+			str += '<td>'+value.id+'</td>';
+			str += '<td>';
+			if(typeof value.user != "undefined"){
+				str += '<a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.user+'" >Read</a>';
+			}
+			str += '</td>';
+			str += '<td>';
+			if(typeof value.type != "undefined" && "projects" == value.type){
+				console.log("here", value.id, form.links.projectExtern[value.id]);
+				if(typeof form.links.projectExtern[value.id] == "undefined") {
+					str += '<a href="javascript:;" class="btn btn-primary activeBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" >Valider</a>';
+				}else {
+					str += 'Déjà valider' ;
+				}
+			}
+			str += '</td>';
+		str += '</tr>';
+		return str;
+	}
 
 	function bindAnwserList(){
 
