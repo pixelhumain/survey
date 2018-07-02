@@ -8,11 +8,12 @@
  	}
 </style>
 <?php 
-	if( $form["author"] != Yii::app()->session["userId"] ){
-		$this->renderPartial("unauthorised");
-	} else {
-	 ?>
-<div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
+	//var_dump($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]); exit ;
+	if(	Yii::app()->session["userId"] == $form["author"] ||
+		(!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
+			!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
+			$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){ ?>
+	<div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
 	
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
 		<h1><?php echo $form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
@@ -38,15 +39,42 @@
 						<th>Email</th>
 						<th>userID</th>
 						<th>Read Answers</th>
+						<th>BTN</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
+					
 				<?php  foreach ($results as $key => $v) { ?>
 					<tr>
-						<td><?php echo $v["name"]; ?></td>
-						<td><?php echo $v["email"]; ?></td>
-						<td><?php echo $v["user"]; ?></td>
-						<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)$form["id"]?>/user/<?php echo $v["user"]; ?>" >Read</a></td>
+						<td><?php echo @$v["name"]; ?></td>
+						<td><?php echo @$v["email"]; ?></td>
+						<td><?php echo (!empty($v["id"]) ? $v["id"] : $v["user"] ); ?></td>
+						<td>
+							<?php
+								if(!empty($v["user"])){
+							?>
+								<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)$form["id"]?>/user/<?php echo $v["user"]; ?>" >Read</a>
+							<?php
+								}
+							?>
+						</td>
+						<td>
+							<?php if( !empty($v["type"]) && Project::COLLECTION == $v["type"]){ 
+									if(empty($form["links"]["projectExtern"][$v["id"]])){
+										?>
+											<a href="javascript:;" class="btn btn-primary activeBtn" data-id="<?php echo $v["id"]; ?>" data-type="<?php echo $v["type"]; ?>" data-name="<?php echo $v["name"]; ?>" >Valider</a>
+
+										<?php
+									}else {
+
+										echo "Déjà valider" ;
+									}
+
+								?>
+								
+							<?php } ?>
+							
+						</td>
 					</tr>
 				<?php } ?>
 				</tbody>
@@ -58,9 +86,46 @@
 </div>
 
 <script type="text/javascript">
+
+	var form =<?php echo json_encode($form); ?>; 
 	jQuery(document).ready(function() {
 		bindLBHLinks();
+		bindAnwserList()
 	});
-</script>
-<?php } ?>
+
+
+	function bindAnwserList(){
+
+		$(".activeBtn").on("click",function(e){
+			var params = {
+				childId : $(this).data("id"),
+				childType : $(this).data("type"),
+				childName : $(this).data("name"),
+				parentId : form._id.$id,
+			};
+
+			$.ajax({
+				type: "POST",
+				url: baseUrl+'/'+activeModuleId+"/co/active/",
+				data:params,
+				dataType: "json",
+				success: function(view){
+					mylog.log("loadDashboardDDA ok");
+					dashboard.ddaView = view;
+					$("#list-dashboard-dda").html(view);
+				},
+				error: function (error) {
+					mylog.log("loadDashboardDDA error", error);
+					
+				}
+					
+			});
+		});
+		
+	}
+</script> 
+<?php	
+	} else {
+		$this->renderPartial("unauthorised");
+	} ?>
 
