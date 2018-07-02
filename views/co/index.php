@@ -37,21 +37,21 @@ $cssJS = array(
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 ?>
 
-<div class="container " >
+<div class="container col-xs-12" >
     
 
     <div id="surveyContent" class="formChart col-xs-12" >
         <?php if(@$form["customTpl"]){
             echo $this->renderPartial( $form["customTpl"],array("form"=>$form,"answers"=>$answers));
-            echo '<div id="surveyDesc"></div>';
         }else { ?>
-        <h3 style="font-variant:small-caps;"><span class="stepFormChart"></span> <?php echo $form["title"] ?></h3>
-        <div id="surveyDesc">
-            <h4><?php echo $form["description"] ?></h4>
+        <h4 style="font-variant:small-caps;" class="text-center margin-top-15"><span class="stepFormChart"></span> <?php echo $form["title"] ?></h3>
+        <hr class="col-xs-10 col-xs-offset-1"></hr>
+        <div id="surveyDesc" class="col-xs-offset-1 col-xs-10">
+            <p class="text-center"><?php echo $form["description"] ?></p>
         </div>
         <?php } ?>
 
-         <div id="surveyBtn" class="margin-top-15"></div>
+         <div id="surveyBtn" class="margin-top-15 col-xs-offset-1 col-xs-10"></div>
         
         <form id="ajaxFormModal"></form>
     </div>
@@ -99,17 +99,17 @@ jQuery(document).ready(function() {
                 
                 if(!answered)
                 {
-                    $("#surveyDesc").append("<h4 class='text-center'>"+Object.keys(dySObj.surveys.scenario).length+" easy steps</h4>");
+                    $("#surveyDesc").append("<h4 class='text-center'>En "+Object.keys(dySObj.surveys.scenario).length+" étapes</h4>");
                     $.each(dySObj.surveys.scenario, function(i,v) { 
                         icon = (v.icon) ? v.icon : "fa-square-o";
                         str += '<div class="card col-xs-'+sizeCol+'" >'+
                           //'<img src="https://unsplash.it/g/300">'+
-                          '<div class="card-body padding-15 bg-dark" style="border:6px solid #3071a9;">'+
+                          '<div class="card-body padding-15 bg-dark" style="border: 2px solid #3071a9;border-radius: 10px;min-height:265px;">'+
                             '<h4 class="card-title bold text-white text-center padding-5" style="border-bottom:1px solid white">'+
                                 '<i class="margin-5 fa '+icon+' fa-2x"></i><br/>'+
                                 step+'. '+v.title+
                             '</h4>'+    
-                            '<p class="card-text">'+v.description+'</p>';
+                            '<span class="card-text text-center col-xs-12 no-padding margin-bottom-20">'+v.description+'</span>';
 
 
                         if(surveyType == "surveyList"){
@@ -121,9 +121,9 @@ jQuery(document).ready(function() {
                             
                             if(answered)
                                 str +='<span style="width:100%" class="btn btn-danger">'+
-                                        'Allready answered</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
+                                        'Déjà rempli</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
                             else  
-                                str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-primary answered'+answered+' hidden"  style="width:100%"> GO <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
+                                str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-primary bg-white text-dark answered'+answered+' hidden"  style="width:100%"> Commencer <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
 
 
                         } else if( surveyType != "oneSurvey" ) {
@@ -142,25 +142,26 @@ jQuery(document).ready(function() {
                     $(".answeredfalse").first().removeClass("hidden");
                     
                     if ( surveyType == "oneSurvey" ){
+                        $("#surveyContent").removeClass("col-xs-12").addClass("col-xs-10 col-xs-offset-1");
                         //build survey json asynchronessly
                         if(userId)
                             $("#surveyBtn").append('<div class="margin-top-15 hidden col-xs-6" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%"> C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>'); 
                         else 
-                            $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Login first to Access <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
+                            $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Connectez-vous avant d\'accéder au formulaire <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
 
                         if(dySObj.surveys.author == userId){
-                            $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="'+baseUrl+'/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">All answers <i class="fa fa-list fa-2x "></i></a></div>');
+                            $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="'+baseUrl+'/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">Voir les réponses <i class="fa fa-list fa-2x "></i></a></div>');
                         }
 
                         dySObj.buildOneSurveyFromScenario();
                     }
 
                 } else {
-                    $("#surveyDesc").append("<h1 class='text-center text-red bold'> You allready answered </h1>");
+                    $("#surveyDesc").append("<h1 class='text-center text-red bold'> Vous avez déjà répondu à cette étapes </h1>");
                     //TODO goto read your answers
                 }
             } else 
-                $("#surveyDesc").append("<h1 class='text-center text-red bold'> You allready answered </h1>");
+                $("#surveyDesc").append("<h1 class='text-center text-red bold'> Vous avez déjà répondu à cette étapes </h1>");
         } 
             
     } else {
