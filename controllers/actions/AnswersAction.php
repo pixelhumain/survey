@@ -4,10 +4,16 @@ class AnswersAction extends CAction
     public function run($id)
     {
     	$this->getController()->layout = "//layouts/empty";
-    	//if ( ! Person::logguedAndValid() ) {
-    		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+        $form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+    	if ( ! Person::logguedAndValid() ) {
+            $this->getController()->render("co2.views.default.loginSecure");
+        }else if( $form["author"] != Yii::app()->session["userId"] ){
+            $this->getController()->render("co2.views.default.unauthorised");
+        } else {
     		
-    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id) ))
+    		
+    		if( $form["surveyType"] == "surveyList" && 
+                @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id) ))
     		{
     			$results = array();
     			$uniq = array();
@@ -31,7 +37,6 @@ class AnswersAction extends CAction
 		 	else 
 		 		echo "No answers found"; 
 			
-		 // } else 
-			//  echo "<h1>".Yii::t("common","Please Login First")."</h1>";
+		  } 
     }
 }

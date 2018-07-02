@@ -67,8 +67,8 @@ jQuery(document).ready(function() {
     dySObj.surveyId = "#ajaxFormModal";
     dySObj.surveys = <?php echo json_encode( $form ) ?>;
     answers = <?php echo json_encode( $answers ) ?>;
-    startDate = <?php echo json_encode( $startDate )?>;
-    endDate = <?php echo json_encode( $endDate )?>;
+    startDate = <?php echo json_encode( @$startDate )?>;
+    endDate = <?php echo json_encode( @$endDate )?>;
     dySObj.surveys.json={};
 
     //scenario is a list of many survey definitions that can be put together in different ways

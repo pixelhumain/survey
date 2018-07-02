@@ -8,17 +8,20 @@ a survey is build dynamically according to it's structure , it put's together di
 - make login + create element + dynSurvey
 
 # TODO 
-[ ] logout redirects to CO2 and doesn't logout
 [ ] design dynform
-[ ] preview answers add validation button link to CTE, sans qu'il soit propriétaire links.projectExtern + orgaExtern
+[rapha] preview answers add validation button link to CTE, sans qu'il soit propriétaire links.projectExtern + orgaExtern
 [ ] status :: Badge | status 
-[rapha] systeme d'invitation  
-[ ] make multi admins management
-[ ] gestion des dates d'ouverture d'un sondage 
+[ ] show invitation list 
+[rapha] make multi admins management
+[tib] gestion des dates d'ouverture d'un sondage 
 [ ] check json editor exists
 
 # good to have 
 [ ] afficher comme sondage dans une news 
+[ ] dynsurvey Editor 
+    - dynSurvey to edit a dynSurvey Generated 
+    - first generate a dynform editor 
+    - generated based on dynForm schema properties 
 
 #BUGS
 - dynforms without images , go into the else condition of afterSave
