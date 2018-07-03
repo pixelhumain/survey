@@ -40,7 +40,12 @@ class IndexAction extends CAction
 	 			if($endDate)
 	 				$params["endDate"] = $endDate;
 
-	 			echo $this->getController()->render("index",$params );
+	 			if( @$endDate->sec < time() )
+	 				echo ".";
+	 			else if( @$startDate->sec > time() )
+	 				echo "Survey period is not open yet, come back soon.";
+	 			else
+		 			echo $this->getController()->render("index",$params );
 	 		}
 		 	else 
 		 		echo "Form not found";

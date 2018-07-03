@@ -82,7 +82,7 @@
   
   <div class="content-header col-xs-12 no-padding">
     
-    <div class="card col-xs-3">
+    <div class="card col-xs-2">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-folder-open-o fa-2x"></i><br/>
@@ -93,7 +93,7 @@
       </div>
     </div>
 
-    <div class="card col-xs-3">
+    <div class="card col-xs-2">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-gavel fa-2x"></i><br/>
@@ -104,7 +104,7 @@
       </div>
     </div>
 
-    <div class="card col-xs-3">
+    <div class="card col-xs-2">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-refresh fa-2x"></i><br/>
@@ -115,7 +115,7 @@
       </div>
     </div>
 
-    <div class="card col-xs-3">
+    <div class="card col-xs-2">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-check-circle-o fa-2x"></i><br/>
@@ -126,7 +126,7 @@
       </div>
     </div>
 
-    <div class="card col-xs-3">
+    <div class="card col-xs-2">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-cogs fa-2x"></i><br/>

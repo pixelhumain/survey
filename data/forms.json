@@ -1,9 +1,9 @@
 /* 1 */
 {
-    "_id" : ObjectId("5b27a1e35a7c00d4d97509d0"),
+    "_id" : ObjectId("5b3a2e81b38e459e2b54cd10"),
     "id" : "cte",
     "title" : "projets CTE",
-    "author" : "55ee8d59e41d756612558516",
+    "author" : "585bdfdaf6ca47b6118b4583",
     "customTpl" : "survey.views.custom.cte",
     "urlLogo" : "/upload/communecter/surveys/cte/logo.png",
     "countryCode" : "RE",
@@ -14,53 +14,24 @@
     "surveyType" : "surveyList",
     "scenario" : {
         "cte1" : {
-            "title" : "Porteur de l'action",
-            "description" : "Référencer le porteur de l'action ainsi qu'un référent au sein de la structure",
+            "title" : "Porteur du projet",
+            "description" : "Référencer le porteur du projet ainsi qu'un référent au sein de la structure",
             "icon" : "fa-users"
         },
         "cte2" : {
-            "title" : "Dépot de l'action",
-            "description" : "Objectif et prévisionnel de l'action dans le cadre du CTE",
-            "icon" : "fa-list"
-        },
-        "cte3" : {
             "title" : "Fiche du projet",
             "description" : "La fiche qui sera mise en ligne lors de l'ouverture au vote",
             "icon" : "fa-lightbulb-o"
+        },
+        "cte3" : {
+            "title" : "Dépot de l'action",
+            "description" : "Objectif et prévisionnel de l'action dans le cadre du CTE",
+            "icon" : "fa-list"
         }
     }
 }
-
-/* 2 */
 {
-    "_id" : ObjectId("5b27877a5a7c00d4d97509ce"),
-    "id" : "cte3",
-    "title" : "Décriver la fiche projet?",
-    "parentSurvey" : "cte",
-    "author" : "55ee8d59e41d756612558516",
-    "description" : "La fiche projet sera celle visible lors de la phase finale des votes",
-    "parenType" : "organizations",
-    "parentId" : "592e54d1539f2278258b456c",
-    "surveyType" : "oneSurvey",
-    "scenario" : {
-        "project" : {
-            "title" : "Add an project",
-            "description" : "Add an project",
-            "where" : "parentModuleUrl",
-            "path" : "/js/dynForm/project.js",
-            "type" : "script",
-            "icon" : "fa-lightbulb-o",
-            "saveElement" : {
-                "collection" : "projects",
-                "ctrl" : "project"
-            }
-        }
-    }
-}
-
-/* 3 */
-{
-    "_id" : ObjectId("5b27866a5a7c00d4d97509cc"),
+    "_id" : ObjectId("5b3a2ed3b38e459e2b54cd12"),
     "id" : "cte1",
     "parentSurvey" : "cte",
     "title" : "CTE quelle Organisation ?",
@@ -93,7 +64,7 @@
                     "properties" : {
                         "status" : {
                             "inputType" : "uploader",
-                            "label" : "Ajouter les statuts :",
+                            "label" : "Ajouter les statuts / Kbis / Délibération :",
                             "showUploadBtn" : false,
                             "docType" : "file",
                             "itemLimit" : 1,
@@ -102,22 +73,6 @@
                             "placeholder" : "Statuts de la structure",
                             "linkTo" : "organization",
                             "endPoint" : "/document/uploadSave/dir/communecter/subDir/status/input/qqfile/docType/file/contentKey/survey/keySurvey/cte1",
-                            "template" : "qq-template-manual-trigger",
-                            "filetypes" : [ 
-                                "pdf"
-                            ]
-                        },
-                        "rib" : {
-                            "inputType" : "uploader",
-                            "label" : "Rib de la structure porteuse:",
-                            "showUploadBtn" : false,
-                            "docType" : "file",
-                            "itemLimit" : 1,
-                            "contentKey" : "survey",
-                            "domElement" : "ribFile",
-                            "placeholder" : "RIB de l'organisation",
-                            "linkTo" : "organization",
-                            "endPoint" : "/document/uploadSave/dir/communecter/subDir/rib/input/qqfile/docType/file/contentKey/survey/keySurvey/cte1",
                             "template" : "qq-template-manual-trigger",
                             "filetypes" : [ 
                                 "pdf"
@@ -142,11 +97,9 @@
         }
     }
 }
-
-/* 4 */
 {
-    "_id" : ObjectId("5b2786905a7c00d4d97509cd"),
-    "id" : "cte2",
+    "_id" : ObjectId("5b3a2ee6b38e459e2b54cd13"),
+    "id" : "cte3",
     "parentSurvey" : "cte",
     "title" : "CTE Quel action?",
     "author" : "55ee8d59e41d756612558516",
@@ -161,7 +114,7 @@
             "icon" : "fa-users",
             "json" : {
                 "jsonSchema" : {
-                    "title" : "partixxxx",
+                    "title" : "Descriptif de l'action",
                     "type" : "object",
                     "properties" : {
                         "objectif" : {
@@ -178,7 +131,7 @@
                         },
                         "usagers" : {
                             "inputType" : "textarea",
-                            "label" : "Usagers / Bénéficiaires*",
+                            "label" : "Cibles / Usagers / Bénéficiaires*",
                             "placeholder" : "A qui s’adresse l’initiative, quels sont les usagers / bénéficiaires ? Quel(s) bénéfice(s) pour les usagers ?",
                             "class" : "description3"
                         },
@@ -190,7 +143,7 @@
                         },
                         "territoire" : {
                             "inputType" : "textarea",
-                            "label" : "Territoire",
+                            "label" : "Territoire impacté",
                             "placeholder" : "Décrire le territoire de l’action et préciser quelle est l’influence du territoire sur l’initiative ? Le projet s’appuie-t-il sur des ressources du territoire ? Les acteurs du projet, partenaires, fournisseurs sont-ils issus du territoire ? Comment sont-ils impliqués dans l’action ?",
                             "class" : "description3"
                         },
@@ -221,7 +174,7 @@
                         },
                         "besoins" : {
                             "inputType" : "textarea",
-                            "label" : "Quels sont les besoins sur cette action ? En quoi le dispositif du CTE peut etre util",
+                            "label" : "Quels sont les besoins sur cette action ? En quoi le dispositif du CTE peut etre utile",
                             "placeholder" : "Actions prévues, architecture de l’opération (déroulé, étape, moyens humains et techniques, etc.)",
                             "class" : "description3"
                         },
@@ -240,6 +193,86 @@
                             "filetypes" : [ 
                                 "pdf"
                             ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+{
+    "_id" : ObjectId("5b3a2ebab38e459e2b54cd11"),
+    "id" : "cte2",
+    "title" : "Décriver la fiche projet?",
+    "parentSurvey" : "cte",
+    "author" : "55ee8d59e41d756612558516",
+    "description" : "La fiche projet sera celle visible lors de la phase finale des votes",
+    "parenType" : "organizations",
+    "parentId" : "592e54d1539f2278258b456c",
+    "surveyType" : "oneSurvey",
+    "scenario" : {
+        "project" : {
+            "title" : "Add an project",
+            "description" : "Add an project",
+            "where" : "parentModuleUrl",
+            "path" : "/js/dynForm/project.js",
+            "type" : "script",
+            "icon" : "fa-lightbulb-o",
+            "saveElement" : {
+                "collection" : "projects",
+                "ctrl" : "project"
+            }
+        },
+        "maturity" : {
+            "title" : "Maturité",
+            "description" : "Décrivez l'état du projet, son degré de maturité et les étapes clefs.",
+            "icon" : "fa-clock",
+            "json" : {
+                "jsonSchema" : {
+                    "title" : "Degré de maturité",
+                    "type" : "object",
+                    "properties" : {
+                        "separator1" : {
+                            "title" : "Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
+                        },
+                        "description" : {
+                            "inputType" : "textarea",
+                            "placeholder" : "Décrivez l'état du projet, son degré de maturité et les étapes clefs.",
+                            "class" : "description3"
+                        },
+                        "value" : {
+                            "inputType" : "select",
+                            "placeholder" : "---- Select a value ----",
+                            "options" : {
+                                "0" : "Idée",
+                                "20" : "Projet Complet",
+                                "40" : "Prototype",
+                                "60" : "En développement",
+                                "80" : "En test",
+                                "100" : "Démarré"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "risk" : {
+            "title" : "GEstion des risques",
+            "description" : "Présentez les facteurs de risques.",
+            "icon" : "fa-warning",
+            "json" : {
+                "jsonSchema" : {
+                    "title" : "Décrivez les risques potentiels",
+                    "type" : "object",
+                    "properties" : {
+                        "separator1" : {
+                            "title" : "Décrivez tous les types de risques : Financier, Juridique, Matériel, Technologique, ...etc"
+                        },
+                        "description" : {
+                            "inputType" : "textarea",
+                            "placeholder" : "Décrivez les risques potentiels",
+                            "class" : "description3"
                         }
                     }
                 }
