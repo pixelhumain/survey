@@ -17,7 +17,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
  	}
 </style>
 <?php 
-	//var_dump($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]); exit ;
 	if(	Yii::app()->session["userId"] == $form["author"] ||
 		(!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
 			!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
@@ -40,7 +39,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 	<div class="panel-body">
 		<div>
 			<a href="<?php echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a>
-			<?php //var_dump($projects) ?>
 			<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
@@ -66,7 +64,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 	var data =<?php echo json_encode($results); ?>;
 		console.log("data", data);
 	var searchAdmin={
-		idForm : form._id.$id,
+		parentSurvey : form.id,
 		text:null,
 		page:"",
 		//type:initType[0]
@@ -111,13 +109,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 	        data: searchAdmin,
 	        dataType: "json",
 	        success:function(data) { 
-		          initViewTable(data.results);
-		          bindAdminBtnEvents();
-		          if(typeof data.results.count !="undefined")
-		          	refreshCountBadge(data.results.count);
-		          console.log(data.results);
-		          if(initPage)
-		          	initPageTable(data.results.count[searchAdmin.type]);
+		          initViewTable(data);
+		          bindAnwserList();
+		          // if(typeof data.results.count !="undefined")
+		          // 	refreshCountBadge(data.results.count);
+		          // console.log(data.results);
+		          // if(initPage)
+		          // 	initPageTable(data.results.count[searchAdmin.type]);
 	        },
 	        error:function(xhr, status, error){
 	            $("#searchResults").html("erreur");
@@ -137,6 +135,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 		$.each(data, function(key, value){
 
 			entry=buildDirectoryLine(key, value);
+			console.log("entry", entry);
 			$("#panelAdmin .directoryLines").append(entry);
 		});
 		bindAnwserList();
@@ -155,8 +154,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 			str += '</td>';
 			str += '<td>';
 			if(typeof value.type != "undefined" && "projects" == value.type){
-				console.log("here", value.id, form.links.projectExtern[value.id]);
-				if(typeof form.links.projectExtern[value.id] == "undefined") {
+				//console.log("here", value.id, form.links.projectExtern[value.id]);
+				if(typeof form.links != "undefined" && typeof form.links.projectExtern[value.id] == "undefined") {
 					str += '<a href="javascript:;" class="btn btn-primary activeBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" >Valider</a>';
 				}else {
 					str += 'Déjà valider' ;

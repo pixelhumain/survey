@@ -66,13 +66,17 @@ if( $this->layout != "//layouts/empty"){
 					{
 						if(is_string($a)){
 							echo '<tr>';
-								echo "<td>".$formQ[ $q ]["placeholder"]."</td>";
+								echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
 								echo "<td>".$a."</td>";
 							echo '</tr>';
 						}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
+							$document=Document::getById($a["id"]);
+							$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
 							echo '<tr>';
 								echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
-								echo "<td>".$a["type"]."</td>";
+								echo "<td>";
+									echo "<a href='".$path."' target='_blank'><i class='fa fa-file-pdf-o text-red'></i> ".$document["name"]."</a>";
+								echo "</td>";
 							echo '</tr>';
 						}
 					}
