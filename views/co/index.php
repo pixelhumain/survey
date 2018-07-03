@@ -40,7 +40,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 <div class="container col-xs-12" >
     
 
-    <div id="surveyContent" class="formChart col-xs-12" >
+    <div id="surveyContent" class="formChart  col-xs-offset-1 col-xs-10" >
         <?php if(@$form["customTpl"]){
             echo $this->renderPartial( $form["customTpl"],array("form"=>$form,"answers"=>$answers));
         }else { ?>
