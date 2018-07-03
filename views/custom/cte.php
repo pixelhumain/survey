@@ -78,54 +78,63 @@
     <?php } ?>
     </h2>
     <div id="surveyDesc" class="col-xs-12"></div>
+    <div class="clear margin-bottom-20"></div>
   </div>
+
   
-  <div class="col-xs-12 no-padding">
+
+  <div class="col-xs-offset-1 col-xs-10 shadow2 margin-top-20">
     
-    <div class="card col-xs-2">
+    <h1 class="text-center margin-top-20">4 étapes du CTE </h1>
+    <div class="card col-xs-3">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-folder-open-o fa-2x"></i><br/>
-              1. Récolte
+              1. Collecte
           </h4> 
-          <span class="card-text text-center col-xs-12 no-padding margin-bottom-20">
-          09 juil. au 09 aout
+          <span class="card-text text-center col-xs-12 no-padding ">
+          09 juil. au 09 aout<br/>
+          Soumettre un projet
           </span>
+
       </div>
     </div>
 
-    <div class="card col-xs-2">
+    <div class="card col-xs-3">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-gavel fa-2x"></i><br/>
               2. Eligibilité
           </h4> 
-          <span class="card-text text-center col-xs-12 no-padding margin-bottom-20">
-          17 aout au 17 sept
+          <span class="card-text text-center col-xs-12 no-padding ">
+          17 aout au 17 sept<br/>
+          Établir le lien avec le CTE
           </span>
       </div>
     </div>
 
-    <div class="card col-xs-2">
+    <div class="card col-xs-3">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
-              <i class="margin-5 fa ffa-check-circle-o fa-2x"></i><br/>
-              3. Instruction - Consultation - Selection - Priorisation
+              <i class="margin-5 fa fa-flag-checkered fa-2x"></i><br/>
+              3. Instruction - Selection 
           </h4> 
-          <span class="card-text text-center col-xs-12 no-padding margin-bottom-20">
-          17 sept. au 17 oct.
+          <span class="card-text text-center col-xs-12 no-padding ">
+          17 sept. au 17 oct.<br/>
+          Consolider le projet
           </span>
       </div>
     </div>
 
-    <div class="card col-xs-2">
+    <div class="card col-xs-3">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-cogs fa-2x"></i><br/>
-              5. Fiches Actions
+              4. Écosystème
           </h4> 
-          <span class="card-text text-center col-xs-12 no-padding margin-bottom-20">
-          17 oct. au 17 nov.
+          <span class="card-text text-center col-xs-12 no-padding">
+          17 oct. au 17 nov.<br/>
+          Suivre et interconnecter les acteurs
           </span>
       </div>
     </div>
