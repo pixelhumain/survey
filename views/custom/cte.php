@@ -80,7 +80,7 @@
     <div id="surveyDesc" class="col-xs-12"></div>
   </div>
   
-  <div class="content-header col-xs-12 no-padding">
+  <div class="col-xs-12 no-padding">
     
     <div class="card col-xs-2">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
@@ -89,6 +89,7 @@
               1. Récolte
           </h4> 
           <span class="card-text text-center col-xs-12 no-padding margin-bottom-20">
+          09 juil. au 09 aout
           </span>
       </div>
     </div>
@@ -100,6 +101,7 @@
               2. Eligibilité
           </h4> 
           <span class="card-text text-center col-xs-12 no-padding margin-bottom-20">
+          17 aout au 17 sept
           </span>
       </div>
     </div>
@@ -107,21 +109,11 @@
     <div class="card col-xs-2">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
-              <i class="margin-5 fa fa-refresh fa-2x"></i><br/>
-              3. Instruction - Consultation
+              <i class="margin-5 fa ffa-check-circle-o fa-2x"></i><br/>
+              3. Instruction - Consultation - Selection - Priorisation
           </h4> 
           <span class="card-text text-center col-xs-12 no-padding margin-bottom-20">
-          </span>
-      </div>
-    </div>
-
-    <div class="card col-xs-2">
-        <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
-          <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
-              <i class="margin-5 fa fa-check-circle-o fa-2x"></i><br/>
-              4. Selection - Priorisation
-          </h4> 
-          <span class="card-text text-center col-xs-12 no-padding margin-bottom-20">
+          17 sept. au 17 oct.
           </span>
       </div>
     </div>
@@ -130,9 +122,10 @@
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-cogs fa-2x"></i><br/>
-              5. Fiche Actions
+              5. Fiches Actions
           </h4> 
           <span class="card-text text-center col-xs-12 no-padding margin-bottom-20">
+          17 oct. au 17 nov.
           </span>
       </div>
     </div>
