@@ -79,12 +79,12 @@ class Form {
 		$uniqE = array();
 		
 		foreach ( $answers as $key => $value) {
-			if(!in_array( $value["user"], $uniq )){
-				$value["type"] = Person::COLLECTION;
-				$value["id"] = $value["user"];
-				$results[] = $value;
-				$uniq[] = $value["user"];
-			}
+			// if(!in_array( $value["user"], $uniq )){
+			// 	$value["type"] = Person::COLLECTION;
+			// 	$value["id"] = $value["user"];
+			// 	$results[] = $value;
+			// 	$uniq[] = $value["user"];
+			// }
 
 			if( !empty($value["answers"]) && 
 				!empty($value["answers"][Organization::CONTROLLER]) && 

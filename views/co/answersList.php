@@ -21,7 +21,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 		(!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
 			!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
 			$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){ ?>
-	<div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
+<div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
 	
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
 		<h1><?php echo $form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
@@ -33,8 +33,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 		    </button>
 	    </div>
     </div>
-	
-	
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
 	<div class="panel-body">
 		<div>

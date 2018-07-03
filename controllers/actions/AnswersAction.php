@@ -13,7 +13,9 @@ class AnswersAction extends CAction
 						!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
 						$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){ 
     		if( $form["surveyType"] == "surveyList" && 
-                @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id) )){
+                @$answers = PHDB::find( Form::ANSWER_COLLECTION , 
+                						array("parentSurvey"=>@$id, 
+            									"answers.project" => array('$exists' => 1) ) ) ) {
 
     			//Rest::json($answers); exit ;
 

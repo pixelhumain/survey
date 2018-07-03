@@ -18,8 +18,28 @@ class SaveAction extends CAction
  		$res = "Empty data cannot be saved";
 		if ( !empty($_POST) ){
 			$res = Form::save($_POST);
+
         	$countStepSurvey=Form::countStep($_POST["parentSurvey"]);
         	$surveyParent=Form::getById($_POST["parentSurvey"]);
+            // $typeChild = null ;
+            // if(!empty($_POST["answers"][Organization::CONTROLLER]) ){
+            //     $typeChild = Organization::COLLECTION;
+            // }else if(!empty($_POST["answers"][Project::CONTROLLER]) ){
+            //     $typeChild = Project::COLLECTION;
+            // }else if(!empty($_POST["answers"][Event::CONTROLLER]) ){
+            //     $typeChild = Event::COLLECTION;
+            // }
+
+            // if(!empty($typeChild)){
+            //     $child = array();
+            //     $child[] = array(   "id" => $_POST["answers"][""]["id"],
+            //                         "type" => $typeChild,
+            //                         "childName" => $_POST["answers"][""]["name"],
+            //                         "roles" =>  array());
+            //     //var_dump($child);
+            //     $res = Link::multiconnect($child, (String)$surveyParent["_id"], Form::COLLECTION); 
+            // }
+
         	if($_POST["formId"]==$surveyParent["id"].$countStepSurvey){
         		$user=array(
         			"id" =>Yii::app()->session["userId"],
