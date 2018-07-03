@@ -152,10 +152,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				str += '<a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.user+'" >Read</a>';
 			}
 			str += '</td>';
-			str += '<td>';
+			str += '<td id="active'+value.id+value.type+'">';
 			if(typeof value.type != "undefined" && "projects" == value.type){
 				//console.log("here", value.id, form.links.projectExtern[value.id]);
-				if(typeof form.links != "undefined" && typeof form.links.projectExtern[value.id] == "undefined") {
+				if( typeof form.links == "undefined" || 
+					typeof form.links.projectExtern == "undefined" || 
+					typeof form.links.projectExtern[value.id] == "undefined") {
 					str += '<a href="javascript:;" class="btn btn-primary activeBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" >Valider</a>';
 				}else {
 					str += 'Déjà valider' ;
@@ -182,12 +184,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				data:params,
 				dataType: "json",
 				success: function(view){
-					mylog.log("loadDashboardDDA ok");
-					dashboard.ddaView = view;
-					$("#list-dashboard-dda").html(view);
+					mylog.log("activeBtn ok", "#active"+params.childId+params.childType);
+					$("#active"+params.childId+params.childType).html("Projet valider");
+					toastr.success("Projet valider");
 				},
 				error: function (error) {
-					mylog.log("loadDashboardDDA error", error);
+					mylog.log("activeBtn error", error);
+					toastr.error("Projet non valider");
 					
 				}
 					
