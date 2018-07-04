@@ -81,6 +81,8 @@ class SurveyModule extends CWebModule {
 		$this->setImport(array(
 			'citizenToolKit.models.*',
 			'eco.models.*',
+			'classifieds.models.*',
+			'places.models.*',
 			Yii::app()->params["module"]["parent"].'.models.*',
 			Yii::app()->params["module"]["parent"].'.components.*',
 			$this->id.'.models.*',
