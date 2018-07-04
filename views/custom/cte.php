@@ -7,18 +7,19 @@
     position: absolute;
     background-color: gray;
     background-repeat: round;
-    background-image: url(/pixelhumain/ph/assets/721d71b4/images/custom/leport/banner.png);
+    background-image: url(<?php echo Yii::app()->getModule("eco")->assetsUrl; ?>/images/custom/leport/banner.png);
     border: none;
     height: 450px;
     /* padding: 50px; */
     overflow: hidden;
     left: -20px;
     right: -20px;
-    filter: saturate(12%) blur(2px) sepia(100%);
+    opacity: 0.7;
+    /*filter: saturate(12%) blur(2px) sepia(100%);*/
   }
   .content-header{
-    height: 375px;
-    margin-top: 75px;
+    height: 325px;
+    margin-top: 125px;
     border-radius: 5px 5px 0px 0px;
     border: 1px solid #ccc;
     background-color: rgba(250,250,250,0.9)
@@ -27,12 +28,7 @@
     overflow: hidden;
     max-height: 373px;
   }
-  .logo-survey .img-responsive{
-    display: block;
-    width: 100%;
-    min-width: 100%;
-    min-height: 375px;
-  }
+  
   .header-survey{
    height: : 373px;
    color: #333; 
@@ -43,7 +39,7 @@
   </div>
   <div class="content-header col-xs-offset-1 col-xs-10 no-padding">
       <div class="col-xs-5 logo-survey no-padding">
-          <img class="img-responsive" src='<?php echo Yii::app()->getModule("eco")->assetsUrl; ?>/images/custom/leport/tco.png'> 
+          <img class="img-responsive" src='<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/logo-tco-cte.jpg'> 
       </div>
       <div class="col-xs-7 header-survey text-center padding-20" >
         <h4 class="text-center padding-20"> Contrat de Transition Écologique Du TCO </h4>
