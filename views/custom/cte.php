@@ -74,8 +74,8 @@
         <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo $form["id"] ?>/user/<?php echo Yii::app()->session["userId"] ?>" class="btn btn-primary">Revoir vos réponses</a>
     <?php } ?>
     </h2>
-    <div id="surveyDesc" class="col-xs-12"></div>
-    <div class="clear margin-bottom-20"></div>
+    <div id="surveyDesc" class="col-xs-12 padding-20"></div>
+    
   </div>
 
 <div class="space50"></div>
