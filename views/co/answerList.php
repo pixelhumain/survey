@@ -186,19 +186,20 @@ if( $this->layout != "//layouts/empty"){
 <?php 
 if( Form::canAdmin($form["id"]) )
 { ?>
-
-	<div class="col-lg-offset-1 col-lg-10 col-xs-12 padding-20 margin-top-50 margin-bottom-50" style="border:1px solid red;">
+<div class="container" >
+	<div class="col-lg-offset-1 col-lg-10 col-xs-12 padding-20 margin-top-50 margin-bottom-50 " style="border:1px solid red;">
 		
 		<h1 class="text-red text-center">ADMIN SECTION <i class="fa fa-lock"></i></h1>
+		<div class="text-center margin-bottom-20">Visible seulement par les admins du TCO</div>
 
 		<div class="col-xs-12 " style="border:1px solid #ccc;">
 			<h3>Eligibilité</h3>
 			<a href="" class="btn btn-success">Eligible</a> <a href=""  class="btn btn-danger">Non Eligible</a>
-			<br/>Cette action aura pour impacte 
+			<br/>Cette action aura pour impacte de connceté l'organisation au CTE, et ajouterais le projet à la liste des projets du CTE
 			<br/>un mail automatique sera envoyé au projet avec <a href="javascript:;" onclick="$('#mailEligible').toggle();">le texte suivant</a>
-			<div id="mailEligible" class="hidden">
-				<textarea id="mailEligibleTxt"></textarea>
-				<textarea id="mailNonEligibleTxt"></textarea>
+			<div id="mailEligible" class="hide">
+				<textarea id="mailEligibleTxt">fq fdq fq</textarea>
+				<textarea id="mailNonEligibleTxt"> qdsf ds fqsdf qsd</textarea>
 			</div>
 		</div>
 
@@ -220,14 +221,23 @@ if( Form::canAdmin($form["id"]) )
 		</div>
 
 	</div>
-
+</div>
 <?php } ?>
 
-<div class="col-xs-12 bg-dark text-white">
+<div class="col-xs-12 bg-dark text-white padding-20 text-center">
 	<h3>Point de contact</h3>
+	Eric Caro et Jean Louis Pégou
+</div>
+<div class="col-xs-12  text-center margin-top-20">
+	<img width=130 class="margin-20" src="<?php echo Yii::app()->getModule("eco")->assetsUrl; ?>/images/custom/leport/tco.png">
+	<img width=100 src="<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/ministereEcologie.png">
 </div>
 
-
+<?php 
+if(@$form["custom"]['footer']){
+echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
+}
+?>
 
 <script type="text/javascript">
 
