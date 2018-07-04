@@ -40,11 +40,11 @@ function bindAnwserList(){
 			params["parentName"] = $(this).data("parentname");
 		}
 
-		eligible(params);
+		eligibleFct(params);
 	});
 }
 
-function eligible(params){
+function eligibleFct(params){
 	mylog.log("eligible", params);
 	$.ajax({
 		type: "POST",

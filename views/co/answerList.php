@@ -196,33 +196,44 @@ if( $this->layout != "//layouts/empty"){
 		<div class="text-center margin-bottom-20">Visible seulement par les admins du TCO</div>
 
 		<div class="col-xs-12 " style="border:1px solid #ccc;">
-			<h3>Eligibilité</h3>
+			
 
 			<?php
 			$project = $answers["cte2"]["answers"][Project::CONTROLLER];
+			//if(!empty($eligible)){
+			if(false){
+				if( $eligible["eligible"] === true)
+					echo "<center><h3>Ce dossier est éligible</h3></center>";
+				else
+					echo "<center><h3>Ce dossier n'est pas éligible</h3><center>";
+			}else{
+				?>
+				<center><h3>Eligibilité</h3>
+				<?php
+				echo '<div id="active'.$project["id"].$project["type"].'">';
+					echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
+						if(!empty($project["parentId"]) && !empty($project["parentType"])){
+							echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
+						}
+					echo 'class="btn btn-success activeBtn col-sm-offset-1 col-sm-4 col-xs-12">Eligible</a>';
 
-			echo '<div id="active"'.$project["id"].$project["type"].'">';
-				echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
-					if(!empty($project["parentId"]) && !empty($project["parentType"])){
-						echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
-					}
-				echo 'class="btn btn-success activeBtn">Eligible</a>';
+					echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
+						if(!empty($project["parentId"]) && !empty($project["parentType"])){
+							echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
+						}
+					echo 'class="btn btn-danger notEligibleBtn col-sm-offset-2 col-sm-4 col-xs-12">Non Eligible</a>';
+				echo '</div>';
 
-				echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
-					if(!empty($project["parentId"]) && !empty($project["parentType"])){
-						echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
-					}
-				echo 'class="btn btn-danger notEligibleBtn">Non Eligible</a>';
-			echo '</div>';
-			
-			?>
-
-			<br/>Cette action aura pour impacte de connceté l'organisation au CTE, et ajouterais le projet à la liste des projets du CTE
-			<br/>un mail automatique sera envoyé au projet avec <a href="javascript:;" onclick="$('#mailEligible').toggle();">le texte suivant</a>
-			<div id="mailEligible" class="hide">
-				<textarea id="mailEligibleTxt">fq fdq fq</textarea>
-				<textarea id="mailNonEligibleTxt"> qdsf ds fqsdf qsd</textarea>
-			</div>
+				?>
+				</center>
+				<br/><br/>Cette action aura pour impacte de connceté l'organisation au CTE, et ajouterais le projet à la liste des projets du CTE
+				<br/>un mail automatique sera envoyé au projet avec <a href="javascript:;" onclick="$('#mailEligible').toggle();">le texte suivant</a>
+				<div id="mailEligible" class="hide">
+					<textarea id="mailEligibleTxt">fq fdq fq</textarea>
+					<textarea id="mailNonEligibleTxt"> qdsf ds fqsdf qsd</textarea>
+				</div>
+				<?php
+			} ?>
 		</div>
 
 		<div class="col-xs-12 hidden">
@@ -256,6 +267,7 @@ if(@$form["custom"]['footer']){
 <script type="text/javascript">
 var form = <?php echo json_encode($form); ?>;
 var answers  = <?php echo json_encode($answers); ?>;
+var eligible  = <?php echo json_encode($eligible); ?>;
 $(document).ready(function() { 
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
 	bindAnwserList();	

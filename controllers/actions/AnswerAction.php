@@ -19,7 +19,7 @@ class AnswerAction extends CAction
 			} else {
 	    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user"=>@$user) )){
 
-
+	    				$eligible = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id, "user"=>@$user) );
 		    			$user = Person::getById($user);
 		    			$this->getController()->layout = "//layouts/empty";	
 		    			foreach ($answers as $k => $v) {
@@ -32,7 +32,8 @@ class AnswerAction extends CAction
 			 			echo $this->getController()->render( "answerList" ,array( 
 									 			"answers" => $answers,
 									 			"form"    => $form,
-									 			"user"	  => $user ));
+									 			"user"	  => $user,
+									 			"eligible"	  => $eligible ));
 
 	    		}
 		 		else if( @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("_id"=>new MongoId($id) ) ) ){
