@@ -183,36 +183,45 @@ if( $this->layout != "//layouts/empty"){
 	</div>
 </div>
 
-<div class="col-lg-offset-1 col-lg-10 col-xs-12 padding-20 margin-top-50 margin-bottom-50" style="border:1px solid red;">
-	
-	<h1 class="text-red text-center">ADMIN SECTION <i class="fa fa-lock"></i></h1>
+<?php 
+if( Form::canAdmin($form["id"]) )
+{ ?>
 
-	<div class="col-xs-12 ">
-		<h2>Eligibilité</h2>
-		<a href="" class="btn btn-success">Eligible</a> <a href=""  class="btn btn-danger">Non Eligible</a>
-		<br/>un mail automatique sera envoyé au projet avec <a href="javascript:;" onclick="$('#mailEligible').toggle();">le texte suivant</a>
-		<div id="mailEligible" class="hidden">
-			<textarea id="mailEligibleTxt"></textarea>
-			<textarea id="mailNonEligibleTxt"></textarea>
+	<div class="col-lg-offset-1 col-lg-10 col-xs-12 padding-20 margin-top-50 margin-bottom-50" style="border:1px solid red;">
+		
+		<h1 class="text-red text-center">ADMIN SECTION <i class="fa fa-lock"></i></h1>
+
+		<div class="col-xs-12 " style="border:1px solid #ccc;">
+			<h3>Eligibilité</h3>
+			<a href="" class="btn btn-success">Eligible</a> <a href=""  class="btn btn-danger">Non Eligible</a>
+			<br/>Cette action aura pour impacte 
+			<br/>un mail automatique sera envoyé au projet avec <a href="javascript:;" onclick="$('#mailEligible').toggle();">le texte suivant</a>
+			<div id="mailEligible" class="hidden">
+				<textarea id="mailEligibleTxt"></textarea>
+				<textarea id="mailNonEligibleTxt"></textarea>
+			</div>
 		</div>
+
+		<div class="col-xs-12 hidden">
+			<h3>Instruction</h3>
+		</div>
+
+		<div class="col-xs-12 hidden">
+			<h3>Selection</h3>
+		</div>
+
+		<div class="col-xs-12 hidden">
+			<h3>Evaluation et Suivi</h3>
+			<ul>
+				<li>Auto évaluation</li>
+				<li>Demande de milestone</li>
+				<li>Solication intermédiaire</li>
+			</ul>
+		</div>
+
 	</div>
 
-	<div class="col-xs-12 hidden">
-		<h2>Instruction</h2>
-	</div>
-
-	<div class="col-xs-12 hidden">
-		<h2>Selection</h2>
-	</div>
-
-	<div class="col-xs-12 hidden">
-		<h2>Evaluation et Suivi</h2>
-		<ul>
-			<li>Auto évaluation</li>
-			<li>Demande de milestone</li>
-		</ul>
-	</div>
-</div>
+<?php } ?>
 
 <div class="col-xs-12 bg-dark text-white">
 	<h3>Point de contact</h3>

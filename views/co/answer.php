@@ -80,24 +80,7 @@ if( $this->layout != "//layouts/empty"){
 	</div>
 </div>
 
-<div class="col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
-	
-	<h1 class="text-red">ADMIN SECTION <i class="fa fa-lock"></i></h1>
 
-	<div class="col-xs-12 text-center">
-		<h2>Eligibilité</h2>
-		<a href="">Eligible</a> <a href="">Non Eligible</a>
-		<br/>un mail automatique sera envoyé au projet avec le texte suivant
-		<div class="hidden">
-			<textarea id="mailEligible"></textarea>
-			<textarea id="mailEligible"></textarea>
-		</div>
-	</div>
-
-	<div class="col-xs-12 text-center">
-		<h2>Instruction</h2>
-	</div>
-</div>
 
 
 
