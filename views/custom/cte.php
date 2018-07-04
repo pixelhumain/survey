@@ -12,7 +12,7 @@
     height: 450px;
     /* padding: 50px; */
     overflow: hidden;
-    top:100px;
+    top:120px;
     left: -20px;
     right: -20px;
     opacity: 0.7;
@@ -37,8 +37,7 @@
 </style>
 <h1 class="text-center padding-20"> Contrat de Transition Écologique Du TCO </h1>
 <div class="row margin-top-20">
-  <div class="banner-tce">
-  </div>
+  <div class="banner-tce"> </div>
   <div class="content-header col-xs-offset-1 col-xs-10 no-padding">
       <div class="col-xs-12 col-md-6">
           <img class="img-responsive" style="display: block;margin-left: auto; margin-right: auto;" src='<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/logo-tco-cte.jpg'> 
