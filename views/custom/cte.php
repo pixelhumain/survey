@@ -5,13 +5,14 @@
 <style type="text/css">
   .banner-tce{
     position: absolute;
-    background-color: gray;
-    background-repeat: round;
+    background-repeat: no-repeat;
+    background-position: center;
     background-image: url(<?php echo Yii::app()->getModule("eco")->assetsUrl; ?>/images/custom/leport/banner.png);
     border: none;
     height: 450px;
     /* padding: 50px; */
     overflow: hidden;
+    top:100px;
     left: -20px;
     right: -20px;
     opacity: 0.7;
@@ -19,7 +20,7 @@
   }
   .content-header{
     height: 325px;
-    margin-top: 125px;
+    margin-top: 110px;
     border-radius: 5px 5px 0px 0px;
     border: 1px solid #ccc;
     background-color: rgba(250,250,250,0.9)
@@ -34,15 +35,16 @@
    color: #333; 
   }
 </style>
+<h1 class="text-center padding-20"> Contrat de Transition Écologique Du TCO </h1>
 <div class="row margin-top-20">
   <div class="banner-tce">
   </div>
   <div class="content-header col-xs-offset-1 col-xs-10 no-padding">
-      <div class="col-xs-5 logo-survey no-padding">
+      <div class="col-xs-6 logo-survey no-padding">
           <img class="img-responsive" src='<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/logo-tco-cte.jpg'> 
       </div>
-      <div class="col-xs-7 header-survey text-center padding-20" >
-        <h4 class="text-center padding-20"> Contrat de Transition Écologique Du TCO </h4>
+      <div class="col-xs-6 header-survey text-center padding-20" >
+        
         <?php if(@$form["description"]) echo "<span class='text-center pull-left padding-20'>".$form["description"]."</span>" ?>
         <?php if(!isset(Yii::app()->session['userId'])) { ?>
         <br/>
@@ -57,13 +59,13 @@
             $count=count($answers);
             $label=($count > 0) ? "Reprendre le dossier" : "Déposer une candidature"; 
           ?>
-          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count+1 ?>" class="btn bg-green-k answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
+          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count+1 ?>" style="background-color:#00B794" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
         <?php  } ?>
       </div>
   </div>
   <div class="col-xs-offset-1 col-xs-10 shadow2" >
-    <?php if(@$form["description"]) echo "<span class='text-center pull-left padding-20'>".$form["description"]."</span>" ?>
-    <h2 class="text-center">
+    <?php //if(@$form["description"]) echo "<span class='text-center pull-left padding-20'>".$form["description"]."</span>" ?>
+    <h2 class="text-center" style="color:#00B794" >
     <?php if( count($form["scenario"]) > count($answers)) { ?>
         Inscrivez votre <b> projet de transition écologique</b>
     <?php } else {?>

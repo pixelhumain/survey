@@ -1,7 +1,7 @@
 
 <div class="col-xs-12 bg-dark text-white padding-20 text-center">
 	<h3>Point de contact</h3>
-	Eric Caro et Jean Louis Pégou
+	l'équipe Écocité : Mr Caro et Mr Pégou
 </div>
 
 <div class="col-xs-12  text-center margin-top-20">
