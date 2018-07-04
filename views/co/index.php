@@ -28,7 +28,9 @@ $cssJS = array(
 
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
 $cssJS = array(
-    '/js/dataHelpers.js'
+    '/js/dataHelpers.js',
+    '/js/sig/geoloc.js',
+    '/js/sig/findAddressGeoPos.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 $cssJS = array(

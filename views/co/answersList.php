@@ -161,6 +161,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
 						}
 					str += '>Eligible</a>';
+
+					str += '<a href="javascript:;" class="btn btn-primary notEligibleBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
+						if(typeof value.parentId != "undefined"  && typeof value.parentType != "undefined" ){
+							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
+						}
+					str += '>N\'est pas Eligible</a>';
+
 				}else {
 					str += 'Eligible' ;
 				}
@@ -181,6 +188,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				userId : $(this).data("userid"),
 				form : form._id.$id,
 				formId : form.id,
+				eligible : true,
 			};
 
 			if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
@@ -189,24 +197,51 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				params["parentName"] = $(this).data("parentname");
 			}
 
-			$.ajax({
-				type: "POST",
-				url: baseUrl+'/'+activeModuleId+"/co/active/",
-				data:params,
-				dataType: "json",
-				success: function(view){
-					mylog.log("activeBtn ok", "#active"+params.childId+params.childType);
-					$("#active"+params.childId+params.childType).html("Eligible");
-					toastr.success("Projet éligible");
-				},
-				error: function (error) {
-					mylog.log("activeBtn error", error);
-					toastr.error("Projet non éligible");
-				}	
-			});
+			eligible(params);
+		});
+
+
+		$(".notEligibleBtn").on("click",function(e){
+			var params = {
+				childId : $(this).data("id"),
+				childType : $(this).data("type"),
+				childName : $(this).data("name"),
+				userName : $(this).data("username"),
+				userId : $(this).data("userid"),
+				form : form._id.$id,
+				formId : form.id,
+				eligible : false,
+			};
+
+			if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
+				params["parentId"] = $(this).data("parentid");
+				params["parentType"] = $(this).data("parenttype");
+				params["parentName"] = $(this).data("parentname");
+			}
+
+			eligible(params);
 		});
 		
 	}
+
+	function eligible(){
+		$.ajax({
+			type: "POST",
+			url: baseUrl+'/'+activeModuleId+"/co/active/",
+			data:params,
+			dataType: "json",
+			success: function(view){
+				mylog.log("activeBtn ok", "#active"+params.childId+params.childType);
+				$("#active"+params.childId+params.childType).html("Eligible");
+				toastr.success("Projet éligible");
+			},
+			error: function (error) {
+				mylog.log("activeBtn error", error);
+				toastr.error("Projet non éligible");
+			}	
+		});
+	}
+
 </script> 
 <?php	
 	} else {
