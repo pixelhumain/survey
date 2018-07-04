@@ -81,11 +81,29 @@
     <div class="clear margin-bottom-20"></div>
   </div>
 
-  
-
   <div class="col-xs-offset-1 col-xs-10 shadow2 margin-top-20">
-    
-    <h1 class="text-center margin-top-20">4 étapes du CTE </h1>
+<h3 class="text-center margin-top-20">Contexte </h3>
+  <p class="margin-top-20">
+  En décembre 2017, le gouvernement a annoncé la création de  «Contrats de transition écologique» (CTE) pour que les territoires fassent leur transition écologique.  L’ambition de ces contrats est d’accélérer l’action locale pour traduire les engagements pris par la France au niveau national <a href="https://www.ecologique-solidaire.gouv.fr/politiques/plan-climat" target="_blank">(Plan climat)</a> et international (<a href="https://www.ecologique-solidaire.gouv.fr/accord-paris-et-cadre-international-lutte-contre-changement-climatique#e2" target="_blank">COP21</a>, One Planet Summit) ; d’impliquer tous les acteurs du territoire autour d’un projet de transition durable (élus, acteurs économiques, partenaires sociaux, services déconcentrés, citoyens) ; et d’accompagner les mutations professionnelles. L’enjeu est de mobiliser la société autour de l’objectif de neutralité carbone d’ici 2050.
+  </p>
+
+ <p class="margin-top-20">
+Sur la vingtaine de « Territoires d’expérimentations » qui devrait être identifié au niveau national, la Communauté d’agglomération du Territoire de la Côte Ouest (TCO) a été désignée le 26 avril dernier comme territoire pilote. Du 28 mai au 31 mai 2018, le TCO a organisé des rencontres bilatérales avec les maires et des séances de travail associant les institutions, les organismes parapublics, les organisations socioprofessionnelles et le monde économique.  Ces réunions de travail ont permis d’établir le fil rouge du CTE (Axes stratégiques) et de recenser des premiers projets concrets (publics et privés) matures : ayant fait l’objet d’une instruction par les services publics et/ou organismes parapublics ; qui correspondent aux <b>critères d’éligibilité du CTE (actions innovantes et réplicables ; actions chiffrées et mesurables ; actions financées ; actions prêtes au déploiement et réalisables dans les 3 ans )</b>. Le 06 juin 2018, Monsieur Sébastien LECORNU, Ministre de la Transition Ecologique a procédé au lancement de la séquence d’initialisation du CTE.
+</p>
+
+ <p class="margin-top-20">
+  <b>Le Contrat de transition écologique (CTE) du TCO sera opérationnel sur la période 2018-2021</b>
+   <ul>
+
+      <li> La première étape du CTE consistera à intégrer au CT, de la mi-juillet 2018, les projets matures issus de la séquence d’initialisation du mois de juin dernier.</li>
+       
+      <li>La seconde étape consistera à lancer un avis d’appel à projet (AAP) du 17 juillet au 17 août 2018 afin que les porteurs de projets (publics et privés) puissent déclarer leurs actions sur la plateforme collaborative « COMMUNECTER » du TCO, et afin que les experts (Têtes de réseau et Club des financeurs) réunis de manière collégiale en comité thématique (COTEM) puissent : se prononcer sur les conditions d’éligibilité des projets ; expertiser le projet (complétude, consistance, contraintes, cadre d’intervention etc.) ;  produire des recommandation ;  présélectionner les projets matures. Ceci dans l’objectif de communiquer au comité de pilotage (COPIL) du CTE une liste de projets prêts au déploiement, qui pourraient intégrer le CTE du TCO en fin d’année.</li>
+       
+      <li>D’autres avis d’appel à projet seront organisés sur la période 2019-2021, à raison d’un avis d’appel à projet par an.</li>
+  </ul>
+</p>
+  
+    <h3 class="text-center margin-top-20">4 étapes du CTE </h3>
     <div class="card col-xs-3">
         <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
