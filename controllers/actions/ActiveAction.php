@@ -10,7 +10,7 @@ class ActiveAction extends CTKAction{
 		$res = array("result" => false,
 					"msg" => "N\'est pas éligible");
 		//var_dump( ($_POST["eligible"] === true));
-		 Rest::json( $data ); exit ;
+		// Rest::json( $data ); exit ;
 		if(!empty($_POST["eligible"]) && ($_POST["eligible"] === true || $_POST["eligible"] == "true")) {
 
 			$child = array();

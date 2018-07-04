@@ -197,7 +197,26 @@ if( $this->layout != "//layouts/empty"){
 
 		<div class="col-xs-12 " style="border:1px solid #ccc;">
 			<h3>Eligibilité</h3>
-			<a href="javascript:;" class="btn btn-success activeBtn">Eligible</a> <a href="javascript:;"  class="btn btn-danger notEligibleBtn">Non Eligible</a>
+
+			<?php
+			$project = $answers["cte2"]["answers"][Project::CONTROLLER];
+
+			echo '<div id="active"'.$project["id"].$project["type"].'">';
+				echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
+					if(!empty($project["parentId"]) && !empty($project["parentType"])){
+						echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
+					}
+				echo 'class="btn btn-success activeBtn">Eligible</a>';
+
+				echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
+					if(!empty($project["parentId"]) && !empty($project["parentType"])){
+						echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
+					}
+				echo 'class="btn btn-danger notEligibleBtn">Non Eligible</a>';
+			echo '</div>';
+			
+			?>
+
 			<br/>Cette action aura pour impacte de connceté l'organisation au CTE, et ajouterais le projet à la liste des projets du CTE
 			<br/>un mail automatique sera envoyé au projet avec <a href="javascript:;" onclick="$('#mailEligible').toggle();">le texte suivant</a>
 			<div id="mailEligible" class="hide">
@@ -235,10 +254,10 @@ if(@$form["custom"]['footer']){
 ?>
 
 <script type="text/javascript">
-
+var form = <?php echo json_encode($form); ?>;
+var answers  = <?php echo json_encode($answers); ?>;
 $(document).ready(function() { 
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
-	alert("here");
 	bindAnwserList();	
 });
 
