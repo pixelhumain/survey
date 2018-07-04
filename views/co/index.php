@@ -83,9 +83,9 @@ jQuery(document).ready(function() {
     if(userId && dySObj.surveys.scenario )
     {
         if( startDate && (startDate.sec > (new Date().getTime()/1000)) )
-            $("#surveyDesc").append("<h1 class='text-center text-red bold'> Survey period is not open yet.<br/>Come Back soon! </h1>");
+            $("#surveyDesc").append("<h1 class='text-center text-red bold'> Période de Collecte pas encore lancé.<br/>Revenez bientot! </h1>");
         else if( endDate && (endDate.sec < (new Date().getTime()/1000)) )
-            $("#surveyDesc").append("<h1 class='text-center text-red bold'> Survey period is over </h1>");
+            $("#surveyDesc").append("<h1 class='text-center text-red bold'> Période de Collecte cloturé. </h1>");
         else {
             if( (dySObj.surveys.parentSurvey && 
                 Object.keys( dySObj.surveys.parentSurvey.scenario).length > Object.keys( answers).length ) ||
@@ -164,11 +164,11 @@ jQuery(document).ready(function() {
                     }
 
                 } else {
-                    $("#surveyDesc").append("<h1 class='text-center text-red bold'> Vous avez déjà répondu à cette étapes </h1>");
+                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1>");
                     //TODO goto read your answers
                 }
             } else 
-                $("#surveyDesc").append("<h1 class='text-center text-red bold'> Vous avez déjà répondu à cette étapes </h1>");
+                $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1>");
         } 
             
     } else {

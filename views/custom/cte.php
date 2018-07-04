@@ -57,7 +57,7 @@
             $count=count($answers);
             $label=($count > 0) ? "Reprendre le dossier" : "Déposer une candidature"; 
           ?>
-          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count+1 ?>" class="btn bg-green-k answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
+          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count ?>" class="btn bg-green-k answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
         <?php  } ?>
       </div>
   </div>
@@ -77,17 +77,33 @@
     <div class="clear margin-bottom-20"></div>
   </div>
 
-  <div class="col-xs-offset-1 col-xs-10 shadow2 margin-top-20">
-<h3 class="text-center margin-top-20">Contexte </h3>
-  <p class="margin-top-20">
-  En décembre 2017, le gouvernement a annoncé la création de  «Contrats de transition écologique» (CTE) pour que les territoires fassent leur transition écologique.  L’ambition de ces contrats est d’accélérer l’action locale pour traduire les engagements pris par la France au niveau national <a href="https://www.ecologique-solidaire.gouv.fr/politiques/plan-climat" target="_blank">(Plan climat)</a> et international (<a href="https://www.ecologique-solidaire.gouv.fr/accord-paris-et-cadre-international-lutte-contre-changement-climatique#e2" target="_blank">COP21</a>, One Planet Summit) ; d’impliquer tous les acteurs du territoire autour d’un projet de transition durable (élus, acteurs économiques, partenaires sociaux, services déconcentrés, citoyens) ; et d’accompagner les mutations professionnelles. L’enjeu est de mobiliser la société autour de l’objectif de neutralité carbone d’ici 2050.
-  </p>
+<div class="space50"></div>
 
- <p class="margin-top-20">
-Sur la vingtaine de « Territoires d’expérimentations » qui devrait être identifié au niveau national, la Communauté d’agglomération du Territoire de la Côte Ouest (TCO) a été désignée le 26 avril dernier comme territoire pilote. Du 28 mai au 31 mai 2018, le TCO a organisé des rencontres bilatérales avec les maires et des séances de travail associant les institutions, les organismes parapublics, les organisations socioprofessionnelles et le monde économique.  Ces réunions de travail ont permis d’établir le fil rouge du CTE (Axes stratégiques) et de recenser des premiers projets concrets (publics et privés) matures : ayant fait l’objet d’une instruction par les services publics et/ou organismes parapublics ; qui correspondent aux <b>critères d’éligibilité du CTE (actions innovantes et réplicables ; actions chiffrées et mesurables ; actions financées ; actions prêtes au déploiement et réalisables dans les 3 ans )</b>. Le 06 juin 2018, Monsieur Sébastien LECORNU, Ministre de la Transition Ecologique a procédé au lancement de la stratégiquesuence d’initialisation du CTE.
-</p>
+  <div class="col-xs-offset-1 col-xs-10 shadow2 padding-20 margin-top-20">
 
- <p class="margin-top-20">
+
+  <div class="col padding-20-xs-12 col-md-6">
+    <img class="img-responsive" src="http://www.tco.re/wp-content/uploads/2018/07/vignette-1_contrats-de-transition-ecologique-768x768.png" class="margin-15 pull-left">
+  </div>
+  <div class="col-xs-12 col-md-6 padding-20" style="font-size: 1.5em;">
+    En décembre 2017, le gouvernement a annoncé la création de  «Contrats de transition écologique» (CTE) pour que les territoires fassent leur transition écologique.  L’ambition de ces contrats est d’accélérer l’action locale pour traduire les engagements pris par la France au niveau national <a href="https://www.ecologique-solidaire.gouv.fr/politiques/plan-climat" target="_blank">(Plan climat)</a> et international (<a href="https://www.ecologique-solidaire.gouv.fr/accord-paris-et-cadre-international-lutte-contre-changement-climatique#e2" target="_blank">COP21</a>, One Planet Summit) ; d’impliquer tous les acteurs du territoire autour d’un projet de transition durable (élus, acteurs économiques, partenaires sociaux, services déconcentrés, citoyens) ; et d’accompagner les mutations professionnelles. L’enjeu est de mobiliser la société autour de l’objectif de neutralité carbone d’ici 2050.
+  </div>
+
+<div class="col-xs-12"></div>
+
+ <div class="col-xs-12 col-md-6 padding-20" style="font-size: 1.3em;">
+    Sur la vingtaine de « Territoires d’expérimentations » qui devrait être identifié au niveau national, la Communauté d’agglomération du Territoire de la Côte Ouest (TCO) a été désignée le 26 avril dernier comme territoire pilote. Du 28 mai au 31 mai 2018, le TCO a organisé des rencontres bilatérales avec les maires et des séances de travail associant les institutions, les organismes parapublics, les organisations socioprofessionnelles et le monde économique.  Ces réunions de travail ont permis d’établir le fil rouge du CTE (Axes stratégiques) et de recenser des premiers projets concrets (publics et privés) matures : ayant fait l’objet d’une instruction par les services publics et/ou organismes parapublics ; qui correspondent aux <b>critères d’éligibilité du CTE (actions innovantes et réplicables ; actions chiffrées et mesurables ; actions financées ; actions prêtes au déploiement et réalisables dans les 3 ans )</b>. Le 06 juin 2018, Monsieur Sébastien LECORNU, Ministre de la Transition Ecologique a procédé au lancement de la stratégiquesuence d’initialisation du CTE.
+  </div>
+  <div class="col-xs-12 col-md-6 padding-20" style="font-size: 1.3em;">
+  <img class="img-responsive" src="http://www.tco.re/wp-content/uploads/2018/07/vignette-2_contrats-de-transition-ecologique-768x768.png" class="margin-15 pull-left">
+</div>
+
+<div class="col-xs-12"></div>
+
+ <div class="col-xs-12 col-md-6 padding-20">
+    <img class="img-responsive" src="http://www.tco.re/wp-content/uploads/2018/07/vignette-3_contrats-de-transition-ecologique-768x768.png" class="margin-15 pull-left">
+  </div>
+  <div class="col-xs-12 col-md-6 padding-20">
   <b>Le Contrat de transition écologique (CTE) du TCO sera opérationnel sur la période 2018-2021</b>
    <ul>
 
@@ -97,11 +113,19 @@ Sur la vingtaine de « Territoires d’expérimentations » qui devrait être id
        
       <li>D’autres avis d’appel à projet seront organisés sur la période 2019-2021, à raison d’un avis d’appel à projet par an.</li>
   </ul>
-</p>
-  
-    <h3 class="text-center margin-top-20">4 étapes du CTE </h3>
+</div>
+
+<div class="text-center margin-top-20">
+  <img src="http://www.tco.re/wp-content/uploads/2018/07/slide-ppt_contrats-de-transition-ecologique-768x74.jpg">
+</div>
+ </div>
+
+ <div class="space50"></div>
+
+  <div class="col-xs-offset-1 col-xs-10 shadow2 padding-20 margin-top-20">
+    <h3 class="text-center ">4 étapes du CTE </h3>
     <div class="card col-xs-3">
-        <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
+        <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-folder-open-o fa-2x"></i><br/>
               1. Collecte
@@ -115,7 +139,7 @@ Sur la vingtaine de « Territoires d’expérimentations » qui devrait être id
     </div>
 
     <div class="card col-xs-3">
-        <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
+        <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-gavel fa-2x"></i><br/>
               2. Eligibilité
@@ -128,7 +152,7 @@ Sur la vingtaine de « Territoires d’expérimentations » qui devrait être id
     </div>
 
     <div class="card col-xs-3">
-        <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
+        <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-flag-checkered fa-2x"></i><br/>
               3. Instruction - Selection 
@@ -141,7 +165,7 @@ Sur la vingtaine de « Territoires d’expérimentations » qui devrait être id
     </div>
 
     <div class="card col-xs-3">
-        <div class="card-body padding-15" style="border: 2px solid #3071a9; border-radius: 10px;min-height:265px;">
+        <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-cogs fa-2x"></i><br/>
               4. Écosystème
@@ -153,6 +177,8 @@ Sur la vingtaine de « Territoires d’expérimentations » qui devrait être id
       </div>
     </div>
   </div>
+
+  <div class="space20"></div>
 
 </div>
 
