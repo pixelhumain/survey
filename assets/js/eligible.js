@@ -1,4 +1,5 @@
 function bindAnwserList(){
+	mylog.log("bindAnwserList");
 	$(".activeBtn").on("click",function(e){
 		var params = {
 			childId : $(this).data("id"),
@@ -44,6 +45,7 @@ function bindAnwserList(){
 }
 
 function eligible(params){
+	mylog.log("eligible", params);
 	$.ajax({
 		type: "POST",
 		url: baseUrl+'/'+activeModuleId+"/co/active/",
