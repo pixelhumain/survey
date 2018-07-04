@@ -156,9 +156,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				if( typeof form.links == "undefined" || 
 					typeof form.links.projectExtern == "undefined" || 
 					typeof form.links.projectExtern[value.id] == "undefined") {
-					str += '<a href="javascript:;" class="btn btn-primary activeBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" >Valider</a>';
+					str += '<a href="javascript:;" class="btn btn-primary activeBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
+						if(typeof value.parentId != "undefined"  && typeof value.parentType != "undefined" ){
+							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
+						}
+					str += '>Eligible</a>';
 				}else {
-					str += 'Déjà valider' ;
+					str += 'Eligible' ;
 				}
 			}
 			str += '</td>';
@@ -173,8 +177,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				childId : $(this).data("id"),
 				childType : $(this).data("type"),
 				childName : $(this).data("name"),
-				parentId : form._id.$id,
+				userName : $(this).data("username"),
+				userId : $(this).data("userid"),
+				form : form._id.$id,
+				formId : form.id,
 			};
+
+			if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
+				params["parentId"] = $(this).data("parentid");
+				params["parentType"] = $(this).data("parenttype");
+				params["parentName"] = $(this).data("parentname");
+			}
 
 			$.ajax({
 				type: "POST",
@@ -183,15 +196,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				dataType: "json",
 				success: function(view){
 					mylog.log("activeBtn ok", "#active"+params.childId+params.childType);
-					$("#active"+params.childId+params.childType).html("Projet valider");
-					toastr.success("Projet valider");
+					$("#active"+params.childId+params.childType).html("Eligible");
+					toastr.success("Projet éligible");
 				},
 				error: function (error) {
 					mylog.log("activeBtn error", error);
-					toastr.error("Projet non valider");
-					
-				}
-					
+					toastr.error("Projet non éligible");
+				}	
 			});
 		});
 		

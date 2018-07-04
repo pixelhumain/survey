@@ -13,9 +13,16 @@ class MembersAction extends CAction
 						!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
 						$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){
 
-        	$queryId = array("links.forms.".(String)$form["_id"]=> array('$exists') );
-			$results = Form::listForAdmin($answers);
- 			echo $this->getController()->render("members",
+        	$queryId = array("links.forms.".(String)$form["_id"]=> array('$exists' => 1) );
+
+        	
+        	$persons = Person::getWhere($queryId);
+        	$orgas = Organization::getWhere($queryId);
+
+        	$results = array_merge($persons, $orgas);
+        	//Rest::json($results); exit ;
+
+			echo $this->getController()->render("members",
  												array(  "results" => $results,
 											 			"form"=> $form ));
 		} else

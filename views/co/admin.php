@@ -86,7 +86,7 @@ if(@Yii::app()->session["userIsAdmin"] || Yii::app()->session["userIsAdminPublic
 		});
 
 		$("#btn-members").click(function(){
-			location.hash=hashUrlPage+".view.answers";
+			location.hash="/view/members"+hashUrlPage;
 			loadMembers();
 		});
 
@@ -104,7 +104,7 @@ if(@Yii::app()->session["userIsAdmin"] || Yii::app()->session["userIsAdminPublic
 	function loadMembers(){
 		console.log("loadMembers");
 		initDashboard();
-		var url = "co/answers/id/"+idForm;
+		var url = "co/members/id/"+idForm;
 		$("#goBackToHome").show(700);
 		ajaxPost('#content-view-admin', baseUrl+'/'+activeModuleId+'/'+url, null, function(){},"html");
 
