@@ -3,10 +3,14 @@
     "id" : "cte",
     "title" : "projets CTE",
     "author" : "585bdfdaf6ca47b6118b4583",
-    "customTpl" : "survey.views.custom.cte",
-    "urlLogo" : "/upload/communecter/surveys/cte/logo.png",
+    "custom" : {
+        "header" : "survey.views.custom.cte",
+        "footer" : "survey.views.custom.cteFooter",
+        "urlLogo" : "/upload/communecter/surveys/cte/logo.png",
+        "endTpl" : "home"
+    },
+    
     "countryCode" : "RE",
-    "endTpl" : "home",
     "description" : "Bienvenu sur le dépot des projets du CTE. Cette première phase de soumission vise à recenser les projets voulant s'inclure dans la transition écologique des territoires.<br/>Chaque étape du formulaire est nécessaire pour la prise en compte de votre candidature. Chaque dossier s'en suivra d'une phase d'évaluation et de sélection des projets qui participeront à la phase final de vote pour élire les projets qui bénéfieciront de l'aide du Contrat de Transition Ecologique",
     "parenType" : "organizations",
     "parentId" : "592e54d1539f2278258b456c",

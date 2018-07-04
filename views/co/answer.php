@@ -31,54 +31,56 @@ if( $this->layout != "//layouts/empty"){
 		</h4>
     </div>
 
-<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
-	<div class="panel-body">
-		<div>	
+	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
+		<div class="panel-body">
+			<div>	
 
-	<?php 
-	foreach ($answer["answers"] as $key => $value) {
-		
-		echo "<h1>".$key."</h1>";
-		echo '<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">'.
-			'<thead>'.
-				'<tr>'.
-					'<th>Question</th>'.
-					'<th>Answer</th>'.
-				'</tr>'.
-			'</thead>'.
-			'<tbody class="directoryLines">';
-		if(@$form["scenario"][$key]["json"]){
-			$formQ = $form["scenario"][$key]["json"]["jsonSchema"]["properties"];
-			foreach ($value as $q => $a) {
+		<?php 
+		foreach ($answer["answers"] as $key => $value) {
+			
+			echo "<h1>".$key."</h1>";
+			echo '<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">'.
+				'<thead>'.
+					'<tr>'.
+						'<th>Question</th>'.
+						'<th>Answer</th>'.
+					'</tr>'.
+				'</thead>'.
+				'<tbody class="directoryLines">';
+			if(@$form["scenario"][$key]["json"]){
+				$formQ = $form["scenario"][$key]["json"]["jsonSchema"]["properties"];
+				foreach ($value as $q => $a) {
+					echo '<tr>';
+						echo "<td>".$formQ[ $q ]["placeholder"]."</td>";
+						echo "<td>".$a."</td>";
+					echo '</tr>';
+				}
+			//todo search dynamically if key exists
+			}else if(@$form["scenario"]["survey"]["json"][$key]){
+				$formQ = $form["scenario"]["survey"]["json"][$key]["jsonSchema"]["properties"];
+				foreach ($value as $q => $a) {
+					echo '<tr>';
+						echo "<td>".$formQ[ $q ]["placeholder"]."</td>";
+						echo "<td>".$a."</td>";
+					echo '</tr>';
+				}
+			} 
+			else if (@$form["scenario"][$key]["saveElement"]) {
 				echo '<tr>';
-					echo "<td>".$formQ[ $q ]["placeholder"]."</td>";
-					echo "<td>".$a."</td>";
+					echo "<td> name </td>";
+					echo "<td> <a class='btn btn-default' href='http://".$value["type"]."/".$value["id"]."'>".$value["name"]."</a></td>";
 				echo '</tr>';
 			}
-		//todo search dynamically if key exists
-		}else if(@$form["scenario"]["survey"]["json"][$key]){
-			$formQ = $form["scenario"]["survey"]["json"][$key]["jsonSchema"]["properties"];
-			foreach ($value as $q => $a) {
-				echo '<tr>';
-					echo "<td>".$formQ[ $q ]["placeholder"]."</td>";
-					echo "<td>".$a."</td>";
-				echo '</tr>';
-			}
-		} 
-		else if (@$form["scenario"][$key]["saveElement"]) {
-			echo '<tr>';
-				echo "<td> name </td>";
-				echo "<td> <a class='btn btn-default' href='http://".$value["type"]."/".$value["id"]."'>".$value["name"]."</a></td>";
-			echo '</tr>';
+			echo "</tbody></table>";
 		}
-		echo "</tbody></table>";
-	}
 
 
-	?>
+		?>
+	</div>
+	</div>
 </div>
-</div>
-</div>
+
+
 
 
 

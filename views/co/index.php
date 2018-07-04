@@ -41,10 +41,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 <div class="container col-xs-12" >
     
-
     <div id="surveyContent" class="formChart  col-xs-offset-1 col-xs-10" >
-        <?php if(@$form["customTpl"]){
-            echo $this->renderPartial( $form["customTpl"],array("form"=>$form,"answers"=>$answers));
+        <?php if(@$form["custom"]['header']){
+            echo $this->renderPartial( $form["custom"]['header'],array("form"=>$form,"answers"=>$answers));
         }else { ?>
         <h4 style="font-variant:small-caps;" class="text-center margin-top-15"><span class="stepFormChart"></span> <?php echo $form["title"] ?></h3>
         <hr class="col-xs-10 col-xs-offset-1"></hr>
@@ -59,6 +58,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
     </div>
 
 </div>
+
+<?php 
+if(@$form["custom"]['footer']){
+echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
+}
+?>
 
 <script type="text/javascript">
 var answers = null;
