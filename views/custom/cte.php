@@ -19,7 +19,7 @@
     /*filter: saturate(12%) blur(2px) sepia(100%);*/
   }
   .content-header{
-    height: 325px;
+    min-height: 325px;
     margin-top: 110px;
     border-radius: 5px 5px 0px 0px;
     border: 1px solid #ccc;
@@ -40,10 +40,10 @@
   <div class="banner-tce">
   </div>
   <div class="content-header col-xs-offset-1 col-xs-10 no-padding">
-      <div class="col-xs-6 logo-survey no-padding">
-          <img class="img-responsive" src='<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/logo-tco-cte.jpg'> 
+      <div class="col-xs-12 col-md-6">
+          <img class="img-responsive" style="display: block;margin-left: auto; margin-right: auto;" src='<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/logo-tco-cte.jpg'> 
       </div>
-      <div class="col-xs-6 header-survey text-center padding-20" >
+      <div class="col-xs-12 col-md-6  header-survey text-center padding-20" >
         
         <?php if(@$form["description"]) echo "<span class='text-center pull-left padding-20'>".$form["description"]."</span>" ?>
         <?php if(!isset(Yii::app()->session['userId'])) { ?>
@@ -117,16 +117,13 @@
   </ul>
 </div>
 
-<div class="text-center margin-top-20">
-  <img src="http://www.tco.re/wp-content/uploads/2018/07/slide-ppt_contrats-de-transition-ecologique-768x74.jpg">
-</div>
  </div>
 
  <div class="space50"></div>
 
   <div class="col-xs-offset-1 col-xs-10 shadow2 padding-20 margin-top-20">
     <h3 class="text-center ">4 étapes du CTE </h3>
-    <div class="card col-xs-3">
+    <div class="card col-xs-12 col-md-3">
         <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-folder-open-o fa-2x"></i><br/>
@@ -140,7 +137,7 @@
       </div>
     </div>
 
-    <div class="card col-xs-3">
+    <div class="card col-xs-12 col-md-3">
         <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-gavel fa-2x"></i><br/>
@@ -153,7 +150,7 @@
       </div>
     </div>
 
-    <div class="card col-xs-3">
+    <div class="card col-xs-12 col-md-3">
         <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-flag-checkered fa-2x"></i><br/>
@@ -166,7 +163,7 @@
       </div>
     </div>
 
-    <div class="card col-xs-3">
+    <div class="card col-xs-12 col-md-3">
         <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-cogs fa-2x"></i><br/>
