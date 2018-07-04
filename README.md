@@ -13,15 +13,16 @@ a survey is build dynamically according to it's structure , it put's together di
 [ ] status :: Badge | status 
 [ ] show invitation list 
 [rapha] make multi admins management
-[tib] gestion des dates d'ouverture d'un sondage 
-[ ] check json editor exists
 [ ] admin d'un sondage 
     [ ] set dates ( start end )
     [ ] edit form ( only if no answers )
 [ ] custom Logo plugguer Yii params logo 
-[tib] session consultation : edit data 
+
+#BUGS
+- PB DE LOGIN
 
 # good to have 
+[ ] session consultation : edit data 
 [ ] reflechir survey juste avec email 
 [ ] afficher comme sondage dans une news 
 [ ] dynsurvey Editor 
@@ -29,9 +30,8 @@ a survey is build dynamically according to it's structure , it put's together di
     - dynSurvey to edit a dynSurvey Generated 
     - generated based on dynForm schema properties 
 [ ] integrated into DDA : DDDA Define :
+[ ] check json editor exists
 
-#BUGS
-- dynforms without images , go into the else condition of afterSave
 
 # Features 
 - [get a form json data](http://127.0.0.1/ph/survey/co/form/id/commons)
