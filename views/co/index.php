@@ -127,16 +127,16 @@ jQuery(document).ready(function() {
                             });
                             
                             if(answered)
-                                str +='<span style="width:100%" class="btn btn-danger">'+
+                                str +='<span style="width:100%" class="btn bg-azure">'+
                                         'Déjà rempli</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
                             else  
-                                str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-primary bg-white text-dark answered'+answered+' hidden"  style="width:100%"> Commencer <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
+                                str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-default answered'+answered+' hidden"  style="width:100%"> Commencer <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
 
 
                         } else if( surveyType != "oneSurvey" ) {
                             dType = (v.type) ? v.type : "json" ;
                             dynType = (v.dynType) ? v.dynType : "dynForm" ;
-                            str +='<a href="javascript:;" onclick="dySObj.openSurvey(\''+i+'\',\''+dType+'\',\''+dynType+'\')" class="btn btn-primary"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a>';
+                            str +='<a href="javascript:;" onclick="dySObj.openSurvey(\''+i+'\',\''+dType+'\',\''+dynType+'\')" class="btn btn-primary col-xs-12"  style="width:100%">C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a>';
                         }
 
                         str +='</div></div>';  
@@ -152,7 +152,7 @@ jQuery(document).ready(function() {
                         $("#surveyContent").removeClass("col-xs-12").addClass("col-xs-10 col-xs-offset-1");
                         //build survey json asynchronessly
                         if(userId)
-                            $("#surveyBtn").append('<div class="margin-top-15 hidden col-xs-6" id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%"> C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>'); 
+                            $("#surveyBtn").append('<div class="margin-top-15 hidden col-xs-12 " id="startSurvey"><a href="javascript:;" onclick="dySObj.openSurvey(null,null,\''+surveyType+'\')" class="btn btn-primary"  style="width:100%"> C\'est parti <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>'); 
                         else 
                             $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Connectez-vous avant d\'accéder au formulaire <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
 
