@@ -8,12 +8,16 @@ class AnswersAction extends CAction
         $form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
     	if ( ! Person::logguedAndValid() ) {
             $this->getController()->render("co2.views.default.loginSecure");
-        }else if(	Yii::app()->session["userId"] == $form["author"] ||
-					(	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
-						!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
-						$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){ 
+     //    }else if(	Yii::app()->session["userId"] == $form["author"] ||
+					// (	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
+					// 	!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
+					// 	$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){ 
+        }else if(Form::canAdmin($id, $form)){ 
+        	
     		if( $form["surveyType"] == "surveyList" && 
-                @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id) )){
+                @$answers = PHDB::find( Form::ANSWER_COLLECTION , 
+                						array("parentSurvey"=>@$id, 
+            									"answers.project" => array('$exists' => 1) ) ) ) {
 
     			//Rest::json($answers); exit ;
 

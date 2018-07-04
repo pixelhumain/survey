@@ -14,25 +14,22 @@ class SearchAdminFormAction extends CTKAction{
 
             	$indexMin = isset($_POST['indexMin']) ? $_POST['indexMin'] : 0;
 				$indexStep = 30;
-
 				$queryId = array("parentSurvey"=>$_POST["parentSurvey"]) ;
-            	$queryText = array();
             	if (!empty($_POST["text"])){
             		$text = $_POST['text'];
-            		// $queryText = array('$or' => array( $queryText , array("answers.organization.name" => new MongoRegex("/.*{$text}.*/i"))) );
+            		//$queryText = array( '$or' => array(
+  									// array( "answers.organization.name" => new MongoRegex("/.*{$text}.*/i")),
+  									// array( "answers.project.name" => new MongoRegex("/.*{$text}.*/i"))));
 
-            		// $queryText = array('$or' => array( $queryText , array("answers.project.name" => new MongoRegex("/.*{$text}.*/i")) ) );
-
-            		$queryText = array( '$or' => array(
-  									array( "answers.organization.name" => new MongoRegex("/.*{$text}.*/i")),
-  									array( "answers.project.name" => new MongoRegex("/.*{$text}.*/i"))));
-            	}
-            	$query = array('$and' => array( $queryId , $queryText ) );
-            	//Rest::json($query); exit ;
+            		$queryText = array( "answers.project.name" => new MongoRegex("/.*{$text}.*/i"));
+            		$query = array('$and' => array( $queryId , $queryText ) );
+            	}else
+            		$query = $queryId;
+            	
+            	$query = array('$and' => array( $query , array( "answers.project" => array('$exists' => 1)) ) );
             	$answers = PHDB::find( Form::ANSWER_COLLECTION , $query );
             	$results = Form::listForAdmin($answers);
 	    		Rest::json($results); exit ;
-
 
 			} else 
 				$this->getController()->render("co2.views.default.unauthorised"); 

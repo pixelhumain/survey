@@ -24,7 +24,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
 	
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-		<h1><?php echo $form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
+		<h1><?php echo "Membre du ".$form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
 		<div id="" class="" style="width:80%;  display: -webkit-inline-box;">
 	    	<input type="text" class="form-control" id="input-search-table" 
 					placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
@@ -144,7 +144,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 		str = '<tr>';
 			str += '<td>'+value.name+'</td>';
 			str += '<td>'+value.email+'</td>';
-			str += '<td>'+value.id+'</td>';
+			str += '<td>'+key+'</td>';
 			str += '<td>';
 			if(typeof value.user != "undefined"){
 				str += '<a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.user+'" >Read</a>';
@@ -156,13 +156,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				if( typeof form.links == "undefined" || 
 					typeof form.links.projectExtern == "undefined" || 
 					typeof form.links.projectExtern[value.id] == "undefined") {
-					str += '<a href="javascript:;" class="btn btn-primary activeBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
+					str += '<a href="javascript:;" class="btn btn-primary activeBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" ';
 						if(typeof value.parentId != "undefined"  && typeof value.parentType != "undefined" ){
 							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
 						}
-					str += '>Eligible</a>';
+					str += '>Valider</a>';
 				}else {
-					str += 'Eligible' ;
+					str += 'Déjà valider' ;
 				}
 			}
 			str += '</td>';
@@ -177,10 +177,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				childId : $(this).data("id"),
 				childType : $(this).data("type"),
 				childName : $(this).data("name"),
-				userName : $(this).data("username"),
-				userId : $(this).data("userid"),
-				form : form._id.$id,
-				formId : form.id,
+				formId : form._id.$id,
 			};
 
 			if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
@@ -196,13 +193,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				dataType: "json",
 				success: function(view){
 					mylog.log("activeBtn ok", "#active"+params.childId+params.childType);
-					$("#active"+params.childId+params.childType).html("Eligible");
-					toastr.success("Projet éligible");
+					$("#active"+params.childId+params.childType).html("Projet valider");
+					toastr.success("Projet valider");
 				},
 				error: function (error) {
 					mylog.log("activeBtn error", error);
-					toastr.error("Projet non éligible");
-				}	
+					toastr.error("Projet non valider");
+					
+				}
+					
 			});
 		});
 		

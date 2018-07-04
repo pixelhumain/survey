@@ -27,6 +27,7 @@ class CoController extends CommunecterController {
 	        'searchadminform'  => 'survey.controllers.actions.SearchAdminFormAction',
 	        'updatedocumentids'=> 'survey.controllers.actions.UpdateDocumentIdsAction',
 	        'admin'=> 'survey.controllers.actions.AdminAction',
+	        'members'=> 'survey.controllers.actions.MembersAction',
 	    );
 	}
 

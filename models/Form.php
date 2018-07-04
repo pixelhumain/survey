@@ -79,12 +79,12 @@ class Form {
 		$uniqE = array();
 		
 		foreach ( $answers as $key => $value) {
-			if(!in_array( $value["user"], $uniq )){
-				$value["type"] = Person::COLLECTION;
-				$value["id"] = $value["user"];
-				$results[] = $value;
-				$uniq[] = $value["user"];
-			}
+			// if(!in_array( $value["user"], $uniq )){
+			// 	$value["type"] = Person::COLLECTION;
+			// 	$value["id"] = $value["user"];
+			// 	$results[] = $value;
+			// 	$uniq[] = $value["user"];
+			// }
 
 			if( !empty($value["answers"]) && 
 				!empty($value["answers"][Organization::CONTROLLER]) && 
@@ -103,6 +103,17 @@ class Form {
 				$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
 				$orga["id"] = $value["answers"][Project::CONTROLLER]["id"];
 				$orga["type"] = Project::COLLECTION;
+
+				if(!empty($value["answers"][Project::CONTROLLER]["parentId"])){
+					$orga["parentId"] = $value["answers"][Project::CONTROLLER]["parentId"];
+					$orga["parentType"] = Element::getCollectionByControler($value["answers"][Project::CONTROLLER]["parentType"]);
+					$parent = Element::getSimpleByTypeAndId($orga["parentType"], $orga["parentId"]);
+					$orga["parentName"] = $parent["name"];
+				}
+
+				$orga["userId"] = $value["user"];
+				$orga["userName"] = $value["name"];
+				
 				$results[] = $orga;
 				$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
 			}
@@ -121,5 +132,20 @@ class Form {
 
 		return $results ;	
 	}
+
+	public static function canAdmin($id, $form = array()){
+		if(!empty($form));
+			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+
+		$res = false;
+    	if(	Yii::app()->session["userId"] == $form["author"] ||
+					(	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
+						!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
+						$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){
+    		$res = true;
+        }
+        return $res ;
+	}
+
 }
 ?>
