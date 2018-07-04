@@ -1,15 +1,19 @@
 <?php
 class ActiveAction extends CTKAction{
-    public function run(){
-    	$data = array(
+	public function run(){
+		$data = array(
 			"formId" => $_POST["formId"],
-			"user" : $_POST["userId"],
-		    "name" : $_POST["userName"],
-		    "eligible" : false, 
+			"user" => $_POST["userId"],
+			"name" => $_POST["userName"],
+			"eligible" => false, 
 		);
+		$res = array("result" => false,
+					"msg" => "N\'est pas éligible");
+		//var_dump( ($_POST["eligible"] === true));
+		 Rest::json( $data ); exit ;
+		if(!empty($_POST["eligible"]) && ($_POST["eligible"] === true || $_POST["eligible"] == "true")) {
 
-    	if(!empty($_POST["eligible"]) && ($_POST["eligible"] == true || $_POST["eligible"] == "true")) {
-    		$child = array();
+			$child = array();
 			$child[] = array( 	"childId" => $_POST["childId"],
 								"childType" => $_POST["childType"],
 								"childName" => $_POST["childName"],
@@ -27,12 +31,14 @@ class ActiveAction extends CTKAction{
 				$res[] = Link::multiconnect($child, $_POST["form"], Form::COLLECTION);
 			}
 			$data["eligible"] = true ;
-			Form::save($data);
-	    	
-    	}
-    	
-    	$res = Form::save($data);
-    	echo Rest::json( $res );
-    	
-    }
+
+			$res = array("result" => true,
+					"msg" => "Eligible");
+		}
+
+		// Rest::json( $data ); exit ;
+		Form::save($data);
+		echo Rest::json( $res );
+		
+	}
 }

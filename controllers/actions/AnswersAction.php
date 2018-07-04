@@ -1,28 +1,21 @@
 <?php
-class AnswersAction extends CAction
-{
-    public function run($id)
-    {
-    	$this->getController()->layout = "//layouts/empty";
+class AnswersAction extends CAction{
+	public function run($id){
+		$this->getController()->layout = "//layouts/empty";
 
-        $form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
-    	if ( ! Person::logguedAndValid() ) {
-            $this->getController()->render("co2.views.default.loginSecure");
-     //    }else if(	Yii::app()->session["userId"] == $form["author"] ||
-					// (	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
-					// 	!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
-					// 	$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){ 
-        }else if(Form::canAdmin($id, $form)){ 
-        	
-    		if( $form["surveyType"] == "surveyList" && 
-                @$answers = PHDB::find( Form::ANSWER_COLLECTION , 
-                						array("parentSurvey"=>@$id, 
-            									"answers.project" => array('$exists' => 1) ) ) ) {
+		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+		if ( ! Person::logguedAndValid() ) {
+			$this->getController()->render("co2.views.default.loginSecure");
+		}else if(Form::canAdmin($id, $form)){ 
+			
+			if( $form["surveyType"] == "surveyList" && 
+				@$answers = PHDB::find( Form::ANSWER_COLLECTION , 
+										array("parentSurvey"=>@$id, 
+												"answers.project" => array('$exists' => 1) ) ) ) {
 
-    			//Rest::json($answers); exit ;
-
-    			$results = Form::listForAdmin($answers);
-    			//Rest::json($results); exit ;
+				//Rest::json($answers); exit ;
+				$results = Form::listForAdmin($answers);
+				//Rest::json($results); exit ;
 	 			echo $this->getController()->render("answersList",
 	 												array(  "results" => $results,
 												 			"form"=> $form ));
@@ -36,5 +29,5 @@ class AnswersAction extends CAction
 		 		echo "No answers found"; 
 		} else 
 			$this->getController()->render("co2.views.default.unauthorised"); 
-    }
+	}
 }

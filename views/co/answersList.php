@@ -5,6 +5,11 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true));
 
+$cssAnsScriptFilesModule = array( 
+	'/js/eligible.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule( Survey::MODULE )->getAssetsUrl() );
+
 ?>
 
 <style type="text/css">
@@ -224,16 +229,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 		
 	}
 
-	function eligible(){
+	function eligible(params){
 		$.ajax({
 			type: "POST",
 			url: baseUrl+'/'+activeModuleId+"/co/active/",
 			data:params,
 			dataType: "json",
-			success: function(view){
+			success: function(data){
 				mylog.log("activeBtn ok", "#active"+params.childId+params.childType);
-				$("#active"+params.childId+params.childType).html("Eligible");
-				toastr.success("Projet éligible");
+
+				if(data.result == true){
+					toastr.success(data.msg);
+				}else{
+					toastr.error(data.msg);
+				}
+				$("#active"+params.childId+params.childType).html(data.msg);
+				
 			},
 			error: function (error) {
 				mylog.log("activeBtn error", error);

@@ -17,6 +17,11 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 
+$cssAnsScriptFilesModule = array( 
+	'/js/eligible.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule( Survey::MODULE )->getAssetsUrl() );
+
 if( $this->layout != "//layouts/empty"){
 	$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
 	$this->renderPartial($layoutPath.'header',array("page"=>"ressource","layoutPath"=>$layoutPath));
@@ -183,9 +188,7 @@ if( $this->layout != "//layouts/empty"){
 	</div>
 </div>
 
-<?php 
-if( Form::canAdmin($form["id"]) )
-{ ?>
+<?php if( Form::canAdmin($form["id"]) ){ ?>
 <div class="container" >
 	<div class="col-lg-offset-1 col-lg-10 col-xs-12 padding-20 margin-top-50 margin-bottom-50 " style="border:1px solid red;">
 		
@@ -194,7 +197,7 @@ if( Form::canAdmin($form["id"]) )
 
 		<div class="col-xs-12 " style="border:1px solid #ccc;">
 			<h3>Eligibilité</h3>
-			<a href="" class="btn btn-success">Eligible</a> <a href=""  class="btn btn-danger">Non Eligible</a>
+			<a href="javascript:;" class="btn btn-success activeBtn">Eligible</a> <a href="javascript:;"  class="btn btn-danger notEligibleBtn">Non Eligible</a>
 			<br/>Cette action aura pour impacte de connceté l'organisation au CTE, et ajouterais le projet à la liste des projets du CTE
 			<br/>un mail automatique sera envoyé au projet avec <a href="javascript:;" onclick="$('#mailEligible').toggle();">le texte suivant</a>
 			<div id="mailEligible" class="hide">
@@ -235,14 +238,16 @@ if( Form::canAdmin($form["id"]) )
 
 <?php 
 if(@$form["custom"]['footer']){
-echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
+	echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
 }
 ?>
 
 <script type="text/javascript">
 
 $(document).ready(function() { 
-	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );		
+	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
+	alert("here");
+	bindAnwserList();	
 });
 
 
