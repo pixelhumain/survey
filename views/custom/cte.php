@@ -57,7 +57,7 @@
             $count=count($answers);
             $label=($count > 0) ? "Reprendre le dossier" : "Déposer une candidature"; 
           ?>
-          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count ?>" class="btn bg-green-k answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
+          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count+1 ?>" class="btn bg-green-k answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
         <?php  } ?>
       </div>
   </div>
@@ -103,7 +103,7 @@
  <div class="col-xs-12 col-md-6 padding-20">
     <img class="img-responsive" src="http://www.tco.re/wp-content/uploads/2018/07/vignette-3_contrats-de-transition-ecologique-768x768.png" class="margin-15 pull-left">
   </div>
-  <div class="col-xs-12 col-md-6 padding-20">
+  <div class="col-xs-12 col-md-6 padding-20" style="font-size: 1.3em;">
   <b>Le Contrat de transition écologique (CTE) du TCO sera opérationnel sur la période 2018-2021</b>
    <ul>
 
