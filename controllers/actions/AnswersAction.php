@@ -8,13 +8,13 @@ class AnswersAction extends CAction{
 			$this->getController()->render("co2.views.default.loginSecure");
 		}else if(Form::canAdmin($id, $form)){ 
 			
-			if( $form["surveyType"] == "surveyList" && 
-				@$answers = PHDB::find( Form::ANSWER_COLLECTION , 
+			if( $form["surveyType"] == "surveyList" )  {
+				$answers = PHDB::find( Form::ANSWER_COLLECTION , 
 										array("parentSurvey"=>@$id, 
-												"answers.project" => array('$exists' => 1) ) ) ) {
-
+												"answers.project" => array('$exists' => 1) ) );
 				//Rest::json($answers); exit ;
-				$results = Form::listForAdmin($answers);
+
+				$results = ( empty($answers) ? array() : Form::listForAdmin($answers) );
 				//Rest::json($results); exit ;
 	 			echo $this->getController()->render("answersList",
 	 												array(  "results" => $results,
