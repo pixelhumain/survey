@@ -39,17 +39,19 @@ $cssJS = array(
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 ?>
 
-<div class="container col-xs-12" >
-    
-    <div id="surveyContent" class="formChart  col-xs-offset-1 col-xs-10 padding-bottom-20" >
+
+
         <?php if(@$form["custom"]['header']){
             echo $this->renderPartial( $form["custom"]['header'],array("form"=>$form,"answers"=>$answers));
         }else { ?>
-        <h4 style="font-variant:small-caps;" class="text-center margin-top-15"><span class="stepFormChart"></span> <?php echo $form["title"] ?></h4>
-        <hr class="col-xs-10 col-xs-offset-1"></hr>
-        <div id="surveyDesc" class="col-xs-offset-1 col-xs-10">
-            <p class="text-center"><?php echo $form["description"] ?></p>
-        </div>
+        <div class="container col-xs-12" >
+    
+            <div id="surveyContent" class="formChart  col-xs-offset-1 col-xs-10 padding-bottom-20" >    
+            <h4 style="font-variant:small-caps;" class="text-center margin-top-15"><span class="stepFormChart"></span> <?php echo $form["title"] ?></h4>
+            <hr class="col-xs-10 col-xs-offset-1"></hr>
+            <div id="surveyDesc" class="col-xs-offset-1 col-xs-10">
+                <p class="text-center"><?php echo $form["description"] ?></p>
+            </div>
         <?php } ?>
 
          <div id="surveyBtn" class="margin-top-15 col-xs-offset-1 col-xs-10"></div>
