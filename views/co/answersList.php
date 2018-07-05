@@ -52,8 +52,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Email</th>
-						<th>userID</th>
+						<th>Organisation</th>
+						<th>Utilisateur</th>
 						<th>Read Answers</th>
 						<th>BTN</th>
 					</tr>
@@ -154,8 +154,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		console.log("buildDirectoryLine", key, value);
 		str = '<tr>';
 			str += '<td>'+value.name+'</td>';
-			str += '<td>'+value.email+'</td>';
-			str += '<td>'+value.id+'</td>';
+			str += '<td>'+value.parentName+'</td>';
+			str += '<td>'+value.userName+'</td>';
 			str += '<td>';
 			if(typeof value.user != "undefined"){
 				str += '<a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.user+'" >Read</a>';
