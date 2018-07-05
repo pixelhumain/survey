@@ -1,3 +1,11 @@
+<?php
+$cssJS = array(
+    '/js/dataHelpers.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
+
+?>
+
 <!-- start: PAGE CONTENT -->
 <style type="text/css">
 	#content-view-admin, #goBackToHome{
@@ -59,11 +67,12 @@ if(@Yii::app()->session["userIsAdmin"] || Yii::app()->session["userIsAdminPublic
 <script type="text/javascript">
 	//	initKInterface(); 
 	var edit=true;
-	var hashUrlPage = "#admin";
+	var urlPage = "";
 	var idForm="<?php echo @$_GET['id']; ?>";
 	var subView="<?php echo @$_GET['view']; ?>";
 	var dir="<?php echo @$_GET['dir']; ?>";
 	jQuery(document).ready(function() {
+		urlPage = baseUrl+'/'+activeModuleId+"/co/admin/";
 		bindAdminButtonMenu();
 		getAdminSubview(subView, dir);
 	});
@@ -81,17 +90,19 @@ if(@Yii::app()->session["userIsAdmin"] || Yii::app()->session["userIsAdminPublic
 	function bindAdminButtonMenu(){
 		console.log("bindAdminButtonMenu");
 		$("#btn-home").click(function(){
-			location.hash=hashUrlPage;
+			location.hash=urlPage;
 			loadIndex();
 		});
 
 		$("#btn-members").click(function(){
-			location.hash="/view/members"+hashUrlPage;
+			//location.hash=urlPage+"/view/members";
+			window.location.replace(urlPage+"view/members");
 			loadMembers();
 		});
 
 		$("#btn-projects").click(function(){
-			location.hash=hashUrlPage+".view.answers";
+			//location.hash=hashUrlPage+".view.answers";
+			window.location.replace(urlPage+"view/answers");
 			loadProjects();
 		});
 	}

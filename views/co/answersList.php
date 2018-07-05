@@ -10,6 +10,12 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule( "survey" )->getAssetsUrl() );
 
+
+$cssJS = array(
+    '/js/dataHelpers.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
+
 ?>
 
 <style type="text/css">
@@ -41,13 +47,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
 	<div class="panel-body">
 		<div>
-			<a href="<?php echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a>
+			<!-- <a href="<?php //echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a> -->
 			<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Email</th>
-						<th>userID</th>
+						<th>Organisation</th>
+						<th>Utilisateur</th>
 						<th>Read Answers</th>
 						<th>BTN</th>
 					</tr>
@@ -148,8 +154,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 		console.log("buildDirectoryLine", key, value);
 		str = '<tr>';
 			str += '<td>'+value.name+'</td>';
-			str += '<td>'+value.email+'</td>';
-			str += '<td>'+value.id+'</td>';
+			str += '<td>'+value.parentName+'</td>';
+			str += '<td>'+value.userName+'</td>';
 			str += '<td>';
 			if(typeof value.user != "undefined"){
 				str += '<a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.user+'" >Read</a>';
