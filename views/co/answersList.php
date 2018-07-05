@@ -57,7 +57,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th>Organisation</th>
 						<th>Utilisateur</th>
 						<th>Read Answers</th>
-						<th>BTN</th>
+						<th>Eligible</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -154,14 +154,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 	function buildDirectoryLine(key, value){
 		console.log("buildDirectoryLine", key, value);
-		str = '<tr>';
-			str += '<td>'+value.name+'</td>';
-			str += '<td>'+value.parentName+'</td>';
+		str = '<tr >';
+			str += '<td class="center">'+value.name+'</td>';
+			str += '<td class="center">'+value.parentName+'</td>';
 			str += '<td>'+value.userName+'</td>';
 			str += '<td>';
-			if(typeof value.user != "undefined"){
-				str += '<a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.user+'" >Read</a>';
-			}
+				str += '<center><a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.userId+'" target="_blanck">Read</a></center>';
 			str += '</td>';
 			str += '<td id="active'+value.id+value.type+'">';
 			if(typeof value.type != "undefined" && "projects" == value.type){
@@ -169,13 +167,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 				if( typeof form.links == "undefined" || 
 					typeof form.links.projectExtern == "undefined" || 
 					typeof form.links.projectExtern[value.id] == "undefined") {
-					str += '<a href="javascript:;" class="btn btn-primary activeBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
+					str += '<a href="javascript:;" class="btn btn-success activeBtn col-sm-offset-1 col-sm-4 col-xs-12" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
 						if(typeof value.parentId != "undefined"  && typeof value.parentType != "undefined" ){
 							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
 						}
 					str += '>Eligible</a>';
 
-					str += '<a href="javascript:;" class="btn btn-primary notEligibleBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
+					str += '<a href="javascript:;" class="btn btn-danger notEligibleBtn col-sm-offset-2 col-sm-4 col-xs-12" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
 						if(typeof value.parentId != "undefined"  && typeof value.parentType != "undefined" ){
 							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
 						}
@@ -186,6 +184,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 				}
 			}
 			str += '</td>';
+
+
+
+
 		str += '</tr>';
 		return str;
 	}
