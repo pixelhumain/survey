@@ -46,7 +46,7 @@ if( $this->layout != "//layouts/empty"){
 			//break;
 			if(@$answers[$k])
 			{?>
-				<div class="bg-dark col-xs-12 text-center">
+				<div class=" col-xs-12 text-center" style="background-color: <?php echo $form["custom"]["color"] ?>">
 					<h1> <?php echo $v["form"]["title"]; ?><a class='btn pull-right btn-default' href="javascript:;" onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();"><i class="fa  fa-eye"></i></a></h1>
 				</div>
 				<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
