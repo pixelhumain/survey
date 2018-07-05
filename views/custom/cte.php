@@ -6,29 +6,21 @@
   .bannerCustom{
     position: absolute;
     background-repeat: no-repeat;
-    background-position: center;
-    background-image: url(<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/banniere-tco-cte.jpg);
+    
+    background-image: url(<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/banniere-tco-cteV2.jpg);
     border: none;
-    height: 450px;
+    height: 560px;
     width: 100%;
     /* padding: 50px; */
-    overflow: hidden;
-    /*top:120px;*/
+    top:120px;
     /*opacity: 0.7;*/
     /*filter: saturate(12%) blur(2px) sepia(100%);*/
   }
-  @media screen {
-    .content-header{
-    margin-top: 470px; }
-  } 
-
-  @media handheld{
-    .content-header{
-    margin-top: 30px; }
-  } 
+    
 
   .content-header{
-    border-radius: 5px 5px 0px 0px;
+    margin-top: 20px;
+     border-radius: 5px 5px 0px 0px;
     border: 1px solid #ccc;
     background-color: rgba(250,250,250,0.9)
   }
@@ -53,13 +45,8 @@
   }
 </style>
 
-<div class="bannerCustom hidden-xs hidden-sm visible-md visible-lg"> 
-    <img class="img-responsive pull-right" style="width:300px; margin-top:30px;margin-right:30px;" src='<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/logo-tco-cte.jpg'> 
-    <div  class="bannertitle text-white bold">
-    Bienvenue sur le dépot des projets<br/>
-    du Contrat de transition écologique du TCO
-    </div>
-</div>
+
+<img class="img-responsive" style="display: block; margin: 0 auto;" src="<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/banniere-tco-cteV2.jpg">
 
 <div class="container col-xs-12" >
     
