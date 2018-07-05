@@ -45,9 +45,8 @@
   }
 </style>
 
-<div class="text-center">
-<img class="img-responsive" src="<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/banniere-tco-cteV2.jpg">
-</div>
+
+<img class="img-responsive" style="display: block; margin: 0 auto;" src="<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/banniere-tco-cteV2.jpg">
 
 <div class="container col-xs-12" >
     
