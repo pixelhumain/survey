@@ -36,14 +36,14 @@ if(@Yii::app()->session["userIsAdmin"] || Yii::app()->session["userIsAdminPublic
 		<?php if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )) { ?>
 
 			<li class="list-group-item col-md-4 col-sm-6 ">
-				<a href="javascript:;" class=" text-yellow" id="btn-members" style="cursor:pointer;">
+				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/members/id/<?php echo $_GET['id']; ?>" class=" text-yellow" id="btn-members" style="cursor:pointer;">
 					<i class="fa fa-user fa-2x"></i>
 					<?php echo Yii::t("admin", "Members"); ?>
 				</a>
 			</li>
 
 			<li class="list-group-item col-md-4 col-sm-6 ">
-				<a class="text-green" id="btn-projects" style="cursor:pointer;" href="javascript:;">
+				<a class="text-green" id="btn-projects" style="cursor:pointer;" href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $_GET['id']; ?>">
 					<i class="fa fa-upload fa-2x"></i>
 					<?php echo Yii::t("common", "Project"); ?>
 				</a>
@@ -72,82 +72,82 @@ if(@Yii::app()->session["userIsAdmin"] || Yii::app()->session["userIsAdminPublic
 	var subView="<?php echo @$_GET['view']; ?>";
 	var dir="<?php echo @$_GET['dir']; ?>";
 	jQuery(document).ready(function() {
-		urlPage = baseUrl+'/'+activeModuleId+"/co/admin/";
+		urlPage = baseUrl+'/'+activeModuleId+"/co/admin/id/"+idForm+"/";
 		bindAdminButtonMenu();
 		getAdminSubview(subView, dir);
 	});
 
-	function getAdminSubview(sub, dir){ 
-		console.log("getProfilSubview", sub, dir);
-		if(sub!=""){
-			if(sub=="members")
-				loadMembers();
-			else if(sub=="projects")
-				loadProjects();
-		} else
-			loadIndex();
-	}
+	// function getAdminSubview(sub, dir){ 
+	// 	console.log("getProfilSubview", sub, dir);
+	// 	if(sub!=""){
+	// 		if(sub=="members")
+	// 			loadMembers();
+	// 		else if(sub=="projects")
+	// 			loadProjects();
+	// 	} else
+	// 		loadIndex();
+	// }
 	function bindAdminButtonMenu(){
 		console.log("bindAdminButtonMenu");
-		$("#btn-home").click(function(){
-			location.hash=urlPage;
-			loadIndex();
-		});
+	// 	$("#btn-home").click(function(){
+	// 		location.hash=urlPage;
+	// 		loadIndex();
+	// 	});
 
-		$("#btn-members").click(function(){
-			//location.hash=urlPage+"/view/members";
-			window.location.replace(urlPage+"view/members");
-			loadMembers();
-		});
+	// 	$("#btn-members").click(function(){
+	// 		//location.hash=urlPage+"/view/members";
+	// 		//window.location.href = urlPage+"view/members";
+	// 		//loadMembers();
+	// 	});
 
-		$("#btn-projects").click(function(){
-			//location.hash=hashUrlPage+".view.answers";
-			window.location.replace(urlPage+"view/answers");
-			loadProjects();
-		});
+	// 	$("#btn-projects").click(function(){
+	// 		//location.hash=hashUrlPage+".view.answers";
+	// 		//window.location.href =urlPage+"view/answers";
+	// 		//loadProjects();
+	// 	});
 	}
 
-	function loadIndex(){
-		console.log("loadIndex");
-		initDashboard(true);
-	}
+	// function loadIndex(){
+	// 	console.log("loadIndex");
+	// 	initDashboard(true);
+	// }
 
-	function loadMembers(){
-		console.log("loadMembers");
-		initDashboard();
-		var url = "co/members/id/"+idForm;
-		$("#goBackToHome").show(700);
-		ajaxPost('#content-view-admin', baseUrl+'/'+activeModuleId+'/'+url, null, function(){},"html");
+	// function loadMembers(){
+	// 	console.log("loadMembers");
+	// 	initDashboard();
+	// 	var url = "co/members/id/"+idForm;
+	// 	$("#goBackToHome").show(700);
+	// 	ajaxPost('#content-view-admin', baseUrl+'/'+activeModuleId+'/'+url, null, function(){},"html");
 
-	}
+	// }
 
-	function loadProjects(){
-		console.log("loadProjects");
-		initDashboard();
-		var url = "co/answers/id/"+idForm;
-		$("#goBackToHome").show(700);
-		ajaxPost('#content-view-admin', baseUrl+'/'+activeModuleId+'/'+url, null, function(){},"html");
+	// function loadProjects(){
+	// 	console.log("loadProjects");
+	// 	initDashboard();
+	// 	var url = "co/answers/id/"+idForm;
+	// 	$("#goBackToHome").show(700);
+	// 	ajaxPost('#content-view-admin', baseUrl+'/'+activeModuleId+'/'+url, null, function(){},"html");
 
-	}
+	// }
 	
-	function showLoader(id){
-		$(id).html("<center><i class='fa fa-spin fa-refresh margin-top-50 fa-2x'></i></center>");
-	}
+	// function showLoader(id){
+	// 	$(id).html("<center><i class='fa fa-spin fa-refresh margin-top-50 fa-2x'></i></center>");
+	// }
 
-	function inintDescs() {
-		return true;
-	}
+	// function inintDescs() {
+	// 	return true;
+	// }
 
-	function initDashboard(home){
-		if(home){
-			$("#goBackToHome, #content-view-admin").hide(700);
-			$("#navigationAdmin").show(700);
-		} else {
-			$("#navigationAdmin").hide(700);
-			$("#goBackToHome, #content-view-admin").show(700);
-			showLoader('#content-view-admin');
-		}
-	}
+	// function initDashboard(home){
+	// 	if(home){
+	// 		$("#goBackToHome, #content-view-admin").hide(700);
+	// 		$("#navigationAdmin").show(700);
+	// 	} else {
+	// 		$("#navigationAdmin").hide(700);
+	// 		$("#goBackToHome, #content-view-admin").show(700);
+	// 		showLoader('#content-view-admin');
+	// 	}
+	// }
 </script>
 
 <?php } ?>

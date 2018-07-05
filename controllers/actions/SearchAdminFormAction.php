@@ -6,11 +6,7 @@ class SearchAdminFormAction extends CTKAction{
     	if ( Person::logguedAndValid() ) {
     		//$form = PHDB::findOne( Form::COLLECTION , array("id"=>$_POST["parentSurvey"]));
     		$form = Form::getById($_POST["parentSurvey"],$fields=array("links", "author"));
-            if(	!empty($form) && 
-            	( Yii::app()->session["userId"] == $form["author"] ||
-				(	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
-					!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
-					$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true) ) ){
+            if(	Form::canAdmin($_POST["parentSurvey"], $form) ){
 
             	$indexMin = isset($_POST['indexMin']) ? $_POST['indexMin'] : 0;
 				$indexStep = 30;

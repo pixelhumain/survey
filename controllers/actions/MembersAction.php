@@ -6,19 +6,14 @@ class MembersAction extends CAction
     	$this->getController()->layout = "//layouts/empty";
 
         $form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+
     	if ( ! Person::logguedAndValid() ) {
             $this->getController()->render("co2.views.default.loginSecure");
-        }else if(	Yii::app()->session["userId"] == $form["author"] ||
-					(	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
-						!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
-						$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){
+        }else if( Form::canAdmin($id, $form) ){
 
         	$queryId = array("links.forms.".(String)$form["_id"]=> array('$exists' => 1) );
-
-        	
         	$persons = Person::getWhere($queryId);
         	$orgas = Organization::getWhere($queryId);
-
         	$results = array_merge($persons, $orgas);
         	//Rest::json($results); exit ;
 

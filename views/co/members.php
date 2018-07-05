@@ -4,7 +4,14 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery-simplePagination/simplePagination.css'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true));
+$cssJS = array(
+    '/js/dataHelpers.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 
+$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
+$me = isset(Yii::app()->session['userId']) ? Person::getById(Yii::app()->session['userId']) : null;
+$this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].'.mainMenu', array("me"=>$me) );
 ?>
 
 <style type="text/css">
@@ -22,7 +29,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 			!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
 			$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){ ?>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
-	
+	<div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="goBackToHome">
+		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/admin/id/<?php echo $_GET['id']; ?>" class="col-md-12 col-sm-12 col-xs-12 padding-20 text-center bg-orange" id="btn-home" style="font-size:20px;"><i class="fa fa-home"></i> Back to administrator home</a>
+	</div>
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
 		<h1><?php echo "Membre du ".$form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
 		<div id="" class="" style="width:80%;  display: -webkit-inline-box;">
@@ -70,7 +79,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 
 	jQuery(document).ready(function() {
 		bindLBHLinks();
-		bindAnwserList();
+		//bindAnwserList();
 		if(typeof data != "undefined"){
 			initViewTable(data);
 		}
@@ -102,13 +111,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 
 	    $.ajax({ 
 	        type: "POST",
-	        url: baseUrl+'/'+activeModuleId+"/co/searchadminform/",
+	        url: baseUrl+'/'+activeModuleId+"/co/searchadminmembers/",
 	        //url: baseUrl+"/"+moduleId+"/admin/directory/tpl/json",
 	        data: searchAdmin,
 	        dataType: "json",
 	        success:function(data) { 
 		          initViewTable(data);
-		          bindAnwserList();
+		          //bindAnwserList();
 		          // if(typeof data.results.count !="undefined")
 		          // 	refreshCountBadge(data.results.count);
 		          // console.log(data.results);
@@ -136,7 +145,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 			console.log("entry", entry);
 			$("#panelAdmin .directoryLines").append(entry);
 		});
-		bindAnwserList();
+		//bindAnwserList();
 	}
 
 	function buildDirectoryLine(key, value){
@@ -170,42 +179,42 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 		return str;
 	}
 
-	function bindAnwserList(){
+	// function bindAnwserList(){
 
-		$(".activeBtn").on("click",function(e){
-			var params = {
-				childId : $(this).data("id"),
-				childType : $(this).data("type"),
-				childName : $(this).data("name"),
-				formId : form._id.$id,
-			};
+	// 	$(".activeBtn").on("click",function(e){
+	// 		var params = {
+	// 			childId : $(this).data("id"),
+	// 			childType : $(this).data("type"),
+	// 			childName : $(this).data("name"),
+	// 			formId : form._id.$id,
+	// 		};
 
-			if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
-				params["parentId"] = $(this).data("parentid");
-				params["parentType"] = $(this).data("parenttype");
-				params["parentName"] = $(this).data("parentname");
-			}
+	// 		if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
+	// 			params["parentId"] = $(this).data("parentid");
+	// 			params["parentType"] = $(this).data("parenttype");
+	// 			params["parentName"] = $(this).data("parentname");
+	// 		}
 
-			$.ajax({
-				type: "POST",
-				url: baseUrl+'/'+activeModuleId+"/co/active/",
-				data:params,
-				dataType: "json",
-				success: function(view){
-					mylog.log("activeBtn ok", "#active"+params.childId+params.childType);
-					$("#active"+params.childId+params.childType).html("Projet valider");
-					toastr.success("Projet valider");
-				},
-				error: function (error) {
-					mylog.log("activeBtn error", error);
-					toastr.error("Projet non valider");
+	// 		$.ajax({
+	// 			type: "POST",
+	// 			url: baseUrl+'/'+activeModuleId+"/co/active/",
+	// 			data:params,
+	// 			dataType: "json",
+	// 			success: function(view){
+	// 				mylog.log("activeBtn ok", "#active"+params.childId+params.childType);
+	// 				$("#active"+params.childId+params.childType).html("Projet valider");
+	// 				toastr.success("Projet valider");
+	// 			},
+	// 			error: function (error) {
+	// 				mylog.log("activeBtn error", error);
+	// 				toastr.error("Projet non valider");
 					
-				}
+	// 			}
 					
-			});
-		});
+	// 		});
+	// 	});
 		
-	}
+	// }
 </script> 
 <?php	
 	} else {

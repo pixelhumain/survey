@@ -134,14 +134,15 @@ class Form {
 	}
 
 	public static function canAdmin($id, $form = array()){
-		if(!empty($form));
+		//var_dump($form); exit;
+		if(empty($form));
 			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
 
 		$res = false;
     	if(	Yii::app()->session["userId"] == $form["author"] ||
-					(	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
-						!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
-						$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){
+			(	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
+				!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
+				$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){
     		$res = true;
         }
         return $res ;
