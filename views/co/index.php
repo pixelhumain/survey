@@ -111,7 +111,7 @@ jQuery(document).ready(function() {
                         icon = (v.icon) ? v.icon : "fa-square-o";
                         str += '<div class="card col-xs-12 col-md-'+sizeCol+'" >'+
                           //'<img src="https://unsplash.it/g/300">'+
-                          '<div class="card-body padding-15 " style="border: 2px solid #00B795;border-radius: 10px;min-height:265px;">'+
+                          '<div class="card-body padding-15 " style="border: 2px solid <?php echo $form["custom"]["color"] ?>;border-radius: 10px;min-height:265px;">'+
                             '<h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">'+
                                 '<i class="margin-5 fa '+icon+' fa-2x"></i><br/>'+
                                 step+'. '+v.title+

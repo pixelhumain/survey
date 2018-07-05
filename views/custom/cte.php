@@ -56,10 +56,16 @@
         
         <?php }else{ 
             $count=count($answers);
+            if(count($answers) < count($form["scenario"]) ){
             $label=($count > 0) ? "Reprendre le dossier" : "Déposer une candidature"; 
           ?>
-          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count+1 ?>" style="background-color:#00B794" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
-        <?php  } ?>
+          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count+1 ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
+        <?php  } else {
+          ?>
+          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/cte/user/<?php echo Yii::app()->session['userId'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> REVOIR VOS RÉPONSES </a>
+          <?php
+          }
+        } ?>
       </div>
   </div>
   <div class="col-xs-offset-1 col-xs-10 shadow2" >
@@ -123,7 +129,7 @@
   <div class="col-xs-offset-1 col-xs-10 shadow2 padding-20 margin-top-20">
     <h3 class="text-center ">4 étapes du CTE </h3>
     <div class="card col-xs-12 col-md-3">
-        <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
+        <div class="card-body padding-15" style="border: 2px solid <?php echo $form["custom"]["color"] ?>; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-folder-open-o fa-2x"></i><br/>
               1. Collecte
@@ -137,7 +143,7 @@
     </div>
 
     <div class="card col-xs-12 col-md-3">
-        <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
+        <div class="card-body padding-15" style="border: 2px solid <?php echo $form["custom"]["color"] ?>; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-gavel fa-2x"></i><br/>
               2. Eligibilité
@@ -150,7 +156,7 @@
     </div>
 
     <div class="card col-xs-12 col-md-3">
-        <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
+        <div class="card-body padding-15" style="border: 2px solid <?php echo $form["custom"]["color"] ?>; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-flag-checkered fa-2x"></i><br/>
               3. Instruction - Selection 
@@ -163,7 +169,7 @@
     </div>
 
     <div class="card col-xs-12 col-md-3">
-        <div class="card-body padding-15" style="border: 2px solid #00B795; border-radius: 10px;min-height:200px;">
+        <div class="card-body padding-15" style="border: 2px solid <?php echo $form["custom"]["color"] ?>; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-cogs fa-2x"></i><br/>
               4. Écosystème

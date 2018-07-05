@@ -30,15 +30,66 @@ if( $this->layout != "//layouts/empty"){
 
 <div class="panel panel-dark col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
 	<div class="col-xs-12 text-center">
-		<h1><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"><?php echo $form["title"]; ?></a> </h1>
-		<h4 style="text-align: center;padding:10px;">Answers by <?php echo $user["name"]; ?> </h4>
+		<?php if(@$form["custom"]['urlLogo']){ ?>
+		<img class="img-responsive pull-right margin-20" width=300  src='<?php echo Yii::app()->getModule("survey")->assetsUrl.$form["custom"]['urlLogo']; ?>'>
+		<?php }?>
+		<div class="col-sm-4">
+			<h1>
+			<?php if( Form::canAdmin($form["id"]) ){ ?>
+			<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"><?php echo $form["title"]; ?></a> 
+			<?php 
+			} else {
+				echo $form["title"];
+			} ?>
+			</h1>
+
+			<?php if( $form["id"] == "cte" ){ ?>
+			<h4>
+			Person : <?php echo $user["name"]; ?> <br/>
+			Organisation : 	<?php echo $answers["cte1"]["answers"]["organization"]["name"]; ?><br/>
+			Projet : <?php echo $answers["cte2"]["answers"]["project"]["name"]; ?>
+			</h4>
+			<?php }?>
+		</div>
+		
     </div>
 
 	<div class="pageTable col-xs-12 padding-20 text-center"></div>
 		<div class="panel-body">
 			<div>	
-
-		<?php 
+			<style type="text/css">
+				.titleBlock{
+					border-bottom: 1px solid #666;
+				}
+			</style>
+				<div class="titleBlock col-xs-12 text-center" style="background-color: <?php echo $form["custom"]["color"] ?>" onclick="$('#person').toggle();">
+					<h1> Réponse par</h1>
+				</div>
+				<div class='col-xs-12' id='person'>
+					<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
+						<thead>
+							<tr>
+								<th>Question</th>
+								<th>Answer</th>
+							</tr>
+						</thead>
+						<tbody class="directoryLines">
+							<tr>
+								<td>Nom</td>
+								<td><?php echo $user["name"]; ?></td>
+							</tr>
+							<tr>
+								<td>Email</td>
+								<td><?php echo $user["email"]; ?></td>
+							</tr>
+							<tr>
+								<td>Fiche</td>
+								<td><?php echo Yii::app()->createUrl("#page.type.citoyens.id.".$user["username"]) ?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+	<?php 
 
 		foreach ($form["scenario"] as $k => $v) {
 			//var_dump($v);
@@ -46,8 +97,8 @@ if( $this->layout != "//layouts/empty"){
 			//break;
 			if(@$answers[$k])
 			{?>
-				<div class="bg-dark col-xs-12 text-center">
-					<h1> <?php echo $v["form"]["title"]; ?><a class='btn pull-right btn-default' href="javascript:;" onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();"><i class="fa  fa-eye"></i></a></h1>
+				<div class=" titleBlock col-xs-12 text-center" style="background-color: <?php echo $form["custom"]["color"] ?>"  onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();">
+					<h1> <?php echo $v["form"]["title"]; ?></h1>
 				</div>
 				<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
 
