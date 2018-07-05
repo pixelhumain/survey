@@ -10,14 +10,16 @@ a survey is build dynamically according to it's structure , it put's together di
 # TODO 
 [rapha] preview answers add validation button link to CTE, sans qu'il soit propriétaire links.projectExtern + orgaExtern
 [ ] show invitation list 
-[rapha] admin par role : admin energy
+[rapha] admin par role : adminEnergy
 [ ] admin d'un sondage 
     [ ] set dates ( start end )
     [ ] edit form ( only if no answers )
 
 
+
 #BUGS
 - PB DE LOGIN
+- réparer le directory admin
 
 # good to have 
 [ ] session consultation : edit data 

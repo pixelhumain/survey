@@ -29,11 +29,9 @@ if( $this->layout != "//layouts/empty"){
 ?>
 
 <div class="panel panel-dark col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
-	<div class="col-xs-12 text-center">
-		<?php if(@$form["custom"]['urlLogo']){ ?>
-		<img class="img-responsive pull-right margin-20" width=300  src='<?php echo Yii::app()->getModule("survey")->assetsUrl.$form["custom"]['urlLogo']; ?>'>
-		<?php }?>
-		<div class="col-sm-4">
+	<div class="col-xs-12 ">
+		
+		<div class="col-sm-6 text-center">
 			<h1>
 			<?php if( Form::canAdmin($form["id"]) ){ ?>
 			<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"><?php echo $form["title"]; ?></a> 
@@ -51,10 +49,14 @@ if( $this->layout != "//layouts/empty"){
 			</h4>
 			<?php }?>
 		</div>
-		
+		<div class="col-sm-6">
+		<?php if(@$form["custom"]['urlLogo']){ ?>
+		<img class="img-responsive pull-right margin-20"   src='<?php echo Yii::app()->getModule("survey")->assetsUrl.$form["custom"]['urlLogo']; ?>'>
+		<?php }?>
+		</div>
     </div>
 
-	<div class="pageTable col-xs-12 padding-20 text-center"></div>
+	<div class="pageTable col-xs-12  text-center"></div>
 		<div class="panel-body">
 			<div>	
 			<style type="text/css">

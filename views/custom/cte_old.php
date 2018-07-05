@@ -3,31 +3,24 @@
     Yii::app()->params["logoUrl2"]=Yii::app()->getModule("eco")->assetsUrl."/images/custom/leport/tco.png";
 ?> 
 <style type="text/css">
-  .bannerCustom{
+  .banner-tce{
     position: absolute;
     background-repeat: no-repeat;
     background-position: center;
     background-image: url(<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/banniere-tco-cte.jpg);
     border: none;
     height: 450px;
-    width: 100%;
     /* padding: 50px; */
     overflow: hidden;
     /*top:120px;*/
+    left: -20px;
+    right: -20px;
     /*opacity: 0.7;*/
     /*filter: saturate(12%) blur(2px) sepia(100%);*/
   }
-  @media screen {
-    .content-header{
-    margin-top: 470px; }
-  } 
-
-  @media handheld{
-    .content-header{
-    margin-top: 30px; }
-  } 
-
   .content-header{
+    min-height: 325px;
+    margin-top: 110px;
     border-radius: 5px 5px 0px 0px;
     border: 1px solid #ccc;
     background-color: rgba(250,250,250,0.9)
@@ -41,35 +34,15 @@
    height: : 373px;
    color: #333; 
   }
-  .bannertitle{
-    font-size: 4em;
-    background-color: #333;
-    opacity: 0.75;
-    width: 80%;
-    line-height: 1.25;
-    position: absolute;
-    top: 280px;
-    padding-left: 10px;
-  }
 </style>
 
-<div class="bannerCustom hidden-xs hidden-sm visible-md visible-lg"> 
-    <img class="img-responsive pull-right" style="width:300px; margin-top:30px;margin-right:30px;" src='<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/logo-tco-cte.jpg'> 
-    <div  class="bannertitle text-white bold">
-    Bienvenue sur le dépot des projets<br/>
-    du Contrat de transition écologique du TCO
-    </div>
-</div>
-
-<div class="container col-xs-12" >
-    
-    <div id="surveyContent" class="formChart  col-xs-offset-1 col-xs-10 padding-bottom-20" >
-
-<div class="row">
-  
-  <div class="content-header col-xs-offset-1 col-xs-10 no-padding margin-bottom-20">
-      
-      <div class="col-xs-12 col-md-12  header-survey text-center padding-20" >
+<div class="row margin-top-20">
+  <div class="banner-tce"> </div>
+  <div class="content-header col-xs-offset-1 col-xs-10 no-padding">
+      <div class="col-xs-12 col-md-6">
+          <img class="img-responsive" style="display: block;margin-left: auto; margin-right: auto;" src='<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/logo-tco-cte.jpg'> 
+      </div>
+      <div class="col-xs-12 col-md-6  header-survey text-center padding-20" >
         
         <?php if(@$form["description"]) echo "<span class='text-center pull-left padding-20'>".$form["description"]."</span>" ?>
         <?php if(!isset(Yii::app()->session['userId'])) { ?>
