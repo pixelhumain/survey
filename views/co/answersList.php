@@ -8,7 +8,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 $cssAnsScriptFilesModule = array( 
 	'/js/eligible.js',
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule( Survey::MODULE )->getAssetsUrl() );
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule( "survey" )->getAssetsUrl() );
 
 ?>
 
