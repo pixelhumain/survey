@@ -109,6 +109,18 @@ class Form {
 					$orga["parentType"] = Element::getCollectionByControler($value["answers"][Project::CONTROLLER]["parentType"]);
 					$parent = Element::getSimpleByTypeAndId($orga["parentType"], $orga["parentId"]);
 					$orga["parentName"] = $parent["name"];
+				}else{
+					$answersParent = PHDB::findOne( Form::ANSWER_COLLECTION , 
+										array("parentSurvey"=>@$value["parentSurvey"], 
+												"answers.organization" => array('$exists' => 1),
+												"user" => $value["user"]) );
+					// Rest::json(array("parentSurvey"=>@$value["parentSurvey"], 
+					// 							"answers.organization" => array('$exists' => 1),
+					// 							"user" => $value["user"])); exit;
+					//Rest::json($answersParent); exit;
+					$orga["parentId"] = $answersParent["answers"][Organization::CONTROLLER]["id"];
+					$orga["parentType"] = Organization::COLLECTION;
+					$orga["parentName"] = $answersParent["answers"][Organization::CONTROLLER]["name"];
 				}
 
 				$orga["userId"] = $value["user"];
