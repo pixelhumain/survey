@@ -109,7 +109,7 @@ jQuery(document).ready(function() {
                     $("#surveyDesc").append("<h4 class='text-center'>En "+Object.keys(dySObj.surveys.scenario).length+" étapes</h4>");
                     $.each(dySObj.surveys.scenario, function(i,v) { 
                         icon = (v.icon) ? v.icon : "fa-square-o";
-                        color = (dySObj.surveys.parentSurvey.custom.color) ? dySObj.surveys.parentSurvey.custom.color : "blue" ;
+                        color = (jsonHelper.notNull( "dySObj.surveys.parentSurvey.custom.color")) ? dySObj.surveys.parentSurvey.custom.color : "MidnightBlue" ;
                         str += '<div class="card col-xs-12 col-md-'+sizeCol+'" >'+
                           //'<img src="https://unsplash.it/g/300">'+
                           '<div class="card-body padding-15 " style="border: 2px solid '+color+';border-radius: 10px;min-height:265px;">'+

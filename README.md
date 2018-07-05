@@ -8,15 +8,13 @@ a survey is build dynamically according to it's structure , it put's together di
 - make login + create element + dynSurvey
 
 # TODO 
-[ ] design dynform
 [rapha] preview answers add validation button link to CTE, sans qu'il soit propriétaire links.projectExtern + orgaExtern
-[ ] status :: Badge | status 
 [ ] show invitation list 
-[rapha] make multi admins management
+[rapha] admin par role : admin energy
 [ ] admin d'un sondage 
     [ ] set dates ( start end )
     [ ] edit form ( only if no answers )
-[ ] custom Logo plugguer Yii params logo 
+
 
 #BUGS
 - PB DE LOGIN
