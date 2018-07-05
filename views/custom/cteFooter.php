@@ -1,5 +1,5 @@
 
-<div class="col-xs-12 bg-dark text-white padding-20 text-center">
+<div class="col-xs-12 text-white padding-20 text-center" style="background-color:#00B795;">
 	<h3>Point de contact</h3>
 	l'équipe Écocité : Mr Caro et Mr Pégou
 </div>
