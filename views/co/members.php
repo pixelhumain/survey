@@ -52,8 +52,8 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 						<th>Name</th>
 						<th>Email</th>
 						<th>userID</th>
-						<th>Read Answers</th>
-						<th>BTN</th>
+						<th>Roles</th>
+						<th>Admin</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -154,67 +154,27 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 			str += '<td>'+value.name+'</td>';
 			str += '<td>'+value.email+'</td>';
 			str += '<td>'+key+'</td>';
-			str += '<td>';
-			if(typeof value.user != "undefined"){
-				str += '<a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.user+'" >Read</a>';
-			}
-			str += '</td>';
-			str += '<td id="active'+value.id+value.type+'">';
-			if(typeof value.type != "undefined" && "projects" == value.type){
-				//console.log("here", value.id, form.links.projectExtern[value.id]);
-				if( typeof form.links == "undefined" || 
-					typeof form.links.projectExtern == "undefined" || 
-					typeof form.links.projectExtern[value.id] == "undefined") {
-					str += '<a href="javascript:;" class="btn btn-primary activeBtn" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" ';
-						if(typeof value.parentId != "undefined"  && typeof value.parentType != "undefined" ){
-							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
-						}
-					str += '>Valider</a>';
-				}else {
-					str += 'Déjà valider' ;
+			
+			if(typeof form.links != "undefined" && typeof form.links.members != "undefined"
+				&& typeof form.links.members[key] != "undefined"){
+				str += '<td>';
+				if( typeof form.links.members[key].roles != "undefined") {
+					$.each(form.links.members[key].roles, function(kR, vR){
+						str += vR+" ";
+					});
 				}
+				str += '</td>';
+				str += '<td>';
+				if( typeof form.links.members[key].isAdmin != "undefined" && form.links.members[key].isAdmin == true) {
+					str += " Oui ";
+				}else
+					str += " Non ";
+				str += '</td>';	
 			}
 			str += '</td>';
 		str += '</tr>';
 		return str;
 	}
-
-	// function bindAnwserList(){
-
-	// 	$(".activeBtn").on("click",function(e){
-	// 		var params = {
-	// 			childId : $(this).data("id"),
-	// 			childType : $(this).data("type"),
-	// 			childName : $(this).data("name"),
-	// 			formId : form._id.$id,
-	// 		};
-
-	// 		if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
-	// 			params["parentId"] = $(this).data("parentid");
-	// 			params["parentType"] = $(this).data("parenttype");
-	// 			params["parentName"] = $(this).data("parentname");
-	// 		}
-
-	// 		$.ajax({
-	// 			type: "POST",
-	// 			url: baseUrl+'/'+activeModuleId+"/co/active/",
-	// 			data:params,
-	// 			dataType: "json",
-	// 			success: function(view){
-	// 				mylog.log("activeBtn ok", "#active"+params.childId+params.childType);
-	// 				$("#active"+params.childId+params.childType).html("Projet valider");
-	// 				toastr.success("Projet valider");
-	// 			},
-	// 			error: function (error) {
-	// 				mylog.log("activeBtn error", error);
-	// 				toastr.error("Projet non valider");
-					
-	// 			}
-					
-	// 		});
-	// 	});
-		
-	// }
 </script> 
 <?php	
 	} else {

@@ -9,11 +9,14 @@ class SearchAdminMembersAction extends CTKAction{
             	$queryId = array("links.forms.".(String)$form["_id"]=> array('$exists' => 1) );
             	if (!empty($_POST["text"])){
             		$text = $_POST['text'];
-            		$queryText = array( "name" => new MongoRegex("/.*{$text}.*/i"));
+            		//$queryText = array( "name" => new MongoRegex("/.*{$text}.*/i"));
+                    $queryText = array('$or' => array(   
+                                            array( "name" => new MongoRegex("/.*{$text}.*/i") ) , 
+                                            array( "email" => new MongoRegex("/.*{$text}.*/i") ) ) );
             		$query = array('$and' => array( $queryId , $queryText ) );
             	}else
             		$query = $queryId;
-            	
+            	//Rest::json($query); exit ;
                 $persons = Person::getWhere($query);
                 $orgas = Organization::getWhere($query);
                 $results = array_merge($persons, $orgas);
