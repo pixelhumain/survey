@@ -253,8 +253,7 @@ if( $this->layout != "//layouts/empty"){
 
 			<?php
 			$project = $answers["cte2"]["answers"][Project::CONTROLLER];
-			//if(!empty($eligible)){
-			if(false){
+			if(!empty($eligible)){
 				if( $eligible["eligible"] === true)
 					echo "<center><h3>Ce dossier est éligible</h3></center>";
 				else
