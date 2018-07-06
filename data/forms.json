@@ -14,7 +14,7 @@
     "urlLogo" : "/upload/communecter/surveys/cte/logo.png",
     "countryCode" : "RE",
     "endTpl" : "home",
-    "description" : "Bienvenue sur le dépot des projets du CTE. Cette première phase de soumission vise à recenser les projets voulant s'inclure dans la transition écologique des territoires.<br/>Chaque étape du formulaire est nécessaire pour la prise en compte de votre candidature. Chaque dossier s'en suivra d'une phase d'évaluation et de sélection des projets qui participeront à la phase final de vote pour élire les projets qui bénéfieciront de l'aide du Contrat de Transition Ecologique",
+    "description" : "Bienvenue sur le dépot des projets du CTE. Cette première phase de soumission vise à recenser les projets voulant s'inclure dans la transition écologique des territoires.<br/>Chaque dossier s'en suivra d'une phase d'évaluation et de sélection des projets qui participeront à la phase final de vote pour élire les projets qui bénéfieciront de l'aide du Contrat de Transition Ecologique",
     "parenType" : "organizations",
     "parentId" : "592e54d1539f2278258b456c",
     "surveyType" : "surveyList",

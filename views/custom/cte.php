@@ -20,7 +20,7 @@
 
   .content-header{
     margin-top: 20px;
-     border-radius: 5px 5px 0px 0px;
+    border-radius: 5px 5px 0px 0px;
     border: 1px solid #ccc;
     background-color: rgba(250,250,250,0.9)
   }
@@ -58,13 +58,13 @@
       
       <div class="col-xs-12 col-md-12  header-survey text-center padding-20" >
         
-        <?php if(@$form["description"]) echo "<span class='text-center pull-left padding-20'>".$form["description"]."</span>" ?>
+        <?php if(@$form["description"]) echo "<span class='pull-left padding-20' style='font-size: 16px; text-align: left;'>".$form["description"]."</span>" ?>
         <?php if(!isset(Yii::app()->session['userId'])) { ?>
         <br/>
-        <button class="btn btn-default bg-green margin-top-15" data-toggle="modal" data-target="#modalLogin">
+        <button class="btn btn-default bg-green margin-top-15 btn-lg" data-toggle="modal" data-target="#modalLogin">
           <i class="fa fa-sign-in"></i> <?php echo Yii::t("login","Log in") ?>
         </button>
-        <button class="btn btn-link margin-top-15" data-toggle="modal" data-target="#modalRegister">
+        <button class="btn btn-link margin-top-15 btn-lg" data-toggle="modal" data-target="#modalRegister">
           <i class="fa fa-plus-circle"></i> <?php echo Yii::t("login","Create an account") ?>
          </button>
         
