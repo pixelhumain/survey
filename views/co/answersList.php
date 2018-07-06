@@ -73,7 +73,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 	var form =<?php echo json_encode($form); ?>;
 	var data =<?php echo json_encode($results); ?>;
-		console.log("data", data);
+		mylog.log("data", data);
 	var searchAdmin={
 		parentSurvey : form.id,
 		text:null,
@@ -124,7 +124,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		          bindAnwserList();
 		          // if(typeof data.results.count !="undefined")
 		          // 	refreshCountBadge(data.results.count);
-		          // console.log(data.results);
+		          // mylog.log(data.results);
 		          // if(initPage)
 		          // 	initPageTable(data.results.count[searchAdmin.type]);
 	        },
@@ -140,13 +140,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	}
 
 	function initViewTable(data){
-		console.log("initViewTable", data);
+		mylog.log("initViewTable", data);
 		$('#panelAdmin .directoryLines').html("");
-		console.log("valueInit",data);
+		mylog.log("valueInit",data);
 		$.each(data, function(key, value){
 
 			entry=buildDirectoryLine(key, value);
-			console.log("entry", entry);
+			mylog.log("entry", entry);
 			$("#panelAdmin .directoryLines").append(entry);
 		});
 		bindAnwserList();
@@ -163,7 +163,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 			str += '</td>';
 			str += '<td id="active'+value.id+value.type+'">';
 			if(typeof value.type != "undefined" && "projects" == value.type){
-				//console.log("here", value.id, form.links.projectExtern[value.id]);
+				//mylog.log("here", value.id, form.links.projectExtern[value.id]);
 				if( typeof form.links == "undefined" || 
 					typeof form.links.projectExtern == "undefined" || 
 					typeof form.links.projectExtern[value.id] == "undefined") {

@@ -44,7 +44,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
         <?php if(@$form["custom"]['header']){
             echo $this->renderPartial( $form["custom"]['header'],array("form"=>$form,"answers"=>$answers));
         }else { ?>
-        <div class="container col-xs-12" >
+        <div class="container col-xs-12 padding-20" >
     
             <div id="surveyContent" class="formChart  col-xs-offset-1 col-xs-10 padding-bottom-20" >    
             <h4 style="font-variant:small-caps;" class="text-center margin-top-15"><span class="stepFormChart"></span> <?php echo $form["title"] ?></h4>
