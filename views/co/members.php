@@ -54,6 +54,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 						<th>userID</th>
 						<th>Roles</th>
 						<th>Admin</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -140,16 +141,79 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 		$('#panelAdmin .directoryLines').html("");
 		console.log("valueInit",data);
 		$.each(data, function(key, value){
-
 			entry=buildDirectoryLine(key, value);
 			console.log("entry", entry);
 			$("#panelAdmin .directoryLines").append(entry);
+			bindMembers();
 		});
 		//bindAnwserList();
 	}
 
+	function bindMembers(){
+		mylog.log("bindMembers");
+		$(".removeAdmin").off().click(function(e){
+			var params = {
+		    	parentId : form._id.$id,
+		    	parentType : "<?php echo Form::COLLECTION ;?>",
+		   		childId : $(this).data("id"),
+				childType : $(this).data("type"),
+				connect : "members",
+				isAdmin : false,
+			};
+
+		    $.ajax({ 
+		        type: "POST",
+		        url: baseUrl+'/'+moduleId+"/link/updateadminlink/",
+		        data: params,
+		        dataType: "json",
+		        success:function(data) { 
+
+			         $("#admin"+params.childId+params.childType).html("Non");
+		        },
+		        error:function(xhr, status, error){
+		            $("#searchResults").html("erreur");
+		        },
+		        statusCode:{
+		                404: function(){
+		                    $("#searchResults").html("not found");
+		            }
+		        }
+		    });
+	    });
+
+	    $(".addAdmin").off().click(function(e){
+			var params = {
+		    	parentId : form._id.$id,
+		    	parentType : "<?php echo Form::COLLECTION ;?>",
+		   		childId : $(this).data("id"),
+				childType : $(this).data("type"),
+				connect : "members",
+				isAdmin : true,
+			};
+
+		    $.ajax({ 
+		        type: "POST",
+		        url: baseUrl+'/'+moduleId+"/link/updateadminlink/",
+		        data: data,
+		        dataType: "json",
+		        success:function(data) { 
+			        $("#admin"+params.childId+params.childType).html("Oui");
+		        },
+		        error:function(xhr, status, error){
+		            $("#searchResults").html("erreur");
+		        },
+		        statusCode:{
+		                404: function(){
+		                    $("#searchResults").html("not found");
+		            }
+		        }
+		    });
+	    });
+	}
+
 	function buildDirectoryLine(key, value){
 		console.log("buildDirectoryLine", key, value);
+		actions = "";
 		str = '<tr>';
 			str += '<td>'+value.name+'</td>';
 			str += '<td>'+value.email+'</td>';
@@ -157,19 +221,39 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 			
 			if(typeof form.links != "undefined" && typeof form.links.members != "undefined"
 				&& typeof form.links.members[key] != "undefined"){
-				str += '<td>';
+				actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+value.type+'" class="margin-right-5 updateRoles"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Modifier les roles</a></li>';
+
+				str += '<td id="role'+key+form.links.members[key].type+'">';
 				if( typeof form.links.members[key].roles != "undefined") {
 					$.each(form.links.members[key].roles, function(kR, vR){
 						str += vR+" ";
 					});
 				}
 				str += '</td>';
-				str += '<td>';
-				if( typeof form.links.members[key].isAdmin != "undefined" && form.links.members[key].isAdmin == true) {
-					str += " Oui ";
-				}else
-					str += " Non ";
-				str += '</td>';	
+				str += '<td id="admin'+key+form.links.members[key].type+'">';
+				if( form.links.members[key].type == "<?php echo Person::COLLECTION ; ?>"){
+					if( typeof form.links.members[key].isAdmin != "undefined" && 
+						form.links.members[key].isAdmin == true) {
+						str += " Oui ";
+						actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 removeAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Supprimer de l\'admin</a></li>';
+					}else{
+						str += " Non ";
+						actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+value.type+'" class="margin-right-5 addAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Ajouter en tant que admin</a></li>';
+					}
+				}else{
+					str += " ";
+				}
+				str += '</td>';
+				str += '<td class="center">';
+				if( actions != "" ){ 
+					str += '<div class="btn-group">'+
+								'<a href="#" data-toggle="dropdown" class="btn btn-danger dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'+
+								'<ul class="dropdown-menu pull-right dropdown-dark" role="menu">'+
+									actions+
+								'</ul></div>';
+				}
+				str += '</td>';
+							
 			}
 			str += '</td>';
 		str += '</tr>';
