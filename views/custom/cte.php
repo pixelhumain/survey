@@ -194,7 +194,7 @@
               1. Collecte
           </h4> 
           <span class="card-text text-center col-xs-12 no-padding ">
-          09 juil. au 09 aout<br/>
+          17 juil. au 17 aout<br/>
           Soumettre un projet
           </span>
 
@@ -235,7 +235,7 @@
           </h4> 
           <span class="card-text text-center col-xs-12 no-padding">
           17 oct. au 17 nov.<br/>
-          Suivre et interconnecter les acteurs
+          Interconnecter les acteurs
           </span>
       </div>
     </div>

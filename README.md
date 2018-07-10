@@ -14,6 +14,9 @@ a survey is build dynamically according to it's structure , it put's together di
 [ ] admin d'un sondage 
     [ ] set dates ( start end )
     [ ] edit form ( only if no answers )
+[ ] Section Admin
+    - classification / etiquetage 
+    - structurant / fonctionnel 
 
 
 

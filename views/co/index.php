@@ -44,7 +44,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
         <?php if(@$form["custom"]['header']){
             echo $this->renderPartial( $form["custom"]['header'],array("form"=>$form,"answers"=>$answers));
         }else { ?>
-        <div class="container col-xs-12" >
+        <div class="container col-xs-12 padding-20" >
     
             <div id="surveyContent" class="formChart  col-xs-offset-1 col-xs-10 padding-bottom-20" >    
             <h4 style="font-variant:small-caps;" class="text-center margin-top-15"><span class="stepFormChart"></span> <?php echo $form["title"] ?></h4>
@@ -176,10 +176,20 @@ jQuery(document).ready(function() {
             
     } else {
         // other wise it's jsut one survey that can be shown
-        dySObj.surveys.commons = <?php echo json_encode( $form ) ?>;  
-        dyFObj.buildSurvey( dySObj.surveyId, dySObj.buildSurveySections( surveys["commons"].json) );
+        //dySObj.surveys.commons = <?php echo json_encode( $form ) ?>;  
+        //dyFObj.buildSurvey( dySObj.surveyId, dySObj.buildSurveySections( surveys["commons"].json) );
     } 
-
+    if( location.hash.indexOf("#panel") >= 0 ){
+        panelName = location.hash.substr(7);
+        mylog.log("panelName",panelName);
+        if( userId == "" ){
+            if(panelName == "box-login")                
+                Login.openLogin();
+        else if(panelName == "box-register")
+            $('#modalRegister').modal("show");
+        
+        }
+    }
 });
 
 /*
