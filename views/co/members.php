@@ -194,7 +194,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 		    $.ajax({ 
 		        type: "POST",
 		        url: baseUrl+'/'+moduleId+"/link/updateadminlink/",
-		        data: data,
+		        data: params,
 		        dataType: "json",
 		        success:function(data) { 
 			        $("#admin"+params.childId+params.childType).html("Oui");
@@ -238,7 +238,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 						actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 removeAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Supprimer de l\'admin</a></li>';
 					}else{
 						str += " Non ";
-						actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+value.type+'" class="margin-right-5 addAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Ajouter en tant que admin</a></li>';
+						actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 addAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Ajouter en tant que admin</a></li>';
 					}
 				}else{
 					str += " ";
