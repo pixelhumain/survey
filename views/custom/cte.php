@@ -164,21 +164,20 @@
   </p>
   <p>
     Pour 2018, le contrat de transition écologique comporte <b>deux étapes</b>
-   <ul>
+     <ul>
 
-      <li> <b>1ère étape</b> : Une sélection de projets maturesissus de la séquence d’initialisation.</li>
-   
-   </ul></p>
+        <li> <b>1ère étape</b> : Une sélection de projets matures issus de la séquence d’initialisation. </li>
+     </ul>
+   </p>
 
    <p>
-    Ces projets seront intégrés au premier contrat de transition écologique (CTE1) du TCO qui devrait être signé à la mi-juillet 2018</b>
-   <ul> 
-      <li><b>2ème étape </b> : la plateforme collaborative « COMMUNECTER » devrait être opérationnel à compter du 09 juillet afin que les acteurs économiques puissent déclarer leurs projets en ligne du 17 juillet au 18 août 2018, dans le cadre de l'avis d'appel à projet CTE</li>
-  </ul>
-</p>
-<p>
-  <a href="http://www.tco.re/competences-et-projets/cte-contrat-de-transition-ecologique" target="_blank"><i class="fa fa-plus"></i> Plus d'informations sur le Contrat de transition écologique du TCO</a>
-</p>
+     <ul> 
+        <li><b>2ème étape </b> : la plateforme collaborative « CTE - TCO» sera ouverte à compter du 17 juillet afin que les porteurs de projets puissent déclarer leurs projets et/ou actions en ligne jusqu’au 18 août 2018, dans le cadre de l'avis d'appel à projet CTE - TCO.</li>
+    </ul>
+  </p>
+  <p>
+    <a href="http://www.tco.re/competences-et-projets/cte-contrat-de-transition-ecologique" target="_blank"><i class="fa fa-plus"></i> Plus d'informations sur le Contrat de transition écologique du TCO</a>
+  </p>
 </div>
 
  </div>
@@ -194,7 +193,6 @@
               1. Collecte
           </h4> 
           <span class="card-text text-center col-xs-12 no-padding ">
-          17 juil. au 17 aout<br/>
           Soumettre un projet
           </span>
 
@@ -208,7 +206,6 @@
               2. Eligibilité
           </h4> 
           <span class="card-text text-center col-xs-12 no-padding ">
-          17 aout au 17 sept<br/>
           Établir le lien avec le CTE
           </span>
       </div>
@@ -221,7 +218,6 @@
               3. Instruction - Selection 
           </h4> 
           <span class="card-text text-center col-xs-12 no-padding ">
-          17 sept. au 17 oct.<br/>
           Consolider le projet
           </span>
       </div>
@@ -231,10 +227,9 @@
         <div class="card-body padding-15" style="border: 2px solid <?php echo $form["custom"]["color"] ?>; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
               <i class="margin-5 fa fa-cogs fa-2x"></i><br/>
-              4. Écosystème
+              4. Écosystème 
           </h4> 
           <span class="card-text text-center col-xs-12 no-padding">
-          17 oct. au 17 nov.<br/>
           Interconnecter les acteurs
           </span>
       </div>
