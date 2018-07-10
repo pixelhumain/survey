@@ -179,6 +179,17 @@ jQuery(document).ready(function() {
         //dySObj.surveys.commons = <?php echo json_encode( $form ) ?>;  
         //dyFObj.buildSurvey( dySObj.surveyId, dySObj.buildSurveySections( surveys["commons"].json) );
     } 
+    if( location.hash.indexOf("#panel") >= 0 ){
+        panelName = location.hash.substr(7);
+        mylog.log("panelName",panelName);
+        if( userId == "" ){
+            if(panelName == "box-login")                
+                Login.openLogin();
+        else if(panelName == "box-register")
+            $('#modalRegister').modal("show");
+        
+        }
+    }
 });
 
 /*
