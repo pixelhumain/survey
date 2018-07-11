@@ -8,22 +8,19 @@ a survey is build dynamically according to it's structure , it put's together di
 - make login + create element + dynSurvey
 
 # TODO 
-[rapha] preview answers add validation button link to CTE, sans qu'il soit propriétaire links.projectExtern + orgaExtern
-[ ] show invitation list 
-[rapha] admin par role : adminEnergy
-[ ] admin d'un sondage 
-    [ ] set dates ( start end )
-    [ ] edit form ( only if no answers )
 [ ] Section Admin
     - classification / etiquetage 
     - structurant / fonctionnel 
-
-
+    - set dates ( start end )
 
 #BUGS
 - PB DE LOGIN
 - réparer le directory admin
-
+- deux tit bugs sur le chat
+    1 - pas de btn valider sur le form d'ajout de chat privé (c'est peut etre régler)
+    2 - toujours le undefined dans le form
+    3 - Plus important - le chat ne s'enregistre pas
+    
 # good to have 
 [ ] session consultation : edit data 
 [ ] reflechir survey juste avec email 
@@ -34,7 +31,6 @@ a survey is build dynamically according to it's structure , it put's together di
     - generated based on dynForm schema properties 
 [ ] integrated into DDA : DDDA Define :
 [ ] check json editor exists
-
 
 # Features 
 - [get a form json data](http://127.0.0.1/ph/survey/co/form/id/commons)

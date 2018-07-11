@@ -20,6 +20,7 @@ class CoController extends CommunecterController {
 	    return array(
 	        'index'  => 'survey.controllers.actions.IndexAction',
 	        'form'  => 'survey.controllers.actions.FormAction',
+	        'edit'  => 'survey.controllers.actions.EditAction',
 	        'save'  => 'survey.controllers.actions.SaveAction',
 	        'answers'  => 'survey.controllers.actions.AnswersAction',
 	        'answer'  => 'survey.controllers.actions.AnswerAction',
