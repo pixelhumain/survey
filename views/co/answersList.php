@@ -70,27 +70,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	</div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
-
-<div class="modal fade" role="dialog" id="modalCatgeorieAnswers">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-green-k text-white">
-                <h4 class="modal-title"><i class="fa fa-check"></i> <?php echo Yii::t("login","Choisissez la catégorie du projet") ?></h4>
-            </div>
-            <div class="modal-body center text-dark hidden" id="modalRegisterSuccessContent"></div>
-            <div class="modal-body center text-dark">
-                
-                <h5><i class="fa fa-angle-down"></i> Catégorie</h5>
-                <input id="selectCategorie" class="" type="text" data-type="select2" name="roles" placeholder="Choisissez une catégorie" style="width:100%;">
-                    
-            </div>
-            <div class="modal-footer">
-                 <button id="validEligible" type="button" class="btn btn-default letter-green" data-dismiss="modal"><i class="fa fa-check"></i> Validez </button>
-            </div>
-        </div>
-    </div>
-</div>
-
+<?php 
+	echo $this->renderPartial( "survey.views.co.modalSelectCategorie",array());
+?> 
 <script type="text/javascript">
 
 	var form =<?php echo json_encode($form); ?>;
@@ -113,7 +95,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		if(rolesListCustom.length > 0)
 			rolesList = rolesListCustom ;
 
-		$('#modalCatgeorieAnswers #selectCategorie').select2({tags:rolesList});
+		
 
 		$("#input-search-table").keyup(function(e){
 			//if(e.keyCode == 13){
@@ -127,6 +109,28 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 				searchAdmin.text=null;
 			//}
 	    });
+
+	   $("#validEligible").on("click",function(e){
+			var params = {
+				childId : $("#childId").val(),
+				childType : $("#childType").val(),
+				childName : $("#childName").val(),
+				userName : $("#userName").val(),
+				userId : $("#userId").val(),
+				form : $("#form").val(),
+				formId : $("#formId").val(),
+				eligible : $("#eligible").val(),
+				roles : $("#selectCategorie").val()
+			};
+
+			if($("#parentId").val() != "" && $("#parentType").val() != ""){
+				params["parentId"] = $("#parentId").val();
+				params["parentType"] =$("#parentType").val();
+				params["parentName"] = $("#parentName").val();
+			}
+
+			eligibleFct(params);
+		});
 	});
 
 
@@ -211,95 +215,67 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	function bindAnwserList(){
 
 		$(".activeBtn").on("click",function(e){
-			var params = {
-				childId : $(this).data("id"),
-				childType : $(this).data("type"),
-				childName : $(this).data("name"),
-				userName : $(this).data("username"),
-				userId : $(this).data("userid"),
-				form : form._id.$id,
-				formId : form.id,
-				eligible : true,
-			};
+			$('#modalCatgeorieAnswers').modal("show");
+			console.log("ffefe", $(this).data("id"));
+			$("#childId").val($(this).data("id"));
+			$("#childType").val($(this).data("type"));
+			$("#childName").val($(this).data("name"));
+			$("#userName").val($(this).data("username"));
+			$("#userId").val($(this).data("userid"));
+			$("#form").val(form._id.$id);
+			$("#formId").val(form.id);
+			$("#eligible").val(true);
+			$("#parentId").val( $(this).data("parentid"));
+			$("#parentType").val( $(this).data("parenttype"));
+			$("#parentName").val($(this).data("parentname"));
+			 
+			// var params = {
+			// 	childId : $(this).data("id"),
+			// 	childType : $(this).data("type"),
+			// 	childName : $(this).data("name"),
+			// 	userName : $(this).data("username"),
+			// 	userId : $(this).data("userid"),
+			// 	form : form._id.$id,
+			// 	formId : form.id,
+			// 	eligible : true,
+			// };
 
-			if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
-				params["parentId"] = $(this).data("parentid");
-				params["parentType"] = $(this).data("parenttype");
-				params["parentName"] = $(this).data("parentname");
-			}
+			// if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
+			// 	params["parentId"] = $(this).data("parentid");
+			// 	params["parentType"] = $(this).data("parenttype");
+			// 	params["parentName"] = $(this).data("parentname");
+			// }
 
-			eligible(params);
+			// eligible(params);
 		});
 
-
-		$("#validEligible").on("click",function(e){
-			var params = {
-				childId : $(this).data("id"),
-				childType : $(this).data("type"),
-				childName : $(this).data("name"),
-				userName : $(this).data("username"),
-				userId : $(this).data("userid"),
-				form : form._id.$id,
-				formId : form.id,
-				eligible : true,
-			};
-
-			if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
-				params["parentId"] = $(this).data("parentid");
-				params["parentType"] = $(this).data("parenttype");
-				params["parentName"] = $(this).data("parentname");
-			}
-
-			eligible(params);
-		});
-
-
-		$(".notEligibleBtn").on("click",function(e){
-			var params = {
-				childId : $(this).data("id"),
-				childType : $(this).data("type"),
-				childName : $(this).data("name"),
-				userName : $(this).data("username"),
-				userId : $(this).data("userid"),
-				form : form._id.$id,
-				formId : form.id,
-				eligible : false,
-			};
-
-			if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
-				params["parentId"] = $(this).data("parentid");
-				params["parentType"] = $(this).data("parenttype");
-				params["parentName"] = $(this).data("parentname");
-			}
-
-			eligible(params);
-		});
-		
-	}
-
-	function eligible(params){
 
 		
-		$('#modalCatgeorieAnswers').modal("show");
-		// $.ajax({
-		// 	type: "POST",
-		// 	url: baseUrl+'/'+activeModuleId+"/co/active/",
-		// 	data:params,
-		// 	dataType: "json",
-		// 	success: function(data){
-		// 		if(data.result == true){
-		// 			toastr.success(data.msg);
-		// 		}else{
-		// 			toastr.error(data.msg);
-		// 		}
-		// 		$("#active"+params.childId+params.childType).html(data.msg);
-				
-		// 	},
-		// 	error: function (error) {
-		// 		toastr.error("Projet non éligible");
-		// 	}	
+
+
+		// $(".notEligibleBtn").on("click",function(e){
+		// 	var params = {
+		// 		childId : $(this).data("id"),
+		// 		childType : $(this).data("type"),
+		// 		childName : $(this).data("name"),
+		// 		userName : $(this).data("username"),
+		// 		userId : $(this).data("userid"),
+		// 		form : form._id.$id,
+		// 		formId : form.id,
+		// 		eligible : false,
+		// 	};
+
+		// 	if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
+		// 		params["parentId"] = $(this).data("parentid");
+		// 		params["parentType"] = $(this).data("parenttype");
+		// 		params["parentName"] = $(this).data("parentname");
+		// 	}
+
+		// 	eligible(params);
 		// });
+		
 	}
+
 
 </script> 
 <?php	

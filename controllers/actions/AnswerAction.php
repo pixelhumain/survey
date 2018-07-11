@@ -33,7 +33,8 @@ class AnswerAction extends CAction
 									 			"answers" => $answers,
 									 			"form"    => $form,
 									 			"user"	  => $user,
-									 			"eligible"	  => $eligible ));
+									 			"eligible"	  => $eligible,
+									 			"roles" => @Yii::app()->session["custom"]["roles"] ));
 
 	    		}
 		 		else if( @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("_id"=>new MongoId($id) ) ) ){

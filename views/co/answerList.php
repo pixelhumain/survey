@@ -6,7 +6,9 @@ $cssAnsScriptFilesTheme = array(
 	// SHOWDOWN
 	'/plugins/showdown/showdown.min.js',
 	//MARKDOWN
-	'/plugins/to-markdown/to-markdown.js'
+	'/plugins/to-markdown/to-markdown.js',
+	'/plugins/select2/select2.min.js' ,
+	'/plugins/select2/select2.css',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->request->baseUrl);
 
@@ -259,6 +261,7 @@ if( $this->layout != "//layouts/empty"){
 				else
 					echo "<center><h3>Ce dossier n'est pas éligible</h3><center>";
 			}else{
+				echo $this->renderPartial( "survey.views.co.modalSelectCategorie",array());
 				?>
 				<center><h3>Eligibilité</h3>
 				<?php
@@ -320,9 +323,13 @@ if(@$form["custom"]['footer']){
 var form = <?php echo json_encode($form); ?>;
 var answers  = <?php echo json_encode($answers); ?>;
 var eligible  = <?php echo json_encode($eligible); ?>;
+var rolesListCustom = <?php echo json_encode(@$roles); ?>;
+
 $(document).ready(function() { 
+	
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
-	bindAnwserList();	
+	
+	bindAnwserList();
 });
 
 

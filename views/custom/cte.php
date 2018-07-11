@@ -120,7 +120,7 @@
       </ul>
       </p>
     <p>
-      <span style="font-weight:bold;">L’enjeu</span> est de mobiliser la société autour de l’objectif de neutralité carbone d’ici 2050.
+      <span style="font-weight:bold;">L’enjeu est de mobiliser la société autour de l’objectif de neutralité carbone d’ici 2050.</span>
     </p>
       
   </div>
@@ -136,7 +136,7 @@
     </p>
 
     <p>
-      Ces réunions de travail ont permis d’établir le fil rouge du CTE (Axes stratégiques) et de recenser des premiers projets concrets (publics et privés) matures : ayant fait l’objet d’une instruction par les services publics et/ou organismes parapublics ; qui correspondent aux <b>critères d’éligibilité du CTE 
+      Ces réunions de travail ont permis d’établir <b>le fil rouge</b> du CTE (Axes stratégiques) et de recenser des premiers projets concrets (publics et privés) matures : ayant fait l’objet d’une instruction par les services publics et/ou organismes parapublics ; qui correspondent aux <b>critères d’éligibilité du CTE :
 
     </p>
 
@@ -146,8 +146,8 @@
       <li>actions financées</li>
       <li>actions prêtes au déploiement et réalisables dans les 3 ans</li>
     </ul>
-  </b>. 
-  <p>Le 06 juin 2018, Monsieur Sébastien LECORNU, Ministre de la Transition Ecologique a procédé au <a href="http://www.tco.re/actualite-du-tco/top-depart-pour-le-contrat-de-transition-ecologique-du-tco-20875.html"target="_blank">lancement de la séquence d’initialisation du CTE</a>.</p>
+  </b>
+  <p>Le 6 juin 2018, Monsieur Sébastien LECORNU, Ministre de la Transition Ecologique a procédé au <a href="http://www.tco.re/actualite-du-tco/top-depart-pour-le-contrat-de-transition-ecologique-du-tco-20875.html"target="_blank">lancement de la séquence d’initialisation du CTE</a>.</p>
   </div>
   <div class="col-xs-12 col-md-6 padding-20" style="font-size: 1.3em;">
   <img class="img-responsive" src="http://www.tco.re/wp-content/uploads/2018/07/vignette-2_contrats-de-transition-ecologique-768x768.png" class="margin-15 pull-left">
@@ -163,7 +163,7 @@
     <b>Le Contrat de transition écologique (CTE) du TCO sera opérationnel sur la période 2018-2021</b>
   </p>
   <p>
-    Pour 2018, le contrat de transition écologique comporte <b>deux étapes</b>
+    Pour 2018, le contrat de transition écologique comporte <b>deux étapes :</b>
      <ul>
 
         <li> <b>1ère étape</b> : Une sélection de projets matures issus de la séquence d’initialisation. </li>
@@ -172,7 +172,7 @@
 
    <p>
      <ul> 
-        <li><b>2ème étape </b> : la plateforme collaborative « CTE - TCO» sera ouverte à compter du 17 juillet afin que les porteurs de projets puissent déclarer leurs projets et/ou actions en ligne jusqu’au 18 août 2018, dans le cadre de l'avis d'appel à projet CTE - TCO.</li>
+        <li><b>2ème étape </b> : du 17 juillet au 18 août 2018, les acteurs économiques pourront déclarer leurs projets en ligne sur la plateforme collaborative « Communecter ».</li>
     </ul>
   </p>
   <p>
@@ -185,7 +185,7 @@
  <div class="space50"></div>
 
   <div class="col-xs-offset-1 col-xs-10 shadow2 padding-20 margin-top-20">
-    <h3 class="text-center ">4 étapes du CTE </h3>
+    <h3 class="text-center ">Les 4 étapes du CTE </h3>
     <div class="card col-xs-12 col-md-3">
         <div class="card-body padding-15" style="border: 2px solid <?php echo $form["custom"]["color"] ?>; border-radius: 10px;min-height:200px;">
           <h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
