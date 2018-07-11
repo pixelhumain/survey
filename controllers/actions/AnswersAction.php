@@ -15,10 +15,11 @@ class AnswersAction extends CAction{
 				//Rest::json($answers); exit ;
 
 				$results = ( empty($answers) ? array() : Form::listForAdmin($answers) );
-				//Rest::json($results); exit ;
+
 	 			echo $this->getController()->render("answersList",
 	 												array(  "results" => $results,
-												 			"form"=> $form ));
+												 			"form"=> $form,
+												 			"roles" => @Yii::app()->session["custom"]["roles"] ));
 
 	 		} else if(@$answers = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>@$id) )){
 		 		echo $this->getController()->render("answers",array( 

@@ -191,8 +191,6 @@ jQuery(document).ready(function() {
         
         }
     }
-
-    userValidatedActions();
 });
 
 /*

@@ -1,7 +1,9 @@
 <?php
 $cssAnsScriptFilesModule = array(
     '/plugins/jquery-simplePagination/jquery.simplePagination.js',
-	'/plugins/jquery-simplePagination/simplePagination.css'
+	'/plugins/jquery-simplePagination/simplePagination.css',
+	'/plugins/select2/select2.min.js' ,
+	'/plugins/select2/select2.css',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true));
 
@@ -69,17 +71,37 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
 
+<div class="modal fade" role="dialog" id="modalCatgeorieAnswers">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-green-k text-white">
+                <h4 class="modal-title"><i class="fa fa-check"></i> <?php echo Yii::t("login","Choisissez la catégorie du projet") ?></h4>
+            </div>
+            <div class="modal-body center text-dark hidden" id="modalRegisterSuccessContent"></div>
+            <div class="modal-body center text-dark">
+                
+                <h5><i class="fa fa-angle-down"></i> Catégorie</h5>
+                <input id="selectCategorie" class="" type="text" data-type="select2" name="roles" placeholder="Choisissez une catégorie" style="width:100%;">
+                    
+            </div>
+            <div class="modal-footer">
+                 <button id="validEligible" type="button" class="btn btn-default letter-green" data-dismiss="modal"><i class="fa fa-check"></i> Validez </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
 	var form =<?php echo json_encode($form); ?>;
 	var data =<?php echo json_encode($results); ?>;
-		mylog.log("data", data);
 	var searchAdmin={
 		parentSurvey : form.id,
 		text:null,
 		page:"",
 		//type:initType[0]
 	};
+	var rolesListCustom = <?php echo json_encode(@$roles); ?>;
 
 	jQuery(document).ready(function() {
 		bindLBHLinks();
@@ -88,9 +110,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 			initViewTable(data);
 		}
 
+		if(rolesListCustom.length > 0)
+			rolesList = rolesListCustom ;
+
+		$('#modalCatgeorieAnswers #selectCategorie').select2({tags:rolesList});
 
 		$("#input-search-table").keyup(function(e){
-			mylog.log("here", e.keyCode);
 			//if(e.keyCode == 13){
 			searchAdmin.page=0;
 			searchAdmin.text = $(this).val();
@@ -124,7 +149,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		          bindAnwserList();
 		          // if(typeof data.results.count !="undefined")
 		          // 	refreshCountBadge(data.results.count);
-		          // mylog.log(data.results);
 		          // if(initPage)
 		          // 	initPageTable(data.results.count[searchAdmin.type]);
 	        },
@@ -140,13 +164,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	}
 
 	function initViewTable(data){
-		mylog.log("initViewTable", data);
 		$('#panelAdmin .directoryLines').html("");
-		mylog.log("valueInit",data);
 		$.each(data, function(key, value){
 
 			entry=buildDirectoryLine(key, value);
-			mylog.log("entry", entry);
 			$("#panelAdmin .directoryLines").append(entry);
 		});
 		bindAnwserList();
@@ -163,7 +184,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 			str += '</td>';
 			str += '<td id="active'+value.id+value.type+'">';
 			if(typeof value.type != "undefined" && "projects" == value.type){
-				//mylog.log("here", value.id, form.links.projectExtern[value.id]);
 				if( typeof form.links == "undefined" || 
 					typeof form.links.projectExtern == "undefined" || 
 					typeof form.links.projectExtern[value.id] == "undefined") {
@@ -184,10 +204,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 				}
 			}
 			str += '</td>';
-
-
-
-
 		str += '</tr>';
 		return str;
 	}
@@ -195,6 +211,28 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	function bindAnwserList(){
 
 		$(".activeBtn").on("click",function(e){
+			var params = {
+				childId : $(this).data("id"),
+				childType : $(this).data("type"),
+				childName : $(this).data("name"),
+				userName : $(this).data("username"),
+				userId : $(this).data("userid"),
+				form : form._id.$id,
+				formId : form.id,
+				eligible : true,
+			};
+
+			if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
+				params["parentId"] = $(this).data("parentid");
+				params["parentType"] = $(this).data("parenttype");
+				params["parentName"] = $(this).data("parentname");
+			}
+
+			eligible(params);
+		});
+
+
+		$("#validEligible").on("click",function(e){
 			var params = {
 				childId : $(this).data("id"),
 				childType : $(this).data("type"),
@@ -240,27 +278,27 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	}
 
 	function eligible(params){
-		$.ajax({
-			type: "POST",
-			url: baseUrl+'/'+activeModuleId+"/co/active/",
-			data:params,
-			dataType: "json",
-			success: function(data){
-				mylog.log("activeBtn ok", "#active"+params.childId+params.childType);
 
-				if(data.result == true){
-					toastr.success(data.msg);
-				}else{
-					toastr.error(data.msg);
-				}
-				$("#active"+params.childId+params.childType).html(data.msg);
+		
+		$('#modalCatgeorieAnswers').modal("show");
+		// $.ajax({
+		// 	type: "POST",
+		// 	url: baseUrl+'/'+activeModuleId+"/co/active/",
+		// 	data:params,
+		// 	dataType: "json",
+		// 	success: function(data){
+		// 		if(data.result == true){
+		// 			toastr.success(data.msg);
+		// 		}else{
+		// 			toastr.error(data.msg);
+		// 		}
+		// 		$("#active"+params.childId+params.childType).html(data.msg);
 				
-			},
-			error: function (error) {
-				mylog.log("activeBtn error", error);
-				toastr.error("Projet non éligible");
-			}	
-		});
+		// 	},
+		// 	error: function (error) {
+		// 		toastr.error("Projet non éligible");
+		// 	}	
+		// });
 	}
 
 </script> 
