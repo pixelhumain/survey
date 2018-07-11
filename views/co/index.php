@@ -30,11 +30,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
 $cssJS = array(
     '/js/dataHelpers.js',
     '/js/sig/geoloc.js',
-    '/js/sig/findAddressGeoPos.js'
+    '/js/sig/findAddressGeoPos.js',
+    '/js/default/loginRegister.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 $cssJS = array(
 '/assets/css/default/dynForm.css',
+
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 ?>
@@ -63,7 +65,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 <?php 
 if(@$form["custom"]['footer']){
-echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
+    echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
 }
 ?>
 
@@ -82,8 +84,7 @@ jQuery(document).ready(function() {
 
     //scenario is a list of many survey definitions that can be put together in different ways
     //$("#surveyDesc").html("");
-    if(userId && dySObj.surveys.scenario )
-    {
+    if(userId && dySObj.surveys.scenario ){
         if( startDate && (startDate.sec > (new Date().getTime()/1000)) )
             $("#surveyDesc").append("<h1 class='text-center text-red bold'> Période de Collecte pas encore lancé.<br/>Revenez bientot! </h1>");
         else if( endDate && (endDate.sec < (new Date().getTime()/1000)) )
@@ -190,6 +191,8 @@ jQuery(document).ready(function() {
         
         }
     }
+
+    userValidatedActions();
 });
 
 /*
