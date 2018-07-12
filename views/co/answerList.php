@@ -293,6 +293,24 @@ if( $this->layout != "//layouts/empty"){
 
 		<div class="col-xs-12 hidden">
 			<h3>Instruction</h3>
+			à produire par le TCO la matrice d'instruction : <br/>
+			<ul>
+				<li>Cohérence : Analyse technique / resultat attendu par le CTE</li>
+				<li>
+					Avis expert Technique / Tete de réseau<br>
+					<ul>
+						<li>Evaluation du risque</li>
+					</ul>
+				</li>
+				<li>Pertinence / respect Calendrier</li>
+				<li>
+				Cohérence Financiere (par les financeurs) :<br>
+					<ul>	
+						<li>Alignement avec les mesures</li>
+						<li>Analyse financiere</li>
+					</ul>
+					</li>
+			</ul>
 		</div>
 
 		<div class="col-xs-12 hidden">

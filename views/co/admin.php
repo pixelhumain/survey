@@ -55,7 +55,7 @@ if(@Yii::app()->session["userIsAdmin"] || Yii::app()->session["userIsAdminPublic
 	                     class="" height="100"><br/>
 	         <h3><?php echo Yii::t("common","Administration portal") ?></h3>
    		</div>
-		<div class="col-md-10 col-sm-10 col-xs-10 alert-danger text-center margin-top-20"><strong><?php echo Yii::t("common","You are not authorized to acces adminastrator panel ! <br/>Connect you or contact us in order to become admin system") ?></strong></div>
+		<div class="col-md-10 col-sm-10 col-xs-10 alert-danger text-center margin-top-20"><strong><?php echo Yii::t("common","You are not authorized to access this admin panel ! <br/>Login or contact an existing admin") ?></strong></div>
 	<?php } ?>
 </div>
 
