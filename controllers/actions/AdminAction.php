@@ -8,10 +8,10 @@ class AdminAction extends CAction{
         $form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
     	if ( ! Person::logguedAndValid() ) {
             $this->getController()->render("co2.views.default.loginSecure");
-        }else if(	Yii::app()->session["userId"] == $form["author"] ||
+        }else if(	Form::canAdmin($id, $form) /*Yii::app()->session["userId"] == $form["author"] ||
 					(	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
 						!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
-						$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true) ) {
+						$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true) */) {
     		echo $this->getController()->render("admin", array());
 		} else 
 			$this->getController()->render("co2.views.default.unauthorised"); 

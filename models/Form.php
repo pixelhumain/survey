@@ -151,10 +151,11 @@ class Form {
 			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
 
 		$res = false;
+		//Rest::json($form); exit ;
     	if(	Yii::app()->session["userId"] == $form["author"] ||
-			(	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
-				!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
-				$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){
+			(	!empty($form["links"]["members"][Yii::app()->session["userId"]]) && 
+				!empty($form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"]) &&
+				$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true)){
     		$res = true;
         }
         return $res ;
