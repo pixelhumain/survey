@@ -9,11 +9,7 @@ class AnswerAction extends CAction
     			//only admins and user can review an answer
     			//Form::isAuthorised($user)
     		//Rest::json($form); exit;
-			if(	$user != Yii::app()->session["userId"] && 
-				( 	Yii::app()->session["userId"] != $form["author"] || 
-					!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
-					!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
-					$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true) ) {
+			if(	$user != Yii::app()->session["userId"] && !Form::canAdmin($id, $form) ) {
 				$this->getController()->layout = "//layouts/empty";	
 				$this->getController()->render("co2.views.default.unauthorised"); 
 			} else {
