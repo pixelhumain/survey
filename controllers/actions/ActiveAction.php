@@ -25,6 +25,8 @@ class ActiveAction extends CTKAction{
 			if(!empty($_POST["parentId"]) && !empty($_POST["parentType"])){
 
 				$form = Form:: getByIdMongo($_POST["form"], array("parentId", "parentType"));
+
+				// pour l'orga
 				$child = array();
 				$child[] = array( 	"childId" => $_POST["parentId"],
 									"childType" => $_POST["parentType"],
@@ -32,6 +34,17 @@ class ActiveAction extends CTKAction{
 									"roles" =>  !empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array());
 				//Rest::json( $form ); exit ;
 				$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+
+				// pour le projet
+				$child = array();
+				$child[] = array( 	"childId" => $_POST["childId"],
+									"childType" => $_POST["childType"],
+									"childName" => $_POST["childName"],
+									"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()));
+
+				$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+
+
 			}
 
 			// $data["eligible"] = true ;
