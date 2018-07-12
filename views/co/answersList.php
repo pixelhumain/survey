@@ -29,11 +29,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		border-color: #333;
  	}
 </style>
-<?php 
-	if(	Yii::app()->session["userId"] == $form["author"] ||
-		(!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
-			!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
-			$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true)){ ?>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
 	<div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="goBackToHome">
 		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/admin/id/<?php echo $_GET['id']; ?>" class="col-md-12 col-sm-12 col-xs-12 padding-20 text-center bg-orange" id="btn-home" style="font-size:20px;"><i class="fa fa-home"></i> Back to administrator home</a>
@@ -278,8 +273,4 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 
 </script> 
-<?php	
-	} else {
-		$this->renderPartial("unauthorised");
-	} ?>
 
