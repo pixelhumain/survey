@@ -157,6 +157,7 @@ class Form {
 				!empty($form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"]) &&
 				$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true)){
     		$res = true;
+    		
         }
         return $res ;
 	}
