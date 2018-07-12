@@ -15,7 +15,7 @@ class AnswerAction extends CAction
 					!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
 					$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true) ) {
 				$this->getController()->layout = "//layouts/empty";	
-				$this->getController()->render("unauthorised!");
+				$this->getController()->render("co2.views.default.unauthorised"); 
 			} else {
 	    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user"=>@$user) )){
 
