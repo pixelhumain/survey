@@ -9,14 +9,10 @@ class AnswerAction extends CAction
     			//only admins and user can review an answer
     			//Form::isAuthorised($user)
     		//Rest::json($form); exit;
-			if(	$user != Yii::app()->session["userId"] && 
-				( 	Yii::app()->session["userId"] != $form["author"] || 
-					!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
-					!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
-					$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true) ) {
-				$this->getController()->layout = "//layouts/empty";	
-				$this->getController()->render("unauthorised!");
-			} else {
+			// if(	$user != Yii::app()->session["userId"] && !Form::canAdmin($id, $form) ) {
+			// 	$this->getController()->layout = "//layouts/empty";	
+			// 	$this->getController()->render("co2.views.default.unauthorised"); 
+			// } else {
 	    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user"=>@$user) )){
 
 	    				$eligible = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id, "user"=>@$user) );
@@ -52,7 +48,7 @@ class AnswerAction extends CAction
 		 		}
 			 	else 
 			 		echo "Answer not found"; 
-			} 
+			//} 
 		} else {
 				$this->getController()->layout = "//layouts/empty";	
 				echo Yii::t("common","Please Login First");
