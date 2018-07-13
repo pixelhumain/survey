@@ -34,7 +34,7 @@
     
 
     jQuery(document).ready(function() {
-        if(typeof rolesListCustom != "undefined" && rolesListCustom.length > 0)
+        if(typeof rolesListCustom != "undefined" && notNull(rolesListCustom) && rolesListCustom.length > 0)
             rolesList = rolesListCustom ;
         $('#modalCatgeorieAnswers #selectCategorie').select2({tags:rolesList});
         $("#validEligible").on("click",function(e){
