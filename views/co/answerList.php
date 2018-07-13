@@ -96,11 +96,7 @@ if( $this->layout != "//layouts/empty"){
 	<?php 
 
 		foreach ($form["scenario"] as $k => $v) {
-			//var_dump($v);
-			//var_dump($answers);
-			//break;
-			if(@$answers[$k])
-			{?>
+			if(@$answers[$k]){  ?>
 				<div class=" titleBlock col-xs-12 text-center" style="background-color: <?php echo $form["custom"]["color"] ?>"  onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();">
 					<h1> <?php echo $v["form"]["title"]; ?></h1>
 				</div>
@@ -187,10 +183,10 @@ if( $this->layout != "//layouts/empty"){
 								echo "<td> Tags </td>";
 								echo "<td>";
 								$it=0;
-								foreach($el["tags"] as $v){
+								foreach($el["tags"] as $tags){
 									if($it>0)
 										echo ", ";
-									echo $v;
+									echo $tags;
 								}
 								echo "</td>";
 							echo '</tr>';
