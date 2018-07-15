@@ -343,6 +343,7 @@ var rolesListCustom = <?php echo json_encode(@$roles); ?>;
 $(document).ready(function() { 
 	
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
+	
 	$.each($('.markdown'),function(i,el) { 
 		$(this).html( dataHelper.markdownToHtml( $(this).html() ) );	
 	})
