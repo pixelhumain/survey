@@ -78,6 +78,7 @@ jQuery(document).ready(function() {
         alert(modules.survey.url+$(this).data("file"));
         window.open(modules.survey.url+$(this).data("file"));
      });
+
     //dySObj.getSurveyJson("commons",parentModuleUrl+'/js/dynForm/commons.js');
     //dySObj.getSurveyJson("commons",baseUrl+"/survey/co/form/id/commons");
     dySObj.surveyId = "#ajaxFormModal";

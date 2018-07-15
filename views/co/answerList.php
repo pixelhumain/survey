@@ -123,7 +123,8 @@ if( $this->layout != "//layouts/empty"){
 							if(is_string($a)){
 								echo '<tr>';
 									echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
-									echo "<td>".$a."</td>";
+									$markdown = (strpos(@$formQ[ $q ]["class"], 'markdown') !== false) ? 'markdown' : "";
+									echo "<td class='".$markdown."'>".$a."</td>";
 								echo '</tr>';
 							}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
 								$document=Document::getById($a["id"]);
@@ -342,6 +343,9 @@ var rolesListCustom = <?php echo json_encode(@$roles); ?>;
 $(document).ready(function() { 
 	
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
+	$.each($('.markdown'),function(i,el) { 
+		$(this).html( dataHelper.markdownToHtml( $(this).html() ) );	
+	})
 	
 	bindAnwserList();
 });
