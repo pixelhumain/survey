@@ -3,6 +3,8 @@ class UpdateDocumentIdsAction extends CAction
 {
     public function run()
     {
+        $res=false;
+        $msg=Yii::t("common","Please Login First");
     	if ( Person::logguedAndValid() ) {
     		$answer = PHDB::findOne(Form::ANSWER_COLLECTION , array("formId"=>@$_POST["formId"], "user"=>@Yii::app()->session["userId"]));
     		if(!empty($answer)){
@@ -15,16 +17,10 @@ class UpdateDocumentIdsAction extends CAction
                     array('$set' => array('answers.'.$sectionKey.'.'.$docKey => $update)));
     			$msg=Yii::t("common","Evrything allRight");
 				$res=true;
-    		}else{ 
+    		}else
 				$msg= "Answer not found";
-				$resul=false;
-    		 }
-		} else {
-			$this->getController()->layout = "//layouts/empty";	
-			$msg=Yii::t("common","Please Login First");
-			$res=false;
-		}
-		echo json_encode(array("result"=>$res, "msg"=>$msg));
+		} 
 
+		echo json_encode(array("result"=>$res, "msg"=>$msg));
     }
 }

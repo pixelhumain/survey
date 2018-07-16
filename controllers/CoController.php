@@ -22,6 +22,7 @@ class CoController extends CommunecterController {
 	        'form'  => 'survey.controllers.actions.FormAction',
 	        'edit'  => 'survey.controllers.actions.EditAction',
 	        'save'  => 'survey.controllers.actions.SaveAction',
+	        'update'=> 'survey.controllers.actions.UpdateAction',
 	        'answers'  => 'survey.controllers.actions.AnswersAction',
 	        'answer'  => 'survey.controllers.actions.AnswerAction',
 	        'active'  => 'survey.controllers.actions.ActiveAction',

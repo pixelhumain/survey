@@ -9,7 +9,6 @@ a survey is build dynamically according to it's structure , it put's together di
 
 # TODO 
 [ ] Section Admin
-    - classification / etiquetage 
     - structurant / fonctionnel 
     - set dates ( start end )
 

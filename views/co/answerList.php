@@ -1,6 +1,45 @@
+<?php $cssJS = array(
+    
+    '/plugins/jquery.dynForm.js',
+    
+    '/plugins/jQuery-Knob/js/jquery.knob.js',
+    '/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
+    '/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
+
+	'/plugins/jquery-validation/dist/jquery.validate.min.js',
+    '/plugins/select2/select2.min.js' , 
+    '/plugins/moment/min/moment.min.js' ,
+    '/plugins/moment/min/moment-with-locales.min.js',
+
+    // '/plugins/bootbox/bootbox.min.js' , 
+    // '/plugins/blockUI/jquery.blockUI.js' , 
+    
+    '/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js' , 
+    '/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css',
+    '/plugins/jquery-cookieDirective/jquery.cookiesdirective.js' , 
+    '/plugins/ladda-bootstrap/dist/spin.min.js' , 
+    '/plugins/ladda-bootstrap/dist/ladda.min.js' , 
+    '/plugins/ladda-bootstrap/dist/ladda.min.css',
+    '/plugins/ladda-bootstrap/dist/ladda-themeless.min.css',
+    '/plugins/animate.css/animate.min.css',
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
+$cssJS = array(
+    '/js/dataHelpers.js',
+    '/js/sig/geoloc.js',
+    '/js/sig/findAddressGeoPos.js',
+    '/js/default/loginRegister.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
+$cssJS = array(
+'/assets/css/default/dynForm.css',
+
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
+?>
+
 <?php
-
-
 //assets from ph base repo
 $cssAnsScriptFilesTheme = array(
 	// SHOWDOWN
@@ -105,8 +144,16 @@ if( $this->layout != "//layouts/empty"){
 				<?php 
 					foreach ( $answers[$k]["answers"] as $key => $value) 
 					{
+
+					$editBtn = "";
+					// if(@$v["form"]["scenario"][$key]["saveElement"]) 
+					// 	$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
+					// else 
+					if(!@$v["form"]["scenario"][$key]["saveElement"]) 
+						$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
+
 					echo "<div class='col-xs-12'>".
-							"<h2> [ step ] ".@$v["form"]["scenario"][$key]["title"]."</h2>";
+							"<h2> [ step ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
 					echo '<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">'.
 						'<thead>'.
 							'<tr>'.
@@ -223,7 +270,7 @@ if( $this->layout != "//layouts/empty"){
 
 						echo '<tr>';
 							echo "<td> link </td>";
-							echo "<td> <a target='_blank' class='btn btn-default' href='".Yii::app()->createUrl("#page.type.".$value["type"].".id.".$value["id"])."'>".$value["type"]."</a></td>";
+							echo "<td> <a target='_blank' class='btn btn-default' href='".Yii::app()->createUrl("#@".$el["slug"]).".view.detail'>".$value["type"]."</a></td>";
 						echo '</tr>';
 					}
 					echo "</tbody></table></div>";
@@ -339,6 +386,7 @@ var form = <?php echo json_encode($form); ?>;
 var answers  = <?php echo json_encode($answers); ?>;
 var eligible  = <?php echo json_encode($eligible); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
+var updateForm = null;
 
 $(document).ready(function() { 
 	
@@ -346,10 +394,97 @@ $(document).ready(function() {
 	
 	$.each($('.markdown'),function(i,el) { 
 		$(this).html( dataHelper.markdownToHtml( $(this).html() ) );	
-	})
+	});
+
+	$('.editStep').click(function() { 
+
+		if( $(this).data("type") )
+		{
+			//alert($(this).data("type")+" : "+$(this).data("id"));
+			updateForm = {
+				form : $(this).data("form"),
+				step : $(this).data("step"),
+				type : $(this).data("type"),
+				id : $(this).data("id"),
+				path : modules.co2.url + form.scenario[ $(this).data("form") ].form.scenario[$(this).data("step")].path	
+			};
+
+			var subType = "organization2";
+			if( $(this).data("type") == "project" ){
+				subType = "project2";
+				modules.project2 = {
+			        form : modules.co2.url+form.scenario[$(this).data("form")].form.scenario[$(this).data("step")].path
+			    };
+			} else if( $(this).data("type") == "organization" ){
+				subType = "organization2";
+				modules.organization2 = {
+			        form : modules.co2.url+form.scenario[$(this).data("form")].form.scenario[$(this).data("step")].path
+			    };
+			}
+
+			dyFObj.editElement( $(this).data("type"), $(this).data("id"), subType );
+		}
+		else {
+			//alert($(this).data("form")+" : "+$(this).data("step"));
+			updateForm = {
+				form : $(this).data("form"),
+				step : $(this).data("step")	
+			};
+
+			var editForm = form.scenario[$(this).data("form")].form.scenario[$(this).data("step")].json;
+			editForm.jsonSchema.onLoads = {
+				onload : function(){
+					dyFInputs.setHeader("bg-dark");
+					$('.form-group div').removeClass("text-white");
+					dataHelper.activateMarkdown(".form-control.markdown");
+				}
+			};
+			
+			editForm.jsonSchema.save = function(){
+				data={
+	    			formId : updateForm.form,
+	    			answerSection : updateForm.step ,
+	    			answers : getAnswers()
+	    		};
+	    		console.log("save",data);
+	    		$.ajax({ type: "POST",
+			        url: baseUrl+"/survey/co/update",
+			        data: data,
+					type: "POST",
+			    })
+			    .done(function (data) {
+			    	window.location.reload();
+			    	updateForm = null;
+			    });
+			};
+			
+			var editData = answers[$(this).data("form")]['answers'][$(this).data("step")];
+			dyFObj.editStep( editForm , editData);	
+		}
+	});
 	
 	bindAnwserList();
 });
 
-
+function getAnswers()
+{
+	//alert("get Answers");
+	var editAnswers = {};
+	var editForm = form.scenario[updateForm.form].form.scenario[updateForm.step].json;
+	$.each( editForm.jsonSchema.properties,function(field,fieldObj) { 
+        mylog.log($(this).data("step")+"."+field, $("#"+field).val() );
+        if( fieldObj.inputType ){
+            if(fieldObj.inputType=="uploader"){
+         		if( $('#'+fieldObj.domElement).fineUploader('getUploads').length > 0 ){
+					$('#'+fieldObj.domElement).fineUploader('uploadStoredFiles');
+					editAnswers[field] = "";
+            	}
+            }else{
+            	editAnswers[field] = $("#"+field).val();
+            }
+        }
+    });
+    return editAnswers;
+    console.log("editAnswers",editAnswers);
+}
 </script>
