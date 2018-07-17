@@ -146,10 +146,10 @@ if( $this->layout != "//layouts/empty"){
 					{
 
 					$editBtn = "";
-					// if(@$v["form"]["scenario"][$key]["saveElement"]) 
-					// 	$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
-					// else 
-					if(!@$v["form"]["scenario"][$key]["saveElement"]) 
+					if(@$v["form"]["scenario"][$key]["saveElement"]) 
+						$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
+					else 
+					//if(!@$v["form"]["scenario"][$key]["saveElement"]) 
 						$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 
 					echo "<div class='col-xs-12'>".

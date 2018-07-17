@@ -3,8 +3,13 @@ class AnswerAction extends CAction
 {
     public function run($id,$user,$view=null)
     {
-    	if ( Person::logguedAndValid() ) {
-    		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+    	$this->getController()->layout = "//layouts/empty";
+    	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+
+    	if ( ! Person::logguedAndValid() ) {
+			$this->getController()->render("co2.views.default.loginSecure");
+		}else if( Form::canAdmin($id, $form) || $user == Yii::app()->session["userId"]){ 
+    		
     		//todo check if user id authorised 
     			//only admins and user can review an answer
     			//Form::isAuthorised($user)
@@ -49,9 +54,7 @@ class AnswerAction extends CAction
 			 	else 
 			 		echo "Answer not found"; 
 			//} 
-		} else {
-				$this->getController()->layout = "//layouts/empty";	
-				echo Yii::t("common","Please Login First");
-			}
+		} else 
+			$this->getController()->render("co2.views.default.unauthorised"); 
     }
 }
