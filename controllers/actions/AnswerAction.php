@@ -6,9 +6,10 @@ class AnswerAction extends CAction
     	$this->getController()->layout = "//layouts/empty";
     	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
 
-    	if ( ! Person::logguedAndValid() ) {
+    	if ( ! Person::logguedAndValid() ) 
 			$this->getController()->render("co2.views.default.loginSecure");
-		}else if( Form::canAdmin($id, $form) || $user == Yii::app()->session["userId"]){ 
+		else if( Form::canAdmin($id, $form) || $user == Yii::app()->session["userId"])
+		{ 
     		
     		//todo check if user id authorised 
     			//only admins and user can review an answer
@@ -18,7 +19,8 @@ class AnswerAction extends CAction
 			// 	$this->getController()->layout = "//layouts/empty";	
 			// 	$this->getController()->render("co2.views.default.unauthorised"); 
 			// } else {
-	    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user"=>@$user) )){
+	    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user"=>@$user) ))
+	    		{
 
 	    				$eligible = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id, "user"=>@$user) );
 		    			$user = Person::getById($user);
@@ -38,8 +40,8 @@ class AnswerAction extends CAction
 									 			"roles" => @Yii::app()->session["custom"]["roles"] ));
 
 	    		}
-		 		else if( @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("_id"=>new MongoId($id) ) ) ){
-		 			
+		 		else if( @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("_id"=>new MongoId($id) ) ) )
+		 		{
 		 			if( !$view ){
 			 			$this->getController()->layout = "//layouts/empty";	
 			 			echo $this->getController()->render( "answer" ,array( 

@@ -409,7 +409,7 @@ $(document).ready(function() {
 				path : modules.co2.url + form.scenario[ $(this).data("form") ].form.scenario[$(this).data("step")].path	
 			};
 
-			var subType = "organization2";
+			var subType = "";
 			if( $(this).data("type") == "project" ){
 				subType = "project2";
 				modules.project2 = {
@@ -424,7 +424,8 @@ $(document).ready(function() {
 
 			dyFObj.editElement( $(this).data("type"), $(this).data("id"), subType );
 		}
-		else {
+		else 
+		{
 			//alert($(this).data("form")+" : "+$(this).data("step"));
 			updateForm = {
 				form : $(this).data("form"),
