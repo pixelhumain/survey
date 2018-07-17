@@ -444,25 +444,29 @@ $(document).ready(function() {
 			};
 			
 			editForm.jsonSchema.save = function(){
+				
 				data={
 	    			formId : updateForm.form,
 	    			answerSection : updateForm.step ,
 	    			answers : getAnswers()
 	    		};
+	    		
 	    		console.log("save",data);
+	    		
 	    		$.ajax({ type: "POST",
 			        url: baseUrl+"/survey/co/update",
 			        data: data,
 					type: "POST",
-			    })
-			    .done(function (data) {
-			    	if( $(uploadObj.domTarget).fineUploader('getUploads').length == 0 ){
+			    }).done(function (data) {
+			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
 				    	window.location.reload();
 				    	updateForm = null;
-				    }
+				    } else 
+				    	alert();
 			    });
 			};
-			
+
+
 			var editData = answers[$(this).data("form")]['answers'][$(this).data("step")];
 			dyFObj.editStep( editForm , editData);	
 		}
