@@ -54,7 +54,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th>Organisation</th>
 						<th>Utilisateur</th>
 						<th>Read Answers</th>
-						<th>Eligible</th>
+						<th>Eligibilité</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -186,22 +186,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 				if( typeof form.links == "undefined" || 
 					typeof form.links.projectExtern == "undefined" || 
 					typeof form.links.projectExtern[value.id] == "undefined") {
-					str += '<a href="javascript:;" class="btn btn-success activeBtn col-sm-offset-1 col-sm-4 col-xs-12" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
-						if(typeof value.parentId != "undefined"  && typeof value.parentType != "undefined" ){
-							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
-						}
-					str += '>Eligible</a>';
-
-					str += '<a href="javascript:;" class="btn btn-danger notEligibleBtn col-sm-offset-2 col-sm-4 col-xs-12" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
-						if(typeof value.parentId != "undefined"  && typeof value.parentType != "undefined" ){
-							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
-						}
-					str += '>N\'est pas Eligible</a>';
+					str += 'Pas encore traité';
 
 				}else {
 					str += 'Eligible' ;
 				}
 			}
+
 			str += '</td>';
 		str += '</tr>';
 		return str;
