@@ -75,7 +75,7 @@ var surveyContry = "<?php echo @$form["countryCode"] ?>";
 jQuery(document).ready(function() {
 
     $(".openFile").click( function() { 
-        alert(modules.survey.url+$(this).data("file"));
+        //alert(modules.survey.url+$(this).data("file"));
         window.open(modules.survey.url+$(this).data("file"));
      });
 
