@@ -31,7 +31,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 </style>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
 	<div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="goBackToHome">
-		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/admin/id/<?php echo $_GET['id']; ?>" class="col-md-12 col-sm-12 col-xs-12 padding-20 text-center bg-orange" id="btn-home" style="font-size:20px;"><i class="fa fa-home"></i> Back to administrator home</a>
+		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/admin/id/<?php echo $_GET['id']; ?>" class="col-md-12 col-sm-12 col-xs-12 padding-20 text-center bg-orange" id="btn-home" style="font-size:20px;"><i class="fa fa-home"></i> Retour au panel d'admin</a>
 	</div>
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
 		<h1><?php echo $form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
@@ -50,11 +50,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 			<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
-						<th>Name</th>
+						<th>Nom du projet</th>
 						<th>Organisation</th>
 						<th>Utilisateur</th>
-						<th>Read Answers</th>
-						<th>Eligible</th>
+						<th>Lire la réponse</th>
+						<th>Eligibilité</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -179,29 +179,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 			str += '<td class="center">'+value.parentName+'</td>';
 			str += '<td>'+value.userName+'</td>';
 			str += '<td>';
-				str += '<center><a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.userId+'" target="_blanck">Read</a></center>';
+				str += '<center><a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.userId+'" target="_blanck">Lire</a></center>';
 			str += '</td>';
 			str += '<td id="active'+value.id+value.type+'">';
 			if(typeof value.type != "undefined" && "projects" == value.type){
 				if( typeof form.links == "undefined" || 
 					typeof form.links.projectExtern == "undefined" || 
 					typeof form.links.projectExtern[value.id] == "undefined") {
-					str += '<a href="javascript:;" class="btn btn-success activeBtn col-sm-offset-1 col-sm-4 col-xs-12" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
-						if(typeof value.parentId != "undefined"  && typeof value.parentType != "undefined" ){
-							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
-						}
-					str += '>Eligible</a>';
-
-					str += '<a href="javascript:;" class="btn btn-danger notEligibleBtn col-sm-offset-2 col-sm-4 col-xs-12" data-id="'+value.id+'" data-type="'+value.type+'" data-name="'+value.name+'" data-userid="'+value.userId+'" data-username="'+value.userName+'"';
-						if(typeof value.parentId != "undefined"  && typeof value.parentType != "undefined" ){
-							str += ' data-parentid="'+value.parentId+'" data-parenttype="'+value.parentType+'" data-parentname="'+value.parentName+'"';
-						}
-					str += '>N\'est pas Eligible</a>';
+					str += 'Pas encore traité';
 
 				}else {
 					str += 'Eligible' ;
 				}
 			}
+
 			str += '</td>';
 		str += '</tr>';
 		return str;
