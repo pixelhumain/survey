@@ -84,7 +84,7 @@ if( $this->layout != "//layouts/empty"){
 
 			<?php if( $form["id"] == "cte" ){ ?>
 			<h4>
-			Person : <?php echo $user["name"]; ?> <br/>
+			Référent : <?php echo $user["name"]; ?> <br/>
 			Organisation : 	<?php echo $answers["cte1"]["answers"]["organization"]["name"]; ?><br/>
 			Projet : <?php echo $answers["cte2"]["answers"]["project"]["name"]; ?>
 			</h4>
@@ -112,8 +112,8 @@ if( $this->layout != "//layouts/empty"){
 					<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 						<thead>
 							<tr>
-								<th>Question</th>
-								<th>Answer</th>
+								<th><?php echo Yii::t("common","Question") ?></th>
+								<th><?php echo Yii::t("common","Answer") ?></th>
 							</tr>
 						</thead>
 						<tbody class="directoryLines">
@@ -127,7 +127,7 @@ if( $this->layout != "//layouts/empty"){
 							</tr>
 							<tr>
 								<td>Fiche</td>
-								<td><?php echo Yii::app()->createUrl("#page.type.citoyens.id.".$user["username"]) ?></td>
+								<td><?php echo Yii::app()->createUrl("#@".$user["slug"]) ?></td>
 							</tr>
 						</tbody>
 					</table>
@@ -157,8 +157,8 @@ if( $this->layout != "//layouts/empty"){
 					echo '<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">'.
 						'<thead>'.
 							'<tr>'.
-								'<th>Question</th>'.
-								'<th>Answer</th>'.
+								'<th>'.Yii::t("common","Question").'</th>'.
+								'<th>'.Yii::t("common","Answer").'</th>'.
 							'</tr>'.
 						'</thead>'.
 						'<tbody class="directoryLines">';
@@ -208,33 +208,34 @@ if( $this->layout != "//layouts/empty"){
 						$el = Element::getByTypeAndId( $value["type"] , $value["id"] );
 
 						echo '<tr>';
-							echo "<td> name </td>";
+							echo "<td> ".Yii::t("common","Name")."</td>";
 							echo "<td> ".$el["name"]."</td>";
 						echo '</tr>';
 
 						if(@$el["type"]){
 							echo '<tr>';
-								echo "<td> Type </td>";
+								echo "<td>".Yii::t("common","Type")."</td>";
 								echo "<td>".$el["type"]."</td>";
 							echo '</tr>';
 						}
 
 						if(@$el["description"]){
 							echo '<tr>';
-								echo "<td> Description </td>";
+								echo "<td>".Yii::t("common", "Description")."</td>";
 								echo "<td>".$el["description"]."</td>";
 							echo '</tr>';
 						}
 
 						if(@$el["tags"]){
 							echo '<tr>';
-								echo "<td> Tags </td>";
+								echo "<td>".Yii::t("common","Tags")."</td>";
 								echo "<td>";
 								$it=0;
 								foreach($el["tags"] as $tags){
 									if($it>0)
 										echo ", ";
-									echo $tags;
+									echo "<span class='text-red'>#".$tags."</span>";
+									$it++;
 								}
 								echo "</td>";
 							echo '</tr>';
@@ -242,43 +243,44 @@ if( $this->layout != "//layouts/empty"){
 
 						if(@$el["shortDescription"]){
 							echo '<tr>';
-								echo "<td> Short Description </td>";
+								echo "<td>".Yii::t("common","Short description")."</td>";
 								echo "<td>".$el["shortDescription"]."</td>";
 							echo '</tr>';
 						}
 
 						if(@$el["email"]){
 							echo '<tr>';
-								echo "<td> Email </td>";
+								echo "<td>".Yii::t("common","Email")."</td>";
 								echo "<td>".$el["email"]."</td>";
 							echo '</tr>';
 						}
 						
 						if(@$el["profilImageUrl"]){
 							echo '<tr>';
-								echo "<td> profilImageUrl </td>";
+								echo "<td>".Yii::t("common","Profil image")." </td>";
 								echo "<td><img src='".Yii::app()->createUrl($el["profilImageUrl"])."' class='img-responsive'/></td>";
 							echo '</tr>';
 						}
 
 						if(@$el["url"]){
 							echo '<tr>';
-								echo "<td> URL </td>";
-								echo "<td><a href='".$el["url"]."'>Site</a></td>";
+								echo "<td>".Yii::t("common","Website URL")."</td>";
+								echo "<td><a href='".$el["url"]."'>".$el["url"]."</a></td>";
 							echo '</tr>';
 						}
 
 						echo '<tr>';
-							echo "<td> link </td>";
-							echo "<td> <a target='_blank' class='btn btn-default' href='".Yii::app()->createUrl("#@".$el["slug"]).".view.detail'>".$value["type"]."</a></td>";
+							echo "<td>".Yii::t("common","link")."</td>";
+							echo "<td> <a target='_blank' class='btn btn-default' href='".Yii::app()->createUrl("#@".$el["slug"]).".view.detail'>".Yii::t("common",$value["type"])."</a></td>";
 						echo '</tr>';
 					}
 					echo "</tbody></table></div>";
 				}
 			} else { ?>
-			<div class="bg-red col-xs-12 text-center text-large"><h1> <?php echo $v["form"]["title"]; ?></h1></div>
+			<div class="bg-red col-xs-12 text-center text-large text-white margin-bottom-20"><h1> <?php echo $v["form"]["title"]; ?></h1>
 			<?php 
-				echo "<h3 style='color:red' class='text-center'> This step ".$k." hasn't been filed yet.</h3>";
+				echo "<h3 style='' class=''> <i class='fa fa-2x fa-exclamation-triangle'></i> ".Yii::t("surveys","This step {num} hasn't been filed yet",array('{num}'=>$k))."</h3>".
+					"<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k)."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
 			}
 			echo "</div>";
 		}
