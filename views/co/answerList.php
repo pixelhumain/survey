@@ -456,8 +456,10 @@ $(document).ready(function() {
 					type: "POST",
 			    })
 			    .done(function (data) {
-			    	window.location.reload();
-			    	updateForm = null;
+			    	if( $(uploadObj.domTarget).fineUploader('getUploads').length == 0 ){
+				    	window.location.reload();
+				    	updateForm = null;
+				    }
 			    });
 			};
 			
