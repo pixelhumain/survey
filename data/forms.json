@@ -82,7 +82,6 @@
     }
 }
 
-
 {
     "_id" : ObjectId("5b3c8189af9c7748132938ed"),
     "id" : "cte",
@@ -182,7 +181,6 @@
     "modified" : ISODate("2018-07-17T11:18:51.000Z")
 }
 
-
 {
     "_id" : ObjectId("5b3c8194af9c7748132938ee"),
     "id" : "cte1",
@@ -217,6 +215,7 @@
                     "properties" : {
                         "status" : {
                             "inputType" : "uploader",
+                            "afterUploadComplete" : "/survey/co/index/id/cte2",
                             "label" : "Ajouter les statuts ou Kbis ou Délibération :",
                             "showUploadBtn" : false,
                             "docType" : "file",
@@ -344,6 +343,7 @@
                         },
                         "previsionel" : {
                             "inputType" : "uploader",
+                            "afterUploadComplete" : "/survey/co/index/id/cte",
                             "label" : "Budget prévisionel:",
                             "showUploadBtn" : false,
                             "docType" : "file",
