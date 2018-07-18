@@ -82,6 +82,7 @@
     }
 }
 
+
 {
     "_id" : ObjectId("5b3c8189af9c7748132938ed"),
     "id" : "cte",
@@ -90,7 +91,7 @@
     "custom" : {
         "header" : "survey.views.custom.cte",
         "footer" : "survey.views.custom.cteFooter",
-        "urlLogo" : "/upload/communecter/surveys/cte/logo.png",
+        "logo" : "/images/custom/cte/logo-tco-cte.jpg",
         "endTpl" : "home",
         "color" : "#00B795",
         "roles" : [ 
@@ -103,14 +104,11 @@
         ],
         "mail" : {
             "invitation" : {
-                "msg" : "YOYOYOY On t'invite a rejoindre le CTE viens on est bien bien bien"
+                "msg" : "Bienvenue sur la plate-forme des projets du CTE"
             }
         }
     },
-    "customTpl" : "survey.views.custom.cte",
-    "urlLogo" : "/upload/communecter/surveys/cte/logo.png",
     "countryCode" : "RE",
-    "endTpl" : "home",
     "description" : "Bienvenue sur la plate-forme des projets du CTE.<br/><br/> Différentes phases sont prévues dans le cadre de votre participation au Contrat de Transition Ecologique du TCO.<br/><br/> La première phase est celle du dépôt de votre projet. Chaque étape du formulaire est nécessaire pour prendre en compte de votre candidature.<br/><br/> Cette phase 1 vise à recenser les projets voulant s’inscriredans la transition écologique du territoire Ouest de La Réunion. <br/><br/>La phase suivant celle du dépôt des projets est la phase d'évaluation et de présélection des projets qui participeront à la phase finale, celle de l’élection des projets qui bénéficieront de l'aide du Contrat de Transition Ecologique du TCO.",
     "parentType" : "organizations",
     "parentId" : "5b47451ddd0452ca52000693",
@@ -148,6 +146,13 @@
                 "roles" : [ 
                     "ECO CONSTRUCTION"
                 ]
+            },
+            "55ee8d59e41d756612558516" : {
+                "type" : "citoyens",
+                "invitorId" : "55e042ffe41d754428848363",
+                "invitorName" : "Raphael RIVIERE",
+                "isInviting" : true,
+                "isAdmin" : true
             }
         },
         "projectExtern" : {
@@ -173,9 +178,10 @@
             }
         }
     },
-    "updated" : NumberLong(1531399352),
-    "modified" : ISODate("2018-07-12T12:42:32.000Z")
+    "updated" : NumberLong(1531826331),
+    "modified" : ISODate("2018-07-17T11:18:51.000Z")
 }
+
 
 {
     "_id" : ObjectId("5b3c8194af9c7748132938ee"),
