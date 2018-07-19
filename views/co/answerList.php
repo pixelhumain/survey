@@ -81,19 +81,11 @@ if( $this->layout != "//layouts/empty"){
 				echo $form["title"];
 			} ?>
 			</h1>
-
-			<?php if( $form["id"] == "cte" ){ ?>
-			<h4>
-			Référent : <?php echo $user["name"]; ?> <br/>
-			Organisation : 	<?php echo $answers["cte1"]["answers"]["organization"]["name"]; ?><br/>
-			Projet : <?php echo $answers["cte2"]["answers"]["project"]["name"]; ?>
-			</h4>
-			<?php }?>
 		</div>
 		<div class="col-sm-6">
-		<?php if(@$form["custom"]['urlLogo']){ ?>
-		<img class="img-responsive pull-right margin-20"   src='<?php echo Yii::app()->getModule("survey")->assetsUrl.$form["custom"]['urlLogo']; ?>'>
-		<?php }?>
+			<?php if(@$form["custom"]['logo']){ ?>
+			<img class="img-responsive pull-right margin-20" style="height:150px" src='<?php echo Yii::app()->getModule("survey")->assetsUrl.$form["custom"]['logo']; ?>'>
+			<?php }?>
 		</div>
     </div>
 
@@ -119,16 +111,26 @@ if( $this->layout != "//layouts/empty"){
 						<tbody class="directoryLines">
 							<tr>
 								<td>Nom</td>
-								<td><?php echo $user["name"]; ?></td>
+								<td><b><a href="<?php echo Yii::app()->createUrl( "#@".$user["slug"]) ?>" target="_blank"><?php echo $user["name"]; ?></a></b></td>
 							</tr>
 							<tr>
 								<td>Email</td>
 								<td><?php echo $user["email"]; ?></td>
 							</tr>
-							<tr>
-								<td>Fiche</td>
-								<td><?php echo Yii::app()->createUrl("#@".$user["slug"]) ?></td>
-							</tr>
+							
+							<?php if( $form["id"] == "cte" ){ ?>
+								<?php if( @$answers["cte1"]["answers"]["organization"]  ){ ?>
+									<tr>
+										<td>Organisation</td>
+										<td><b><a href="<?php echo Yii::app()->createUrl( "#page.type.organizations.id.".$answers["cte1"]["answers"]["organization"]["id"]); ?>" target="_blank"><?php echo $answers["cte1"]["answers"]["organization"]["name"]; ?></a></b></td>
+									</tr>
+								<?php }
+								if( $answers["cte2"]["answers"]["project"]  ){ ?>
+									<tr>
+										<td>Projet</td>
+										<td><b><a href="<?php echo Yii::app()->createUrl( "#page.type.projects.id.".$answers["cte2"]["answers"]["project"]["id"]); ?>" target="_blank"><?php echo $answers["cte2"]["answers"]["project"]["name"]; ?></a></b></td>
+									</tr>
+							<?php } } ?>
 						</tbody>
 					</table>
 				</div>
@@ -213,7 +215,7 @@ if( $this->layout != "//layouts/empty"){
 
 						echo '<tr>';
 							echo "<td> ".Yii::t("common","Name")."</td>";
-							echo "<td> ".$el["name"]."</td>";
+							echo "<td> <a target='_blank' class='btn btn-default' href='".Yii::app()->createUrl("#@".$el["slug"]).".view.detail'>".$el["name"]."</a></td>";
 						echo '</tr>';
 
 						if(@$el["type"]){
@@ -273,10 +275,6 @@ if( $this->layout != "//layouts/empty"){
 							echo '</tr>';
 						}
 
-						echo '<tr>';
-							echo "<td>".Yii::t("common","link")."</td>";
-							echo "<td> <a target='_blank' class='btn btn-default' href='".Yii::app()->createUrl("#@".$el["slug"]).".view.detail'>".Yii::t("common",$value["type"])."</a></td>";
-						echo '</tr>';
 					}
 					echo "</tbody></table></div>";
 				}
