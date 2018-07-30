@@ -9,8 +9,13 @@ a survey is build dynamically according to it's structure , it put's together di
 
 # TODO 
 [ ] Section Admin
+    - classifiaction
     - structurant / fonctionnel 
     - set dates ( start end )
+[ ] pour chaque classification > notation
+    - opportunité
+    - faisabilité
+    - total > priorisation globale
 
 #BUGS
 - PB DE LOGIN
@@ -36,6 +41,12 @@ a survey is build dynamically according to it's structure , it put's together di
 - [show a survey](http://127.0.0.1/ph/survey/co/index/id/commons)
 - [show answers list](http://127.0.0.1/ph/survey/co/index/id/commons) 
 - [show an answer](http://127.0.0.1/ph/survey/co/answer/id/5b1f7eba539f22636d952522)
+
+- A survey is a list of forms assembled together to obtain a set of answers.
+- Answers can be made by users that can be invited 
+- different types of users can be defined and invited to the survey process 
+- As part of an administration process other users(admins) can comme add more answers, like moderation, or selection process answers which will complete the initial answers of the users 
+
 
 ## Problems to test
 - for the moment cannot have multiple element creations in a survey because of images, it also means managing 2 instances of fileuploader in the same form session

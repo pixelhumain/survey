@@ -22,23 +22,26 @@ class AnswerAction extends CAction
 	    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user"=>@$user) ))
 	    		{
 
-	    				$eligible = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id, "user"=>@$user) );
-		    			$user = Person::getById($user);
-		    			$this->getController()->layout = "//layouts/empty";	
-		    			foreach ($answers as $k => $v) {
-		    				$answers[$v["formId"]] = $v;
-		    			}
-		    			$forms = PHDB::find( Form::COLLECTION , array("parentSurvey"=>$id));
-		    			foreach ($forms as $k => $v) {
-		    				$form["scenario"][$v["id"]]["form"] = $v;
-		    			}
-			 			echo $this->getController()->render( "answerList" ,array( 
-									 			"answers" => $answers,
-									 			"form"    => $form,
-									 			"user"	  => $user,
-									 			"eligible"	  => $eligible,
-									 			"roles" => @Yii::app()->session["custom"]["roles"] ));
+    				$adminAnswers = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id, "user"=>@$user) );
+	    			$user = Person::getById($user);
+	    			$this->getController()->layout = "//layouts/empty";	
+	    			foreach ($answers as $k => $v) {
+	    				$answers[$v["formId"]] = $v;
+	    			}
 
+	    			$forms = PHDB::find( Form::COLLECTION , array("parentSurvey"=>$id));
+	    			foreach ($forms as $k => $v) {
+	    				$form["scenario"][$v["id"]]["form"] = $v;
+	    			}
+
+	    			$adminForm = ( Form::canAdmin($form["id"]) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin") ) : null;
+		 			echo $this->getController()->render( "answerList" ,array( 
+								 			"answers" 	=> $answers,
+								 			"form"    	=> $form,
+								 			"user"	  	=> $user,
+								 			"adminAnswers"	=> $adminAnswers,
+								 			"adminForm" => $adminForm,
+								 			"roles" 	=> @Yii::app()->session["custom"]["roles"] ));
 	    		}
 		 		else if( @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("_id"=>new MongoId($id) ) ) )
 		 		{

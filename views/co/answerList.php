@@ -67,29 +67,38 @@ if( $this->layout != "//layouts/empty"){
 	$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
 	$this->renderPartial($layoutPath.'header',array("page"=>"ressource","layoutPath"=>$layoutPath));
 }
+
+
+	$showStyle = ( Form::canAdmin($form["id"]) ) ? "display:none; " : "";
 ?>
 
 <div class="panel panel-dark col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
 	<div class="col-xs-12 ">
 		
 		<div class="col-sm-6 text-center">
+			
 			<h1>
-			<?php if( Form::canAdmin($form["id"]) ){ ?>
-			<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"><?php echo $form["title"]; ?></a> 
-			<?php 
-			} else {
-				echo $form["title"];
-			} ?>
+				<?php if( Form::canAdmin($form["id"]) ){ ?>
+				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"> 
+				<?php 
+				} ?>
+					<?php if(@$form["custom"]['logo']){ ?>
+					<img class="img-responsive margin-20" style="vertical-align: middle; height:150px" src='<?php echo Yii::app()->getModule("survey")->assetsUrl.$form["custom"]['logo']; ?>'  >
+					<?php }  
+					
+					echo $form["title"]; 
+					
+				if( Form::canAdmin($form["id"]) ){ ?>
+				</a>
+				<?php } ?> 
 			</h1>
-		</div>
-		<div class="col-sm-6">
-			<?php if(@$form["custom"]['logo']){ ?>
-			<img class="img-responsive pull-right margin-20" style="height:150px" src='<?php echo Yii::app()->getModule("survey")->assetsUrl.$form["custom"]['logo']; ?>'>
-			<?php }?>
+		
+			
 		</div>
     </div>
 
 	<div class="pageTable col-xs-12  text-center"></div>
+
 		<div class="panel-body">
 			<div>	
 			<style type="text/css">
@@ -97,55 +106,78 @@ if( $this->layout != "//layouts/empty"){
 					border-bottom: 1px solid #666;
 				}
 			</style>
-				<div class="titleBlock col-xs-12 text-center" style="background-color: <?php echo $form["custom"]["color"] ?>" onclick="$('#person').toggle();">
-					<h1> Réponse par</h1>
-				</div>
-				<div class='col-xs-12' id='person'>
-					<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
-						<thead>
-							<tr>
-								<th><?php echo Yii::t("common","Question") ?></th>
-								<th><?php echo Yii::t("common","Answer") ?></th>
-							</tr>
-						</thead>
-						<tbody class="directoryLines">
-							<tr>
-								<td>Nom</td>
-								<td><b><a href="<?php echo Yii::app()->createUrl( "#@".$user["slug"]) ?>" target="_blank"><?php echo $user["name"]; ?></a></b></td>
-							</tr>
-							<tr>
-								<td>Email</td>
-								<td><?php echo $user["email"]; ?></td>
-							</tr>
-							
-							<?php if( $form["id"] == "cte" ){ ?>
-								<?php if( @$answers["cte1"]["answers"]["organization"]  ){ ?>
-									<tr>
-										<td>Organisation</td>
-										<td><b><a href="<?php echo Yii::app()->createUrl( "#page.type.organizations.id.".$answers["cte1"]["answers"]["organization"]["id"]); ?>" target="_blank"><?php echo $answers["cte1"]["answers"]["organization"]["name"]; ?></a></b></td>
-									</tr>
-								<?php }
-								if( $answers["cte2"]["answers"]["project"]  ){ ?>
-									<tr>
-										<td>Projet</td>
-										<td><b><a href="<?php echo Yii::app()->createUrl( "#page.type.projects.id.".$answers["cte2"]["answers"]["project"]["id"]); ?>" target="_blank"><?php echo $answers["cte2"]["answers"]["project"]["name"]; ?></a></b></td>
-									</tr>
-							<?php } } ?>
-						</tbody>
-					</table>
-				</div>
-	<?php 
+				
 
-		foreach ($form["scenario"] as $k => $v) {
+
+
+
+		<div class='col-xs-12' onclick="$('#by').toggle();">
+			<h2 class="padding-20" style="background-color:lightgrey;cursor:pointer;"> Réponse par <i class="fa pull-right fa-user"></i></h2>
+			<table id="by" style="<?php echo $showStyle; ?>" class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
+				
+				<tbody class="directoryLines">
+					<tr>
+						<td>Nom</td>
+						<td><b><a href="<?php echo Yii::app()->createUrl( "#@".$user["slug"]) ?>" target="_blank"><?php echo $user["name"]; ?></a></b></td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td><?php echo $user["email"]; ?></td>
+					</tr>
+					
+					<?php if( $form["id"] == "cte" ){ ?>
+						<?php if( @$answers["cte1"]["answers"]["organization"]  ){ ?>
+							<tr>
+								<td>Organisation</td>
+								<td><b><a href="<?php echo Yii::app()->createUrl( "#page.type.organizations.id.".$answers["cte1"]["answers"]["organization"]["id"]); ?>" target="_blank"><?php echo $answers["cte1"]["answers"]["organization"]["name"]; ?></a></b></td>
+							</tr>
+						<?php }
+						if( $answers["cte2"]["answers"]["project"]  ){ ?>
+							<tr>
+								<td>Projet</td>
+								<td><b><a href="<?php echo Yii::app()->createUrl( "#page.type.projects.id.".$answers["cte2"]["answers"]["project"]["id"]); ?>" target="_blank"><?php echo $answers["cte2"]["answers"]["project"]["name"]; ?></a></b></td>
+							</tr>
+					<?php } } ?>
+				</tbody>
+			</table>
+		</div>
+
+
+
+
+
+		<div class='col-xs-12'>
+			<h2 class="padding-20"  onclick="$('#state').toggle();" style="background-color:lightgrey;cursor:pointer;">ÉTAT DU DOSSIER <i class="fa pull-right  fa-heartbeat"></i></h2>
+			<table id="state" style="<?php echo $showStyle; ?>" class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
+				
+				<tbody class="directoryLines">
+					<tr>
+						<td>État du dossier</td>
+						<td><b class="text-red">Candidat</b><span style="color:grey"> > Priorisation > Instruction > Selection > Gestion et Suivi</span></td>
+					</tr>
+					<tr>
+						<td>Organisation CTE</td>
+						<td><a class="btn btn-default btn-xs" target="_blank" href="<?php echo Yii::app()->createUrl( "#@cteTco"); ?>">Lien</a></td>
+					</tr>
+
+				</tbody>
+			</table>					
+		</div>
+
+
+
+
+
+	<?php foreach ($form["scenario"] as $k => $v) {
 			if(@$answers[$k]){  ?>
-				<div class=" titleBlock col-xs-12 text-center" style="background-color: <?php echo $form["custom"]["color"] ?>"  onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();">
+				<div class=" titleBlock col-xs-12 text-center" style="cursor:pointer;background-color: <?php echo $form["custom"]["color"] ?>"  onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();">
 					<h1> 
-					<?php echo $v["form"]["title"]; ?>
+					<?php echo $v["form"]["title"]; ?><i class="fa pull-right <?php echo @$v["form"]["icon"]; ?>"></i>
 						
 					</h1>
 					<span class="text-dark"><?php echo date('d/m/Y h:i', $answers[$k]["created"]) ?></span>
 				</div>
-				<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
+				<div class='col-xs-12' style="<?php echo $showStyle ?>" id='<?php echo $v["form"]["id"]; ?>'>
 
 				<?php 
 					foreach ( $answers[$k]["answers"] as $key => $value) 
@@ -288,59 +320,273 @@ if( $this->layout != "//layouts/empty"){
 		}
 		?>
 	</div>
+
+
+
+
+
+<?php if( Form::canAdmin($form["id"]) ){ 
+
+
+
+
+	if(@$adminAnswers["eligible"]){?>	
+		<div class="titleBlock col-xs-12 text-center bg-red text-white" style="cursor: pointer;" onclick="$('#eligible').toggle();">
+			<h1> ÉLIGILIBITÉ <small class="text-white">by TCOPIL</small> <i class="fa pull-right fa-<?php echo ($adminAnswers["eligible"]) ? "thumbs-o-up": "thumbs-o-down"; ?>"></i></h1>
+		</div>
+		<div id="eligible" style="display:none" class="col-xs-12">
+			<br/>TODO : MOVE Eligibilty btns here 
+			<br/><span class="text-red">BUG : @Rapha : eligible is always false</span>
+			<br/>TODO : @Rapha : Add classifications
+
+
+			<div class="col-xs-12  padding-20" style="border:1px solid #ccc;">
+				
+
+				<?php
+				$project = $answers["cte2"]["answers"][Project::CONTROLLER];
+				if(!empty($adminAnswers)){
+					if( $adminAnswers["eligible"] === true)
+						echo "<center><h3>Ce dossier est éligible</h3></center>";
+					else
+						echo "<center><h3>Ce dossier n'est pas éligible</h3><center>";
+				}else{
+					echo $this->renderPartial( "survey.views.co.modalSelectCategorie",array());
+					?>
+					<center><h2>Eligibilité</h2>
+					<?php
+					echo '<div id="active'.$project["id"].$project["type"].'">';
+						echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
+							if(!empty($project["parentId"]) && !empty($project["parentType"])){
+								echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
+							}
+						echo 'class="btn btn-success activeBtn col-sm-offset-1 col-sm-4 col-xs-12">Eligible</a>';
+
+						echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
+							if(!empty($project["parentId"]) && !empty($project["parentType"])){
+								echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
+							}
+						echo 'class="btn btn-danger notEligibleBtn col-sm-offset-2 col-sm-4 col-xs-12">Non Eligible</a>';
+					echo '</div>';
+
+					?>
+					</center>
+					<br/><br/>Cette action aura pour impacte de connceté l'organisation au CTE, et ajouterais le projet à la liste des projets du CTE
+					<br/>un mail automatique sera envoyé au projet avec <a href="javascript:;" onclick="$('#mailEligible').toggle();">le texte suivant</a>
+					<div id="mailEligible" class="hide">
+						<textarea id="mailEligibleTxt">fq fdq fq</textarea>
+						<textarea id="mailNonEligibleTxt"> qdsf ds fqsdf qsd</textarea>
+					</div>
+					<?php
+				} ?>
+			</div>
+		</div>
+	<?php } 
+
+
+
+
+	if(@$adminAnswers["categories"]){?>	
+		<div class="titleBlock col-xs-12 text-center bg-red text-white" style="cursor: pointer;" onclick="$('#categories').toggle();">
+			<h1> PRIORISATION <small class="text-white">by TCOPIL</small> <i class="fa pull-right fa-flag-checkered"></i></h1>
+		</div>
+		<script type="text/javascript">
+			function EliTabs(el){
+				$('.eliSec').css('display','none').removeClass("");
+				$('#'+el).toggle();
+				$('.catElLI').removeClass("active");
+				$('#'+el+"Btn").addClass("active");
+			}
+		</script>
+		<style type="text/css">
+			.nav li a{font-size:17px;}
+			.nav li.active {border-right : 3px solid red;border-left : 3px solid red}
+			.nav li.active a{font-weight: bolder;}
+		</style>
+		<div id="categories" class="col-xs-12"  style="display:none">
+			<ul class="nav nav-tabs">
+			  <li id="eligibleDescBtn" class="catElLI active"><a href="javascript:;" onclick="EliTabs('eligibleDesc')">Descriptif</a></li>
+			  <?php foreach ($adminAnswers["categories"] as $key ) {?>
+			  <li id="<?php echo $key?>Btn" class="catElLI"><a href="javascript:;" onclick="EliTabs('<?php echo $key ?>')"><?php echo $key ?></a></li>
+			  <?php } ?>
+			</ul>
+
+			<div id="eligibleDesc" class="eliSec col-xs-12 padding-20">
+				<h1>Descriptif de la priorisation</h1>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				<br>
+				<div class="">
+					<h3 class="text-center">Matrice de priorisation</h3>
+					<table border="1" class="text-center" style="margin:0px auto;">
+						<tr>
+							<th>Note opportunite</th>
+							<th>Note faisabilité</th>
+							<th>Note globale</th>
+							<th>Classification</th>
+						</tr>
+						<tr>
+							<td>15%</td>
+							<td>20%</td>
+							<td>35%</td>
+							<td>3</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<?php foreach ($adminAnswers["categories"] as $key ) {?>
+				<div id="<?php echo $key ?>" style="display:none" class="eliSec col-xs-12 padding-20">
+					<div class="col-xs-12 text-center " >
+						<h2 class="text-center">Priorisation <?php echo $key ?></h2>
+
+						
+						<div class="">
+							<?php 
+							$prioKey = "priorisation";
+							$prioType1 = "opportunite"; ?>
+							<a href="javascript:;" data-section="<?php echo $prioKey?>" data-category="<?php echo $key?>" data-step="<?php echo $prioType1 ?>" data-form="cte" class="adminStep btn btn-danger"><?php echo $adminForm["scenario"][$prioType1][ "json" ][ "jsonSchema" ]["title"] ?></a>
+							
+							<?php $showHide = (@$adminAnswers["answers"][$prioKey][$key]) ? "" : "hide" ?> 
+							<h3 class="text-center <?php echo $key?>_<?php echo $prioType1 ?>ResultHead <?php echo $key?>_prioTitle <?php echo $showHide ?>">résultat <?php echo $prioType1 ?> <span class="text-red <?php echo $key?>_<?php echo $prioType1 ?>Total"></span></h3>
+
+
+							<table border="1" class="text-center  <?php echo $key?>_<?php echo $prioType1 ?>Result" style="margin:0px auto;">
+
+								<tr class="<?php echo $key?>_<?php echo $prioType1 ?>ResultTitle">
+									<?php foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType1 ] as $k => $v ) {
+
+										if(!in_array( @$adminForm["scenario"][$prioType1][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) )
+											echo '<td class="padding-10">'.@$adminForm["scenario"][$prioType1][ "json" ][ "jsonSchema" ][ "properties" ][$k]["placeholder"]."</td>"; 
+										else if( $k == "" )
+											echo '<td class="padding-10">Note</td>';
+									} ?>
+								</tr>
+							
+
+								<tr class="<?php echo $key?>_<?php echo $prioType1 ?>ResultWeight">
+									<?php 
+									foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType1 ] as $k => $v ) {
+										?>
+										<?php 
+											if (!in_array( @$adminForm["scenario"][$prioType1][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) )
+												echo (@$adminForm["scenario"][$prioType1][ "json" ][ "jsonSchema" ][ "properties" ][$k]["weight"]) ? '<td class="padding-10">'.@$adminForm["scenario"][$prioType1][ "json" ][ "jsonSchema" ][ "properties" ][$k]["weight"]."% </td>" : "" ?>
+									<?php } ?>
+								</tr>
+							
+
+								<tr class="<?php echo $key?>_<?php echo $prioType1 ?>ResultAnswer">
+									<?php foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType1 ] as $k => $v ) {?>
+										<?php 
+											if(! in_array( @$adminForm["scenario"][$prioType1][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) )
+												echo '<td class="padding-10">'.$v.'</td>' ?>
+									<?php } ?>
+								</tr>
+							
+
+							</table>
+							<div class="col-xs-12 <?php echo $key?>_<?php echo $prioType1 ?>Comment"></div>
+						</div>
+						
+						<hr>
+						<div class="">
+							<?php $prioType2 = "faisabilite"; ?>
+							<a href="javascript:;" data-section="<?php echo $prioKey?>" data-category="<?php echo $key?>" data-step="<?php echo $prioType2 ?>" data-form="cte" class="adminStep btn btn-danger "><?php echo $adminForm["scenario"][$prioType2][ "json" ][ "jsonSchema" ]["title"] ?></a>
+							<h3 class="text-center <?php echo $key?>_<?php echo $prioType2 ?>ResultHead <?php echo $showHide ?> <?php echo $key?>_prioTitle">résultat <?php echo $prioType2 ?> <span class="text-red <?php echo $key?>_<?php echo $prioType2 ?>Total"></span></h3>
+							<table border="1" class="text-center <?php echo $key?>_<?php echo $prioType2 ?>Result" style="margin:0px auto;">
+								<tr class="<?php echo $key?>_<?php echo $prioType2 ?>ResultTitle">
+									<?php foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType2 ] as $k => $v ) {
+
+										if(!in_array( @$adminForm["scenario"][$prioType2][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) )
+											echo '<td class="padding-10">'.@$adminForm["scenario"][$prioType2][ "json" ][ "jsonSchema" ][ "properties" ][$k]["placeholder"]."</td>"; 
+										else if( $k == "prioDesc" )
+											echo '<td class="padding-10">Note</td>';
+									} ?>
+								</tr>
+								<tr class="<?php echo $key?>_<?php echo $prioType2 ?>ResultWeight">
+									<?php 
+									foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType2 ] as $k => $v ) {
+										?>
+										<?php 
+											if (!in_array( @$adminForm["scenario"][$prioType2][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) )
+												echo (@$adminForm["scenario"][$prioType2][ "json" ][ "jsonSchema" ][ "properties" ][$k]["weight"]) ? '<td class="padding-10">'.@$adminForm["scenario"][$prioType2][ "json" ][ "jsonSchema" ][ "properties" ][$k]["weight"]."% </td>" : "" ?>
+									<?php } ?>
+								</tr>
+								<tr class="<?php echo $key?>_<?php echo $prioType2 ?>ResultAnswer">
+									<?php foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType2 ] as $k => $v ) {?>
+										<?php 
+											if(! in_array( @$adminForm["scenario"][$prioType2][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) )
+												echo '<td class="padding-10">'.$v.'</td>' ?>
+									<?php } ?>
+								</tr>
+							</table>
+						</div>
+						<br><br>
+						<div class="<?php echo $showHide ?> <?php echo $key?>_Priorisation">
+							<h3 class="text-center">Matrice de priorisation  <?php echo $key ?></h3>
+							<table border="1" class="text-center" style="margin:0px auto;">
+								<tr>
+									<th>Note opportunite</th>
+									<th>Note faisabilité</th>
+									<th>Note globale</th>
+									<th>Classification</th>
+								</tr>
+								<tr>
+									<td>50%</td>
+									<td>50%</td>
+									<td>100%</td>
+									<td>Note</td>
+								</tr>
+								<tr>
+									<td class="<?php echo $key?>_Total <?php echo $key?>_<?php echo $prioType1 ?>TotalNum"></td>
+									<td  class="<?php echo $key?>_Total <?php echo $key?>_<?php echo $prioType2 ?>TotalNum"></td>
+									<td  class="<?php echo $key?>_totalTotal"></td>
+									<td></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+
+				</div>
+			<?php } ?>
+		</div>
+	<?php } ?>
+
+	<div class="titleBlock col-xs-12 text-center text-grey" style="background-color: lightgrey" onclick="$('#categories').toggle();">
+		<h1> GESTION DES RISQUES <small class="text-dark">by Tetes de réseaux</small></h1>
+
+		<br>TODO : @tib : dynamically build tabs for each classification to be answered upon
+
+	</div>
+	
+	<div class="titleBlock col-xs-12 text-center text-grey" style="background-color: lightgrey" onclick="$('#categories').toggle();">
+		<h1> GESTION DES RISQUES <small class="text-dark">by Acteurs Financeurs</small></h1>
+
+		<br>TODO : @tib : dynamically build tabs for each classification to be answered upon
+
+	</div>
+
 	</div>
 </div>
 
-<?php if( Form::canAdmin($form["id"]) ){ ?>
+
+
+
 <div class="container" >
 	<div class="col-lg-offset-1 col-lg-10 col-xs-12 padding-20 margin-top-50 margin-bottom-50 " style="border:1px solid red;">
 		
 		<h1 class="text-red text-center">ADMIN SECTION <i class="fa fa-lock"></i></h1>
 		<div class="text-center margin-bottom-20">Visible seulement par les admins du TCO</div>
 
-		<div class="col-xs-12 " style="border:1px solid #ccc;">
-			
+		
 
-			<?php
-			$project = $answers["cte2"]["answers"][Project::CONTROLLER];
-			if(!empty($eligible)){
-				if( $eligible["eligible"] === true)
-					echo "<center><h3>Ce dossier est éligible</h3></center>";
-				else
-					echo "<center><h3>Ce dossier n'est pas éligible</h3><center>";
-			}else{
-				echo $this->renderPartial( "survey.views.co.modalSelectCategorie",array());
-				?>
-				<center><h3>Eligibilité</h3>
-				<?php
-				echo '<div id="active'.$project["id"].$project["type"].'">';
-					echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
-						if(!empty($project["parentId"]) && !empty($project["parentType"])){
-							echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
-						}
-					echo 'class="btn btn-success activeBtn col-sm-offset-1 col-sm-4 col-xs-12">Eligible</a>';
 
-					echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
-						if(!empty($project["parentId"]) && !empty($project["parentType"])){
-							echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
-						}
-					echo 'class="btn btn-danger notEligibleBtn col-sm-offset-2 col-sm-4 col-xs-12">Non Eligible</a>';
-				echo '</div>';
-
-				?>
-				</center>
-				<br/><br/>Cette action aura pour impacte de connceté l'organisation au CTE, et ajouterais le projet à la liste des projets du CTE
-				<br/>un mail automatique sera envoyé au projet avec <a href="javascript:;" onclick="$('#mailEligible').toggle();">le texte suivant</a>
-				<div id="mailEligible" class="hide">
-					<textarea id="mailEligibleTxt">fq fdq fq</textarea>
-					<textarea id="mailNonEligibleTxt"> qdsf ds fqsdf qsd</textarea>
-				</div>
-				<?php
-			} ?>
-		</div>
-
-		<div class="col-xs-12 hidden">
-			<h3>Instruction</h3>
+		<div class="col-xs-12 margin-top-20 padding-20"  style="border:1px solid #ccc;" >
+			<h2 class="text-center">Instruction</h2>
 			à produire par le TCO la matrice d'instruction : <br/>
 			<ul>
 				<li>Cohérence : Analyse technique / resultat attendu par le CTE</li>
@@ -361,12 +607,12 @@ if( $this->layout != "//layouts/empty"){
 			</ul>
 		</div>
 
-		<div class="col-xs-12 hidden">
-			<h3>Selection</h3>
+		<div class="col-xs-12 margin-top-20 padding-20"  style="border:1px solid #ccc;">
+			<h2 class="text-center">Selection</h2>
 		</div>
 
-		<div class="col-xs-12 hidden">
-			<h3>Evaluation et Suivi</h3>
+		<div class="col-xs-12 margin-top-20 padding-20"  style="border:1px solid #ccc;">
+			<h2 class="text-center">Evaluation et Suivi</h2>
 			<ul>
 				<li>Auto évaluation</li>
 				<li>Demande de milestone</li>
@@ -387,8 +633,9 @@ if(@$form["custom"]['footer']){
 
 <script type="text/javascript">
 var form = <?php echo json_encode($form); ?>;
+var adminForm = <?php echo json_encode($adminForm); ?>;
 var answers  = <?php echo json_encode($answers); ?>;
-var eligible  = <?php echo json_encode($eligible); ?>;
+var eligible  = <?php echo json_encode($adminAnswers); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
 var updateForm = null;
 
@@ -450,7 +697,7 @@ $(document).ready(function() {
 				data={
 	    			formId : updateForm.form,
 	    			answerSection : updateForm.step ,
-	    			answers : getAnswers()
+	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json)
 	    		};
 	    		
 	    		console.log("save",data);
@@ -472,16 +719,72 @@ $(document).ready(function() {
 			dyFObj.editStep( editForm , editData);	
 		}
 	});
+
+	$('.adminStep').click(function() {
+
+		updateForm = {
+			form : $(this).data("form")	,
+			category : $(this).data("section")+"."+$(this).data("category")	,
+			cat : $(this).data("category"),
+			step : $(this).data("step")	
+		};
+
+		var editForm = adminForm.scenario[$(this).data("step")].json;
+		console.log("editForm",editForm);
+
+		editForm.jsonSchema.onLoads = {
+			onload : function(){
+				dyFInputs.setHeader("bg-dark");
+				$('.form-group div').removeClass("text-white");
+				dataHelper.activateMarkdown(".form-control.markdown");
+			}
+		};
+		
+		editForm.jsonSchema.save = function()
+		{
+			
+			data={
+    			formId : updateForm.form,
+    			answerSection : updateForm.category+"."+updateForm.step ,
+    			answers : getAnswers(adminForm.scenario[ updateForm.step ].json)
+    		};
+    		
+    		console.log("save",data);
+    		
+    		$.ajax({ type: "POST",
+		        url: baseUrl+"/survey/co/update",
+		        data: data,
+				type: "POST",
+		    }).done(function (data) { 
+		    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
+			    	//window.location.reload();
+			    	dyFObj.closeForm();
+			    	toastr.success('successfully saved !');
+			    	updateForm = null;
+			    } 
+		    });
+		};
+
+		dyFObj.editStep( editForm );	
+
+	})
 	
 	bindAnwserList();
 });
 
-function getAnswers()
+function getAnswers(dynJson)
 {
 	//alert("get Answers");
 	var editAnswers = {};
-	var editForm = form.scenario[updateForm.form].form.scenario[updateForm.step].json;
-	$.each( editForm.jsonSchema.properties,function(field,fieldObj) { 
+	var total = 0;
+	if( $("."+updateForm.cat+"_"+updateForm.step+"Result") )
+	{
+		$("."+updateForm.cat+"_"+updateForm.step+"ResultHead").removeClass('hide');	
+		$("."+updateForm.cat+"_"+updateForm.step+"ResultTitle").html("");
+		$("."+updateForm.cat+"_"+updateForm.step+"ResultWeight").html("");
+		$("."+updateForm.cat+"_"+updateForm.step+"ResultAnswer").html('');
+	}
+	$.each( dynJson.jsonSchema.properties , function(field,fieldObj) { 
         mylog.log($(this).data("step")+"."+field, $("#"+field).val() );
         if( fieldObj.inputType ){
             if(fieldObj.inputType=="uploader"){
@@ -491,10 +794,54 @@ function getAnswers()
             	}
             }else{
             	editAnswers[field] = $("#"+field).val();
+            	if( $("."+updateForm.cat+"_"+updateForm.step+"Result"))
+            	{
+            		if(!isNaN( parseInt($("#"+field).val()) ) ){
+	            		$("."+updateForm.cat+"_"+updateForm.step+"ResultTitle").append( "<td class='padding-10'>"+field+"</td>" );
+	            		$("."+updateForm.cat+"_"+updateForm.step+"ResultWeight").append( "<td class='padding-10'>"+((fieldObj.weight) ? fieldObj.weight+"%" : "")+"</td>" );
+	            		$("."+updateForm.cat+"_"+updateForm.step+"ResultAnswer").append( "<td class='padding-10'>"+$("#"+field).val()+"</td>" );
+	            		  	if(fieldObj.weight){
+			  	          		var w = 1 + (parseInt(fieldObj.weight) / 100);
+			  	          		console.log("w",w,"cal", parseFloat( parseInt( $("#"+field).val() ) / w ).toFixed(2) );
+			  	          		total += parseFloat( parseFloat( parseInt( $("#"+field).val() ) / w ).toFixed(2));
+			  	          	}
+			  	          	else 
+			  	          		total += parseInt($("#"+field).val());
+		  	        } else {
+		  	        	//the field is a comment or a string 
+						$("."+updateForm.cat+"_"+updateForm.step+"Comment").append( "<blockquote class='margin-bottom-20'><h3>"+field+"</h3>"+dataHelper.markdownToHtml( $("#"+field ).val() )+"</blockquote>" );
+		  	        }
+	            }
             }
         }
     });
+    
+    $("."+updateForm.cat+"_"+updateForm.step+"Total").html( "[ Note : "+( parseFloat(total).toFixed(2) )+" ]" );
+    $("."+updateForm.cat+"_"+updateForm.step+"TotalNum").html( parseFloat(total).toFixed(2) );
+    $("."+updateForm.cat+"_"+updateForm.step+"ResultTitle").append( "<td class='bold'>Note</td>" );
+	$("."+updateForm.cat+"_"+updateForm.step+"ResultWeight").append( "<td>100%</td>" );	
+	$("."+updateForm.cat+"_"+updateForm.step+"ResultAnswer").append( "<td>"+( parseFloat(total).toFixed(2) )+"</td>" );
+
+    editAnswers.total = total;
+
+    
+    $("."+updateForm.cat+"_Priorisation").removeClass('hide');	
+    
+    //calcPrio( updateForm.cat );
+	
+	console.log("editAnswers",editAnswers);
     return editAnswers;
-    console.log("editAnswers",editAnswers);
 }
+
+function calcPrio (key) 
+{
+	var t = 0;
+	$("."+key+"_Total").each( function(i,v){ 
+		console.log(i,v);
+		t += parseFloat( $(v).html() );
+	} );
+	alert(t);
+	$("."+key+"_totalTotal").html( t );
+}
+
 </script>
