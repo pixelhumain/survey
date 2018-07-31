@@ -69,14 +69,15 @@ if( $this->layout != "//layouts/empty"){
 }
 
 
-	$showStyle = ( Form::canAdmin($form["id"]) ) ? "display:none; " : "";
+	$canAdmin = Form::canAdmin($form["id"]);
+	$showStyle = ( $canAdmin ) ? "display:none; " : "";
 ?>
 
 <div class="panel panel-dark col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
 	<div class="col-xs-12 text-center">
 		
 			<h1>
-				<?php if( Form::canAdmin($form["id"]) ){ ?>
+				<?php if( $canAdmin ){ ?>
 				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"> 
 				<?php 
 				} ?>
@@ -86,7 +87,7 @@ if( $this->layout != "//layouts/empty"){
 					
 					echo "Evaluation CTE";//$form["title"]; 
 					
-				if( Form::canAdmin($form["id"]) ){ ?>
+				if( $canAdmin ){ ?>
 				</a>
 				<?php } ?> 
 			</h1>
@@ -105,14 +106,23 @@ if( $this->layout != "//layouts/empty"){
 				.stepNumber i{margin-top: 8px}
 			</style>
 				
-		<a href="javascript:;" onclick='$("#wizard").smartWizard("goForward");' class="btn btn-default">NEXT STEP</a>
+		
 		<div id="wizard" class="swMain">
 			<ul id="wizardLinks">
-				<li><a href="#dossier"><div class="stepNumber"><i class="fa  fa-folder-open-o"></i></div><span class="stepDesc"> Dossier </span></a></li>
-				<li><a href="#eligibilite"><div class="stepNumber"><i class="fa fa-thumbs-o-up"></i></div><span class="stepDesc"> Éligibilité </span></a></li>
-				<li><a href="#priorisation"><div class="stepNumber"><i class="fa  fa-sort-amount-desc"></i></div><span class="stepDesc"> Priorisation </span></a></li>
-				<li><a href="#risk"><div class="stepNumber"><i class="fa fa-warning"></i></div><span class="stepDesc"> Gestion du Risque </span></a></li>
+				<?php 
+				$ct = 0;
+				$currentStep = (@$adminAnswers["step"]) ? $adminAnswers["step"] : "" ;
+				foreach ( $adminForm["scenarioAdmin"] as $k => $v) { 
+					$aClass = ( $currentStep != "") ? $currentStep : "";
+					if( $aClass != "" && $currentStep != $k )
+						$aClass == "class='done'";
+					else if( $aClass != "" && $currentStep == $k )
+						$aClass == "class='selected'";
+					?>
+					<li><a  href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
+				<?php } ?>
 			</ul>
+			<?php  ?>
 			<div class="progress progress-xs transparent-black no-radius active">
 				<div aria-valuemax="100" aria-valuemin="0" role="progressbar" class="progress-bar partition-green step-bar">
 					<span class="sr-only"> 0% Complete (success)</span>
@@ -128,7 +138,7 @@ if( $this->layout != "//layouts/empty"){
 
 <div id='dossier' class='section0'>
 				
-
+	<h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER <small class="text-white">par TCOPIL</small> </h1>
 	<?php 
 		/* ---------------------------------------------
 		SECTION REPONSE PAR 
@@ -369,28 +379,23 @@ if( $this->layout != "//layouts/empty"){
  ?>
 
 
-<div id='eligibilite' class='section1 hide'>
+<div id='eligible' class='section1 hide'>
 
-<?php if( Form::canAdmin($form["id"]) ){ 
+<?php if( $canAdmin ){ 
 
 
 	if(@$adminAnswers["eligible"]){?>	
-		<h1> ÉLIGILIBITÉ <small class="text-white">by TCOPIL</small> <i class="fa pull-right fa-<?php echo ($adminAnswers["eligible"]) ? "thumbs-o-up": "thumbs-o-down"; ?>"></i></h1>
+		<h1 class="text-center"> <i class="fa fa-<?php echo ($adminAnswers["eligible"]) ? "thumbs-o-up text-green": "thumbs-o-down text-red"; ?>"></i> ÉLIGILIBITÉ <small class="text-white">par TCOPIL</small> </h1>
 		
 		<div id="eligible"  class="col-xs-12">
-			<br/>TODO : @Rapha : Add classifications
-
-
 			<div class="col-xs-12  padding-20" style="border:1px solid #ccc;">
-				
-
 				<?php
 				$project = $answers["cte2"]["answers"][Project::CONTROLLER];
 				if(!empty($adminAnswers)){
 					if( $adminAnswers["eligible"] === true)
-						echo "<center><h3>Ce dossier est éligible</h3></center>";
+						echo "<center><h3 class='text-green'>Ce dossier est éligible</h3></center>";
 					else
-						echo "<center><h3>Ce dossier n'est pas éligible</h3><center>";
+						echo "<center><h3 class='text-red'>Ce dossier n'est pas éligible</h3><center>";
 				}else{
 					echo $this->renderPartial( "survey.views.co.modalSelectCategorie",array());
 					?>
@@ -437,15 +442,15 @@ if( $this->layout != "//layouts/empty"){
 
 <div id='priorisation' class='section2 hide'>
 
-<?php if( Form::canAdmin($form["id"]) ){ 
+<?php 
+$prioKey = $adminForm['key'];
+if( $canAdmin ){ 
 
 
 	if(@$adminAnswers["categories"]){
 		$prioKey = $adminForm['key'];
 		?>	
-		<div class="titleBlock col-xs-12 text-center bg-red text-white" style="cursor: pointer;" onclick="$('#categories').toggle();">
-			<h1> <?php echo strtoupper($prioKey) ?> <small class="text-white">by TCOPIL</small> <i class="fa pull-right fa-flag-checkered"></i></h1>
-		</div>
+		<h1 class="text-center"> <i class="fa fa-flag-checkered"></i> <?php echo strtoupper($prioKey) ?> <small class="text-white">by TCOPIL</small> </h1>
 		<script type="text/javascript">
 			function EliTabs(el){
 				$('.eliSec').css('display','none').removeClass("");
@@ -459,16 +464,14 @@ if( $this->layout != "//layouts/empty"){
 			.nav li.active {border-right : 3px solid red;border-left : 3px solid red}
 			.nav li.active a{font-weight: bolder;}
 		</style>
-		<div id="categories" class="col-xs-12"  style="display:none">
+		<div id="categories" class="col-xs-12">
 			<ul class="nav nav-tabs">
 			  <li id="eligibleDescBtn" class="catElLI active"><a href="javascript:;" onclick="EliTabs('eligibleDesc')">Descriptif</a></li>
 				  <?php
 
-
 				  // ---------------------------------------
 				  // ALL THE TABS FOR PRIORISATION 
 				  // ---------------------------------------
-
 				  
 					$prioTypes = array();
 					foreach ($adminForm['scenario'] as $ki => $vi) {
@@ -694,7 +697,7 @@ if( $this->layout != "//layouts/empty"){
 
 <div id='risk' class='section3 hide'>
 	
-	<?php if( Form::canAdmin($form["id"]) ){ ?>
+	<?php if( $canAdmin ){ ?>
 		<div class="titleBlock col-xs-12 text-center text-grey" style="background-color: lightgrey" onclick="$('#categories').toggle();">
 			<h1> GESTION DES RISQUES <small class="text-dark">by Tetes de réseaux</small></h1>
 
@@ -733,6 +736,7 @@ var adminForm = <?php echo json_encode($adminForm); ?>;
 var answers  = <?php echo json_encode($answers); ?>;
 var eligible  = <?php echo json_encode($adminAnswers); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
+var canAdmin = <?php echo $canAdmin; ?>;
 var updateForm = null;
 
 $(document).ready(function() { 
@@ -874,22 +878,36 @@ $(document).ready(function() {
 
 function initWizard () { 
 	$("#wizard").smartWizard({
-    selected: 0,
-    keyNavigation: false,
-    //onLeaveStep: function(){ mylog.log("leaveAStepCallback");},
-    onShowStep: function(obj, context)
-    {
-    	mylog.log("test onShowStep",dySObj.navBtnAction,context.toStep,context.fromStep,Math.abs( context.toStep - context.fromStep));
-    	if( !dySObj.navBtnAction ){
-        	$(".section0"+dySObj.activeSection).addClass("hide");
-        	dySObj.activeSection =  context.toStep -1 ;
-			mylog.log("top wisard direct link",dySObj.activeSection);
-			$(".section"+dySObj.activeSection).removeClass("hide");	
+	    selected: 0,
+	    keyNavigation: true,
+	    //enableAllSteps : true,
+	    //onLeaveStep: function(){ mylog.log("leaveAStepCallback");},
+	    onShowStep: function(obj, context)
+	    {
+	    	mylog.log("test onShowStep",dySObj.navBtnAction,context.toStep,context.fromStep,Math.abs( context.toStep - context.fromStep));
+	    	if( !dySObj.navBtnAction ){
+	        	$(".section0"+dySObj.activeSection).addClass("hide");
+	        	dySObj.activeSection =  context.toStep -1 ;
+				mylog.log("top wisard direct link",dySObj.activeSection);
+				$(".section"+dySObj.activeSection).removeClass("hide");	
 
-		}
-		dySObj.animateBar(context.toStep);
-    },
-});
+			}
+			dySObj.animateBar(context.toStep);
+	    },
+	});
+
+	if(canAdmin){
+		var ix = 0;
+		$.each(adminForm.scenarioAdmin, function(k,v) { 
+			ix++;
+			if( eligible.step && k == eligible.step ){
+				$("#wizard").smartWizard("goToStep",ix);
+				return false;
+			}else{
+				$("#wizard").smartWizard("enableStep",ix);
+			}
+		});
+	}
 //dySObj.animateBar();
 }
 
