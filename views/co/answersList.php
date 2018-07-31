@@ -72,7 +72,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 	var form =<?php echo json_encode($form); ?>;
 	var data =<?php echo json_encode($results); ?>;
-		mylog.log("data", data);
+		console.log("data", data);
 	var searchAdmin={
 		parentSurvey : form.id,
 		text:null,
@@ -149,7 +149,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		          bindAnwserList();
 		          // if(typeof data.results.count !="undefined")
 		          // 	refreshCountBadge(data.results.count);
-		          // mylog.log(data.results);
+		          // console.log(data.results);
 		          // if(initPage)
 		          // 	initPageTable(data.results.count[searchAdmin.type]);
 	        },
@@ -165,20 +165,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	}
 
 	function initViewTable(data){
-		mylog.log("initViewTable", data);
+		console.log("initViewTable", data);
 		$('#panelAdmin .directoryLines').html("");
-		mylog.log("valueInit",data);
+		console.log("valueInit",data);
 		$.each(data, function(key, value){
 
 			entry=buildDirectoryLine(key, value);
-			mylog.log("entry", entry);
+			console.log("entry", entry);
 			$("#panelAdmin .directoryLines").append(entry);
 		});
 		bindAnwserList();
 	}
 
 	function buildDirectoryLine(key, value){
-		mylog.log("buildDirectoryLine", key, value);
+		console.log("buildDirectoryLine", key, value);
 		str = '<tr>';
 			str += '<td>'+value.name+'</td>';
 			str += '<td>'+value.parentName+'</td>';
@@ -188,7 +188,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 			str += '</td>';
 			str += '<td id="active'+value.id+value.type+'">';
 			if(typeof value.type != "undefined" && "projects" == value.type){
-				//mylog.log("here", value.id, form.links.projectExtern[value.id]);
+				//console.log("here", value.id, form.links.projectExtern[value.id]);
 				if( typeof form.links == "undefined" || 
 					typeof form.links.projectExtern == "undefined" || 
 					typeof form.links.projectExtern[value.id] == "undefined") {
