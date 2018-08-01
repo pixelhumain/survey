@@ -8,7 +8,7 @@ class AnswerAction extends CAction
 
     	if ( ! Person::logguedAndValid() ) 
 			$this->getController()->render("co2.views.default.loginSecure");
-		else if( Form::canAdmin($id, $form) || $user == Yii::app()->session["userId"])
+		else if( Form::canAdmin( $id, $form ) || $user == Yii::app()->session["userId"])
 		{ 
     		
     		//todo check if user id authorised 
@@ -19,45 +19,53 @@ class AnswerAction extends CAction
 			// 	$this->getController()->layout = "//layouts/empty";	
 			// 	$this->getController()->render("co2.views.default.unauthorised"); 
 			// } else {
-	    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user"=>@$user) ))
-	    		{
+    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user" => @$user ) ) )
+    		{
+				$adminAnswers = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id, "user"=> @$user) );
+				$userO = Person::getById($user);
+				if( !@$adminAnswers ){
+					$adminAnswers = array(
+						"formId" => $id,
+					    "user" => $user,
+					    "name" => $userO["name"],
+					    "step" => "eligible"
+					);
+				}
+    			
+    			$this->getController()->layout = "//layouts/empty";	
+    			foreach ($answers as $k => $v) {
+    				$answers[$v["formId"]] = $v;
+    			}
 
-    				$adminAnswers = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id, "user"=>@$user) );
-	    			$user = Person::getById($user);
-	    			$this->getController()->layout = "//layouts/empty";	
-	    			foreach ($answers as $k => $v) {
-	    				$answers[$v["formId"]] = $v;
-	    			}
+    			$forms = PHDB::find( Form::COLLECTION , array("parentSurvey"=>$id));
+    			foreach ($forms as $k => $v) {
+    				$form["scenario"][$v["id"]]["form"] = $v;
+    			}
 
-	    			$forms = PHDB::find( Form::COLLECTION , array("parentSurvey"=>$id));
-	    			foreach ($forms as $k => $v) {
-	    				$form["scenario"][$v["id"]]["form"] = $v;
-	    			}
-
-	    			$adminForm = ( Form::canAdmin($form["id"]) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin") ) : null;
-		 			echo $this->getController()->render( "answerList" ,array( 
-								 			"answers" 	=> $answers,
-								 			"form"    	=> $form,
-								 			"user"	  	=> $user,
-								 			"adminAnswers"	=> $adminAnswers,
-								 			"adminForm" => $adminForm,
-								 			"roles" 	=> @Yii::app()->session["custom"]["roles"] ));
-	    		}
-		 		else if( @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("_id"=>new MongoId($id) ) ) )
-		 		{
-		 			if( !$view ){
-			 			$this->getController()->layout = "//layouts/empty";	
-			 			echo $this->getController()->render( "answer" ,array( 
-									 			"answer" => $answer,
-									 			"form"   => $form ));
-			 		} else {
-			 			echo $this->getController()->renderPartial( $view ,array( 
-									 			"answer" => $answer,
-									 			"form"   => $form ));
-			 		}
+    			$adminForm = ( Form::canAdmin($form["id"]) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin") ) : null;
+	 			echo $this->getController()->render( "answerList" ,array( 
+							 			"answers" 	=> $answers,
+							 			"form"    	=> $form,
+							 			"user"	  	=> $userO,
+							 			"adminAnswers"	=> $adminAnswers,
+							 			"adminForm" => $adminForm,
+							 			"roles" 	=> @Yii::app()->session["custom"]["roles"] ));
+    		}
+	 		else if( @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("_id"=>new MongoId($id) ) ) )
+	 		{
+	 			if( !$view ){
+		 			$this->getController()->layout = "//layouts/empty";	
+		 			echo $this->getController()->render( "answer" ,array( 
+								 			"answer" => $answer,
+								 			"form"   => $form ));
+		 		} else {
+		 			echo $this->getController()->renderPartial( $view ,array( 
+								 			"answer" => $answer,
+								 			"form"   => $form ));
 		 		}
-			 	else 
-			 		echo "Answer not found"; 
+	 		}
+		 	else 
+		 		echo "Answer not found"; 
 			//} 
 		} else 
 			$this->getController()->render("co2.views.default.unauthorised"); 

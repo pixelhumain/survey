@@ -73,10 +73,10 @@ if( $this->layout != "//layouts/empty"){
 	$showStyle = ( $canAdmin ) ? "display:none; " : "";
 ?>
 
-<div class="panel panel-dark col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
+<div class="panel panel-dark col-lg-offset-1 col-lg-10 col-xs-12 no-padding ">
 	<div class="col-xs-12 text-center">
 		
-			<h1>
+			<h2>
 				<?php if( $canAdmin ){ ?>
 				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"> 
 				<?php 
@@ -85,12 +85,12 @@ if( $this->layout != "//layouts/empty"){
 					<img class="img-responsive margin-20" style="vertical-align: middle; height:150px" src='<?php echo Yii::app()->getModule("survey")->assetsUrl.$form["custom"]['logo']; ?>'  >
 					<?php } */ 
 					
-					echo "Evaluation CTE";//$form["title"]; 
+					echo @$answers["cte2"]["answers"]["project"]["name"]."<br/><small> par ".@$answers["cte1"]["answers"]["organization"]["name"]."</small>";//$form["title"]; 
 					
 				if( $canAdmin ){ ?>
 				</a>
 				<?php } ?> 
-			</h1>
+			</h2>
 		
     </div>
 
@@ -112,15 +112,16 @@ if( $this->layout != "//layouts/empty"){
 				<?php 
 				$ct = 0;
 				$currentStep = (@$adminAnswers["step"]) ? $adminAnswers["step"] : "" ;
-				foreach ( $adminForm["scenarioAdmin"] as $k => $v) { 
+				if($adminForm["scenarioAdmin"]){
+				foreach ( @$adminForm["scenarioAdmin"] as $k => $v) { 
 					$aClass = ( $currentStep != "") ? $currentStep : "";
 					if( $aClass != "" && $currentStep != $k )
 						$aClass == "class='done'";
 					else if( $aClass != "" && $currentStep == $k )
 						$aClass == "class='selected'";
 					?>
-					<li><a  href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
-				<?php } ?>
+					<li><a onclick="nextState($(this).attr('href'),$(this).attr('class'));" href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
+				<?php } }?>
 			</ul>
 			<?php  ?>
 			<div class="progress progress-xs transparent-black no-radius active">
@@ -138,7 +139,7 @@ if( $this->layout != "//layouts/empty"){
 
 <div id='dossier' class='section0'>
 				
-	<h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER <small class="text-white">par TCOPIL</small> </h1>
+	<h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
 	<?php 
 		/* ---------------------------------------------
 		SECTION REPONSE PAR 
@@ -156,7 +157,7 @@ if( $this->layout != "//layouts/empty"){
 				</tr>
 				<tr>
 					<td>Email</td>
-					<td><?php echo $user["email"]; ?></td>
+					<td><?php echo @$user["email"]; ?></td>
 				</tr>
 				
 				<?php if( $form["id"] == "cte" ){ ?>
@@ -383,16 +384,16 @@ if( $this->layout != "//layouts/empty"){
 
 <?php if( $canAdmin ){ 
 
-
-	if(@$adminAnswers["eligible"]){?>	
-		<h1 class="text-center"> <i class="fa fa-<?php echo ($adminAnswers["eligible"]) ? "thumbs-o-up text-green": "thumbs-o-down text-red"; ?>"></i> ÉLIGILIBITÉ <small class="text-white">par TCOPIL</small> </h1>
+	//if(@$adminAnswers["eligible"]){
+		?>	
+		<h1 class="text-center"> <i class="fa fa-<?php echo (@$adminAnswers["eligible"]) ? "thumbs-o-up text-green": "thumbs-o-down text-red"; ?>"></i> ÉLIGILIBITÉ <small>par TCOPIL</small> </h1>
 		
 		<div id="eligible"  class="col-xs-12">
 			<div class="col-xs-12  padding-20" style="border:1px solid #ccc;">
 				<?php
 				$project = $answers["cte2"]["answers"][Project::CONTROLLER];
-				if(!empty($adminAnswers)){
-					if( $adminAnswers["eligible"] === true)
+				if(!empty($adminAnswers["eligible"])){
+					if( @$adminAnswers["eligible"] === true)
 						echo "<center><h3 class='text-green'>Ce dossier est éligible</h3></center>";
 					else
 						echo "<center><h3 class='text-red'>Ce dossier n'est pas éligible</h3><center>";
@@ -427,7 +428,7 @@ if( $this->layout != "//layouts/empty"){
 				} ?>
 			</div>
 		</div>
-	<?php } 
+	<?php //} 
 	}?>
 
 </div>
@@ -446,11 +447,10 @@ if( $this->layout != "//layouts/empty"){
 $prioKey = $adminForm['key'];
 if( $canAdmin ){ 
 
-
 	if(@$adminAnswers["categories"]){
 		$prioKey = $adminForm['key'];
 		?>	
-		<h1 class="text-center"> <i class="fa fa-flag-checkered"></i> <?php echo strtoupper($prioKey) ?> <small class="text-white">by TCOPIL</small> </h1>
+		<h1 class="text-center"> <i class="fa fa-flag-checkered"></i> <?php echo strtoupper($prioKey) ?> <small>par TCOPIL</small> </h1>
 		<script type="text/javascript">
 			function EliTabs(el){
 				$('.eliSec').css('display','none').removeClass("");
@@ -508,14 +508,14 @@ if( $canAdmin ){
 							<?php foreach ($adminAnswers["categories"] as $ka => $va ) {
 								
 								?>
-							<th class="padding-10"><?php echo strtoupper($ka) ?></th>
+							<th class="padding-10"><a href="javascript:;" onclick="EliTabs('<?php echo $ka ?>')"><?php echo strtoupper($ka) ?></a></th>
 							<?php } ?>
 							<th class="padding-10">Note globale</th>
 							<th class="padding-10">Classification</th>
 						</tr>
 						<tr>
 							<?php foreach ($adminAnswers["categories"] as $ka => $va ) {?>
-							<td><?php echo @$va."%" ?></td>
+							<td><a href="javascript:;" onclick="changeCategoryWeight('<?php echo $ka ?>','<?php echo @$va ?>')"><?php echo @$va."%" ?></a></td>
 							<?php } ?>
 							<td>100%</td>
 							<td>Note</td>
@@ -524,17 +524,21 @@ if( $canAdmin ){
 							<?php 
 							$tot = 0;
 							$ctot = 0;
-							foreach ($adminAnswers["answers"][$prioKey] as $ka => $va ) {?>
-							<td><?php if(@$va['total']){
-										echo $va['total'];
-										$ctot++;
-									} 
-										else 
-										echo "-"; ?></td>
-							<?php 
-							$w = 1 + ((int)$adminAnswers["categories"][$ka] / 100);
-							$tot += (floor( (float)$va['total']*100 / $w))/100;
-							} ?>
+							if(@$adminAnswers["answers"][$prioKey]){ 
+								foreach ( @$adminAnswers["answers"][$prioKey] as $ka => $va ) {?>
+									<td class="<?php echo $ka ?>_Total">
+									<?php if(@$va['total']){
+												echo $va['total'];
+												$ctot++;
+											} 
+												else 
+												echo "-"; ?>
+									</td>
+									<?php 
+									$w = 1 + ((int)$adminAnswers["categories"][$ka] / 100);
+									$tot += (floor( (float)@$va['total']*100 / $w))/100;
+								} 
+							}?>
 							<td ><?php if($ctot == count($adminAnswers["categories"]) ) echo $tot; ?></td>
 							<td></td>
 						</tr>
@@ -560,7 +564,7 @@ if( $canAdmin ){
 									<?php 
 									foreach ($prioTypes as $prioType ) 
 									{  ?>
-									<th class="padding-10"><?php echo strtoupper($prioType) ?></th>
+									<th class="padding-10"><a href="javascript:;" onclick="showTableOrForm('<?php echo $key ?>','<?php echo $prioType ?>')"><?php echo strtoupper($prioType) ?></a></th>
 									<?php } ?>
 									<th>Note globale</th>
 									<th>Classification</th>
@@ -598,27 +602,29 @@ if( $canAdmin ){
 						</div>
 						
 						
-							<?php 
-							//------------------------------------
-							// POUR CHAQUE TAB (categorie) il ya autant de critère et de formulaire de priorisation 
-							// 
-							//------------------------------------
-							foreach ($prioTypes as $prioType ) 
-							{ 
-								$score = "";
-								$titleResult = "à noter";
-								$btnColor = "btn-danger";
-								if(@$adminAnswers["answers"][$prioKey][$key][ $prioType ]["total"]){
-									$score = "[NOTE : ".$adminAnswers["answers"][$prioKey][$key][ $prioType ]["total"]."]";
-									$titleResult = "résultat ".$prioType;
-									$btnColor = "btn-default" ;
-								}
-								?>
+						<?php 
+						//------------------------------------
+						// POUR CHAQUE TAB (categorie) il ya autant de critère 
+						// et de formulaire de priorisation 
+						//------------------------------------
+						foreach ($prioTypes as $prioType ) 
+						{ 
+							$score = "";
+							$titleResult = "à noter";
+							$btnColor = "btn-danger";
+							$hideTable = "";
+							if(@$adminAnswers["answers"][$prioKey][$key][ $prioType ]["total"]){
+								$score = "[NOTE : ".$adminAnswers["answers"][$prioKey][$key][ $prioType ]["total"]."]";
+								$titleResult = "résultat ".$prioType;
+								$btnColor = "btn-default" ;
+								$hideTable = "display:none;";
+							}
+						?>
 
-							<div class="padding-10" style="border:1px solid #666">
+						<div class="padding-10 <?php echo $key?>_DataTables" id="<?php echo $key?>_<?php echo $prioType ?>Table"  style="<?php echo $hideTable ?> border:1px solid #666">
 							<a href="javascript:;" data-section="<?php echo $prioKey?>" data-category="<?php echo $key?>" data-step="<?php echo $prioType ?>" data-form="<?php echo substr( $adminForm["parentSurvey"], 0, -5 )?>" class="adminStep btn <?php echo $btnColor; ?>"><?php echo $adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ]["title"] ?></a>
 
-							<h3 class="text-center <?php echo $key?>_<?php echo $prioType ?>ResultHead <?php echo $key?>_prioTitle <?php echo $showHide ?>"><?php echo $titleResult ?> <span class="text-red <?php echo $key?>_<?php echo $prioType ?>Total"><?php echo $score ?></span></h3>
+							<h3 class="text-center <?php echo $key?>_<?php echo $prioType ?>ResultHead <?php echo $key?>_prioTitle <?php echo $showHide ?>"><span class="<?php echo $key?>_<?php echo $prioType ?>ResultHeadLabel"><?php echo $titleResult ?></span> <span class="text-red <?php echo $key?>_<?php echo $prioType ?>Total"><?php echo $score ?></span></h3>
 
 
 							<table border="1" class="text-center  <?php echo $key?>_<?php echo $prioType ?>Result" style="margin:0px auto;">
@@ -670,7 +676,8 @@ if( $canAdmin ){
 							
 
 							</table>
-							<div class="col-xs-12 <?php echo $key?>_<?php echo $prioType ?>Comment"></div>
+							<div class="col-xs-12 <?php echo $key?>_<?php echo $prioType ?>Comment"><?php echo (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]["prioDesc"]) ? "Commentaire : <br/>".@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]["prioDesc"]:""; ?></div>
+							<div style="clear:both"></div>
 						</div>
 						<hr>
 						<?php } ?>
@@ -845,7 +852,7 @@ $(document).ready(function() {
 			
 			data={
     			formId : updateForm.form,
-    			answerSection : updateForm.category+"."+updateForm.step ,
+    			answerSection : "answers."+updateForm.category+"."+updateForm.step ,
     			answerKey : "<?php echo $prioKey ?>" ,
     			answerStep : updateForm.cat ,
     			answers : getAnswers(adminForm.scenario[ updateForm.step ].json)
@@ -862,6 +869,10 @@ $(document).ready(function() {
 			    	//window.location.reload();
 			    	dyFObj.closeForm();
 			    	toastr.success('successfully saved !');
+			    	if(data.total != null){
+			    		$("#"+updateForm.cat+"Btn i").hide();
+
+			    	}
 			    	updateForm = null;
 			    } 
 		    });
@@ -918,7 +929,7 @@ function getAnswers(dynJson)
 	var total = 0;
 	if( $("."+updateForm.cat+"_"+updateForm.step+"Result") )
 	{
-		$("."+updateForm.cat+"_"+updateForm.step+"ResultHead").removeClass('hide');	
+		$("."+updateForm.cat+"_"+updateForm.step+"ResultHeadLabel").html('Résultats '+updateForm.step);	
 		$("."+updateForm.cat+"_"+updateForm.step+"ResultTitle").html("");
 		$("."+updateForm.cat+"_"+updateForm.step+"ResultWeight").html("");
 		$("."+updateForm.cat+"_"+updateForm.step+"ResultAnswer").html('');
@@ -948,7 +959,7 @@ function getAnswers(dynJson)
 			  	          		total += parseInt($("#"+field).val());
 		  	        } else {
 		  	        	//the field is a comment or a string 
-						$("."+updateForm.cat+"_"+updateForm.step+"Comment").html("").append( "<blockquote class='margin-bottom-20'><h3>"+field+"</h3>"+dataHelper.markdownToHtml( $("#"+field ).val() )+"</blockquote>" );
+						$("."+updateForm.cat+"_"+updateForm.step+"Comment").html("").append( "<h3>"+field+"</h3>"+dataHelper.markdownToHtml( $("#"+field ).val() ) );
 		  	        }
 	            }
             }
@@ -985,4 +996,144 @@ function calcPrio (key)
 	return false;
 }
 
+function showTableOrForm(key,type){
+	$("."+key+"_DataTables").hide();
+	$("#"+key+"_"+type+"Table").show();
+}
+
+function nextState(step,c) { 
+	if( canAdmin && c =="disabled"){
+		bootbox.dialog({
+	      message: "Ce dossier passera à l'étape : "+step ,
+	      title: "Cette action est irréversible, est vous sûr ?",
+	      buttons: {
+	        annuler: {
+	          label: "Annuler",
+	          className: "btn-default",
+	          callback: function() {
+	            mylog.log("Annuler");
+	          }
+	        },
+	        danger: {
+	          label: "Confirmer",
+	          className: "btn-primary",
+	          callback: function() {
+	          	data={
+	    			formId : form.id,
+	    			answerSection : "step" ,
+	    			answers : step.substring(1)
+	    		};
+	          	$.ajax({ 
+	          		type: "POST",
+			        url: baseUrl+"/survey/co/update",
+			        data: data
+			    }).done(function (data) { 
+			    	window.location.reload();
+			    });
+	          }
+	        },
+	      }
+	    });
+	}
+	return false;
+ }
+
+ function changeCategoryWeight(key,v) { 
+ 	if( canAdmin ){
+ 		bootbox.prompt(	{
+	        title: "Dans ce projet que représente la catégorie "+key+" ?", 
+	        value : v, 
+	        callback : function(result){ 
+	        	$.ajax({ 
+	        		type: "POST",
+			        url: baseUrl+"/survey/co/update",
+			        data: {
+		    			formId        : form.id,
+		    			answerSection : "categories."+key ,
+		    			answers       : result
+		    		}
+			    }).done( function (data) { 
+			    	console.log("data",data);
+			    	alert();
+			    	//window.location.reload();
+			    });
+	        }
+	    });
+	}
+}
+
 </script>
+
+<?php 
+
+/*
+
+bug - edit formualire 
+- demande de complément d'info
+- drive du dossier 
+- chat du dossier 
+- geoloc du projet et de la liste des projets
+
+
+inscrit > paiement > Custom 
+mutualisation d'un community manager
+
+
+devis le port Site Web 
+reproduire et améliorer 
+	qui parle du port : mention pour tout 
+	flux rss du quotidien le port dans le live 
+
+nouveau projet
+	liste d'action opérationnel AO
+	devisable > validation et accepttion par les différents acteurs
+	chaque AO et divisé en liste d'actions fonctionnelles AF
+	3 niveau de recette 
+		travailleur : j'ai terminé une AO 
+		client : 
+			je valide l'AO 
+			je n evalide pas encore l'AO 
+				commentaire et liste AF
+					recevable ou non 
+
+communauté 
+	supprimer une invitation 
+
+
+
+Territoire Tropical Bioclimatique
+	Eco-Construction tropicale 
+	Ville jardin désirable et support de biodiversité 
+Territoire smart et décarbonné* 
+	Production renouvelable 
+	Maîtrise de l’énergie 
+	Eco-mobilités 
+Territoire collaboratif écologique et solidaire* 
+	Economie Sociale et solidaire 
+	Economie circulaire et circuits courts
+
+gestion des sessions
+	nouvelle session 
+	changer les dte start end 
+
+
+{
+    "formId" : "cte",
+    "user" : "5aa8e406539f22e716157828",
+    "name" : "oceatest",
+    "step" : "eligible"
+}
+
+rendre editable par role des admins
+
+
+*/
+
+ ?>
+
+ 
+
+
+
+
+

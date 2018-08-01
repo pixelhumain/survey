@@ -146,7 +146,6 @@ class Form {
 	}
 
 	public static function canAdmin($id, $form = array()){
-		//var_dump($form); exit;
 		if(empty($form));
 			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
 

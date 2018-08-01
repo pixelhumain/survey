@@ -7,20 +7,23 @@ class UpdateAction extends CAction
         $msg=Yii::t("common","Please Login First");
         if ( Person::logguedAndValid() ) 
         {
-            $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array("formId"=>@$_POST["formId"], "user"=>@Yii::app()->session["userId"]));
+            $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array("formId"=>@$_POST["formId"], "user"=>$_POST["answerUser"]));
             if(!empty($answer)){
-                $sectionKey = $_POST["answerSection"];
-                $answers = $_POST["answers"];
+                $key = $_POST["answerSection"];
+                $value = $_POST["answers"];
                 PHDB::update(Form::ANSWER_COLLECTION,
                     array("_id"=>new MongoId((string)$answer["_id"])), 
-                    array('$set' => array('answers.'.$sectionKey => $answers)));
+                    array('$set' => array($key => $value)));
 
                 //****************************
                 //update total scores 
                 //****************************
                 $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array( "formId"=>@$_POST["formId"], "user"=>@Yii::app()->session["userId"]));
                 $form = PHDB::findOne(Form::COLLECTION , array( "id"=>@$_POST["formId"]."Admin"));
-                if( @$answer[ "answers" ][ $_POST["answerKey"] ][ $_POST["answerStep"] ]["total"] || count( $answer[ "answers" ][ $_POST["answerKey"] ][ $_POST["answerStep"] ] ) == count( $form["scenario"] ) )
+
+                $total = null;
+                if( ( @$_POST["answerKey"] && @$_POST["answerStep"] ) && 
+                        ( @$answer[ "answers" ][ @$_POST["answerKey"] ][ @$_POST["answerStep"] ]["total"] || count( $answer[ "answers" ][ @$_POST["answerKey"] ][ @$_POST["answerStep"] ] ) == count( $form["scenario"] ) ) )
                 {
                     //calculate total and update in DB
                     $total = 0;
@@ -34,13 +37,13 @@ class UpdateAction extends CAction
                         array( "_id"=>new MongoId( (string)$answer["_id"]) ), 
                         array( '$set' => array( 'answers.'.$_POST["answerKey"].".".$_POST["answerStep"].".total" => $total ) ) );
                 }
-
+                
                 $msg=Yii::t("common","Evrything allRight");
                 $res=true;
             } else
                 $msg= "Answer not found";
         } 
 
-        echo json_encode(array("result"=>$res, "msg"=>$msg ));
+        echo json_encode( array("result"=>$res, "msg"=>$msg, "total"=>$total ) );
     }
 }

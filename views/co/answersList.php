@@ -53,8 +53,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th>Nom du projet</th>
 						<th>Organisation</th>
 						<th>Utilisateur</th>
-						<th>Lire la réponse</th>
+						<th>Voir la réponse</th>
 						<th>Eligibilité</th>
+						<th>Priorisation</th>
+						<th>Risques</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
