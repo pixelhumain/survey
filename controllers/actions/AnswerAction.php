@@ -22,13 +22,14 @@ class AnswerAction extends CAction
     		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user" => @$user ) ) )
     		{
 				$adminAnswers = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id, "user"=> @$user) );
+				$adminForm = ( Form::canAdmin($form["id"]) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin") ) : null;
 				$userO = Person::getById($user);
 				if( !@$adminAnswers ){
 					$adminAnswers = array(
 						"formId" => $id,
-					    "user" => $user,
-					    "name" => $userO["name"],
-					    "step" => "eligible"
+					    "user" 	 => $user,
+					    "name"   => $userO["name"],
+					    "step"   => array_keys( $adminForm["scenarioAdmin"] )[1]
 					);
 				}
     			
@@ -42,7 +43,6 @@ class AnswerAction extends CAction
     				$form["scenario"][$v["id"]]["form"] = $v;
     			}
 
-    			$adminForm = ( Form::canAdmin($form["id"]) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin") ) : null;
 	 			echo $this->getController()->render( "answerList" ,array( 
 							 			"answers" 	=> $answers,
 							 			"form"    	=> $form,

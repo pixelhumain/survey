@@ -237,7 +237,7 @@ if( $this->layout != "//layouts/empty"){
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 				else 
 				//if(!@$v["form"]["scenario"][$key]["saveElement"]) 
-					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
+					$editBtn = ( $user == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
 
 				echo "<div class='col-xs-12'>".
 						"<h2> [ step ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
@@ -249,7 +249,7 @@ if( $this->layout != "//layouts/empty"){
 						'</tr>'.
 					'</thead>'.
 					'<tbody class="directoryLines">';
-				if(@$v["form"]["scenario"][$key]["json"])
+				if( @$v["form"]["scenario"][$key]["json"] )
 				{
 					$formQ = @$v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"];
 					foreach ($value as $q => $a) 
