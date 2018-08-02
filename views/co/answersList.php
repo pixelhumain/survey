@@ -72,7 +72,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 	var form =<?php echo json_encode($form); ?>;
 	var data =<?php echo json_encode($results); ?>;
-		mylog.log("data", data);
+
 	var searchAdmin={
 		parentSurvey : form.id,
 		text:null,
