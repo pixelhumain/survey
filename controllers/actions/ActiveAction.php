@@ -47,7 +47,16 @@ class ActiveAction extends CTKAction{
 
 			}
 
-			// $data["eligible"] = true ;
+			$data["eligible"] = true ;
+			$roles = explode(",", $_POST["roles"]);
+
+			$pourcentage = round(100 / count($roles), 2);
+
+			$data["categories"] = array() ;
+
+			foreach ($roles as $key => $value) {
+				$data["categories"][$value] = $pourcentage;
+			}
 
 			$res = array("result" => true,
 							"msg" => "Eligible");
