@@ -364,7 +364,6 @@
         }
     }
 }
-
 {
     "_id" : ObjectId("5b3a2ed3b38e459e2b54cd12"),
     "id" : "cteAdmin",
@@ -376,6 +375,24 @@
     "parentType" : "organizations",
     "parentId" : "5b47451ddd0452ca52000693",
     "surveyType" : "oneSurvey",
+    "scenarioAdmin" : {
+        "dossier" : {
+            "title" : "Dossier",
+            "icon" : "folder-open-o"
+        },
+        "eligible" : {
+            "title" : "Éligibilité <br/>par TCOPIL",
+            "icon" : "thumbs-o-up"
+        },
+        "priorisation" : {
+            "title" : "Priorisation<br/> par TCOPIL",
+            "icon" : "sort-amount-desc"
+        },
+        "risk" : {
+            "title" : "Gestion du Risque",
+            "icon" : "warning"
+        }
+    },
     "scenario" : {
         "opportunite" : {
             "title" : "MATRICE D'EVALUATION OPPORTUNITE",
@@ -442,59 +459,6 @@
             "json" : {
                 "jsonSchema" : {
                     "title" : "MATRICE D'EVALUATION FAISABILITE",
-                    "type" : "object",
-                    "properties" : {
-                        "calendrier" : {
-                            "inputType" : "select",
-                            "placeholder" : "Maîtrise du calendrier",
-                            "weight" : "25",
-                            "options" : {
-                                "1" : "Pas de planning",
-                                "3" : "Planning partiellement défini",
-                                "5" : "Planning maitrisé"
-                            }
-                        },
-                        "maitriseRisque" : {
-                            "inputType" : "select",
-                            "weight" : "25",
-                            "placeholder" : "Capacité de mobilisation des acteurs",
-                            "options" : {
-                                "1" : "Acteurs non identifiés",
-                                "3" : "Acteurs identifiés non disponibles",
-                                "5" : "Acteurs identifiés et disponibles"
-                            }
-                        },
-                        "finance" : {
-                            "inputType" : "select",
-                            "weight" : "25",
-                            "placeholder" : "Capacité financière",
-                            "options" : {
-                                "1" : "Capacité financière à 20%",
-                                "3" : "Capacité financière à 60%",
-                                "5" : "Capacité financière à 100%"
-                            }
-                        },
-                        "retourInvest" : {
-                            "inputType" : "select",
-                            "weight" : "25",
-                            "placeholder" : "Capacité technique",
-                            "options" : {
-                                "1" : "Pas de processus",
-                                "3" : "Processus non reproductible",
-                                "5" : "Processus validé"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "funk" : {
-            "title" : "MATRICE D'EVALUATION FUNK",
-            "description" : "critère d'évaluation de funk",
-            "icon" : "fa-thumbs-o-up",
-            "json" : {
-                "jsonSchema" : {
-                    "title" : "MATRICE D'EVALUATION FUNK",
                     "type" : "object",
                     "properties" : {
                         "calendrier" : {
