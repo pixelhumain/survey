@@ -10,15 +10,6 @@ class AnswerAction extends CAction
 			$this->getController()->render("co2.views.default.loginSecure");
 		else if( Form::canAdmin( $id, $form ) || $user == Yii::app()->session["userId"])
 		{ 
-    		
-    		//todo check if user id authorised 
-    			//only admins and user can review an answer
-    			//Form::isAuthorised($user)
-    		//Rest::json($form); exit;
-			// if(	$user != Yii::app()->session["userId"] && !Form::canAdmin($id, $form) ) {
-			// 	$this->getController()->layout = "//layouts/empty";	
-			// 	$this->getController()->render("co2.views.default.unauthorised"); 
-			// } else {
     		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user" => @$user ) ) )
     		{
 				$adminAnswers = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id, "user"=> @$user) );

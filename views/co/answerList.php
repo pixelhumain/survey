@@ -418,13 +418,7 @@ if( $this->layout != "//layouts/empty"){
 
 					?>
 					</center>
-					<br/><br/>Cette action aura pour impacte de connceté l'organisation au CTE, et ajouterais le projet à la liste des projets du CTE
-					<br/>un mail automatique sera envoyé au projet avec <a href="javascript:;" onclick="$('#mailEligible').toggle();">le texte suivant</a>
-					<div id="mailEligible" class="hide">
-						<textarea id="mailEligibleTxt">fq fdq fq</textarea>
-						<textarea id="mailNonEligibleTxt"> qdsf ds fqsdf qsd</textarea>
-					</div>
-					<?php
+					<?php 
 				} ?>
 			</div>
 		</div>
@@ -437,8 +431,8 @@ if( $this->layout != "//layouts/empty"){
 <?php 
 	/* ---------------------------------------------
 	SECTION PRIORISATION
-	---------------------------------------------- */
- ?>
+	---------------------------------------------- */ 
+?>
 
 
 <div id='priorisation' class='section2 hide'>
