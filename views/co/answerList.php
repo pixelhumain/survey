@@ -115,7 +115,7 @@ if( $this->layout != "//layouts/empty"){
 							</tr>
 							<tr>
 								<td>Email</td>
-								<td><?php echo $user["email"]; ?></td>
+								<td><?php echo @$user["email"]; ?></td>
 							</tr>
 							
 							<?php if( $form["id"] == "cte" ){ ?>
