@@ -889,14 +889,14 @@ function initWizard () {
 	    selected: 0,
 	    keyNavigation: true,
 	    //enableAllSteps : true,
-	    //onLeaveStep: function(){ mylog.log("leaveAStepCallback");},
+	    //onLeaveStep: function(){ console.log("leaveAStepCallback");},
 	    onShowStep: function(obj, context)
 	    {
-	    	mylog.log("test onShowStep",dySObj.navBtnAction,context.toStep,context.fromStep,Math.abs( context.toStep - context.fromStep));
+	    	console.log("test onShowStep",dySObj.navBtnAction,context.toStep,context.fromStep,Math.abs( context.toStep - context.fromStep));
 	    	if( !dySObj.navBtnAction ){
 	        	$(".section0"+dySObj.activeSection).addClass("hide");
 	        	dySObj.activeSection =  context.toStep -1 ;
-				mylog.log("top wisard direct link",dySObj.activeSection);
+				console.log("top wisard direct link",dySObj.activeSection);
 				$(".section"+dySObj.activeSection).removeClass("hide");	
 
 			}
@@ -932,7 +932,7 @@ function getAnswers(dynJson)
 		$("."+updateForm.cat+"_"+updateForm.step+"ResultAnswer").html('');
 	}
 	$.each( dynJson.jsonSchema.properties , function(field,fieldObj) { 
-        mylog.log($(this).data("step")+"."+field, $("#"+field).val() );
+        console.log($(this).data("step")+"."+field, $("#"+field).val() );
         if( fieldObj.inputType ){
             if(fieldObj.inputType=="uploader"){
          		if( $('#'+fieldObj.domElement).fineUploader('getUploads').length > 0 ){
@@ -1008,7 +1008,7 @@ function nextState(step,c) {
 	          label: "Annuler",
 	          className: "btn-default",
 	          callback: function() {
-	            mylog.log("Annuler");
+	            console.log("Annuler");
 	          }
 	        },
 	        danger: {
