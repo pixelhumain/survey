@@ -55,7 +55,9 @@ class ActiveAction extends CTKAction{
 			$data["categories"] = array() ;
 
 			foreach ($roles as $key => $value) {
-				$data["categories"][$value] = $pourcentage;
+				$data["categories"][InflectorHelper::slugify( $value )] = array( "name" => $value,
+																							"pourcentage" => $pourcentage);
+				;
 			}
 
 			$res = array("result" => true,

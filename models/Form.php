@@ -162,5 +162,25 @@ class Form {
         return $res ;
 	}
 
+	public static function canAdminRoles($id, $role, $form = array() ){
+		if(empty($form));
+			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+
+		$res = false;
+		if( !empty($form["links"]) && 
+			!empty($form["links"]["members"]) && 
+			!empty($form["links"]["members"][Yii::app()->session["userId"]]) &&
+			!empty($form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"]) &&
+			$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true &&
+			!empty($form["links"]["members"][Yii::app()->session["userId"]]["roles"]) &&
+			in_array($role, $form["links"]["members"][Yii::app()->session["userId"]]["roles"]) ){
+    		$res = true;
+        }
+
+        return $res ;
+	}
+
+	
+
 }
 ?>
