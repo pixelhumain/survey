@@ -473,7 +473,7 @@ if( $canAdmin ){
 					} 
 				  foreach ($adminAnswers["categories"] as $ka => $va ) { ?>
 				  <li id="<?php echo $ka?>Btn" class="catElLI bold"><a href="javascript:;" onclick="EliTabs('<?php echo $ka ?>')"><?php 
-				  	$ic = ( !@$adminAnswers["answers"][$prioKey][$va["name"]]["total"] && Form::canAdminRoles($form["id"], $va["name"], $form) ) ? " <i class='text-red fa fa-cog'></i>" : "";
+				  	$ic = ( !@$adminAnswers["answers"][$prioKey][ $va["name"]]["total"] && Form::canAdminRoles($form["id"], $va["name"], $form) ) ? " <i class='text-red fa fa-cog'></i>" : "";
 					echo mb_strtoupper($va["name"]).$ic; ?></a></li>
 				  <?php } ?>
 			</ul>
@@ -689,8 +689,6 @@ if( $canAdmin ){
 } ?>
 
 </div>
-
-
 
 <?php 
 	/* ---------------------------------------------
@@ -1065,7 +1063,36 @@ function nextState(step,c) {
 
 /*
 
-bug - edit formualire 
+bug 
+- extraire les templates des etapes 
+- ajouter HomePage 
+	Territoire Tropical Bioclimatique
+		Eco-Construction tropicale 
+		Ville jardin désirable et support de biodiversité 
+	Territoire smart et décarbonné* 
+		Production renouvelable 
+		Maîtrise de l’énergie 
+		Eco-mobilités 
+	Territoire collaboratif écologique et solidaire* 
+		Economie Sociale et solidaire 
+		Economie circulaire et circuits courts
+- PROJET SOUTENU par 
+	- citoyen 
+	- organisateur 
+	- financeur 
+	- donne un contexte au projet localement 
+- changer de role 
+- btn mes parametres
+- Gestion du risque 
+	- selection d'un risque dans un catalogue 
+	- ajouter un risque au catalogue
+	- risk management 
+- Calendrier cte2.2
+- Syhthese par thematique avec la listes de plusieurs projets
+- ajouter point et info de contacts
+- ajouter les etapes remplis dans answerLists
+
+- edit formualire 
 - demande de complément d'info
 - drive du dossier 
 - chat du dossier 
@@ -1097,31 +1124,22 @@ communauté
 	supprimer une invitation 
 
 
-
-Territoire Tropical Bioclimatique
-	Eco-Construction tropicale 
-	Ville jardin désirable et support de biodiversité 
-Territoire smart et décarbonné* 
-	Production renouvelable 
-	Maîtrise de l’énergie 
-	Eco-mobilités 
-Territoire collaboratif écologique et solidaire* 
-	Economie Sociale et solidaire 
-	Economie circulaire et circuits courts
-
 gestion des sessions
 	nouvelle session 
 	changer les dte start end 
 
 
-{
-    "formId" : "cte",
-    "user" : "5aa8e406539f22e716157828",
-    "name" : "oceatest",
-    "step" : "eligible"
-}
 
-rendre editable par role des admins
+Key Partnerships
+Key Activities
+Key Resources
+Value Propositions
+Customer Relationships
+Channels
+Customer Segments
+Cost Structure
+Revenue Streams
+
 
 
 */
