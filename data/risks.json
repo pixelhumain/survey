@@ -1,0 +1,347 @@
+[
+  {
+    "type" : "riskTypes",
+    "list" : { 
+      "technique" : {
+        "title": "Technique",
+        "icon": "fa-users"
+      },
+      "fonctionnelOuTechnique":{
+        "title": "Fonctionnel ou technique",
+        "icon": "fa-users"
+      },
+      "organisationnel" : {
+        "title": "Organisationnel",
+        "icon": "fa-users"
+      },
+      "ressourceHumaine": {
+        "title": "Ressource Humaine",
+        "icon": "fa-users"
+      },
+      "management": {
+        "title": "Management",
+        "icon": "fa-users"
+      },
+      "planification": {
+        "title": "Planification",
+        "icon": "fa-users"
+      },
+      "moyens": {
+        "title": "Moyens",
+        "icon": "fa-users"
+      },
+      "demarche": {
+        "title": "Démarche",
+        "icon": "fa-users"
+      },
+      "contractuel": {
+        "title": "Contractuel",
+        "icon": "fa-users"
+      },
+      "fonctionnel": {
+        "title": "Fonctionnel",
+        "icon": "fa-users"
+      }
+    }
+  },
+  
+      {
+        "type" : "ressourceHumaine",
+        "desc": "Les compétences de l'équipe sont insuffisantes",
+        "actions": [
+          "Structuration de l'équipe",
+          "Redistribution des rôles",
+          "Renforcement de l'encadrement",
+          "Formation, entraide, motivation"
+        ]
+      },
+      {
+        "type" : "ressourceHumaine",
+        "desc": "Turn over de l'équipe très important",
+        "actions": [
+          "Redistribution des rôles",
+          "Formation, entraide, motivation",
+          "Période de recouvrement",
+          "Assistance externe"
+        ]
+      },
+      {
+        "type" : "ressourceHumaine",
+        "desc": "Absence de motivation des équipes",
+        "actions": [
+          "Formation",
+          "Responsabilisation"
+        ]
+      },
+      {
+        "type" : "management",
+        "desc": "Le projet est de taille excessive",
+        "actions": [
+          "Création de sous projets avec responsables",
+          "Développement incrémental",
+          "Calcul des retours sur investissements",
+          "Analyse de la valeur (enjeux des fonctions)"
+        ]
+      },
+      {
+        "type" : "management",
+        "desc": "Dépendance de la sous-traitance",
+        "actions": [
+          "Demande d'engagements sur la qualité de service",
+          "Contenu du contrat",
+          "Suivi des réalisations sous traitées",
+          "Livraisons intermédiaires",
+          "Audit qualité"
+        ]
+      },
+      {
+        "type" : "management",
+        "desc": "Le suivi est insuffisant et ne permet pas de détecter les dérives",
+        "actions": [
+          "Réunions de suivi hebdomadaires",
+          "Planning détaillé",
+          "Fiches d'activités"
+        ]
+      },
+      {
+        "type" : "planification",
+        "desc": "Les prévisions sont optimistes, les ressources et les budgets sont sous-estimés",
+        "actions": [
+          "Recoupement de plusieurs estimations détaillées des charges, coûts et plannings",
+          "Remise en cause des demandes",
+          "Développement incrémental",
+          "réutilisation de logiciels"
+        ]
+      },
+      {
+        "type" : "planification",
+        "desc": "Délais tendus",
+        "actions": [
+          "Planification détaillée de tout le projet",
+          "Identification du chemin critique",
+          "Suivi hebdomadaire de l'avancement"
+        ]
+      },
+
+
+
+      {
+        "type" : "moyens",
+        "desc": "Budget serré",
+        "actions": [
+          "Suivi régulier",
+          "Réutilisation de logiciels"
+        ]
+      },
+      {
+        "type" : "moyens",
+        "desc": "Indisponibilité des locaux lors des montées en charges",
+        "actions": [
+          "Report des activités chez des prestataires externes"
+        ]
+      },
+
+
+  
+      {
+        "type" : "demarche",
+        "desc": "Des modifications fréquentes sont demandées durant le développement",
+        "actions": [
+          "Seuil d'acceptation des changements",
+          "Développement incrémental, gestion de lots",
+          "Report des modifications en fin de projets, gestion des versions"
+        ]
+      },
+      {
+        "type" : "demarche",
+        "desc": "Perfectionnisme",
+        "actions": [
+          "Examen critique des spécifications",
+          "Maquettage",
+          "Calcul des retours sur investissement, analyse de la valeur (enjeux des fonctions)"
+        ]
+      },
+      {
+        "type" : "demarche",
+        "desc": "Dépendance d'autres adaptations du système d'information",
+        "actions": [
+          "Réunions de coordination",
+          "Synchronisation pour la diffusion",
+          "Plate forme dédiée",
+          "Réception commune"
+        ]
+      },
+      {
+        "type" : "demarche",
+        "desc": "Flou de l'organisation maîtrise d'ouvrage/maîtrise d'œuvre",
+        "actions": [
+          "Rédaction d'une charte de projet",
+          "Création d'un comité de suivi"
+        ]
+      },
+      {
+        "type" : "demarche",
+        "desc": "Déficience du maître d'ouvrage",
+        "actions": [
+          "Assistance externe",
+          "Assistance par le maître d'œuvre",
+          "Création de groupes de travail utilisateurs"
+        ]
+      },
+  
+      {
+        "type" : "contractuel",
+        "desc": "Les travaux sous-traités sont défaillant",
+        "actions": [
+          "Contrôle des références",
+          "Audit de qualification"
+        ]
+      },
+      {
+        "type" : "contractuel",
+        "desc": "Les fournitures externes sont  défaillantes",
+        "actions": [
+          "Définir le protocole",
+          "Contrôle des références",
+          "Analyse de compatibilité",
+          "tests de réception"
+        ]
+      },
+
+      {
+        "type" : "fonctionnel",
+        "desc": "Le cahier des charges fonctionnel est incomplet",
+        "actions": [
+          "Développement incrémental",
+          "Formation des concepteur",
+          "Création de groupes de travail utilisateurs",
+          "Revue du cahier des charges"
+        ]
+      },
+      {
+        "type" : "fonctionnel",
+        "desc": "Les interfaces utilisateurs ne sont pas bonnes",
+        "actions": [
+          "Analyse du travail (démarche d'ergonomie): Prise en compte de l'utilisateur (fonction, complément, charge de travail)",
+          "Production de règles d'ergonomie",
+          "Maquettage et évaluation ergonomique"
+        ]
+      },
+      {
+        "type" : "fonctionnel",
+        "desc": "Défaut de formalisation des informations, des processus",
+        "actions": [
+          "Maquettage",
+          "Développement incrémental"
+        ]
+      },
+      {
+        "type" : "fonctionnel",
+        "desc": "Incompréhension des spécifications",
+        "actions": [
+          "Rencontre d'utilisateurs",
+          "Maquettage"
+        ]
+      },
+      {
+        "type" : "fonctionnel",
+        "desc": "Perte de données lors du changement de système",
+        "actions": [
+          "Développement d'un outil d'analyse des bases",
+          "Sauvegarde préalable",
+          "Sites pilotes"
+        ]
+      },
+      {
+        "type" : "fonctionnel",
+        "desc": "Anomalies de fonctionnement",
+        "actions": [
+          "Renforcement de la démarche de test",
+          "Participation de l'AU à la réception",
+          "Sites pilotes"
+        ]
+      },
+
+
+
+    {
+      "type":"technique",
+        "desc": "Importance des changements technologiques (innovation)",
+        "actions": [
+          "Identification d'experts internes",
+          "Formations",
+          "Assistance externe"
+        ]
+      },
+      {
+        "type":"technique",
+        "desc": "Les temps de réponse ne sont pas satisfaisants",
+        "actions": [
+          "Simulation",
+          "Essais comparatifs",
+          "Modélisation, prototypage",
+          "Observation en sites pilotes et formation",
+          "Instrumentation, réglage"
+        ]
+      },
+      {"type":"technique",
+        "desc": "Il y a blocage sur les limites technologiques des plates formes",
+        "actions": [
+          "Analyse technique",
+          "Vérification à priori des performances",
+          "Analyse des coûts",
+          "Enquête sur les configurations"
+        ]
+      },
+      {"type":"technique",
+        "desc": "Instabilité de l'environnement",
+        "actions": [
+          "Recensement des bugs connus",
+          "Choix des versions de logiciel",
+          "Recommandations de configuration",
+          "Accord avec les constructeurs/éditeurs"
+        ]
+      },
+
+      {
+        "type" : "fonctionnelOuTechnique",
+        "desc": "Les interfaces avec d'autres systèmes sont nombreuses ou complexes",
+        "actions": [
+          "Spécification détaillées des interfaces",
+          "Réunion de coordination",
+          "Plate forme de test dédiée",
+          "Réception commune",
+          "Observation en site pilote et en début d'exploitation"
+        ]
+      },
+    
+    {
+        "type" : "organisationnel",
+        "desc": "L'organisation interne du TCO est modifiée",
+        "actions": [
+          "Communication",
+          "Formation fonctionnelle des utilisateurs",
+          "Assistance aux utilisateurs"
+        ]
+      },
+      {
+        "type" : "organisationnel",
+        "desc": "Les utilisateurs finaux ne sont pas impliqués",
+        "actions": [
+          "Organisation de groupes de travail pour valider les spécifications, une maquette …",
+          "Création d'un comité d'utilisateurs",
+          "Communication",
+          "Choix des sites pilotes"
+        ]
+      },
+      {
+        "type" : "organisationnel",
+        "desc": "Attitude hostile des futurs utilisateurs",
+        "actions": [
+          "Organisation de groupes de travail pour valider les spécifications, une maquette …",
+          "Création d'un comité d'utilisateurs",
+          "Communication",
+          "Choix des sites pilotes"
+        ]
+      }
+    ]
