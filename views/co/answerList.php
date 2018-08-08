@@ -711,11 +711,12 @@ if( $canAdmin ){
 				<br>
 				<div class="padding-10"  style="border:1px solid red">
 					<h3 class="text-center">Matrice de <?php echo mb_strtoupper($prioKey) ?></h3>
+					<?php if(!empty($adminAnswers["categories"]) && !empty($adminAnswers["answers"])){ ?>
 					<table border="1" class="text-red text-center bold" style="margin:0px auto;">
 						<tr>
-							<?php foreach ($adminAnswers["categories"] as $ka => $va ) {
-								
-								?>
+							<?php 
+							
+								foreach (@$adminAnswers["categories"] as $ka => $va ) { ?>
 							<th class="padding-10"><a href="javascript:;" onclick="EliTabs('<?php echo $ka ?>')"><?php echo mb_strtoupper($va["name"]) ?></a></th>
 							<?php } ?>
 							<th class="padding-10">Note globale</th>
@@ -751,6 +752,8 @@ if( $canAdmin ){
 							<td></td>
 						</tr>
 					</table>
+
+				<?php } ?> 
 				</div>
 			</div>
 
@@ -776,7 +779,7 @@ if(@$form["custom"]['footer']){
 var form = <?php echo json_encode($form); ?>;
 var adminForm = <?php echo json_encode($adminForm); ?>;
 var answers  = <?php echo json_encode($answers); ?>;
-var eligible  = <?php echo json_encode($adminAnswers); ?>;
+var adminAnswers  = <?php echo json_encode($adminAnswers); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
 var canAdmin = <?php echo $canAdmin; ?>;
 var updateForm = null;
@@ -891,7 +894,7 @@ $(document).ready(function() {
     			answerKey : "<?php echo $prioKey ?>" ,
     			answerStep : updateForm.cat ,
     			answers : getAnswers(adminForm.scenario[ updateForm.step ].json),
-    			answerUser : eligible.user ,
+    			answerUser : adminAnswers.user ,
     		};
     		
     		console.log("save",data);
@@ -947,7 +950,7 @@ function initWizard () {
 		var ix = 0;
 		$.each(adminForm.scenarioAdmin, function(k,v) { 
 			ix++;
-			if( eligible.step && k == eligible.step ){
+			if( adminAnswers.step && k == adminAnswers.step ){
 				$("#wizard").smartWizard("goToStep",ix);
 				return false;
 			}else{

@@ -72,7 +72,7 @@ class Form {
 	  	return $res;
 	}
 
-	public static function listForAdmin($answers = array()){
+	public static function listForAdminNews($answers = array()){
 		$results = array();
 		$uniq = array();
 		$uniqO = array();
@@ -132,7 +132,7 @@ class Form {
 	}
 
 
-	public static function listForAdminOld($answers = array()){
+	public static function listForAdmin($answers = array()){
 		$results = array();
 		$uniq = array();
 		$uniqO = array();
@@ -140,12 +140,6 @@ class Form {
 		$uniqE = array();
 		
 		foreach ( $answers as $key => $value) {
-			// if(!in_array( $value["user"], $uniq )){
-			// 	$value["type"] = Person::COLLECTION;
-			// 	$value["id"] = $value["user"];
-			// 	$results[] = $value;
-			// 	$uniq[] = $value["user"];
-			// }
 
 			if( !empty($value["answers"]) && 
 				!empty($value["answers"][Organization::CONTROLLER]) && 
