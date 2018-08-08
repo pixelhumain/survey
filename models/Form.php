@@ -71,6 +71,67 @@ class Form {
 	  	}
 	  	return $res;
 	}
+
+	public static function listForAdminNews($answers = array()){
+		$results = array();
+		$uniq = array();
+		$uniqO = array();
+		$uniqP = array();
+		$uniqE = array();
+		Rest::json($answers); exit ;
+		foreach ( $answers as $key => $value) {
+			
+			if( !empty($value["answers"]) && 
+				!empty($value["answers"][Organization::CONTROLLER]) && 
+				!in_array( $value["answers"][Organization::CONTROLLER]["id"], $uniqO ) &&
+				( 	empty($results[$answers["email"]]) || 
+					(!empty($results[$answers["email"]]) && empty($results[$answers["email"]]["parentId"]) ) ) ) {
+
+				$orga = Element::getElementById($value["answers"][Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email"));
+				$ans["parentId"] = $value["answers"][Organization::CONTROLLER]["id"];
+				$ans["parentType"] = Organization::COLLECTION;
+				$ans["parentName"] = $orga["name"];
+
+				$results[$answers["email"]] = $ans;
+				$uniqO[] = $value["answers"][Organization::CONTROLLER]["id"];
+			}
+
+			if( !empty($value["answers"]) && 
+				!empty($value["answers"][Project::CONTROLLER]) && 
+				!in_array( $value["answers"][Project::CONTROLLER]["id"], $uniqP ) ){
+
+				$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
+				$orga["id"] = $value["answers"][Project::CONTROLLER]["id"];
+				$orga["type"] = Project::COLLECTION;
+
+				if(!empty($value["answers"][Project::CONTROLLER]["parentId"])){
+					$orga["parentId"] = $value["answers"][Project::CONTROLLER]["parentId"];
+					$orga["parentType"] = Element::getCollectionByControler($value["answers"][Project::CONTROLLER]["parentType"]);
+					$parent = Element::getSimpleByTypeAndId($orga["parentType"], $orga["parentId"]);
+					$orga["parentName"] = $parent["name"];
+				}else{
+					$answersParent = PHDB::findOne( Form::ANSWER_COLLECTION , 
+										array("parentSurvey"=>@$value["parentSurvey"], 
+												"answers.organization" => array('$exists' => 1),
+												"user" => $value["user"]) );
+					
+					$orga["parentId"] = $answersParent["answers"][Organization::CONTROLLER]["id"];
+					$orga["parentType"] = Organization::COLLECTION;
+					$orga["parentName"] = $answersParent["answers"][Organization::CONTROLLER]["name"];
+				}
+
+				$orga["userId"] = $value["user"];
+				$orga["userName"] = $value["name"];
+				
+				$results[] = $orga;
+				$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
+			}
+		}
+
+		return $results ;	
+	}
+
+
 	public static function listForAdmin($answers = array()){
 		$results = array();
 		$uniq = array();
@@ -79,12 +140,6 @@ class Form {
 		$uniqE = array();
 		
 		foreach ( $answers as $key => $value) {
-			// if(!in_array( $value["user"], $uniq )){
-			// 	$value["type"] = Person::COLLECTION;
-			// 	$value["id"] = $value["user"];
-			// 	$results[] = $value;
-			// 	$uniq[] = $value["user"];
-			// }
 
 			if( !empty($value["answers"]) && 
 				!empty($value["answers"][Organization::CONTROLLER]) && 
@@ -153,7 +208,7 @@ class Form {
 		if(	Yii::app()->session["userId"] == $form["author"] ||
 			(	!empty($form["links"]["members"][Yii::app()->session["userId"]]) && 
 				!empty($form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"]) &&
-				$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true)){
+				$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true)  ){
     		$res = true;
     		
         }else if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){

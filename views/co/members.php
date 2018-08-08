@@ -5,9 +5,17 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true));
 $cssJS = array(
-    '/js/dataHelpers.js'
+    '/js/dataHelpers.js',
+    //'/js/default/editInPlace.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
+
+
+$cssJS = array(
+    '/plugins/jquery.dynForm.js',
+    '/plugins/select2/select2.min.js' , 
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
 
 $layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
 $me = isset(Yii::app()->session['userId']) ? Person::getById(Yii::app()->session['userId']) : null;
@@ -66,8 +74,9 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 <script type="text/javascript">
 
 	var form =<?php echo json_encode($form); ?>;
+	var contextData = {id : form._id.$id, type : "forms"};
 	var data =<?php echo json_encode($results); ?>;
-		console.log("data", data);
+
 	var searchAdmin={
 		parentSurvey : form.id,
 		text:null,
@@ -206,6 +215,79 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 		        }
 		    });
 	    });
+
+
+	    $(".updateRoles").off().click(function(e){
+			var id = $(this).data("id");
+			var name = $(this).data("name");
+			var type = $(this).data("type");
+			mylog.log("updateRoles", id, type, name);
+			if( typeof form.links.members[id] != "undefined" ){
+
+				var roles = ( ( typeof form.links.members[id].roles != "undefined" ) ? form.links.members[id].roles : [] ) ;
+				updateRoles(id, type, name, "members", roles);
+			}
+
+	    });
+	}
+
+	function updateRoles(childId, childType, childName, connectType, roles) {
+		mylog.log("updateRoles", form.custom.roles);
+		var formRole = {
+				saveUrl : baseUrl+"/"+moduleId+"/link/removerole/",
+				dynForm : {
+					jsonSchema : {
+						title : tradDynForm.modifyoraddroles+"<br/>"+childName,// trad["Update network"],
+						icon : "fa-key",
+						onLoads : {
+							sub : function(){
+								$("#ajax-modal .modal-header").removeClass("bg-dark bg-purple bg-red bg-azure bg-green bg-green-poi bg-orange bg-yellow bg-blue bg-turq bg-url")
+											  				  .addClass("bg-dark");
+								//bindDesc("#ajaxFormModal");
+							}
+						},
+						beforeSave : function(){
+							mylog.log("beforeSave");
+					    	//removeFieldUpdateDynForm(contextData.type);
+					    },
+						afterSave : function(data){
+							mylog.dir(data);
+							dyFObj.closeForm();
+							//loadDataDirectory(connectType, "user", true);
+
+							var str = "";
+							if( typeof data.roles != "undefined") {
+								$.each(data.roles, function(kR, vR){
+									str += vR+" ";
+								});
+							}
+							mylog.log("beforeSave", "#role"+childId+childType, str);
+							$("#role"+childId+childType).html(str);
+							//changeHiddenFields();
+						},
+						properties : {
+							contextId : dyFInputs.inputHidden(),
+							contextType : dyFInputs.inputHidden(), 
+							roles : dyFInputs.tags(form.custom.roles, tradDynForm["addroles"] , tradDynForm["addroles"], 0),
+							childId : dyFInputs.inputHidden(), 
+							childType : dyFInputs.inputHidden(),
+							connectType : dyFInputs.inputHidden()
+						}
+					}
+				}
+			};
+
+			var dataUpdate = {
+		        contextId : contextData.id,
+		        contextType : contextData.type,
+		        childId : childId,
+		        childType : childType,
+		        connectType : connectType,
+			};
+
+			if(notEmpty(roles))
+				dataUpdate.roles = roles;
+			dyFObj.openForm(formRole, "sub", dataUpdate);		
 	}
 
 	function buildDirectoryLine(key, value){
@@ -218,7 +300,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 			
 			if(typeof form.links != "undefined" && typeof form.links.members != "undefined"
 				&& typeof form.links.members[key] != "undefined"){
-				actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+value.type+'" class="margin-right-5 updateRoles"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Modifier les roles</a></li>';
+				actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" data-name="'+value.name+'" class="margin-right-5 updateRoles"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Modifier les roles</a></li>';
 
 				str += '<td id="role'+key+form.links.members[key].type+'">';
 				if( typeof form.links.members[key].roles != "undefined") {

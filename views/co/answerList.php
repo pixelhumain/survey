@@ -750,7 +750,7 @@ if(@$form["custom"]['footer']){
 var form = <?php echo json_encode($form); ?>;
 var adminForm = <?php echo json_encode($adminForm); ?>;
 var answers  = <?php echo json_encode($answers); ?>;
-var eligible  = <?php echo json_encode($adminAnswers); ?>;
+var adminAnswers  = <?php echo json_encode($adminAnswers); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
 var canAdmin = <?php echo $canAdmin; ?>;
 var updateForm = null;
@@ -865,7 +865,7 @@ $(document).ready(function() {
     			answerKey : "<?php echo $prioKey ?>" ,
     			answerStep : updateForm.cat ,
     			answers : getAnswers(adminForm.scenario[ updateForm.step ].json),
-    			answerUser : eligible.user ,
+    			answerUser : adminAnswers.user ,
     		};
     		
     		console.log("save",data);
@@ -921,7 +921,7 @@ function initWizard () {
 		var ix = 0;
 		$.each(adminForm.scenarioAdmin, function(k,v) { 
 			ix++;
-			if( eligible.step && k == eligible.step ){
+			if( adminAnswers.step && k == adminAnswers.step ){
 				$("#wizard").smartWizard("goToStep",ix);
 				return false;
 			}else{

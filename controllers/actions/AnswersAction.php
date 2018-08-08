@@ -12,6 +12,10 @@ class AnswersAction extends CAction{
 				$answers = PHDB::find( Form::ANSWER_COLLECTION , 
 										array("parentSurvey"=>@$id, 
 												"answers.project" => array('$exists' => 1) ) );
+
+				// $answers = PHDB::find( Form::ANSWER_COLLECTION , 
+				// 						array("parentSurvey"=>@$id, 
+				// 								"answers" => array('$exists' => 1) ) );
 				//Rest::json($answers); exit ;
 
 				$results = ( empty($answers) ? array() : Form::listForAdmin($answers) );
