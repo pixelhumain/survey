@@ -92,6 +92,7 @@ function eligibleFct(params){
 
 			if(data.result == true){
 				toastr.success(data.msg);
+				window.location.reload();
 			}else{
 				toastr.error(data.msg);
 			}

@@ -473,9 +473,10 @@ if( $canAdmin ){
 					} 
 				  foreach ($adminAnswers["categories"] as $ka => $va ) { ?>
 				  <li id="<?php echo $ka?>Btn" class="catElLI bold"><a href="javascript:;" onclick="EliTabs('<?php echo $ka ?>')"><?php 
-				  	$ic = ( !@$adminAnswers["answers"][$prioKey][$va["name"]]["total"] && Form::canAdminRoles($form["id"], $va["name"], $form) ) ? " <i class='text-red fa fa-cog'></i>" : "";
+				  	$ic = ( !@$adminAnswers["answers"][$prioKey][ $va["name"]]["total"] && Form::canAdminRoles($form["id"], $va["name"], $form) ) ? " <i class='text-red fa fa-cog'></i>" : "";
 					echo mb_strtoupper($va["name"]).$ic; ?></a></li>
 				  <?php } ?>
+				  <li class="pull-right"> <a href=""><i class="text-red margin-top-10 fa fa-pencil"></i></a></li>
 			</ul>
 
 
@@ -690,8 +691,6 @@ if( $canAdmin ){
 
 </div>
 
-
-
 <?php 
 	/* ---------------------------------------------
 	SECTION GESTION DES RISQUES
@@ -701,19 +700,59 @@ if( $canAdmin ){
 <div id='risk' class='section3 hide'>
 	
 	<?php if( $canAdmin ){ ?>
-		<div class="titleBlock col-xs-12 text-center text-grey" style="background-color: lightgrey" onclick="$('#categories').toggle();">
-			<h1> GESTION DES RISQUES <small class="text-dark">by Tetes de réseaux</small></h1>
-
-			<br>TODO : @tib : dynamically build tabs for each classification to be answered upon
-
-		</div>
-		
-		<div class="titleBlock col-xs-12 text-center text-grey" style="background-color: lightgrey" onclick="$('#categories').toggle();">
-			<h1> GESTION DES RISQUES <small class="text-dark">by Acteurs Financeurs</small></h1>
-
-			<br>TODO : @tib : dynamically build tabs for each classification to be answered upon
-
-		</div>
+		<div id="eligibleDesc" class="eliSec col-xs-12 padding-20">
+				<h1>Quelles sont risques éventuelles ?</h1>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				<br>
+				<div class="padding-10"  style="border:1px solid red">
+					<h3 class="text-center">Matrice de <?php echo mb_strtoupper($prioKey) ?></h3>
+					<table border="1" class="text-red text-center bold" style="margin:0px auto;">
+						<tr>
+							<?php foreach ($adminAnswers["categories"] as $ka => $va ) {
+								
+								?>
+							<th class="padding-10"><a href="javascript:;" onclick="EliTabs('<?php echo $ka ?>')"><?php echo mb_strtoupper($va["name"]) ?></a></th>
+							<?php } ?>
+							<th class="padding-10">Note globale</th>
+							<th class="padding-10">Classification</th>
+						</tr>
+						<tr>
+							<?php foreach ($adminAnswers["categories"] as $ka => $va ) {?>
+							<td><a href="javascript:;" onclick="changeCategoryWeight('<?php echo $ka ?>','<?php echo @$va["pourcentage"] ?>')"><?php echo @$va["pourcentage"]."%" ?></a></td>
+							<?php } ?>
+							<td>100%</td>
+							<td>Note</td>
+						</tr>
+						<tr>
+							<?php 
+							$tot = 0;
+							$ctot = 0;
+							if(@$adminAnswers["answers"][$prioKey]){ 
+								foreach ( @$adminAnswers["answers"][$prioKey] as $ka => $va ) {?>
+									<td class="<?php echo $ka ?>_Total">
+									<?php if(@$va['total']){
+												echo $va['total'];
+												$ctot++;
+											} 
+												else 
+												echo "-"; ?>
+									</td>
+									<?php 
+									$w = 1 + ((int)$adminAnswers["categories"][$ka] / 100);
+									$tot += (floor( (float)@$va['total']*100 / $w))/100;
+								} 
+							}?>
+							<td ><?php if($ctot == count($adminAnswers["categories"]) ) echo $tot; ?></td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+			</div>
 
 	<?php } ?>
 </div>
@@ -1065,7 +1104,37 @@ function nextState(step,c) {
 
 /*
 
-bug - edit formualire 
+bug 
+- page title + descriptif issue de la page TCO
+- extraire les templates des etapes 
+- ajouter HomePage 
+	Territoire Tropical Bioclimatique
+		Eco-Construction tropicale 
+		Ville jardin désirable et support de biodiversité 
+	Territoire smart et décarbonné* 
+		Production renouvelable 
+		Maîtrise de l’énergie 
+		Eco-mobilités 
+	Territoire collaboratif écologique et solidaire* 
+		Economie Sociale et solidaire 
+		Economie circulaire et circuits courts
+- PROJET SOUTENU par 
+	- citoyen 
+	- organisateur 
+	- financeur 
+	- donne un contexte au projet localement 
+- changer de role 
+- btn mes parametres
+- Gestion du risque 
+	- selection d'un risque dans un catalogue 
+	- ajouter un risque au catalogue
+	- risk management 
+- Calendrier cte2.2
+- Syhthese par thematique avec la listes de plusieurs projets
+- ajouter point et info de contacts
+- ajouter les etapes remplis dans answerLists
+
+- edit formualire 
 - demande de complément d'info
 - drive du dossier 
 - chat du dossier 
@@ -1097,31 +1166,22 @@ communauté
 	supprimer une invitation 
 
 
-
-Territoire Tropical Bioclimatique
-	Eco-Construction tropicale 
-	Ville jardin désirable et support de biodiversité 
-Territoire smart et décarbonné* 
-	Production renouvelable 
-	Maîtrise de l’énergie 
-	Eco-mobilités 
-Territoire collaboratif écologique et solidaire* 
-	Economie Sociale et solidaire 
-	Economie circulaire et circuits courts
-
 gestion des sessions
 	nouvelle session 
 	changer les dte start end 
 
 
-{
-    "formId" : "cte",
-    "user" : "5aa8e406539f22e716157828",
-    "name" : "oceatest",
-    "step" : "eligible"
-}
 
-rendre editable par role des admins
+Key Partnerships
+Key Activities
+Key Resources
+Value Propositions
+Customer Relationships
+Channels
+Customer Segments
+Cost Structure
+Revenue Streams
+
 
 
 */

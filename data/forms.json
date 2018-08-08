@@ -94,12 +94,12 @@
         "endTpl" : "home",
         "color" : "#00B795",
         "roles" : [ 
-            "ECO CONSTRUCTION", 
-            "ENERGIE", 
-            "AGRICULTURE", 
-            "ESS", 
-            "MOBILITÉ", 
-            "ECO CIRCULAIRE"
+            "Ville jardin désirable et support de biodiversité ", 
+            "Production renouvelable ", 
+            "Maîtrise de l’énergie ", 
+            "Eco-mobilités ", 
+            "Economie Sociale et solidaire ", 
+            "Economie circulaire et circuits courts"
         ],
         "mail" : {
             "invitation" : {

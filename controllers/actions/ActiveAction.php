@@ -1,11 +1,13 @@
 <?php
 class ActiveAction extends CTKAction{
 	public function run(){
+		$adminForm =  PHDB::findOne( Form::COLLECTION , array("id"=>$_POST["formId"]."Admin") );
 		$data = array(
 			"formId" => $_POST["formId"],
 			"user" => $_POST["userId"],
 			"name" => $_POST["userName"],
 			"eligible" => false, 
+			"step" => array_keys($adminForm["scenarioAdmin"])[1]
 		);
 		$res = array("result" => false,
 					"msg" => "N\'est pas éligible");
@@ -48,6 +50,7 @@ class ActiveAction extends CTKAction{
 			}
 
 			$data["eligible"] = true ;
+			$data["step"] = array_keys($adminForm["scenarioAdmin"])[2] ;
 			$roles = explode(",", $_POST["roles"]);
 
 			$pourcentage = round(100 / count($roles), 2);
@@ -55,11 +58,8 @@ class ActiveAction extends CTKAction{
 			$data["categories"] = array() ;
 
 			foreach ($roles as $key => $value) {
-				$data["categories"][InflectorHelper::slugify( $value )] = array( "name" => $value,
-																							"pourcentage" => $pourcentage);
-				;
+				$data["categories"][InflectorHelper::slugify( $value )] = array( "name" => $value,"pourcentage" => $pourcentage);
 			}
-
 			$res = array("result" => true,
 							"msg" => "Eligible");
 		}
