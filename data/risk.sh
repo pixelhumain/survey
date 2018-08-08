@@ -1,0 +1,1 @@
+mongoimport --db pixelhumain --collection risks --file risks.json --jsonArray

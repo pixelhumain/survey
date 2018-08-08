@@ -3,11 +3,12 @@ class AnswerAction extends CAction
 {
     public function run($id,$user,$view=null)
     {
-    	$this->getController()->layout = "//layouts/empty";
+    	$ctrl = $this->getController();
+    	$ctrl->layout = "//layouts/empty";
     	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
 
     	if ( ! Person::logguedAndValid() ) 
-			$this->getController()->render("co2.views.default.loginSecure");
+			$ctrl->render("co2.views.default.loginSecure");
 		else if( Form::canAdmin( $id, $form ) || $user == Yii::app()->session["userId"])
 		{ 
     		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user" => @$user ) ) )
@@ -24,7 +25,7 @@ class AnswerAction extends CAction
 					);
 				}
     			
-    			$this->getController()->layout = "//layouts/empty";	
+    			$ctrl->layout = "//layouts/empty";	
     			foreach ($answers as $k => $v) {
     				$answers[$v["formId"]] = $v;
     			}
@@ -33,24 +34,28 @@ class AnswerAction extends CAction
     			foreach ($forms as $k => $v) {
     				$form["scenario"][$v["id"]]["form"] = $v;
     			}
-
-	 			echo $this->getController()->render( "answerList" ,array( 
-							 			"answers" 	=> $answers,
-							 			"form"    	=> $form,
-							 			"user"	  	=> $userO,
-							 			"adminAnswers"	=> $adminAnswers,
-							 			"adminForm" => $adminForm,
-							 			"roles" 	=> @Yii::app()->session["custom"]["roles"] ));
+    			$params = array( 
+		 			"answers" 		=> $answers,
+		 			"form"    		=> $form,
+		 			"user"	  		=> $userO,
+		 			"adminAnswers"	=> $adminAnswers,
+		 			"adminForm" 	=> $adminForm,
+		 			"roles" 		=> @Yii::app()->session["custom"]["roles"] );
+    			if($adminAnswers["step"] == "risk"){
+    				$params["riskTypes"] = PHDB::findOne( "risks" , array("type"=>'riskTypes') );
+    				$params["riskCatalog"] = PHDB::find( "risks" , array("type"=>array('$ne'=>'riskTypes')) );
+    			}
+	 			echo $ctrl->render( "answerList" ,$params);
     		}
 	 		else if( @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("_id"=>new MongoId($id) ) ) )
 	 		{
 	 			if( !$view ){
-		 			$this->getController()->layout = "//layouts/empty";	
-		 			echo $this->getController()->render( "answer" ,array( 
+		 			$ctrl->layout = "//layouts/empty";	
+		 			echo $ctrl->render( "answer" ,array( 
 								 			"answer" => $answer,
 								 			"form"   => $form ));
 		 		} else {
-		 			echo $this->getController()->renderPartial( $view ,array( 
+		 			echo $ctrl->renderPartial( $view ,array( 
 								 			"answer" => $answer,
 								 			"form"   => $form ));
 		 		}
