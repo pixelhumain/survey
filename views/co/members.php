@@ -74,7 +74,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 <script type="text/javascript">
 
 	var form =<?php echo json_encode($form); ?>;
-	var contextData = form;
+	var contextData = {id : form._id.$id, type : "forms"};
 	var data =<?php echo json_encode($results); ?>;
 
 	var searchAdmin={
@@ -221,6 +221,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 			var id = $(this).data("id");
 			var name = $(this).data("name");
 			var type = $(this).data("type");
+			mylog.log("updateRoles", id, type, name);
 			if( typeof form.links.members[id] != "undefined" ){
 
 				var roles = ( ( typeof form.links.members[id].roles != "undefined" ) ? form.links.members[id].roles : [] ) ;
@@ -252,13 +253,22 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 						afterSave : function(data){
 							mylog.dir(data);
 							dyFObj.closeForm();
-							loadDataDirectory(connectType, "user", true);
+							//loadDataDirectory(connectType, "user", true);
+
+							var str = "";
+							if( typeof data.roles != "undefined") {
+								$.each(data.roles, function(kR, vR){
+									str += vR+" ";
+								});
+							}
+							mylog.log("beforeSave", "#role"+childId+childType, str);
+							$("#role"+childId+childType).html(str);
 							//changeHiddenFields();
 						},
 						properties : {
 							contextId : dyFInputs.inputHidden(),
 							contextType : dyFInputs.inputHidden(), 
-							roles : dyFInputs.tags(form.custom.roles, tradDynForm["addroles"] , tradDynForm["addroles"]),
+							roles : dyFInputs.tags(form.custom.roles, tradDynForm["addroles"] , tradDynForm["addroles"], 0),
 							childId : dyFInputs.inputHidden(), 
 							childType : dyFInputs.inputHidden(),
 							connectType : dyFInputs.inputHidden()
@@ -276,7 +286,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 			};
 
 			if(notEmpty(roles))
-				dataUpdate.roles = roles.split(",");
+				dataUpdate.roles = roles;
 			dyFObj.openForm(formRole, "sub", dataUpdate);		
 	}
 
@@ -290,7 +300,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 			
 			if(typeof form.links != "undefined" && typeof form.links.members != "undefined"
 				&& typeof form.links.members[key] != "undefined"){
-				actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+value.type+'" data-name="'+value.name+'" class="margin-right-5 updateRoles"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Modifier les roles</a></li>';
+				actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" data-name="'+value.name+'" class="margin-right-5 updateRoles"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Modifier les roles</a></li>';
 
 				str += '<td id="role'+key+form.links.members[key].type+'">';
 				if( typeof form.links.members[key].roles != "undefined") {
