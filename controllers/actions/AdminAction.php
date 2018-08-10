@@ -12,7 +12,7 @@ class AdminAction extends CAction{
 					(	!empty($form["links"]["forms"][Yii::app()->session["userId"]]) && 
 						!empty($form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"]) &&
 						$form["links"]["forms"][Yii::app()->session["userId"]]["isAdmin"] == true) */) {
-    		echo $this->getController()->render("admin", array());
+    		echo $this->getController()->render("admin", array("id" => $id, "form" => $form));
 		} else 
 			$this->getController()->render("co2.views.default.unauthorised"); 
     }

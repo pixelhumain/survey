@@ -7,7 +7,9 @@ class IndexAction extends CAction
     	if( @$id )
     	{
 	 		if(@$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id) )){
-	 			$form["t"] = time(); 
+	 			$this->getController()->pageTitle = @$form["seo"]["title"];
+				$this->getController()->keywords = @$form["seo"]["keywords"];
+				$form["t"] = time(); 
 	 			//pour etre sur qu'on passe par le process dans CO pour enregistrer on decodera le hash
 	 			//dans l'autre sens 
 	 			$form["h"] = hash('sha256', $form["t"].Yii::app()->params["idOpenAgenda"] );
