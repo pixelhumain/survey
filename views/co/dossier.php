@@ -12,10 +12,12 @@
 	<table id="by"  class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 		
 		<tbody class="directoryLines">
+
 			<tr>
 				<td>Nom</td>
 				<td><b><a href="<?php echo Yii::app()->createUrl( "#@".$user["slug"]) ?>" target="_blank"><?php echo $user["name"]; ?></a></b></td>
 			</tr>
+
 			<tr>
 				<td>Email</td>
 				<td><?php echo @$user["email"]; ?></td>
@@ -28,6 +30,7 @@
 						<td><b><a href="<?php echo Yii::app()->createUrl( "#page.type.organizations.id.".$answers["cte1"]["answers"]["organization"]["id"]); ?>" target="_blank"><?php echo $answers["cte1"]["answers"]["organization"]["name"]; ?></a></b></td>
 					</tr>
 				<?php }
+
 				if( @$answers["cte2"]["answers"]["project"]  ){ ?>
 					<tr>
 						<td>Projet</td>
@@ -82,7 +85,6 @@
 		<div class=" titleBlock col-xs-12 text-center" style="cursor:pointer;background-color: <?php echo $form["custom"]["color"] ?>"  onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();">
 			<h1> 
 			<?php echo $v["form"]["title"]; ?><i class="fa pull-right <?php echo @$v["form"]["icon"]; ?>"></i>
-				
 			</h1>
 			<span class="text-dark"><?php echo date('d/m/Y h:i', $answers[$k]["created"]) ?></span>
 		</div>
@@ -98,7 +100,7 @@
 				$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 			else 
 			//if(!@$v["form"]["scenario"][$key]["saveElement"]) 
-				$editBtn = ( $user == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
+				$editBtn = ( (string)$user["_id"] == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
 
 			echo "<div class='col-xs-12'>".
 					"<h2> [ step ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";

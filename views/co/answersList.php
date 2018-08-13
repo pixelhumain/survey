@@ -159,8 +159,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	        error:function(xhr, status, error){
 	            $("#searchResults").html("erreur");
 	        },
-	        statusCode:{
-	                404: function(){
+	        statusCode : {
+	                404 : function(){
 	                    $("#searchResults").html("not found");
 	            }
 	        }

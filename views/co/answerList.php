@@ -108,8 +108,9 @@ if( $this->layout != "//layouts/empty"){
 
 <?php 
 /* ---------------------------------------------
-	SECTION STEPPER WIZARD
-	---------------------------------------------- */?>				
+SECTION STEPPER WIZARD
+---------------------------------------------- */
+?>				
 		
 		<div id="wizard" class="swMain">
 			<ul id="wizardLinks">
@@ -138,76 +139,40 @@ if( $this->layout != "//layouts/empty"){
 				<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
 			</div>
 
-			
-<div id='dossier' class='section0'>
 <?php 
+
 /* ---------------------------------------------
-	SECTION DOSSIER
-	---------------------------------------------- */
-
-echo $this->renderPartial( "dossier",array("adminAnswers"=>$adminAnswers,
-												"adminForm"=>$adminForm,
-												"answers" => $answers,
-												"form" => $form,
-												"user" => $user,
-												)); ?>
-</div>
-
-<?php 
-	/* ---------------------------------------------
-	SECTION ELIGIBILITé
-	---------------------------------------------- */
- ?>
+each section must have a template , with the same key name
+---------------------------------------------- */
+$pageParams = array(
+	"adminAnswers"=>$adminAnswers,
+	"adminForm"=>$adminForm,
+	"answers" => $answers,
+	"form" => $form,
+	"user" => $user,
+	"prioKey" => $adminForm['key']
+); 
 
 
-<div id='eligible' class='section1 hide'>
+$ct = 0;
+$showHide = "";
+foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
+	
+	if( $adminAnswers["step"] == "risk" ){
+		$pageParams["riskTypes"] = @$riskTypes;
+		$pageParams["riskCatalog" ] = @$riskCatalog;
+	}
+	echo "<div id='".$k."' class='section".$ct." ".$showHide."'>";
+	
+	if( ( @$v["admin"] && $canAdmin) || ( @$v["author"] && (string)$user["_id"] == Yii::app()->session["userId"]  ) )
+		echo $this->renderPartial( $k ,$pageParams); 
 
-<?php if( $canAdmin ){ 
-	echo $this->renderPartial( "eligible",array("adminAnswers"=>$adminAnswers,
-												"adminForm"=>$adminForm,
-												"answers" => $answers
-												));
-	}?>
-
-</div>
-
-
-<?php 
-	/* ---------------------------------------------
-	SECTION PRIORISATION
-	---------------------------------------------- */ 
-	$prioKey = $adminForm['key'];
+	echo "</div>";
+	$ct++;
+	$showHide = "hide";
+}
 ?>
 
-
-<div id='priorisation' class='section2 hide'>
-
-<?php 
-if( $canAdmin ){ 
-	echo $this->renderPartial( "priority",array("adminAnswers"=>$adminAnswers,
-												"adminForm"=>$adminForm,
-												"form" => $form,
-												"prioKey" => $prioKey
-												));
-	 
-} ?>
-</div>
-
-<?php 
-	/* ---------------------------------------------
-	SECTION GESTION DES RISQUES
-	---------------------------------------------- */
- ?>
-
-<div id='risk' class='section3 hide'>
-	
-	<?php if( $canAdmin && $adminAnswers["step"] == "risk" ){ 
-		echo $this->renderPartial( "risk",array("adminAnswers"=>$adminAnswers,
-												"riskTypes"=>@$riskTypes,
-												"riskCatalog"=>@$riskCatalog,
-												));
-	} ?>
-</div>
 
 
 
@@ -341,7 +306,7 @@ $(document).ready(function() {
 			data={
     			formId : updateForm.form,
     			answerSection : "answers."+updateForm.category+"."+updateForm.step ,
-    			answerKey : "<?php echo $prioKey ?>" ,
+    			answerKey : "<?php echo $adminForm['key'] ?>" ,
     			answerStep : updateForm.cat ,
     			answers : getAnswers(adminForm.scenario[ updateForm.step ].json),
     			answerUser : adminAnswers.user ,
@@ -588,22 +553,25 @@ bug
 	- remove a risk ??? gestion d'etat d'un risque
 		non , on enleve pas mais doit pouvoir évoluer 
 		risque bloquant , affiche les risque dans la page dossier 
-		le user pourra commenter avec une parade et ce sera visualisable sur la page liste des risques
+		le user pourra commenter avec une parade ou actions à mener et ce sera visualisable sur la page liste des risques
 	- quels historique de changement ?
-	- pouvoir modifier les actions d'un risk 
+	- pouvoir modifier les actions d'un risk du catalog 
+	- supprimer (plus actif) un risk du catalog
 	- sur le risque ajouter un commentaire
 		yes
 	- ajouter le user sur le risk associé + date
+- FICHE ACTION : Syhthese par thematique avec la listes de plusieurs projets
 - [RAPHA] Calendrier cte2.2
-- Syhthese par thematique avec la listes de plusieurs projets
-- ajouter point et info de contacts
-- ajouter les etapes remplis dans answerLists
 
-- edit formualire 
+- ajouter point et info de contacts
+- [RAPHA] ajouter les etapes remplis dans answerLists
+
 - demande de complément d'info
-- drive du dossier 
-- chat du dossier 
-- geoloc du projet et de la liste des projets
+- [CLEM] drive du dossier 
+- [TIB] chat du dossier 
+- [RAPHA] geoloc du projet et de la liste des projets
+	 	var mapElements = new Array(); 
+   		mapElements.push(o);
 
 
 inscrit > paiement > Custom 
