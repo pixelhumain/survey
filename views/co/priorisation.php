@@ -244,4 +244,66 @@ $prioKey = $adminForm['key'];
 			</div>
 	<?php } ?>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() { 
+	
+	
+
+	$('.adminStep').click(function() {
+
+		updateForm = {
+			form : $(this).data("form")	,
+			category : $(this).data("section")+"."+$(this).data("category")	,
+			cat : $(this).data("category"),
+			step : $(this).data("step")	
+		};
+
+		var editForm = adminForm.scenario[$(this).data("step")].json;
+		console.log("editForm",editForm);
+
+		editForm.jsonSchema.onLoads = {
+			onload : function(){
+				dyFInputs.setHeader("bg-dark");
+				$('.form-group div').removeClass("text-white");
+				dataHelper.activateMarkdown(".form-control.markdown");
+			}
+		};
+		
+		editForm.jsonSchema.save = function()
+		{
+			
+			data={
+    			formId : updateForm.form,
+    			answerSection : "answers."+updateForm.category+"."+updateForm.step ,
+    			answerKey : "<?php echo $adminForm['key'] ?>" ,
+    			answerStep : updateForm.cat ,
+    			answers : getAnswers(adminForm.scenario[ updateForm.step ].json),
+    			answerUser : adminAnswers.user ,
+    		};
+    		
+    		console.log("save",data);
+    		
+    		$.ajax({ type: "POST",
+		        url: baseUrl+"/survey/co/update",
+		        data: data,
+				type: "POST",
+		    }).done(function (data) { 
+		    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
+			    	//window.location.reload();
+			    	dyFObj.closeForm();
+			    	toastr.success('successfully saved !');
+			    	if(data.total != null){
+			    		$("#"+updateForm.cat+"Btn i").hide();
+
+			    	}
+			    	updateForm = null;
+			    } 
+		    });
+		};
+
+		dyFObj.editStep( editForm );	
+
+	})
+});
+</script>
 <?php } ?>

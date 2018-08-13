@@ -232,3 +232,90 @@
 	echo "</div>";
 }
 ?>
+
+<script type="text/javascript">
+
+$(document).ready(function() { 
+	
+	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
+	
+	$.each($('.markdown'),function(i,el) { 
+		$(this).html( dataHelper.markdownToHtml( $(this).html() ) );	
+	});
+
+	$('.editStep').click(function() { 
+
+		if( $(this).data("type") )
+		{
+			//alert($(this).data("type")+" : "+$(this).data("id"));
+			updateForm = {
+				form : $(this).data("form"),
+				step : $(this).data("step"),
+				type : $(this).data("type"),
+				id : $(this).data("id"),
+				path : modules.co2.url + form.scenario[ $(this).data("form") ].form.scenario[$(this).data("step")].path	
+			};
+
+			var subType = "";
+			if( $(this).data("type") == "project" ){
+				subType = "project2";
+				modules.project2 = {
+			        form : modules.co2.url+form.scenario[$(this).data("form")].form.scenario[$(this).data("step")].path
+			    };
+			} else if( $(this).data("type") == "organization" ){
+				subType = "organization2";
+				modules.organization2 = {
+			        form : modules.co2.url+form.scenario[$(this).data("form")].form.scenario[$(this).data("step")].path
+			    };
+			}
+
+			dyFObj.editElement( $(this).data("type"), $(this).data("id"), subType );
+		}
+		else 
+		{
+			//alert($(this).data("form")+" : "+$(this).data("step"));
+			updateForm = {
+				form : $(this).data("form"),
+				step : $(this).data("step")	
+			};
+
+			var editForm = form.scenario[$(this).data("form")].form.scenario[$(this).data("step")].json;
+			editForm.jsonSchema.onLoads = {
+				onload : function(){
+					dyFInputs.setHeader("bg-dark");
+					$('.form-group div').removeClass("text-white");
+					dataHelper.activateMarkdown(".form-control.markdown");
+				}
+			};
+			
+			editForm.jsonSchema.save = function(){
+				
+				data={
+	    			formId : updateForm.form,
+	    			answerSection : updateForm.step ,
+	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json),
+	    			answerUser : adminAnswers.user 
+	    		};
+	    		
+	    		console.log("save",data);
+	    		
+	    		$.ajax({ type: "POST",
+			        url: baseUrl+"/survey/co/update",
+			        data: data,
+					type: "POST",
+			    }).done(function (data) {
+			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
+				    	window.location.reload();
+				    	updateForm = null;
+				    } 
+			    });
+			};
+
+
+			var editData = answers[$(this).data("form")]['answers'][$(this).data("step")];
+			dyFObj.editStep( editForm , editData);	
+		}
+	});
+});
+
+</script>
