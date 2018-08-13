@@ -47,12 +47,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	<div class="panel-body">
 		<div>
 			<!-- <a href="<?php //echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a> -->
-			<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
+			<table class="table table-striped table-bordered table-hover directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
 						<th>Nom du projet</th>
 						<th>Organisation</th>
 						<th>Utilisateur</th>
+						<th>Etape</th>
 						<th>Voir la réponse</th>
 						<th>Eligibilité</th>
 						<th>Priorisation</th>
@@ -181,12 +182,27 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 	function buildDirectoryLine(key, value){
 		console.log("buildDirectoryLine", key, value);
+		var step = 0;
+		var stepTotal = 0;
+		$.each(value.scenario, function(k, v){
+			stepTotal++;
+			if(v == true)
+				step++;
+		});
+
 		str = '<tr>';
-			str += '<td>'+value.name+'</td>';
-			str += '<td>'+value.parentName+'</td>';
-			str += '<td>'+value.userName+'</td>';
+			str += '<td>'+( (typeof value.name != "undefined") ? value.name : "Pas encore renseigner" ) +'</td>';
+			str += '<td>'+( (typeof value.parentName != "undefined") ? value.parentName : "Pas encore renseigner" ) +'</td>';
+			str += '<td>'+( (typeof value.userName != "undefined") ? value.userName : "Pas encore renseigner" )+'</td>';
 			str += '<td>';
-				str += '<center><a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.userId+'" target="_blanck">Lire</a></center>';
+				var classText = (step == stepTotal) ? 'text-success' : 'text-red';
+
+				str += "<span class='"+ classText +"'>"+ step +' / '+ stepTotal + "</span>";
+			str += '</td>';
+			str += '<td>';
+				if(step == stepTotal){
+					str += '<center><a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.userId+'" target="_blanck">Lire</a></center>';
+				}
 			str += '</td>';
 			str += '<td id="active'+value.id+value.type+'">';
 			if(typeof value.type != "undefined" && "projects" == value.type){
@@ -207,7 +223,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	}
 
 	function bindAnwserList(){
-
 		$(".activeBtn").on("click",function(e){
 			$('#modalCatgeorieAnswers').modal("show");
 			console.log("ffefe", $(this).data("id"));
@@ -222,52 +237,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 			$("#parentId").val( $(this).data("parentid"));
 			$("#parentType").val( $(this).data("parenttype"));
 			$("#parentName").val($(this).data("parentname"));
-			 
-			// var params = {
-			// 	childId : $(this).data("id"),
-			// 	childType : $(this).data("type"),
-			// 	childName : $(this).data("name"),
-			// 	userName : $(this).data("username"),
-			// 	userId : $(this).data("userid"),
-			// 	form : form._id.$id,
-			// 	formId : form.id,
-			// 	eligible : true,
-			// };
-
-			// if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
-			// 	params["parentId"] = $(this).data("parentid");
-			// 	params["parentType"] = $(this).data("parenttype");
-			// 	params["parentName"] = $(this).data("parentname");
-			// }
-
-			// eligible(params);
 		});
-
-
-		
-
-
-		// $(".notEligibleBtn").on("click",function(e){
-		// 	var params = {
-		// 		childId : $(this).data("id"),
-		// 		childType : $(this).data("type"),
-		// 		childName : $(this).data("name"),
-		// 		userName : $(this).data("username"),
-		// 		userId : $(this).data("userid"),
-		// 		form : form._id.$id,
-		// 		formId : form.id,
-		// 		eligible : false,
-		// 	};
-
-		// 	if(typeof $(this).data("parentid") != "undefined" && typeof $(this).data("parenttype") != "undefined"){
-		// 		params["parentId"] = $(this).data("parentid");
-		// 		params["parentType"] = $(this).data("parenttype");
-		// 		params["parentName"] = $(this).data("parentname");
-		// 	}
-
-		// 	eligible(params);
-		// });
-		
 	}
 
 

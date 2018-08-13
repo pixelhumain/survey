@@ -72,27 +72,35 @@ class Form {
 	  	return $res;
 	}
 
-	public static function listForAdminNews($answers = array()){
+	public static function listForAdminNews($form, $answers = array() ){
 		$results = array();
 		$uniq = array();
 		$uniqO = array();
 		$uniqP = array();
 		$uniqE = array();
-		Rest::json($answers); exit ;
+
+		$scenario = array();
+		
+
+		foreach ( $form["scenario"] as $key => $value) {
+			$scenario[$key] = false;
+		}
+
+		//Rest::json($answers); exit ;
 		foreach ( $answers as $key => $value) {
 			
 			if( !empty($value["answers"]) && 
 				!empty($value["answers"][Organization::CONTROLLER]) && 
-				!in_array( $value["answers"][Organization::CONTROLLER]["id"], $uniqO ) &&
-				( 	empty($results[$answers["email"]]) || 
-					(!empty($results[$answers["email"]]) && empty($results[$answers["email"]]["parentId"]) ) ) ) {
+				!in_array( $value["answers"][Organization::CONTROLLER]["id"], $uniqO )  && 
+				( 	empty($results[$value["user"]]) || 
+					(!empty($results[$value["user"]]) && empty($results[$value["user"]]["parentId"]) ) ) ) {
 
-				$orga = Element::getElementById($value["answers"][Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email"));
-				$ans["parentId"] = $value["answers"][Organization::CONTROLLER]["id"];
-				$ans["parentType"] = Organization::COLLECTION;
-				$ans["parentName"] = $orga["name"];
-
-				$results[$answers["email"]] = $ans;
+					$orga = Element::getElementById($value["answers"][Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email"));
+					$ans["parentId"] = $value["answers"][Organization::CONTROLLER]["id"];
+					$ans["parentType"] = Organization::COLLECTION;
+					$ans["parentName"] = $orga["name"];
+					$results[$value["user"]] = $ans;
+				
 				$uniqO[] = $value["answers"][Organization::CONTROLLER]["id"];
 			}
 
@@ -123,11 +131,29 @@ class Form {
 				$orga["userId"] = $value["user"];
 				$orga["userName"] = $value["name"];
 				
-				$results[] = $orga;
+				$results[$value["user"]]["id"] = @$orga["id"];
+				$results[$value["user"]]["type"] = @$orga["type"];
+				$results[$value["user"]]["name"] = @$orga["name"];
+				$results[$value["user"]]["email"] = @$orga["email"];
+				$results[$value["user"]]["parentId"] = @$orga["parentType"];
+				$results[$value["user"]]["parentName"] = @$orga["parentName"];
+				$results[$value["user"]]["userId"] = @$orga["userId"];
+				$results[$value["user"]]["userName"] = @$orga["userName"];
+
 				$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
 			}
-		}
 
+
+			if ( !empty($results[$value["user"]]) ) {
+
+				if ( empty($results[$value["user"]]["scenario"]) )
+					$results[$value["user"]]["scenario"] = $scenario;
+				//var_dump($results[$value["user"]]); echo "</br></br>";
+				if ( isset($results[$value["user"]]["scenario"][$value["formId"]]) )
+					$results[$value["user"]]["scenario"][$value["formId"]] = true;
+			}
+		}
+		// Rest::json($results);exit ;
 		return $results ;	
 	}
 
