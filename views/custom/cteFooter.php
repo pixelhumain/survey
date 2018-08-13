@@ -7,13 +7,13 @@
 		<div class="col-xs-2 col-lg-offset-4 text-center padding-20" style="border:1px solid white">
 			<h4 class="text-dark">Mr. Eric Caro
 			<br/><small class="text-white">eric.caro@tco.re</small>
-			<br/><small class="text-white">0692877386</small>
+			<br/><small class="text-white">06 92 877 386</small>
 			</h4>
 		</div>
 		<div class="col-xs-2  text-center padding-20 " style="border:1px solid white">
 			<h4 class="text-dark">Mr. Jean Louis Pégou
 			<br/><small class="text-white">jean-louis.pegou@tco.re</small>
-			<br/><small class="text-white">0692204346</small></h4>
+			<br/><small class="text-white">02 62 321 212</small></h4>
 			
 		</div>
 	</div>
