@@ -200,9 +200,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 				str += "<span class='"+ classText +"'>"+ step +' / '+ stepTotal + "</span>";
 			str += '</td>';
 			str += '<td>';
-				if(step == stepTotal){
+				//if(step == stepTotal){
 					str += '<center><a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.userId+'" target="_blanck">Lire</a></center>';
-				}
+				//}
 			str += '</td>';
 			str += '<td id="active'+value.id+value.type+'">';
 			if(typeof value.type != "undefined" && "projects" == value.type){

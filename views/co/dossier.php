@@ -28,7 +28,7 @@
 						<td><b><a href="<?php echo Yii::app()->createUrl( "#page.type.organizations.id.".$answers["cte1"]["answers"]["organization"]["id"]); ?>" target="_blank"><?php echo $answers["cte1"]["answers"]["organization"]["name"]; ?></a></b></td>
 					</tr>
 				<?php }
-				if( $answers["cte2"]["answers"]["project"]  ){ ?>
+				if( @$answers["cte2"]["answers"]["project"]  ){ ?>
 					<tr>
 						<td>Projet</td>
 						<td><b><a href="<?php echo Yii::app()->createUrl( "#page.type.projects.id.".$answers["cte2"]["answers"]["project"]["id"]); ?>" target="_blank"><?php echo $answers["cte2"]["answers"]["project"]["name"]; ?></a></b></td>

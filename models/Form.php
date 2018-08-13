@@ -99,6 +99,7 @@ class Form {
 					$ans["parentId"] = $value["answers"][Organization::CONTROLLER]["id"];
 					$ans["parentType"] = Organization::COLLECTION;
 					$ans["parentName"] = $orga["name"];
+					$ans["userId"] = $value["user"];
 					$results[$value["user"]] = $ans;
 				
 				$uniqO[] = $value["answers"][Organization::CONTROLLER]["id"];

@@ -201,10 +201,10 @@ if( $canAdmin ){
 
 <div id='risk' class='section3 hide'>
 	
-	<?php if( $canAdmin ){ 
+	<?php if( $canAdmin && $adminAnswers["step"] == "risk" ){ 
 		echo $this->renderPartial( "risk",array("adminAnswers"=>$adminAnswers,
-												"riskTypes"=>$riskTypes,
-												"riskCatalog"=>$riskCatalog,
+												"riskTypes"=>@$riskTypes,
+												"riskCatalog"=>@$riskCatalog,
 												));
 	} ?>
 </div>
@@ -560,9 +560,12 @@ function nextState(step,c) {
 /*
 
 bug 
+- [RAPHA] Rapatrier correction de dev sur master :
+	- btn pour voir les réponses
+	- list des réponse avec etape 
 - page title + descriptif issue de la page TCO
 - extraire les templates des etapes 
-- ajouter HomePage 
+- [RAPHA] ajouter HomePage : http://www.tco.re/competences-et-projets/cte-contrat-de-transition-ecologique/le-contrat-de-transition-ecologique-du-territoire-de-la-cote-ouest
 	Territoire Tropical Bioclimatique
 		Eco-Construction tropicale 
 		Ville jardin désirable et support de biodiversité 
@@ -579,7 +582,7 @@ bug
 	- financeur 
 	- donne un contexte au projet localement 
 - changer de role 
-- btn mes parametres
+- [RAPHA] btn mes parametres
 - Gestion du risque 
 	- pourcentage de risk : al ahauteur du risque le plus elevé
 	- remove a risk ??? gestion d'etat d'un risque
@@ -591,7 +594,7 @@ bug
 	- sur le risque ajouter un commentaire
 		yes
 	- ajouter le user sur le risk associé + date
-- Calendrier cte2.2
+- [RAPHA] Calendrier cte2.2
 - Syhthese par thematique avec la listes de plusieurs projets
 - ajouter point et info de contacts
 - ajouter les etapes remplis dans answerLists
