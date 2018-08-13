@@ -1,5 +1,4 @@
 <?php 
-$prioKey = $adminForm['key'];
 if(@$adminAnswers["categories"]){
 $prioKey = $adminForm['key'];
 ?>	
