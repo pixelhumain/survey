@@ -154,7 +154,8 @@ class Form {
 		if(	Yii::app()->session["userId"] == $form["author"] ||
 			(	!empty($form["links"]["members"][Yii::app()->session["userId"]]) && 
 				!empty($form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"]) &&
-				$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true)){
+				$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true &&
+				in_array("TCO", $form["links"]["members"][Yii::app()->session["userId"]]["roles"]) ) ){
     		$res = true;
     		
         }else if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){
