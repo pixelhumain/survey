@@ -202,9 +202,9 @@
 		<p>
 			<ul>
 				<li> <b>Le contrat du CTE </b> (Charte d’engagements, Cadre d’intervention, les fiches projets),</li>
-				<li> <b>la plateforme collaborative numérique Communecter </b> (Charte de fonctionnement, et ap-plications),</li>
+				<li> <b>la plateforme collaborative numérique Communecter </b> (Charte de fonctionnement, et applications),</li>
 				<li> <b>l’Avis d’appel à projet</b> (AAP) du CTE</li>
-				<li> <b>l’organisation du CTE</b> (Guichet unique, COPIL, Calendrier, la mé-thodologie etc.).</li>
+				<li> <b>l’organisation du CTE</b> (Guichet unique, COPIL, Calendrier, la méthodologie etc.).</li>
 			</ul>
 		 </p>
 	</div>
