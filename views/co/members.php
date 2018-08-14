@@ -296,7 +296,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 			
 			if(typeof form.links != "undefined" && typeof form.links.members != "undefined"
 				&& typeof form.links.members[key] != "undefined"){
-				actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+value.type+'" class="margin-right-5 updateRoles"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Modifier les roles</a></li>';
+				actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" data-name="'+value.name+'" class="margin-right-5 updateRoles"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Modifier les roles</a></li>';
 
 				str += '<td id="role'+key+form.links.members[key].type+'">';
 				if( typeof form.links.members[key].roles != "undefined") {
