@@ -135,8 +135,8 @@ jQuery(document).ready(function() {
                             });
                             
                             if(answered)
-                                str +='<span style="width:100%" class="btn bg-azure">'+
-                                        'Déjà rempli</span> <i class="fa fa-'+v.icon+' fa-2x "></i>';
+                                str +='<a href="'+baseUrl+'/survey/co/answer/id/'+dySObj.surveys.id+'/user/'+userId+'/#head'+i+'" style="width:100%" class="btn bg-azure">'+
+                                        'Déjà rempli</span> <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
                             else  
                                 str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-default answered'+answered+' hidden"  style="width:100%"> Commencer <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
 

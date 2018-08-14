@@ -138,7 +138,7 @@ if( $this->layout != "//layouts/empty"){
 
 		foreach ($form["scenario"] as $k => $v) {
 			if(@$answers[$k]){  ?>
-				<div class=" titleBlock col-xs-12 text-center" style="background-color: <?php echo $form["custom"]["color"] ?>"  onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();">
+				<div id='head<?php echo $v["form"]["id"]; ?>' class=" titleBlock col-xs-12 text-center" style="background-color: <?php echo $form["custom"]["color"] ?>"  onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();">
 					<h1> 
 					<?php echo $v["form"]["title"]; ?>
 						
