@@ -184,6 +184,31 @@
   </p>
 </div>
 
+<div class="col-xs-12  padding-20" style="font-size: 1.5em;">
+		<p><b>L’objectif est de pouvoir sélectionner d’autres projets innovants, d’organiser des ateliers thématiques</b> sous l’égide des «Têtes de réseaux» et <b>signer un amendement au CTE</b> d’ici la mi-novembre 2018 :</p>
+		<p>
+			<ul>
+				<li> <b>Thématique Production et efficacité énergétique</b> : SPL Energie, TEMERGIE, ADEME et Région ;</li>
+				<li> <b>Thématique Economie circulaire et déchets</b> : ADIR, Cluster Green, CCIR, Chambre des Métiers et de l’Artisanat ;</li>
+				<li> <b>Thématique Agriculture et biodiversité</b> : CIRAD, IRD, Qualitropic, Chambre d’agriculture, DAAF ;</li>
+				<li> <b>Thématique Mobilités durables</b> : SMTR, Région ;</li>
+				<li> <b>Thématique Economie sociale, solidaire et numérique</b> : CRESS et DIGITAL Réunion ;</li>
+			</ul>
+		</p>
+
+		<p>
+		Dans cette perspective, <b>le TCO</b> en tant que chef de file <b>finalise l’organisation et la méthode d’intervention en mode projet</b>, ce qui recouvre :</p>
+
+		<p>
+			<ul>
+				<li> <b>Le contrat du CTE </b> (Charte d’engagements, Cadre d’intervention, les fiches projets),</li>
+				<li> <b>la plateforme collaborative numérique Communecter </b> (Charte de fonctionnement, et applications),</li>
+				<li> <b>l’Avis d’appel à projet</b> (AAP) du CTE</li>
+				<li> <b>l’organisation du CTE</b> (Guichet unique, COPIL, Calendrier, la méthodologie etc.).</li>
+			</ul>
+		 </p>
+	</div>
+
  </div>
 
  <div class="space50"></div>
