@@ -9,6 +9,12 @@ $cssJS = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 
+$cssJS = array(
+    '/plugins/jquery.dynForm.js',
+    '/plugins/select2/select2.min.js' , 
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
+
 $layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
 $me = isset(Yii::app()->session['userId']) ? Person::getById(Yii::app()->session['userId']) : null;
 $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].'.mainMenu', array("me"=>$me) );
@@ -85,7 +91,6 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 
 
 		$("#input-search-table").keyup(function(e){
-			mylog.log("here", e.keyCode);
 			//if(e.keyCode == 13){
 			searchAdmin.page=0;
 			searchAdmin.text = $(this).val();
@@ -99,7 +104,6 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 	    });
 
 	    $(".updateRoles").off().click(function(e){
-	    	alert("HERE");
 			var id = $(this).data("id");
 			var name = $(this).data("name");
 			var type = $(this).data("type");
