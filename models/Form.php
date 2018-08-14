@@ -244,6 +244,7 @@ class Form {
 			(	!empty($form["links"]["members"][Yii::app()->session["userId"]]) && 
 				!empty($form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"]) &&
 				$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true &&
+				!empty($form["links"]["members"][Yii::app()->session["userId"]]["roles"]) &&
 				in_array("TCO", $form["links"]["members"][Yii::app()->session["userId"]]["roles"]) ) ){
     		$res = true;
     		
