@@ -9,12 +9,16 @@ class AnswersAction extends CAction{
 		}else if(Form::canAdmin($id, $form)){ 
 			
 			if( $form["surveyType"] == "surveyList" )  {
+				// $answers = PHDB::find( Form::ANSWER_COLLECTION , 
+				// 						array("parentSurvey"=>@$id, 
+				// 								"answers.project" => array('$exists' => 1) ) );
+
 				$answers = PHDB::find( Form::ANSWER_COLLECTION , 
 										array("parentSurvey"=>@$id, 
-												"answers.project" => array('$exists' => 1) ) );
+												"answers" => array('$exists' => 1) ) );
 				//Rest::json($answers); exit ;
 
-				$results = ( empty($answers) ? array() : Form::listForAdmin($answers) );
+				$results = ( empty($answers) ? array() : Form::listForAdminNews($form, $answers) );
 
 	 			echo $this->getController()->render("answersList",
 	 												array(  "results" => $results,

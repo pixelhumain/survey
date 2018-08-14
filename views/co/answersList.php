@@ -53,6 +53,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th>Nom du projet</th>
 						<th>Organisation</th>
 						<th>Utilisateur</th>
+						<th>Etape</th>
 						<th>Lire la réponse</th>
 						<th>Eligibilité</th>
 					</tr>
@@ -179,10 +180,23 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 	function buildDirectoryLine(key, value){
 		mylog.log("buildDirectoryLine", key, value);
+		var step = 0;
+		var stepTotal = 0;
+		$.each(value.scenario, function(k, v){
+			stepTotal++;
+			if(v == true)
+				step++;
+		});
+		
 		str = '<tr>';
-			str += '<td>'+value.name+'</td>';
-			str += '<td>'+value.parentName+'</td>';
-			str += '<td>'+value.userName+'</td>';
+			str += '<td>'+( (typeof value.name != "undefined") ? value.name : "Pas encore renseigner" ) +'</td>';
+			str += '<td>'+( (typeof value.parentName != "undefined") ? value.parentName : "Pas encore renseigner" ) +'</td>';
+			str += '<td>'+( (typeof value.userName != "undefined") ? value.userName : "Pas encore renseigner" )+'</td>';
+			str += '<td>';
+				var classText = (step == stepTotal) ? 'text-success' : 'text-red';
+
+				str += "<span class='"+ classText +"'>"+ step +' / '+ stepTotal + "</span>";
+			str += '</td>';
 			str += '<td>';
 				str += '<center><a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.userId+'" target="_blanck">Lire</a></center>';
 			str += '</td>';
