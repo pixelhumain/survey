@@ -5,7 +5,8 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true));
 $cssJS = array(
-    '/js/dataHelpers.js'
+    '/js/dataHelpers.js',
+    //'/js/default/directory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 
@@ -88,6 +89,16 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 		if(typeof data != "undefined"){
 			initViewTable(data);
 		}
+
+		$(".disconnectConnection").click(function(){
+			var $this=$(this); 
+			disconnectTo(	contextData.type,
+							contextData.id, 
+							$this.data("id"),
+							$this.data("type"), 
+							$this.data("connection"),
+							function() { $("#lineMember"+$this.data("id")).fadeOut(); });
+		});
 
 
 		$("#input-search-table").keyup(function(e){
@@ -289,7 +300,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 	function buildDirectoryLine(key, value){
 		console.log("buildDirectoryLine", key, value);
 		actions = "";
-		str = '<tr>';
+		str = '<tr id="lineMember'+key+'">';
 			str += '<td>'+value.name+'</td>';
 			str += '<td>'+value.email+'</td>';
 			str += '<td>'+key+'</td>';
@@ -310,7 +321,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 					if( typeof form.links.members[key].isAdmin != "undefined" && 
 						form.links.members[key].isAdmin == true) {
 						str += " Oui ";
-						actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 removeAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Supprimer de l\'admin</a></li>';
+						actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 removeAdmin"><span class="fa-stack"><i class="fa fa-user-times"></i></i></span>Supprimer de l\'admin</a></li>';
 					}else{
 						str += " Non ";
 						actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 addAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Ajouter en tant que admin</a></li>';
@@ -320,6 +331,10 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 				}
 				str += '</td>';
 				str += '<td class="center">';
+
+				actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" data-name="'+value.name+'" data-connection="members" data-parent-hide="'+2+'" class="margin-right-5 disconnectConnection"><span class=""><i class="fa fa-trash"></i></i></span>Supprimer le lien</a></li>';
+
+
 				if( actions != "" ){ 
 					str += '<div class="btn-group">'+
 								'<a href="#" data-toggle="dropdown" class="btn btn-danger dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'+
@@ -334,6 +349,70 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 		str += '</tr>';
 		return str;
 	}
+
+	function disconnectTo(parentType,parentId,childId,childType,connectType, callback, linkOption, msg) { 
+		var messageBox = (notNull(msg)) ? msg : trad["removeconnection"+connectType];
+		$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+		var formData = {
+			"childId" : childId,
+			"childType" : childType, 
+			"parentType" : parentType,
+			"parentId" : parentId,
+			"connectType" : connectType,
+		};
+		if(typeof linkOption != "undefined" && linkOption)
+			formData.linkOption=linkOption;
+		bootbox.dialog({
+	        onEscape: function() {
+	            $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+	        },
+	        message: '<div class="row">  ' +
+	            '<div class="col-md-12"> ' +
+	            '<span>'+messageBox+' ?</span> ' +
+	            '</div></div>',
+	        buttons: {
+	            success: {
+	                label: "Ok",
+	                className: "btn-primary",
+	                callback: function () {
+	                    $.ajax({
+							type: "POST",
+							url: baseUrl+"/"+moduleId+"/link/disconnect",
+							data : formData,
+							dataType: "json",
+							success: function(data){
+								if ( data && data.result ) {
+									typeConnect=(formData.parentType==  "citoyens") ? "people" : formData.parentType;
+									idConnect=formData.parentId;
+									if(formData.parentId==userId){
+										typeConnect=(formData.childType==  "citoyens") ? "people" : formData.childType;
+										idConnect=formData.childId;
+									
+									}
+									// if(typeof removeFloopEntity() != "undefined")
+									// 	removeFloopEntity(idConnect, typeConnect);
+									toastr.success("Le lien a été supprimé avec succès");
+									if (typeof callback == "function") 
+										callback();
+									else
+										urlCtrl.loadByHash(location.hash);
+								} else {
+								   toastr.error("You leave succesfully");
+								}
+							}
+						});
+	                }
+	            },
+	            cancel: {
+	            	label: trad["cancel"],
+	            	className: "btn-secondary",
+	            	callback: function() {
+	            		$(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
+	            	}
+	            }
+	        }
+	    });      
+	};
 </script> 
 <?php	
 	} else {
