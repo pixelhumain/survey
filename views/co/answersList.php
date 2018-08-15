@@ -218,6 +218,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 			}
 
 			str += '</td>';
+			str += '<td></td>';
+			str += '<td></td>';
 		str += '</tr>';
 		return str;
 	}

@@ -1,4 +1,4 @@
-
+<?php if( $canAdmin && array_search('eligible', $steps) <= array_search($adminAnswers["step"], $steps)  ){ ?>
 <h1 class="text-center"> <i class="fa fa-<?php echo (@$adminAnswers["eligible"]) ? "thumbs-o-up text-green": "thumbs-o-down text-red"; ?>"></i> ÉLIGILIBITÉ <small>par TCOPIL</small> </h1>
 
 <div id="eligible"  class="col-xs-12">
@@ -39,3 +39,4 @@
 			?>
 	</div>
 </div>
+<?php } ?>

@@ -378,28 +378,23 @@
     "scenarioAdmin" : {
         "dossier" : {
             "title" : "Dossier",
-            "icon" : "folder-open-o",
-            "author" : true
+            "icon" : "folder-open-o"
         },
         "eligible" : {
             "title" : "Éligibilité <br/>par TCOPIL",
-            "icon" : "thumbs-o-up",
-            "admin" : true
+            "icon" : "thumbs-o-up"
         },
         "priorisation" : {
             "title" : "Priorisation<br/> par TCOPIL",
-            "icon" : "sort-amount-desc",
-            "admin" : true
+            "icon" : "sort-amount-desc"
         },
         "risk" : {
             "title" : "Gestion du Risque",
-            "icon" : "warning",
-            "admin" : true
+            "icon" : "warning"
         },
         "ficheAction" : {
             "title" : "Fiches Actions",
-            "icon" : "file-text",
-            "admin" : true
+            "icon" : "file-text"
         }
     },
     "scenario" : {

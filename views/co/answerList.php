@@ -150,7 +150,9 @@ $pageParams = array(
 	"answers" => $answers,
 	"form" => $form,
 	"user" => $user,
-	"prioKey" => $adminForm['key']
+	"prioKey" => $adminForm['key'],
+	"canAdmin" => $canAdmin,
+	"steps" => array_keys($adminForm["scenarioAdmin"])
 ); 
 
 
@@ -162,12 +164,11 @@ foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
 		$pageParams["riskTypes"] = @$riskTypes;
 		$pageParams["riskCatalog" ] = @$riskCatalog;
 	}
-	echo "<div id='".$k."' class='section".$ct." ".$showHide."'>";
 	
-	if( ( @$v["admin"] && $canAdmin) || ( @$v["author"] && (string)$user["_id"] == Yii::app()->session["userId"]  ) )
-		echo $this->renderPartial( $k ,$pageParams); 
-
+	echo "<div id='".$k."' class='section".$ct." ".$showHide."'>";
+	echo $this->renderPartial( $k , $pageParams ); 
 	echo "</div>";
+
 	$ct++;
 	$showHide = "hide";
 }
@@ -208,7 +209,7 @@ $(document).ready(function() {
 function initWizard () { 
 	$("#wizard").smartWizard({
 	    selected: 0,
-	    keyNavigation: true,
+	    keyNavigation: false,
 	    //enableAllSteps : true,
 	    //onLeaveStep: function(){ console.log("leaveAStepCallback");},
 	    onShowStep: function(obj, context)
@@ -240,7 +241,7 @@ function initWizard () {
 //dySObj.animateBar();
 }
 
-function getAnswers(dynJson)
+function getAnswers(dynJson, noTotal)
 {
 	//alert("get Answers");
 	var editAnswers = {};
@@ -284,14 +285,14 @@ function getAnswers(dynJson)
         }
     });
     
-    $("."+updateForm.cat+"_"+updateForm.step+"Total").html( "[ Note : "+( parseFloat(total).toFixed(2) )+" ]" );
-    $("."+updateForm.cat+"_"+updateForm.step+"TotalNum").html( parseFloat(total).toFixed(2) );
-    $("."+updateForm.cat+"_"+updateForm.step+"ResultTitle").append( "<td class='bold'>Note</td>" );
-	$("."+updateForm.cat+"_"+updateForm.step+"ResultWeight").append( "<td>100%</td>" );	
-	$("."+updateForm.cat+"_"+updateForm.step+"ResultAnswer").append( "<td>"+( parseFloat(total).toFixed(2) )+"</td>" );
-
-    editAnswers.total = total;
-
+    if(!noTotal){
+	    $("."+updateForm.cat+"_"+updateForm.step+"Total").html( "[ Note : "+( parseFloat(total).toFixed(2) )+" ]" );
+	    $("."+updateForm.cat+"_"+updateForm.step+"TotalNum").html( parseFloat(total).toFixed(2) );
+	    $("."+updateForm.cat+"_"+updateForm.step+"ResultTitle").append( "<td class='bold'>Note</td>" );
+		$("."+updateForm.cat+"_"+updateForm.step+"ResultWeight").append( "<td>100%</td>" );	
+		$("."+updateForm.cat+"_"+updateForm.step+"ResultAnswer").append( "<td>"+( parseFloat(total).toFixed(2) )+"</td>" );
+	    editAnswers.total = total;
+	}
     
     $("."+updateForm.cat+"_Priorisation").removeClass('hide');	
     
@@ -392,8 +393,6 @@ bug
 - [RAPHA] Rapatrier correction de dev sur master :
 	- btn pour voir les réponses
 	- list des réponse avec etape 
-- page title + descriptif issue de la page TCO
-- extraire les templates des etapes 
 - [RAPHA] ajouter HomePage : http://www.tco.re/competences-et-projets/cte-contrat-de-transition-ecologique/le-contrat-de-transition-ecologique-du-territoire-de-la-cote-ouest
 	Territoire Tropical Bioclimatique
 		Eco-Construction tropicale 
@@ -410,21 +409,14 @@ bug
 	- organisateur 
 	- financeur 
 	- donne un contexte au projet localement 
-- changer de role 
+- [RAPHA] changer de role ?? 
 - [RAPHA] btn mes parametres
-- Gestion du risque 
-	- pourcentage de risk : al ahauteur du risque le plus elevé
-	- remove a risk ??? gestion d'etat d'un risque
-		non , on enleve pas mais doit pouvoir évoluer 
-		risque bloquant , affiche les risque dans la page dossier 
-		le user pourra commenter avec une parade ou actions à mener et ce sera visualisable sur la page liste des risques
-	- quels historique de changement ?
-	- pouvoir modifier les actions d'un risk du catalog 
-	- supprimer (plus actif) un risk du catalog
-	- sur le risque ajouter un commentaire
-		yes
-	- ajouter le user sur le risk associé + date
-- FICHE ACTION : Syhthese par thematique avec la listes de plusieurs projets
+
+- [TIB] Gestion du risque 
+	- user pourra commenter avec une parade ou actions à mener et ce sera visualisable sur la page liste des risques
+	- remove riskTypes : <?php echo json_encode($riskTypes); ?>,make dynamic from catalog content
+
+- [TIB] FICHE ACTION : Synthese par thematique avec la listes de plusieurs projets
 - [RAPHA] Calendrier cte2.2
 
 - ajouter point et info de contacts
@@ -436,6 +428,9 @@ bug
 - [RAPHA] geoloc du projet et de la liste des projets
 	 	var mapElements = new Array(); 
    		mapElements.push(o);
+
+- DOSSIER : save onBlur 
+
 
 
 inscrit > paiement > Custom 
@@ -479,6 +474,10 @@ Customer Segments
 Cost Structure
 Revenue Streams
 
+Amélioration : 
+- multi projet par porteur 
+- historique de modif des risques 
+- unifier tout les answers en un seul 
 
 
 */

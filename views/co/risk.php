@@ -1,3 +1,29 @@
+<?php if( $canAdmin && array_search('risk', $steps) >= array_search($adminAnswers["step"], $steps)  ){ 
+
+$riskWeight = array(
+	"11" => array( "w" => 1 , "c" => "lightGreen"),
+	"12" => array( "w" => 2 , "c" => "lightGreen"),
+	"13" => array( "w" => 3 , "c" => "lightGreen"),
+	"14" => array( "w" => 4 , "c" => "yellow"),
+	"21" => array( "w" => 5 , "c" => "lightGreen"),
+	"22" => array( "w" => 6 , "c" => "lightGreen"),
+	"23" => array( "w" => 7 , "c" => "yellow"),
+	"24" => array( "w" => 8 , "c" => "red"),
+	"31" => array( "w" => 9 , "c" => "lightGreen"),
+	"32" => array( "w" => 10 , "c" => "yellow"),
+	"33" => array( "w" => 11 , "c" => "red"),
+	"34" => array( "w" => 12 , "c" => "red"),
+	"41" => array( "w" => 13 , "c" => "yellow"),
+	"42" => array( "w" => 14 , "c" => "red"),
+	"43" => array( "w" => 15 , "c" => "red"),
+	"44" => array( "w" => 16 , "c" => "red")
+);
+
+?>
+<style type="text/css">
+	td,th {padding:10px;text-align: center;}
+	#riskCatalogList tr {cursor: pointer;}
+</style>
 <div class="col-xs-12 padding-20">
 	<h1>Risques évalués ?</h1>
 	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -12,55 +38,45 @@
 		<h2 class="text-center" >Liste des risques détectés <a href="#toto" onclick="$('#riskCatalogue').toggle()" class="btn btn-primary">CATALOGUE DES RISQUES</a></h2>
 		<?php if( !@$adminAnswers["risks"]){ ?>
 		<h3 id="noriskTtile" class=" text-center text-red">Aucun Risque detecté</h3>
-		
 		<?php } ?>
-		<table border="1" id="riskList"  class="text-red text-center bold" style="margin:0px auto;">
+		<table border="1" id="riskList"  class="table table-striped table-bordered table-hover  directoryTable margin-bottom-20" style="width:100%;">
 			<tr>
-				<th class="padding-10">Type</th>
-				<th class="padding-10">Danger</th>
-				<th class="padding-10">Actions</th>
-				<th class="padding-10">Probabilité</th>
-				<th class="padding-10">Gravité</th>
-				<th class="padding-10">Poids</th>
-				<th class="padding-10">Remove</th>
+				<th>Qui et Quand</th>
+				<th>Type</th>
+				<th>Danger </th>
+				<th>Actions </th>
+				<th class="text-dark">Commentaire </th>
+				<th>Probabilité</th>
+				<th>Gravité</th>
+				<th>Poids</th>
 			</tr>
+
 			<?php 
-			$riskWeight = array(
-					"11" => array( "w" => 1 , "c" => "lightGreen"),
-					"12" => array( "w" => 2 , "c" => "lightGreen"),
-					"13" => array( "w" => 3 , "c" => "lightGreen"),
-					"14" => array( "w" => 4 , "c" => "yellow"),
-					"21" => array( "w" => 5 , "c" => "lightGreen"),
-					"22" => array( "w" => 6 , "c" => "lightGreen"),
-					"23" => array( "w" => 7 , "c" => "yellow"),
-					"24" => array( "w" => 8 , "c" => "red"),
-					"31" => array( "w" => 9 , "c" => "lightGreen"),
-					"32" => array( "w" => 10 , "c" => "yellow"),
-					"33" => array( "w" => 11 , "c" => "red"),
-					"34" => array( "w" => 12 , "c" => "red"),
-					"41" => array( "w" => 13 , "c" => "yellow"),
-					"42" => array( "w" => 14 , "c" => "red"),
-					"43" => array( "w" => 15 , "c" => "red"),
-					"44" => array( "w" => 16 , "c" => "red")
-				);
 			$totalWeight = 0;
-			foreach ($adminAnswers["risks"] as $key => $value) {?>
-				<tr id="risk<?php echo $key?>">
-					<td><?php echo $riskTypes["list"][ $value["type"] ]["title"] ?></td>
-					<td><?php echo $value["desc"]?></td>
-					<td>
-					<?php foreach ($value["actions"] as $act) {
-						echo $act."<br/>";
-					 } ?>
-					</td>
-					<td><?php echo $value["probability"]?></td>
-					<td><?php echo $value["gravity"]?></td>
-					<td style="color:black; background-color:<?php echo $riskWeight[$value["probability"].$value["gravity"]]["c"]?> "><?php echo $value["weight"]; $totalWeight += (int)$value["weight"];?></td>
-					<td><a href="javascript:;" onclick='$(this).parent().parent().remove()' class="addRiskBtn btn btn-danger"><i class="fa fa-times"></i></a></td>
-				</tr>
-			<?php } ?>
+			if( @$adminAnswers["risks"] ){
+				foreach ($adminAnswers["risks"] as $key => $value) {?>
+					<tr id="srisk<?php echo $key?>">
+						<td>
+						<small><?php echo date('d/m/Y h:i',$value["date"])?></small>
+							<br/><?php echo @$value["addUserName"]?></td>
+						<td><?php echo $riskTypes["list"][ $value["type"] ]["title"] ?></td>
+						<td><?php echo $value["desc"]?></td>
+						<td><?php foreach ($value["actions"] as $act) {
+							echo $act."<br/>";
+						 } ?></td>
+						<td><?php echo @$value["comment"]?></td>
+						<td><?php echo $value["probability"]?></td>
+						<td><?php echo $value["gravity"]?></td>
+						<td style="color:black; background-color:<?php echo $riskWeight[$value["probability"].$value["gravity"]]["c"]?> "><?php echo $value["weight"]; $totalWeight += (int)$value["weight"];?></td>
+						
+					</tr>
+			<?php } 
+			}?>
 		</table>
-		<div id="toto"></div>
+		<?php if( @$adminAnswers["risks"] ){ ?>
+		<a href="javascript:;" onclick="" class="btn btn-danger pull-left"> <i class="fa-thumbs-down fa"></i> Demande de complément</a>
+		<?php } ?>
+		<div id="toto" style="clear:both"></div>
 	</div>
 	<div id="riskCatalogue" class=" padding-10"  style="display:none;border:1px solid  #ccc">
 
@@ -73,10 +89,8 @@
 			<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class="btn btn-xs btn-danger"><i class="fa fa-plus"></i> AJOUTER UN RISQUE</a>
 			<input type="text" id="searchRisks" name="searchRisks" style="width:50%;margin-top: 10px" placeholder="Chercher et filtrer les risques "/>
 		</div>
-		<style type="text/css">
-			td,th {padding:10px;}
-		</style>
-		<table border="1" id="riskCatalogList" class=" text-center bold margin-bottom-20" style="margin:0px auto;">
+		
+		<table border="1" id="riskCatalogList" class="table table-striped table-bordered table-hover  directoryTable margin-bottom-20" style="width:100%">
 			<tr>
 				<th>Type</th>
 				<th>Danger</th>
@@ -86,7 +100,7 @@
 			<?php foreach ($riskCatalog as $key => $value) {
 				$c = (@$adminAnswers["risks"][$key]) ? "hide" :"" ;
 				?>
-				<tr id="risk<?php echo $key?>" class="<?php echo $value["type"] ?> lineRisk">
+				<tr id="risk<?php echo $key?>" data-id="<?php echo $key?>" class="<?php echo $value["type"] ?> lineRisk">
 					<td><?php echo (@$riskTypes["list"][$value["type"]]) ? $riskTypes["list"][$value["type"]]["title"]:$value["type"] ?></td>
 					<td><?php echo $value["desc"]?></td>
 					<td>
@@ -130,6 +144,12 @@
       	<option value="4">Très Forte</option>
       </select>
     </div>
+
+    <div class="form-group">
+      <label for="comment">Commentaire</label>
+      <br/><textarea type="text" id="comment" name="comment" style="width:100%"></textarea>
+    </div>
+
   </form>
 </div>
 <script type="text/javascript">
@@ -138,10 +158,17 @@ $(document).ready(function() {
 
 	$("#searchRisks").on("keyup", function() {
 	    var value = $(this).val().toLowerCase();
-	    $("#riskCatalogList tr").filter(function() {
+	    $("#riskCatalogList tr").filter( function() {
 	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 	    });
 	});
+
+	$('#riskCatalogList tr').click( function() { 
+		console.log("riskCatalogList tr edit",riskObj.catalog[ $(this).data('id') ]);
+		//dyFObj.editStep(riskForm, riskObj.catalog[ $(this).data('id') ]);
+		var r = riskObj.catalog[ $(this).data('id') ];
+		dyFObj.editElement("risks", r['_id']["$id"],riskForm);
+	})
 
 	riskObj.initAddBtn();
 });
@@ -157,7 +184,7 @@ var riskObj = {
 	riskTypes : <?php echo json_encode($riskTypes); ?>,
 	selectedRisks : {},
 	riskWeight : <?php echo json_encode($riskWeight); ?>,
-	riskCatalog : <?php echo json_encode($riskCatalog); ?>,
+	catalog : <?php echo json_encode($riskCatalog); ?>,
 	//cancels a risk associated to a project
 	cancel : {},
 	promptProbGrav : function (riskId) { 
@@ -174,26 +201,32 @@ var riskObj = {
 			            riskObj.selectedRisks[ riskId ].probability = $('.inputprobGrav #probability').last().val();
 			            riskObj.selectedRisks[ riskId ].gravity = $('.inputprobGrav #gravity').last().val();
 			            riskObj.selectedRisks[ riskId ].weight = riskObj.riskWeight[$('.inputprobGrav #probability').last().val()+""+$('.inputprobGrav #gravity').last().val()].w;
+			            riskObj.selectedRisks[ riskId ].comment = $('.inputprobGrav #comment').last().val();
 			            modal.modal("hide");
 			            console.log("riskObj.selectedRisks",riskObj.selectedRisks);
 						$("#noriskTtile").hide();
 						$("#riskList").show();
-						var line = "<tr>"+
+						var line = "<tr id='srisk"+riskId+"'>"+
+						"<td>"+userConnected.name+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].type+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].desc+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].actions.join("<br/>")+"</td>"+
+						"<td>"+riskObj.selectedRisks[ riskId ].comment+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].probability+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].gravity+"</td>"+
-						"<td style='color:black;background-color:"+riskObj.riskWeight[riskObj.selectedRisks[ riskId ].probability+""+riskObj.selectedRisks[ riskId ].gravity].c+"'>"+riskObj.selectedRisks[ riskId ].weight+"</td>"+
-						"<td><a href='javascript:;' class='btn btn-danger' onclick='riskObj.cancelRisk()'><i class='fa fa-times'></i></a></td></tr>";
+						"<td style='color:black;background-color:"+riskObj.riskWeight[riskObj.selectedRisks[ riskId ].probability+""+riskObj.selectedRisks[ riskId ].gravity].c+"'>"+riskObj.selectedRisks[ riskId ].weight+"</td></tr>";
 						$("#riskList").append( line );
 						delete riskObj.selectedRisks[ riskId ]["_id"];
-						riskObj.selectedRisks[ riskId ].addByUser = userId;
+						riskObj.selectedRisks[ riskId ].addUserId = userId;
+						riskObj.selectedRisks[ riskId ].addUserName = userConnected.name;
+						
+
 						data={
 			    			formId : form.id,
 			    			answerSection : "risks."+riskId ,
 			    			answers : riskObj.selectedRisks[ riskId ],
-			    			answerUser : adminAnswers.user 
+			    			answerUser : adminAnswers.user ,
+			    			date : true
 			    		};
 			    		console.log("saving",data);
 			          	$.ajax({ 
@@ -230,20 +263,21 @@ var riskObj = {
 				bootbox.alert("Ce risque est deja déclaré.");
 			else {
 				//bootbox prompt for probabilité and gravité value
-				riskObj.selectedRisks[ $(this).data("id") ] = riskObj.riskCatalog[ $(this).data("id") ];
+				riskObj.selectedRisks[ $(this).data("id") ] = riskObj.catalog[ $(this).data("id") ];
 				riskObj.promptProbGrav( $(this).data("id") );
 				$(this).remove();
 			}
 		});
 	}
 };
+
 var riskForm = {
     jsonSchema : {
         title : "NOUVEAU RISQUE",
         icon : "warning",
         onLoads : {
 	    	onload : function(data){
-	    		dyFInputs.setHeader("bg-red")
+	    		dyFInputs.setHeader("bg-red");
 	    	}
 	    },
 	    save : function() { 
@@ -261,7 +295,9 @@ var riskForm = {
 				});
 			}
 
-
+			if( $("#ajaxFormModal #id").val() ){
+				params.id = $("#ajaxFormModal #id").val();
+			}
             $.ajax({
               type: "POST",
               url: baseUrl+"/"+moduleId+'/element/save',
@@ -271,15 +307,24 @@ var riskForm = {
                   	toastr.success( "SUCCESSFULLY  saved risk !");
                   	mylog.dir(data);
                   	dyFObj.closeForm();
-                  	var newRisk = '<tr id="risk'+data.id+'" class="'+data.map.type+' lineRisk">'+
-						'<td>'+riskObj.riskTypes.list[data.map.type].title+'</td>'+
+                  	
+                  	var newRisk = '<td>'+riskObj.riskTypes.list[data.map.type].title+'</td>'+
 						'<td>'+data.map.desc+'</td>'+
 						'<td>'+data.map.actions.join('<br>')+'</td>'+
-						'<td><a href="javascript:;" data-id="'+data.id+'" class="addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td></tr>';
-					$("#riskCatalogList").append( newRisk );
-					initAddBtn();
+						'<td><a href="javascript:;" data-id="'+data.id+'" class="addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td>';
+					if( params.id ){
+						alert("#risk"+params.id);
+						$("#risk"+params.id).html(newRisk);
+						delete params.id;
+					}
+					else { 
+						newRisk = '<tr id="risk'+data.id+'" class="'+data.map.type+' lineRisk">'+
+							newRisk+"</tr>";
+						$("#riskCatalogList").append( newRisk );
+					}
+					riskObj.initAddBtn();
 					delete params.collection;
-					riskObj.riskCatalog[ data.id ] = params; 
+					riskObj.catalog[ data.id ] = params; 
                 }
                 else {
                   toastr.error(data.msg);
@@ -340,3 +385,4 @@ var riskForm = {
 
 };
 </script>
+<?php } ?>

@@ -1,6 +1,7 @@
 <?php 
+if( $canAdmin && array_search('priorisation', $steps) <= array_search($adminAnswers["step"], $steps)) {
+
 if(@$adminAnswers["categories"]){
-$prioKey = $adminForm['key'];
 ?>	
 <h1 class="text-center"> <i class="fa fa-flag-checkered"></i> <?php echo mb_strtoupper($prioKey) ?> <small>par TCOPIL</small> </h1>
 <script type="text/javascript">
@@ -279,6 +280,7 @@ $prioKey = $adminForm['key'];
     			answerStep : updateForm.cat ,
     			answers : getAnswers(adminForm.scenario[ updateForm.step ].json),
     			answerUser : adminAnswers.user ,
+    			total : true
     		};
     		
     		console.log("save",data);
@@ -306,4 +308,6 @@ $prioKey = $adminForm['key'];
 	})
 });
 </script>
-<?php } ?>
+<?php } 
+}
+?>

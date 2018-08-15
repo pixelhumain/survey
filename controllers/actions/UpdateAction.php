@@ -11,6 +11,8 @@ class UpdateAction extends CAction
             if(!empty($answer)){
                 $key = $_POST["answerSection"];
                 $value = $_POST["answers"];
+                if( @$_POST["date"] )
+                    $value["date"] = time();
                 PHDB::update(Form::ANSWER_COLLECTION,
                     array("_id"=>new MongoId((string)$answer["_id"])), 
                     array('$set' => array($key => $value)));
@@ -22,6 +24,7 @@ class UpdateAction extends CAction
                 $form = PHDB::findOne(Form::COLLECTION , array( "id"=>@$_POST["formId"]."Admin"));
 
                 $total = null;
+                
                 if( ( @$_POST["answerKey"] && @$_POST["answerStep"] ) && 
                         ( @$answer[ "answers" ][ @$_POST["answerKey"] ][ @$_POST["answerStep"] ]["total"] || count( $answer[ "answers" ][ @$_POST["answerKey"] ][ @$_POST["answerStep"] ] ) == count( $form["scenario"] ) ) )
                 {
@@ -37,6 +40,7 @@ class UpdateAction extends CAction
                         array( "_id"=>new MongoId( (string)$answer["_id"]) ), 
                         array( '$set' => array( 'answers.'.$_POST["answerKey"].".".$_POST["answerStep"].".total" => $total ) ) );
                 }
+                
                 
                 $msg=Yii::t("common","Evrything allRight");
                 $res=true;

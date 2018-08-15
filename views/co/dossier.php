@@ -1,4 +1,4 @@
-
+<?php if( $canAdmin || (string)$user["_id"] == Yii::app()->session["userId"] ){ ?>
 			
 <h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
 <?php 
@@ -292,8 +292,8 @@ $(document).ready(function() {
 				
 				data={
 	    			formId : updateForm.form,
-	    			answerSection : updateForm.step ,
-	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json),
+	    			answerSection : "answers."+updateForm.step ,
+	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json , true),
 	    			answerUser : adminAnswers.user 
 	    		};
 	    		
@@ -319,3 +319,4 @@ $(document).ready(function() {
 });
 
 </script>
+<?php } ?>
