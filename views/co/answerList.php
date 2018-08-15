@@ -418,7 +418,6 @@ bug
 
 - [TIB] Gestion du risque 
 	- user pourra commenter avec une parade ou actions à mener et ce sera visualisable sur la page liste des risques
-	- remove riskTypes : <?php echo json_encode($riskTypes); ?>,make dynamic from catalog content
 
 - [TIB] FICHE ACTION : Synthese par thematique avec la listes de plusieurs projets
 - [RAPHA] Calendrier cte2.2

@@ -59,7 +59,7 @@ $riskWeight = array(
 						<td>
 						<small><?php echo date('d/m/Y h:i',$value["date"])?></small>
 							<br/><?php echo @$value["addUserName"]?></td>
-						<td><?php echo $riskTypes["list"][ $value["type"] ]["title"] ?></td>
+						<td><?php echo $value["type"] ?></td>
 						<td><?php echo $value["desc"]?></td>
 						<td><?php foreach ($value["actions"] as $act) {
 							echo $act."<br/>";
@@ -83,8 +83,8 @@ $riskWeight = array(
 		<h2 class="text-center">Catalogue des risques<a href="javascript:;" onclick="$('#riskCatalogue').toggle()" class="pull-right "><i class="text-red fa fa-times"></i></a></h2>
 		<div class="text-center margin-bottom-20">
 		<?php 
-			foreach ($riskTypes["list"] as $key => $v) {?>
-				<a href="javascript:;" onclick="showType('<?php echo $key; ?>')" class="btn btn-xs btn-default"><?php echo $v["title"]; ?></a>
+			foreach ($riskTypes as $key) {?>
+				<a href="javascript:;" onclick="showType('<?php echo InflectorHelper::slugify($key); ?>')" class="btn btn-xs btn-default"><?php echo $key; ?></a>
 			<?php } ?>
 			<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class="btn btn-xs btn-danger"><i class="fa fa-plus"></i> AJOUTER UN RISQUE</a>
 			<input type="text" id="searchRisks" name="searchRisks" style="width:50%;margin-top: 10px" placeholder="Chercher et filtrer les risques "/>
@@ -100,8 +100,8 @@ $riskWeight = array(
 			<?php foreach ($riskCatalog as $key => $value) {
 				$c = (@$adminAnswers["risks"][$key]) ? "hide" :"" ;
 				?>
-				<tr id="risk<?php echo $key?>" data-id="<?php echo $key?>" class="<?php echo $value["type"] ?> lineRisk">
-					<td><?php echo (@$riskTypes["list"][$value["type"]]) ? $riskTypes["list"][$value["type"]]["title"]:$value["type"] ?></td>
+				<tr id="risk<?php echo $key?>" data-id="<?php echo $key?>" class="<?php echo InflectorHelper::slugify($value["type"]) ?> lineRisk">
+					<td><?php echo $value["type"]?></td>
 					<td><?php echo $value["desc"]?></td>
 					<td>
 					<?php 
@@ -181,7 +181,6 @@ function showType (type) {
 
 
 var riskObj = {
-	riskTypes : <?php echo json_encode($riskTypes); ?>,
 	selectedRisks : {},
 	riskWeight : <?php echo json_encode($riskWeight); ?>,
 	catalog : <?php echo json_encode($riskCatalog); ?>,
@@ -308,7 +307,7 @@ var riskForm = {
                   	mylog.dir(data);
                   	dyFObj.closeForm();
                   	
-                  	var newRisk = '<td>'+riskObj.riskTypes.list[data.map.type].title+'</td>'+
+                  	var newRisk = '<td>'+data.map.type+'</td>'+
 						'<td>'+data.map.desc+'</td>'+
 						'<td>'+data.map.actions.join('<br>')+'</td>'+
 						'<td><a href="javascript:;" data-id="'+data.id+'" class="addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td>';
