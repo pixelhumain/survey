@@ -393,6 +393,10 @@ bug
 - [RAPHA] Rapatrier correction de dev sur master :
 	- btn pour voir les réponses
 	- list des réponse avec etape 
+	- list des réponse avec etape
+- [RAPHA] : Vérifier que sur la page de la réponse tout les modif fonctionne
+- page title + descriptif issue de la page TCO
+- extraire les templates des etapes 
 - [RAPHA] ajouter HomePage : http://www.tco.re/competences-et-projets/cte-contrat-de-transition-ecologique/le-contrat-de-transition-ecologique-du-territoire-de-la-cote-ouest
 	Territoire Tropical Bioclimatique
 		Eco-Construction tropicale 
