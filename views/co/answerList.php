@@ -416,7 +416,12 @@ bug
 - [RAPHA] btn mes parametres
 
 - [TIB] Gestion du risque 
-	- user pourra commenter avec une parade ou actions à mener et ce sera visualisable sur la page liste des risques
+	- user pourra commenter avec une parade ou actions à mener et ce sera visualisable sur la page liste des risques	
+	- informer tous les admins concerné qu'un risque a été ajouté 
+	- montrer la communauté d'un dossier 
+		TCO 
+		experts
+		financeurs
 
 - [TIB] FICHE ACTION : Synthese par thematique avec la listes de plusieurs projets
 - [RAPHA] Calendrier cte2.2
@@ -430,10 +435,6 @@ bug
 - [RAPHA] geoloc du projet et de la liste des projets
 	 	var mapElements = new Array(); 
    		mapElements.push(o);
-
-- DOSSIER : save onBlur 
-
-
 
 inscrit > paiement > Custom 
 mutualisation d'un community manager
@@ -459,11 +460,10 @@ nouveau projet
 communauté 
 	supprimer une invitation 
 
-
 gestion des sessions
 	nouvelle session 
 	changer les dte start end 
-
+	
 
 
 Key Partnerships
@@ -477,11 +477,15 @@ Cost Structure
 Revenue Streams
 
 Amélioration : 
+- DOSSIER : save onBlur 
 - multi projet par porteur 
 - historique de modif des risques 
+	- pouvoir laisser un commentaire sur un risque 
 - unifier tout les answers en un seul 
-
-
+- avoir des admin liéé juste à un dossier et pas à toute la session 
+- soumettre chaque risque à une vote des acteurs expert / financeurs ...
+	comme une proposition , un risque peut etre levé 
+	mais la communauté le vote et le pondère 
 */
 
  ?>

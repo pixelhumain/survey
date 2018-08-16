@@ -1,4 +1,4 @@
-<?php if( $canAdmin && array_search('risk', $steps) >= array_search($adminAnswers["step"], $steps)  ){ 
+<?php if( $canAdmin && array_search('risk', $steps) <= array_search($adminAnswers["step"], $steps)  ){ 
 
 $riskWeight = array(
 	"11" => array( "w" => 1 , "c" => "lightGreen"),
@@ -74,7 +74,7 @@ $riskWeight = array(
 			}?>
 		</table>
 		<?php if( @$adminAnswers["risks"] ){ ?>
-		<a href="javascript:;" onclick="" class="btn btn-danger pull-left"> <i class="fa-thumbs-down fa"></i> Demande de complément</a>
+		<a href="javascript:;" onclick="riskObj.pingUserRisk()" class="btn btn-danger pull-left"> <i class="fa-thumbs-down fa"></i> Demande de complément</a>
 		<?php } ?>
 		<div id="toto" style="clear:both"></div>
 	</div>
@@ -101,9 +101,9 @@ $riskWeight = array(
 				$c = (@$adminAnswers["risks"][$key]) ? "hide" :"" ;
 				?>
 				<tr id="risk<?php echo $key?>" data-id="<?php echo $key?>" class="<?php echo InflectorHelper::slugify($value["type"]) ?> lineRisk">
-					<td><?php echo $value["type"]?></td>
-					<td><?php echo $value["desc"]?></td>
-					<td>
+					<td class="editRisk"><?php echo $value["type"]?></td>
+					<td class="editRisk"><?php echo $value["desc"]?></td>
+					<td class="editRisk">
 					<?php 
 					if(@$value["actions"]){
 						foreach ($value["actions"] as $act) {
@@ -111,7 +111,7 @@ $riskWeight = array(
 						 } 
 					 }?>
 					</td>
-					<td><a href="javascript:;" data-id="<?php echo $key?>" class="<?php echo $c ?> addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td>
+					<td class="add<?php echo $key?>"><a href="javascript:;" data-id="<?php echo $key?>" class="<?php echo $c ?> addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td>
 				</tr>
 			<?php } ?>
 			
@@ -163,11 +163,8 @@ $(document).ready(function() {
 	    });
 	});
 
-	$('#riskCatalogList tr').click( function() { 
-		console.log("riskCatalogList tr edit",riskObj.catalog[ $(this).data('id') ]);
-		//dyFObj.editStep(riskForm, riskObj.catalog[ $(this).data('id') ]);
-		var r = riskObj.catalog[ $(this).data('id') ];
-		dyFObj.editElement("risks", r['_id']["$id"],riskForm);
+	$('.editRisk').click( function() { 
+		dyFObj.editElement("risks", $(this).parent().data('id'),riskForm);
 	})
 
 	riskObj.initAddBtn();
@@ -234,7 +231,9 @@ var riskObj = {
 					        data: data
 					    }).done(function (data) { 
 					    	toastr.success('risk successfully saved!');
+					    	$(".add"+riskId).html("");
 					    });
+
 					} else {
 						bootbox.alert({ message: "Vous devez renseigner les poids du risque." });
 					}
@@ -264,9 +263,43 @@ var riskObj = {
 				//bootbox prompt for probabilité and gravité value
 				riskObj.selectedRisks[ $(this).data("id") ] = riskObj.catalog[ $(this).data("id") ];
 				riskObj.promptProbGrav( $(this).data("id") );
-				$(this).remove();
 			}
 		});
+	},
+	pingUserRisk : function() {
+		var res = bootbox.dialog({
+	        message: "Cette action informera le porteur du projet de venir justifier des actions ou des parades au(x) risque(s) évalué",
+	        title: "Demande de complément d'information",
+	        buttons: [
+	          {
+	            label: "Ok",
+	            className: "btn btn-primary pull-left",
+	            callback: function() {
+	            	//ajout attribut sur answer.cte.infoRequest
+	            	data={
+		    			formId : form.id,
+		    			answerSection : "infoRequest" ,
+		    			answers : true,
+		    			answerUser : adminAnswers.user ,
+		    		};
+		    		console.log("saving",data);
+		          	$.ajax({ 
+		          		type: "POST",
+				        url: baseUrl+"/survey/co/update",
+				        data: data
+				    }).done(function (data) { 
+				    	toastr.success('risk successfully saved!');
+				    });
+	            }
+	          },
+	          {
+	            label: "Annuler",
+	            className: "btn btn-default pull-left",
+	            callback: function() {}
+	          }
+	        ]
+	    });
+
 	}
 };
 
@@ -307,12 +340,11 @@ var riskForm = {
                   	mylog.dir(data);
                   	dyFObj.closeForm();
                   	
-                  	var newRisk = '<td>'+data.map.type+'</td>'+
-						'<td>'+data.map.desc+'</td>'+
-						'<td>'+data.map.actions.join('<br>')+'</td>'+
-						'<td><a href="javascript:;" data-id="'+data.id+'" class="addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td>';
+                  	var newRisk = '<td class="editRisk">'+data.map.type+'</td>'+
+						'<td class="editRisk">'+data.map.desc+'</td>'+
+						'<td class="editRisk">'+data.map.actions.join('<br>')+'</td>'+
+						'<td class="add'+data.id+'"><a href="javascript:;" data-id="'+data.id+'" class="addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td>';
 					if( params.id ){
-						alert("#risk"+params.id);
 						$("#risk"+params.id).html(newRisk);
 						delete params.id;
 					}

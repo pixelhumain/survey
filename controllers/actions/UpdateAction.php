@@ -17,6 +17,14 @@ class UpdateAction extends CAction
                     array("_id"=>new MongoId((string)$answer["_id"])), 
                     array('$set' => array($key => $value)));
 
+                Log::save( array( "userId" => Yii::app()->session["userId"], 
+                                 "created" => new MongoDate(time()), 
+                                 "action" => "survey.updateAction", 
+                                 "params" => array( "session" => ( @$answer["parentSurvey"] ) ? $answer[ "parentSurvey" ] : $_POST[ "formId" ],
+                                                "answersUser" => $_POST["answerUser"],
+                                                "key" => $key, 
+                                                //"value" => $value
+                                                 )));
                 //****************************
                 //update total scores 
                 //****************************
