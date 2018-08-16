@@ -10,6 +10,7 @@ class Form {
 	public static function save($data){
 		try{
 			PHDB::insert( self::ANSWER_COLLECTION, $data);
+			
 	        return true;	
 		} catch (CTKException $e){
    			return $e->getMessage();
