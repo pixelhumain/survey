@@ -75,7 +75,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 	var form =<?php echo json_encode($form); ?>;
 	var data =<?php echo json_encode($results); ?>;
-		console.log("data", data);
 	var searchAdmin={
 		parentSurvey : form.id,
 		text:null,
@@ -181,7 +180,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	}
 
 	function buildDirectoryLine(key, value){
-		console.log("buildDirectoryLine", key, value);
 		var step = 0;
 		var stepTotal = 0;
 		$.each(value.scenario, function(k, v){
@@ -189,7 +187,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 			if(v == true)
 				step++;
 		});
-
 		str = '<tr>';
 			str += '<td>'+( (typeof value.name != "undefined") ? value.name : "Pas encore renseigner" ) +'</td>';
 			str += '<td>'+( (typeof value.parentName != "undefined") ? value.parentName : "Pas encore renseigner" ) +'</td>';

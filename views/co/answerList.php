@@ -102,7 +102,6 @@ if( $this->layout != "//layouts/empty"){
 				.titleBlock{
 					border-bottom: 1px solid #666;
 				}
-
 				.stepNumber i{margin-top: 8px}
 			</style>
 
@@ -111,7 +110,7 @@ if( $this->layout != "//layouts/empty"){
 SECTION STEPPER WIZARD
 ---------------------------------------------- */
 ?>				
-		
+
 		<div id="wizard" class="swMain">
 			<ul id="wizardLinks">
 				<?php 

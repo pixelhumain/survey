@@ -56,30 +56,36 @@
   
   <div class="content-header col-xs-offset-1 col-xs-10 no-padding margin-bottom-20">
       
-      <div class="col-xs-12 col-md-12  header-survey text-center padding-20" >
-        
-        <?php if(@$form["description"]) echo "<span class='pull-left padding-20' style='font-size: 16px; text-align: left;'>".$form["description"]."</span>" ?>
-        <?php if(!isset(Yii::app()->session['userId'])) { ?>
-        <br/>
-        <button class="btn btn-default bg-green margin-top-15 btn-lg" data-toggle="modal" data-target="#modalLogin">
-          <i class="fa fa-sign-in"></i> <?php echo Yii::t("login","Log in") ?>
-        </button>
-        <button class="btn btn-link margin-top-15 btn-lg" data-toggle="modal" data-target="#modalRegister">
-          <i class="fa fa-plus-circle"></i> <?php echo Yii::t("login","Create an account") ?>
-         </button>
-        
-        <?php }else{ 
-            $count=count($answers);
-            if(count($answers) < count($form["scenario"]) ){
-            $label=($count > 0) ? "Reprendre le dossier" : "Déposer une candidature"; 
-          ?>
-          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count+1 ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
-        <?php  } ?>
-          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/cte/user/<?php echo Yii::app()->session['userId'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> REVOIR VOS RÉPONSES </a>
-          <?php
-          
-        } ?>
-      </div>
+		<div class="col-xs-12 col-md-12  header-survey text-center padding-20" >
+
+		<?php 
+			if(@$form["description"]) 
+				echo "<span class='pull-left padding-20' style='font-size: 16px; text-align: left;'>".$form["description"]."</span>";
+
+			if(!isset(Yii::app()->session['userId'])) { ?>
+				<br/>
+				<button class="btn btn-default bg-green margin-top-15 btn-lg" data-toggle="modal" data-target="#modalLogin">
+					<i class="fa fa-sign-in"></i> <?php echo Yii::t("login","Log in") ?>
+				</button>
+				<button class="btn btn-link margin-top-15 btn-lg" data-toggle="modal" data-target="#modalRegister">
+					<i class="fa fa-plus-circle"></i> <?php echo Yii::t("login","Create an account") ?>
+				</button>
+
+		<?php 
+			}else{ 
+				$count=count($answers);
+				if(count($answers) < count($form["scenario"]) ){
+					$label=($count > 0) ? "Reprendre le dossier" : "Déposer une candidature"; 
+		?>
+					<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count+1 ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
+		<?php 	}
+			
+				if($count > 0){ ?>
+					<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/cte/user/<?php echo Yii::app()->session['userId'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> REVOIR VOS RÉPONSES </a>
+				<?php
+				} 
+			}?>
+		</div>
   </div>
   <div class="col-xs-offset-1 col-xs-10 shadow2" >
     <?php //if(@$form["description"]) echo "<span class='text-center pull-left padding-20'>".$form["description"]."</span>" ?>
@@ -179,9 +185,8 @@
   </p>
 </div>
 
-	<div class="col-xs-12  padding-20" style="font-size: 1.5em;">
+<div class="col-xs-12  padding-20" style="font-size: 1.5em;">
 		<p><b>L’objectif est de pouvoir sélectionner d’autres projets innovants, d’organiser des ateliers thématiques</b> sous l’égide des «Têtes de réseaux» et <b>signer un amendement au CTE</b> d’ici la mi-novembre 2018 :</p>
-
 		<p>
 			<ul>
 				<li> <b>Thématique Production et efficacité énergétique</b> : SPL Energie, TEMERGIE, ADEME et Région ;</li>
@@ -198,9 +203,9 @@
 		<p>
 			<ul>
 				<li> <b>Le contrat du CTE </b> (Charte d’engagements, Cadre d’intervention, les fiches projets),</li>
-				<li> <b>la plateforme collaborative numérique Communecter </b> (Charte de fonctionnement, et ap-plications),</li>
+				<li> <b>la plateforme collaborative numérique Communecter </b> (Charte de fonctionnement, et applications),</li>
 				<li> <b>l’Avis d’appel à projet</b> (AAP) du CTE</li>
-				<li> <b>l’organisation du CTE</b> (Guichet unique, COPIL, Calendrier, la mé-thodologie etc.).</li>
+				<li> <b>l’organisation du CTE</b> (Guichet unique, COPIL, Calendrier, la méthodologie etc.).</li>
 			</ul>
 		 </p>
 	</div>
