@@ -1,6 +1,6 @@
 <?php
 class AnswersAction extends CAction{
-	public function run($id){
+	public function run($id,$role=null){
 		$this->getController()->layout = "//layouts/empty";
 
 		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
@@ -14,14 +14,20 @@ class AnswersAction extends CAction{
 				// 								"answers.project" => array('$exists' => 1) ) );
 
 				$answers = PHDB::find( Form::ANSWER_COLLECTION , 
-										array("parentSurvey"=>@$id, 
-												"answers" => array('$exists' => 1) ) );
+										array( "parentSurvey" => @$id, 
+											   "answers" => array('$exists' => 1) ) );
+				$adminAnswers = PHDB::find( Form::ANSWER_COLLECTION , array( "formId" => @$id ));
+				$userAdminAnswer = array();
+				foreach ($adminAnswers as $key => $value) {
+					$userAdminAnswer[ $value["user"] ] = $value;
+				}
 				$results = ( empty($answers) ? array() : Form::listForAdminNews($form, $answers) );
 
 	 			echo $this->getController()->render("answersList",
 	 												array(  "results" => $results,
 												 			"form"=> $form,
-												 			"roles" => @Yii::app()->session["custom"]["roles"] ));
+												 			"userAdminAnswer" => $userAdminAnswer,
+												 			"roles" => $form["custom"]["roles"] ));
 
 	 		} else if(@$answers = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>@$id) )){
 		 		echo $this->getController()->render("answers",array( 

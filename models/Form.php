@@ -133,14 +133,14 @@ class Form {
 				$orga["userId"] = $value["user"];
 				$orga["userName"] = $value["name"];
 				
-				$results[$value["user"]]["id"] = @$orga["id"];
-				$results[$value["user"]]["type"] = @$orga["type"];
-				$results[$value["user"]]["name"] = @$orga["name"];
-				$results[$value["user"]]["email"] = @$orga["email"];
-				$results[$value["user"]]["parentId"] = @$orga["parentType"];
-				$results[$value["user"]]["parentName"] = @$orga["parentName"];
-				$results[$value["user"]]["userId"] = @$orga["userId"];
-				$results[$value["user"]]["userName"] = @$orga["userName"];
+				$results[ $value["user"] ]["id"] = @$orga["id"];
+				$results[ $value["user"]]["type"] = @$orga["type"];
+				$results[ $value["user"]]["name"] = @$orga["name"];
+				$results[ $value["user"]]["email"] = @$orga["email"];
+				$results[ $value["user"]]["parentId"] = @$orga["parentType"];
+				$results[ $value["user"]]["parentName"] = @$orga["parentName"];
+				$results[ $value["user"]]["userId"] = @$orga["userId"];
+				$results[ $value["user"]]["userName"] = @$orga["userName"];
 
 				$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
 			}
