@@ -55,9 +55,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	<div class="panel-body">
 		<div>
 			<!-- <a href="<?php //echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a> -->
+			<span><b>Il y a <?php echo count(@$results); ?> réponses</b></span><br/>
 			<table class="table table-striped table-bordered table-hover directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
+						<th>N°</th>
 						<th>Nom du projet</th>
 						<th>Organisation</th>
 						<th>Utilisateur</th>
@@ -70,14 +72,25 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
-					<?php foreach ($results as $k => $v) {
+					<?php
+						$nb = 0;
+						foreach ($results as $k => $v) {
+							$nb++;
 						?>
 						<tr>
+							<td><?php echo @$nb ?></td>
 							<td><?php echo @$v['name'] ?></td>
 							<td><?php echo @$v['parentName'] ?></td>
 							<td><?php echo @$v['userName'] ?></td>
 							<td>
-								<?php echo "/".count(@$v['scenario']) ?>
+								<?php
+								$c = 0 ;
+								foreach ($v['scenario'] as $key => $value) {
+									if($value == true)
+										$c++;
+								}
+								$classText = ($c == count(@$v['scenario'])) ? 'text-success' : 'text-red';
+								echo "<span class='".$classText."'>".$c." / ".count(@$v['scenario'])."</span>"; ?>
 							</td>
 							<td><a href="/survey/co/answer/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" target="_blanck">Lire</a></td>
 							<td><?php echo (@$userAdminAnswer[$k]["eligible"]) ? "Éligible" : "Non Éligible"; ?></td>
