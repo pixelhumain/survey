@@ -4,16 +4,16 @@ $riskWeight = array(
 	"11" => array( "w" => 1 , "c" => "lightGreen"),
 	"12" => array( "w" => 2 , "c" => "lightGreen"),
 	"13" => array( "w" => 3 , "c" => "lightGreen"),
-	"14" => array( "w" => 4 , "c" => "yellow"),
+	"14" => array( "w" => 4 , "c" => "orange"),
 	"21" => array( "w" => 5 , "c" => "lightGreen"),
 	"22" => array( "w" => 6 , "c" => "lightGreen"),
-	"23" => array( "w" => 7 , "c" => "yellow"),
+	"23" => array( "w" => 7 , "c" => "orange"),
 	"24" => array( "w" => 8 , "c" => "red"),
 	"31" => array( "w" => 9 , "c" => "lightGreen"),
-	"32" => array( "w" => 10 , "c" => "yellow"),
+	"32" => array( "w" => 10 , "c" => "orange"),
 	"33" => array( "w" => 11 , "c" => "red"),
 	"34" => array( "w" => 12 , "c" => "red"),
-	"41" => array( "w" => 13 , "c" => "yellow"),
+	"41" => array( "w" => 13 , "c" => "orange"),
 	"42" => array( "w" => 14 , "c" => "red"),
 	"43" => array( "w" => 15 , "c" => "red"),
 	"44" => array( "w" => 16 , "c" => "red")
@@ -82,11 +82,15 @@ $riskWeight = array(
 
 		<h2 class="text-center">Catalogue des risques<a href="javascript:;" onclick="$('#riskCatalogue').toggle()" class="pull-right "><i class="text-red fa fa-times"></i></a></h2>
 		<div class="text-center margin-bottom-20">
+		
+		<a href="javascript:;" onclick="showType('lineRisk')" class="btn btn-xs btn-default">Tous</a>
 		<?php 
-			foreach ($riskTypes as $key) {?>
+			if(@$riskTypes){
+			foreach (@$riskTypes as $key) {?>
 				<a href="javascript:;" onclick="showType('<?php echo InflectorHelper::slugify($key); ?>')" class="btn btn-xs btn-default"><?php echo $key; ?></a>
-			<?php } ?>
-			<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class="btn btn-xs btn-danger"><i class="fa fa-plus"></i> AJOUTER UN RISQUE</a>
+			<?php }
+			} ?>
+			<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class=" btn btn-xs btn-danger"><i class="fa fa-plus"></i> AJOUTER UN RISQUE</a><br/>
 			<input type="text" id="searchRisks" name="searchRisks" style="width:50%;margin-top: 10px" placeholder="Chercher et filtrer les risques "/>
 		</div>
 		
@@ -97,7 +101,9 @@ $riskWeight = array(
 				<th>Actions</th>
 				<th>Ajouter ce risque</th>
 			</tr>
-			<?php foreach ($riskCatalog as $key => $value) {
+			<?php 
+			if( @$riskCatalog ){
+			foreach ($riskCatalog as $key => $value) {
 				$c = (@$adminAnswers["risks"][$key]) ? "hide" :"" ;
 				?>
 				<tr id="risk<?php echo $key?>" data-id="<?php echo $key?>" class="<?php echo InflectorHelper::slugify($value["type"]) ?> lineRisk">
@@ -113,7 +119,7 @@ $riskWeight = array(
 					</td>
 					<td class="add<?php echo $key?>"><a href="javascript:;" data-id="<?php echo $key?>" class="<?php echo $c ?> addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td>
 				</tr>
-			<?php } ?>
+			<?php } }?>
 			
 			
 		</table>
@@ -124,9 +130,10 @@ $riskWeight = array(
 
 <div class="form-probGrav" style="display:none;">
   <form class="inputprobGrav" role="form">
+
     <div class="form-group">
       <label for="probability">Probabilité</label>
-      <select class="form-control" id="probability" name="probability">
+      <select class="form-control" id="probability" name="probability" onchange="colorTitle()">
       	<option value="0">Quelle probabilité d'arriver ?</option>
       	<option value="1">Faible</option>
       	<option value="2">Moyenne</option>
@@ -134,9 +141,10 @@ $riskWeight = array(
       	<option value="4">Très Forte</option>
       </select>
     </div>
+
     <div class="form-group">
       <label for="gravity">Gravité</label>
-      <select class="form-control" id="gravity" name="gravity">
+      <select class="form-control" id="gravity" name="gravity" onchange="colorTitle()">
       <option value="0">Quel serait l'impact de ce risque ?</option>
       <option value="1">Faible</option>
       	<option value="2">Moyenne</option>
@@ -149,6 +157,8 @@ $riskWeight = array(
       <label for="comment">Commentaire</label>
       <br/><textarea type="text" id="comment" name="comment" style="width:100%"></textarea>
     </div>
+	
+	<div id="explainProbGrav" class="padding-10 bold"></div>
 
   </form>
 </div>
@@ -170,6 +180,38 @@ $(document).ready(function() {
 	riskObj.initAddBtn();
 });
 
+function colorTitle () { 
+	if( $('.inputprobGrav #probability').last().val() != "0" && $('.inputprobGrav #gravity').last().val() != "0" ){
+		var col = riskObj.riskWeight[$('.inputprobGrav #probability').last().val()+""+$('.inputprobGrav #gravity').last().val()].c;
+		bgcol = "white";
+		txtcol = "black";
+		msg = "";
+		icon = "";
+		var msgAttention = "<br/>Attention, cette note ne sera pas reversible une fois validé.";
+		if(col == "lightGreen"){
+			bgcol = "lightGreen";
+			txtcol = "black";
+			icon = "fa-eye";
+			msg = "Il faudra simplement surveiller cet aspect du projet."+msgAttention;
+		}
+		else if(col == "orange"){
+			bgcol = "orange";
+			txtcol = "black";
+			icon = " fa-envelope";
+			msg = "Une simple confirmation devra assurer cet aspect du projet."+msgAttention;
+		}
+		else if(col == "red"){
+			bgcol = "red";
+			txtcol = "white";
+			icon = "fa-warning";
+			msg = "Le porteur devra justifier et proposer une parades à cet aspect du projet, il sera automatiquement informer et demander de répondre aprés cette action. "+msgAttention;
+		}
+
+		console.log("colorTitle",col ,icon ,msg );
+		$(".bootbox-body #explainProbGrav").html( "<i class='pull-left fa fa-3x "+icon+"'></i> "+msg ).css( "background-color",bgcol ).css( "color",txtcol );
+		
+	}
+}
 
 function showType (type) { 
 	$(".lineRisk").hide();

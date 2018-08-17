@@ -41,7 +41,9 @@ class AnswerAction extends CAction
 		 			"adminAnswers"	=> $adminAnswers,
 		 			"adminForm" 	=> $adminForm,
 		 			"roles" 		=> @Yii::app()->session["custom"]["roles"] );
-    			if($adminAnswers["step"] == "risk"){
+
+    			if( in_array( $adminAnswers["step"] , array( "risk","ficheAction" ) ) )
+    			{
     				$params["riskCatalog"] = PHDB::find( "risks" , array("type"=>array('$ne'=>'riskTypes')) );
     				$params["riskTypes"] = array();
     				foreach ($params["riskCatalog"] as $k => $v) {

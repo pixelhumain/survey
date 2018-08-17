@@ -35,12 +35,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	</div>
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
 		<h1><?php echo $form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
-		<div id="" class="" style="width:80%;  display: -webkit-inline-box;">
-	    	<input type="text" class="form-control" id="input-search-table" 
-					placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
-		    <button class="btn btn-default hidden-xs menu-btn-start-search-admin btn-directory-type">
-		        <i class="fa fa-search"></i>
-		    </button>
+
+		<h2 class="text-center">
+			<?php 
+			$lblRole = array();
+			foreach ($form["custom"]["roles"] as $key) {
+				$lblRole[InflectorHelper::slugify($key)] = $key;
+				?>
+
+				<a href="<?php echo Yii::app()->createUrl("/survey/co/answers/id/".$_GET["id"]."/role/".InflectorHelper::slugify($key) ) ?>" class="btn btn-xs btn-default"><?php echo $key; ?></a>
+			<?php } ?>
+			</h2>
+
+		<div style="width:80%;  display: -webkit-inline-box;">
+	    	<input type="text" class="form-control" id="input-search-table" placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
 	    </div>
     </div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
@@ -58,9 +66,33 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th>Eligibilité</th>
 						<th>Priorisation</th>
 						<th>Risques</th>
+						<th>Fiche Action</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
+					<?php foreach ($results as $k => $v) {
+						?>
+						<tr>
+							<td><?php echo @$v['name'] ?></td>
+							<td><?php echo @$v['parentName'] ?></td>
+							<td><?php echo @$v['userName'] ?></td>
+							<td>
+								<?php echo "/".count(@$v['scenario']) ?>
+							</td>
+							<td><a href="/survey/co/answer/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" target="_blanck">Lire</a></td>
+							<td><?php echo (@$userAdminAnswer[$k]["eligible"]) ? "Éligible" : "Non Éligible"; ?></td>
+							<td><?php if(@$userAdminAnswer[$k]["categories"]){
+								foreach ($userAdminAnswer[$k]["categories"] as $key => $value) {
+									echo $value["name"]."<br/>";
+								}
+								} ?></td>
+							<td><?php if(@$userAdminAnswer[$k]["risks"]){
+								echo count(array_keys($userAdminAnswer[$k]["risks"]));
+								} ?></td>
+							<td><?php echo (@$userAdminAnswer[$k]["step"] == "ficheAction") ? "Selectionné" : ""; ?></td>
+						</tr>
+						<?php
+					} ?>
 				</tbody>
 			</table>
 			
@@ -73,6 +105,49 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 ?> 
 <script type="text/javascript">
 
+function buildDirectoryLine(key, value){
+		var step = 0;
+		var stepTotal = 0;
+		$.each(value.scenario, function(k, v){
+			stepTotal++;
+			if(v == true)
+				step++;
+		});
+		str = '<tr>';
+			str += '<td>'+( (typeof value.name != "undefined") ? value.name : "Pas encore renseigner" ) +'</td>';
+			str += '<td>'+( (typeof value.parentName != "undefined") ? value.parentName : "Pas encore renseigner" ) +'</td>';
+			str += '<td>'+( (typeof value.userName != "undefined") ? value.userName : "Pas encore renseigner" )+'</td>';
+			str += '<td>';
+				var classText = (step == stepTotal) ? 'text-success' : 'text-red';
+
+				str += "<span class='"+ classText +"'>"+ step +' / '+ stepTotal + "</span>";
+			str += '</td>';
+			str += '<td>';
+				//if(step == stepTotal){
+					str += '<center><a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.userId+'" target="_blanck">Lire</a></center>';
+				//}
+			str += '</td>';
+			str += '<td id="active'+value.id+value.type+'">';
+			if(typeof value.type != "undefined" && "projects" == value.type){
+				//console.log("here", value.id, form.links.projectExtern[value.id]);
+				if( typeof form.links == "undefined" || 
+					typeof form.links.projectExtern == "undefined" || 
+					typeof form.links.projectExtern[value.id] == "undefined") {
+					str += 'Pas encore traité';
+
+				}else {
+					str += 'Eligible' ;
+				}
+			}
+
+			str += '</td>';
+			str += '<td></td>';
+			str += '<td></td>';
+
+			str += '<td></td>';
+		str += '</tr>';
+		return str;
+	}
 	var form =<?php echo json_encode($form); ?>;
 	var data =<?php echo json_encode($results); ?>;
 	var searchAdmin={
@@ -81,19 +156,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		page:"",
 		//type:initType[0]
 	};
-	var rolesListCustom = <?php echo json_encode(@$roles); ?>;
 
 	jQuery(document).ready(function() {
 		bindLBHLinks();
 		bindAnwserList();
 		if(typeof data != "undefined"){
-			initViewTable(data);
+			//initViewTable(data);
 		}
-
-		if(rolesListCustom.length > 0)
-			rolesList = rolesListCustom ;
-
-		
+	
 
 		$("#input-search-table").keyup(function(e){
 			//if(e.keyCode == 13){
@@ -179,47 +249,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		bindAnwserList();
 	}
 
-	function buildDirectoryLine(key, value){
-		var step = 0;
-		var stepTotal = 0;
-		$.each(value.scenario, function(k, v){
-			stepTotal++;
-			if(v == true)
-				step++;
-		});
-		str = '<tr>';
-			str += '<td>'+( (typeof value.name != "undefined") ? value.name : "Pas encore renseigner" ) +'</td>';
-			str += '<td>'+( (typeof value.parentName != "undefined") ? value.parentName : "Pas encore renseigner" ) +'</td>';
-			str += '<td>'+( (typeof value.userName != "undefined") ? value.userName : "Pas encore renseigner" )+'</td>';
-			str += '<td>';
-				var classText = (step == stepTotal) ? 'text-success' : 'text-red';
-
-				str += "<span class='"+ classText +"'>"+ step +' / '+ stepTotal + "</span>";
-			str += '</td>';
-			str += '<td>';
-				//if(step == stepTotal){
-					str += '<center><a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.userId+'" target="_blanck">Lire</a></center>';
-				//}
-			str += '</td>';
-			str += '<td id="active'+value.id+value.type+'">';
-			if(typeof value.type != "undefined" && "projects" == value.type){
-				//console.log("here", value.id, form.links.projectExtern[value.id]);
-				if( typeof form.links == "undefined" || 
-					typeof form.links.projectExtern == "undefined" || 
-					typeof form.links.projectExtern[value.id] == "undefined") {
-					str += 'Pas encore traité';
-
-				}else {
-					str += 'Eligible' ;
-				}
-			}
-
-			str += '</td>';
-			str += '<td></td>';
-			str += '<td></td>';
-		str += '</tr>';
-		return str;
-	}
+	
 
 	function bindAnwserList(){
 		$(".activeBtn").on("click",function(e){
