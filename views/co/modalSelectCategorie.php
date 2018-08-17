@@ -15,10 +15,11 @@
                 <input type="hidden" name="userName" id="userName" value=""/>
                 <input type="hidden" name="userId" id="userId" value=""/>
                 <input type="hidden" name="form" id="form" value=""/>
+                <input type="hidden" name="email" id="email" value=""/>
                 <input type="hidden" name="formId" id="formId" value=""/>
                 <input type="hidden" name="eligible" id="eligible" value=""/>
                 <input type="hidden" name="parentId" id="parentId" value=""/>
-                 <input type="hidden" name="parentType" id="parentType" value=""/>
+                <input type="hidden" name="parentType" id="parentType" value=""/>
                 <input type="hidden" name="parentName" id="parentName" value=""/>
                 <input type="hidden" name="form" id="form" value=""/>
                 <input type="hidden" name="formId" id="formId" value=""/>
@@ -47,6 +48,7 @@
                 form : $("#form").val(),
                 formId : $("#formId").val(),
                 eligible : $("#eligible").val(),
+                email : $("#email").val(),
                 roles : $("#selectCategorie").val()
             };
 

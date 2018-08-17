@@ -265,6 +265,41 @@ class Form {
         return $res ;
 	}
 
+	public static function updatePriorisation($params ){
+
+		$res = Link::removeRole($params["contextId"], $params["contextType"], $params["childId"], $params["childType"], @$params["roles"], Yii::app()->session['userId'], $params["connectType"]);
+
+		$answer = PHDB::findOne(self::ANSWER_COLLECTION,array("_id"=>new MongoId($params["answer"])));
+		$roles = explode(",", $params["roles"]);
+		$pourcentage = round(100 / count($roles), 2);
+		$categories = array() ;
+		$priorisation = array() ;
+
+		foreach ($roles as $key => $value) {
+			$slug = InflectorHelper::slugify( $value ) ; 
+			if(!empty($answer["categories"][$slug])){
+				$categories[$slug] = $answer["categories"][$slug];
+				if(!empty($answer["answers"]["priorisation"][$slug]))
+					$priorisation[$slug] = $answer["answers"]["priorisation"][$slug];
+			}else{
+				$categories[$slug] = array( "name" => $value,"pourcentage" => $pourcentage);
+			}
+			
+
+		}
+
+		PHDB::update(self::ANSWER_COLLECTION,
+						array("_id"=>new MongoId($params["answer"])),
+						array('$set' => array("categories"=>$categories, "answers.priorisation"=>$priorisation))
+					);
+
+        return $res ;
+	}
+
+
+
+	
+
 	
 
 }

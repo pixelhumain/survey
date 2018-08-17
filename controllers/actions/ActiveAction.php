@@ -9,6 +9,11 @@ class ActiveAction extends CTKAction{
 			"eligible" => false, 
 			"step" => array_keys($adminForm["scenarioAdmin"])[1]
 		);
+
+		$paramMail = array( "tpl" => "eligibilite",
+								"tplObject" => "Vous n'êtes pas éligible au CTE",
+								"tplMail" => $_POST["email"],
+								"messages" => "Vous n'êtes pas éligible au CTE");
 		$res = array("result" => false,
 					"msg" => "N\'est pas éligible");
 		
@@ -17,10 +22,12 @@ class ActiveAction extends CTKAction{
 
 			$child = array();
 			$child[] = array( 	"childId" => $_POST["childId"],
-								"childType" => $_POST["childType"],
+								"childType" => Element::getCollectionByControler($_POST["childType"]),
 								"childName" => $_POST["childName"],
 								"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()),
 							 	"link" => "projectExtern");
+
+			//Rest::json($child);exit ;
 
 			$res[] = Link::multiconnect($child, $_POST["form"], Form::COLLECTION);
 
@@ -60,12 +67,20 @@ class ActiveAction extends CTKAction{
 			foreach ($roles as $key => $value) {
 				$data["categories"][InflectorHelper::slugify( $value )] = array( "name" => $value,"pourcentage" => $pourcentage);
 			}
+
+
+			$paramMail["messages"] = "Vous etes éligible au CTE, revenez sur la plateforme pour voir la suite";
+			$paramMail["tplObject"] = "Vous êtes éligible au CTE";
+			
+			
+			
 			$res = array("result" => true,
-							"msg" => "Eligible");
+							"msg" => "Eligible",
+							"data" => $data);
 		}
-		//Rest::json( $_POST ); exit ;
-		// Rest::json( $data ); exit ;
+
 		Form::save($data);
+		Mail::createAndSend($paramMail);
 		echo Rest::json( $res );
 		
 	}

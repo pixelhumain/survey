@@ -29,13 +29,16 @@ if(@$adminAnswers["categories"]){
 			$prioTypes = array();
 			foreach ($adminForm['scenario'] as $ki => $vi) {
 			 	$prioTypes[] = $ki;
-			} 
-		  foreach ($adminAnswers["categories"] as $ka => $va ) { ?>
+			}
+
+		foreach ($adminAnswers["categories"] as $ka => $va ) { ?>
 		  <li id="<?php echo $ka?>Btn" class="catElLI bold"><a href="javascript:;" onclick="EliTabs('<?php echo $ka ?>')"><?php 
 		  	$ic = ( !@$adminAnswers["answers"][$prioKey][ $va["name"]]["total"] && Form::canAdminRoles($form["id"], $va["name"], $form) ) ? " <i class='text-red fa fa-cog'></i>" : "";
 			echo mb_strtoupper($va["name"]).$ic; ?></a></li>
 		  <?php } ?>
-		  <li class="pull-right"> <a href=""><i class="text-red margin-top-10 fa fa-pencil"></i></a></li>
+			<li class="pull-right">
+				<a href="javascript:;" data-id="<?php echo $answers["cte2"]["answers"][Project::CONTROLLER]["id"]; ?>" data-type="<?php echo Project::COLLECTION; ?>" data-name="<?php echo $answers["cte2"]["answers"][Project::CONTROLLER]["name"]; ?>" class="margin-right-5 updateRoles"><i class="text-red margin-top-10 fa fa-pencil"></i></a>
+			</li>
 	</ul>
 
 
@@ -305,8 +308,73 @@ if(@$adminAnswers["categories"]){
 
 		dyFObj.editStep( editForm );	
 
-	})
+	});
+
+	$(".updateRoles").off().click(function(e){
+		var id = $(this).data("id");
+		var name = $(this).data("name");
+		var type = $(this).data("type");
+		mylog.log("updateRoles", id, type, name, form, form.links, form.links.projectExtern , form.links.projectExtern[id]);
+		if( typeof form.links.projectExtern[id] != "undefined" ){
+
+			var roles = ( ( typeof form.links.projectExtern[id].roles != "undefined" ) ? form.links.projectExtern[id].roles : [] ) ;
+			updateRoles(id, type, name, "projectExtern", roles, adminAnswers._id.$id);
+		}
+
+    });
 });
+
+function updateRoles(childId, childType, childName, connectType, roles, answer) {
+	mylog.log("updateRoles !", form.custom.roles);
+	var contextData = {id : form._id.$id, type : "forms"};
+	var formRole = {
+			saveUrl : baseUrl+'/'+activeModuleId+"/co/updatepriorisation/",
+			dynForm : {
+				jsonSchema : {
+					title : tradDynForm.modifyoraddroles+"<br/>"+childName,// trad["Update network"],
+					icon : "fa-key",
+					onLoads : {
+						sub : function(){
+							$("#ajax-modal .modal-header").removeClass("bg-dark bg-purple bg-red bg-azure bg-green bg-green-poi bg-orange bg-yellow bg-blue bg-turq bg-url")
+										  				  .addClass("bg-dark");
+							//bindDesc("#ajaxFormModal");
+						}
+					},
+					beforeSave : function(){
+						mylog.log("beforeSave");
+				    	//removeFieldUpdateDynForm(contextData.type);
+				    },
+					afterSave : function(data){
+						mylog.dir(data);
+						dyFObj.closeForm();
+						location.reload();
+					},
+					properties : {
+						contextId : dyFInputs.inputHidden(),
+						contextType : dyFInputs.inputHidden(), 
+						roles : dyFInputs.tags(form.custom.roles, tradDynForm["addroles"] , tradDynForm["addroles"], 0),
+						childId : dyFInputs.inputHidden(), 
+						childType : dyFInputs.inputHidden(),
+						answer : dyFInputs.inputHidden(),
+						connectType : dyFInputs.inputHidden()
+					}
+				}
+			}
+		};
+
+		var dataUpdate = {
+	        contextId : contextData.id,
+	        contextType : contextData.type,
+	        childId : childId,
+	        childType : childType,
+	        answer : answer,
+	        connectType : connectType,
+		};
+
+		if(notEmpty(roles))
+			dataUpdate.roles = roles;
+		dyFObj.openForm(formRole, "sub", dataUpdate);		
+}
 </script>
 <?php } 
 }

@@ -23,10 +23,10 @@ function bindAnwserList(){
 
 	$(".activeBtn").on("click",function(e){
 			$('#modalCatgeorieAnswers').modal("show");
-			console.log("ffefe", $(this).data("id"));
 			$("#childId").val($(this).data("id"));
 			$("#childType").val($(this).data("type"));
 			$("#childName").val($(this).data("name"));
+			$("#email").val($(this).data("email"));
 			$("#userName").val($(this).data("username"));
 			$("#userId").val($(this).data("userid"));
 			$("#form").val(form._id.$id);
@@ -65,6 +65,7 @@ function bindAnwserList(){
 			childName : $(this).data("name"),
 			userName : $(this).data("username"),
 			userId : $(this).data("userid"),
+			email : $(this).data("email"),
 			form : form._id.$id,
 			formId : form.id,
 			eligible : false,
