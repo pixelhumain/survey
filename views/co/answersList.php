@@ -30,36 +30,37 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
  	}
 </style>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
-	<div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="goBackToHome">
-		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/admin/id/<?php echo $_GET['id']; ?>" class="col-md-12 col-sm-12 col-xs-12 padding-20 text-center bg-orange" id="btn-home" style="font-size:20px;"><i class="fa fa-home"></i> Retour au panel d'admin</a>
-	</div>
+	
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
 		<h1><?php echo $form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
 
 		<h2 class="text-center">
+			<a href="javascript:;" onclick="showType('line')" class="btn btn-xs btn-default">Tous</a>
 			<?php 
 			$lblRole = array();
 			foreach ($form["custom"]["roles"] as $key) {
 				$lblRole[InflectorHelper::slugify($key)] = $key;
 				?>
-
-				<a href="<?php echo Yii::app()->createUrl("/survey/co/answers/id/".$_GET["id"]."/role/".InflectorHelper::slugify($key) ) ?>" class="btn btn-xs btn-default"><?php echo $key; ?></a>
+				<a href="javascript:;" onclick="showType('<?php echo InflectorHelper::slugify($key)?>')" class="btn btn-xs btn-default"><?php echo $key; ?></a>
 			<?php } ?>
 			</h2>
 
 		<div style="width:80%;  display: -webkit-inline-box;">
-	    	<input type="text" class="form-control" id="input-search-table" placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
+	    	<input type="text" class="form-control" id="search" placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
 	    </div>
     </div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
 	<div class="panel-body">
 		<div>
 			<!-- <a href="<?php //echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a> -->
-			<span><b>Il y a <?php echo count(@$results); ?> réponses</b></span><br/>
+			<span><b>Il y a <?php echo count(@$results); ?> réponses</b></span> 
+			<a href="<?php echo Yii::app()->createUrl('survey/co/roles/id/'.$_GET["id"]); ?>" class="pull-right btn btn-xs btn-primary margin-10">Fiche Action</a>
+			<br/>
+
 			<table class="table table-striped table-bordered table-hover directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
-						<th>N°</th>
+						<th>#</th>
 						<th>Nom du projet</th>
 						<th>Organisation</th>
 						<th>Utilisateur</th>
@@ -77,8 +78,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						foreach ($results as $k => $v) {
 							$nb++;
 						?>
-						<tr>
-							<td><?php echo @$nb ?></td>
+						<tr class="<?php if(@$userAdminAnswer[$k]["categories"])foreach (@$userAdminAnswer[$k]["categories"] as $key => $value) {
+									echo $key." ";
+								}
+								 ?> line">
+							<td><a href="/survey/co/logs/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" ><?php echo @$nb ?></a></td>
 							<td><?php echo @$v['name'] ?></td>
 							<td><?php echo @$v['parentName'] ?></td>
 							<td><?php echo @$v['userName'] ?></td>
@@ -92,8 +96,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								$classText = ($c == count(@$v['scenario'])) ? 'text-success' : 'text-red';
 								echo "<span class='".$classText."'>".$c." / ".count(@$v['scenario'])."</span>"; ?>
 							</td>
-							<td><a href="/survey/co/answer/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" target="_blanck">Lire</a></td>
-							<td><?php echo (@$userAdminAnswer[$k]["eligible"]) ? "Éligible" : "Non Éligible"; ?></td>
+							<td><a href="/survey/co/answer/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
+							<td><?php if(isset($userAdminAnswer[$k]["eligible"])){ echo ($userAdminAnswer[$k]["eligible"]) ? "Éligible" : "Non Éligible"; } ?></td>
 							<td><?php if(@$userAdminAnswer[$k]["categories"]){
 								foreach ($userAdminAnswer[$k]["categories"] as $key => $value) {
 									echo $value["name"]."<br/>";
@@ -113,174 +117,25 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	</div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
-<?php 
-	echo $this->renderPartial( "survey.views.co.modalSelectCategorie",array());
-?> 
+
 <script type="text/javascript">
 
-function buildDirectoryLine(key, value){
-		var step = 0;
-		var stepTotal = 0;
-		$.each(value.scenario, function(k, v){
-			stepTotal++;
-			if(v == true)
-				step++;
-		});
-		str = '<tr>';
-			str += '<td>'+( (typeof value.name != "undefined") ? value.name : "Pas encore renseigner" ) +'</td>';
-			str += '<td>'+( (typeof value.parentName != "undefined") ? value.parentName : "Pas encore renseigner" ) +'</td>';
-			str += '<td>'+( (typeof value.userName != "undefined") ? value.userName : "Pas encore renseigner" )+'</td>';
-			str += '<td>';
-				var classText = (step == stepTotal) ? 'text-success' : 'text-red';
+function showType (type) { 
+	$(".line").hide();
+	$("."+type).show();
+}
 
-				str += "<span class='"+ classText +"'>"+ step +' / '+ stepTotal + "</span>";
-			str += '</td>';
-			str += '<td>';
-				//if(step == stepTotal){
-					str += '<center><a href="'+baseUrl+'/survey/co/answer/id/'+form.id+'/user/'+value.userId+'" target="_blanck">Lire</a></center>';
-				//}
-			str += '</td>';
-			str += '<td id="active'+value.id+value.type+'">';
-			if(typeof value.type != "undefined" && "projects" == value.type){
-				//console.log("here", value.id, form.links.projectExtern[value.id]);
-				if( typeof form.links == "undefined" || 
-					typeof form.links.projectExtern == "undefined" || 
-					typeof form.links.projectExtern[value.id] == "undefined") {
-					str += 'Pas encore traité';
-
-				}else {
-					str += 'Eligible' ;
-				}
-			}
-
-			str += '</td>';
-			str += '<td></td>';
-			str += '<td></td>';
-
-			str += '<td></td>';
-		str += '</tr>';
-		return str;
-	}
-	var form =<?php echo json_encode($form); ?>;
-	var data =<?php echo json_encode($results); ?>;
-	var searchAdmin={
-		parentSurvey : form.id,
-		text:null,
-		page:"",
-		//type:initType[0]
-	};
-
-	jQuery(document).ready(function() {
-		bindLBHLinks();
-		bindAnwserList();
-		if(typeof data != "undefined"){
-			//initViewTable(data);
-		}
+jQuery(document).ready(function() {
 	
-
-		$("#input-search-table").keyup(function(e){
-			//if(e.keyCode == 13){
-			searchAdmin.page=0;
-			searchAdmin.text = $(this).val();
-			if(searchAdmin.text=="")
-				searchAdmin.text=null;
-			startAdminSearch(true);
-			// Init of search for count
-			if(searchAdmin.text===true)
-				searchAdmin.text=null;
-			//}
+	$("#search").on("keyup", function() {
+	    var value = $(this).val().toLowerCase();
+	    $("#panelAdmin tr.line").filter( function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 	    });
-
-	   $("#validEligible").on("click",function(e){
-			var params = {
-				childId : $("#childId").val(),
-				childType : $("#childType").val(),
-				childName : $("#childName").val(),
-				userName : $("#userName").val(),
-				userId : $("#userId").val(),
-				form : $("#form").val(),
-				formId : $("#formId").val(),
-				eligible : $("#eligible").val(),
-				roles : $("#selectCategorie").val()
-			};
-
-			if($("#parentId").val() != "" && $("#parentType").val() != ""){
-				params["parentId"] = $("#parentId").val();
-				params["parentType"] =$("#parentType").val();
-				params["parentName"] = $("#parentName").val();
-			}
-
-			eligibleFct(params);
-		});
 	});
 
+});
 
-	function startAdminSearch(initPage){
-		//$("#second-search-bar").val(search);
-	    $('#panelAdmin .directoryLines').html("Recherche en cours. Merci de patienter quelques instants...");
-	    var data = {
-	    	ifForm : form._id.$id,
-	    	text : $("#input-search-table").val(),
-	    }
-
-	    $.ajax({ 
-	        type: "POST",
-	        url: baseUrl+'/'+activeModuleId+"/co/searchadminform/",
-	        //url: baseUrl+"/"+moduleId+"/admin/directory/tpl/json",
-	        data: searchAdmin,
-	        dataType: "json",
-	        success:function(data) { 
-		          initViewTable(data);
-		          bindAnwserList();
-		          // if(typeof data.results.count !="undefined")
-		          // 	refreshCountBadge(data.results.count);
-		          // console.log(data.results);
-		          // if(initPage)
-		          // 	initPageTable(data.results.count[searchAdmin.type]);
-	        },
-	        error:function(xhr, status, error){
-	            $("#searchResults").html("erreur");
-	        },
-	        statusCode : {
-	                404 : function(){
-	                    $("#searchResults").html("not found");
-	            }
-	        }
-	    });
-	}
-
-	function initViewTable(data){
-		console.log("initViewTable", data);
-		$('#panelAdmin .directoryLines').html("");
-		console.log("valueInit",data);
-		$.each(data, function(key, value){
-
-			entry=buildDirectoryLine(key, value);
-			console.log("entry", entry);
-			$("#panelAdmin .directoryLines").append(entry);
-		});
-		bindAnwserList();
-	}
-
-	
-
-	function bindAnwserList(){
-		$(".activeBtn").on("click",function(e){
-			$('#modalCatgeorieAnswers').modal("show");
-			console.log("ffefe", $(this).data("id"));
-			$("#childId").val($(this).data("id"));
-			$("#childType").val($(this).data("type"));
-			$("#childName").val($(this).data("name"));
-			$("#userName").val($(this).data("username"));
-			$("#userId").val($(this).data("userid"));
-			$("#form").val(form._id.$id);
-			$("#formId").val(form.id);
-			$("#eligible").val(true);
-			$("#parentId").val( $(this).data("parentid"));
-			$("#parentType").val( $(this).data("parenttype"));
-			$("#parentName").val($(this).data("parentname"));
-		});
-	}
 
 
 </script> 

@@ -16,7 +16,21 @@ class RolesAction extends CAction
 			);
 
 			if($role){
-				$params["answers"] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id, "categories.".$role=>array('$exists'=>1)));
+				$params["answers"] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id, "categories.".$role=>array('$exists'=>1),"step"=>"ficheAction"));
+				foreach ($params["answers"] as $key => $value) {
+					$params["answers"][$key]["answers"] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$id));
+
+					//CTE specific 
+					foreach ( $params["answers"][$key]["answers"] as $k => $v ) {
+						$params["answers"][$key]["answers"][ $v["formId"] ] = $v;
+						if( @$v["answers"]["organization"]["id"] ){
+							//get ORGANIZATION
+							$params["answers"][$key]["answers"][ $v["formId"] ]['organization'] = Element::getByTypeAndId( Organization::COLLECTION , $v["answers"]["organization"]["id"] );
+						}
+						else if( @$v["answers"]["project"]["id"] )
+							$params["answers"][$key]["answers"][ $v["formId"] ]['project'] = Element::getByTypeAndId( Project::COLLECTION , $v["answers"]["project"]["id"] );
+					}
+				}
 			}
 	 		echo $ctrl->render( "roles" ,$params);
 		} else 

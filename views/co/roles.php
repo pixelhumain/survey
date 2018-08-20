@@ -2,6 +2,7 @@
 
 
 	<h2 class="text-center">
+	
 	<?php 
 	$lblRole = array();
 	foreach ($roles as $key) {
@@ -18,17 +19,35 @@
 	if( @$_GET['role'] ){ 
 		if( count(@$answers) ){ ?>
 		
-		<table border="1" id="riskList"  class="table table-striped table-bordered table-hover  directoryTable margin-bottom-20" style="width:100%;">
+		
+		<div class="card-columns">
 			
-			<?php foreach ($answers as $key => $value ) {?>
-				<tr>
-					<th><?php echo $value["name"] ?></th>
-				</tr>	
-			<?php } ?>
-			
+			<?php 
+			$c = 1;
+			foreach ( $answers as $key => $value ) {?>
+				<div class="card col-xs-12 col-md-4">
+					<div class="card-body padding-15 " style="border: 2px solid MidnightBlue;border-radius: 10px;min-height:265px;">
+						<h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
+							<i class="margin-5 fa fa-lightbulb fa-2x"></i><br><?php echo "#".$c." ".$value["answers"]["cte2"]["project"]["name"] ?></h4>
 
-			
+						<span class="card-text text-center col-xs-12 no-padding margin-bottom-20"><?php echo @$value["answers"]["cte2"]["project"]["shortDescription"] ?></span> 
+						<a href="http://127.0.0.1/ph/survey/co/answer/id/<?php echo $_GET["id"] ?>/user/<?php echo $value["answers"]["cte2"]["user"] ?>" class="btn btn-default answeredfalse" style="width:100%"> Voir Réponses </a>
+						 <div class="margin-top-10 rounded-bottom mdb-color lighten-3 text-center pt-3">
+						    <ul class="list-unstyled list-inline font-small">
+						      <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i><?php echo date("d/m/Y",@$value["answers"]["cte2"]["created"]) ?></li>
+						      <li class="list-inline-item pr-2"><i class="fa fa-comments-o pr-1"></i>12</li>
+						      <li class="list-inline-item pr-2"><i class="fa fa-thumbs-up pr-1"> </i>21</li>
+						      <li class="list-inline-item"><i class="fa fa-thumbs-down pr-1"> </i>5</li>
+						    </ul>
+						  </div>
+					</div>
+				</div>
+			<?php 
+			$c++;
+			} ?>
+
 		</table>
+
 	<?php } else { ?>
 
 		<h2 class="text-center margin-top-50"> <i class="fa fa-circle-thin text-red"></i> <span class="text-red">Aucunes réponses validées</span> pour le moment </h2>
@@ -63,3 +82,7 @@
 		</p>
 	<?php } ?>
 </div>
+<script type="text/javascript">
+	
+	
+</script>

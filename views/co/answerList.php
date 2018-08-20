@@ -143,23 +143,26 @@ SECTION STEPPER WIZARD
 /* ---------------------------------------------
 each section must have a template , with the same key name
 ---------------------------------------------- */
+if(!isset($adminForm["scenarioAdmin"]))
+	$adminForm["scenarioAdmin"] = array("dossier"=>[]);
 $pageParams = array(
 	"adminAnswers"=>$adminAnswers,
 	"adminForm"=>$adminForm,
 	"answers" => $answers,
 	"form" => $form,
 	"user" => $user,
-	"prioKey" => $adminForm['key'],
+	"prioKey" => @$adminForm['key'],
 	"canAdmin" => $canAdmin,
 	"steps" => array_keys($adminForm["scenarioAdmin"])
 ); 
 
-
 $ct = 0;
 $showHide = "";
+
+
 foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
 	
-	if( in_array( $adminAnswers["step"] , array( "risk","ficheAction" ) ) ){
+	if( in_array( @$adminAnswers["step"] , array( "risk","ficheAction" ) ) ){
 		$pageParams["riskTypes"] = @$riskTypes;
 		$pageParams["riskCatalog" ] = @$riskCatalog;
 	}
@@ -171,6 +174,7 @@ foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
 	$ct++;
 	$showHide = "hide";
 }
+
 ?>
 
 
@@ -452,6 +456,9 @@ Channels
 Customer Segments
 Cost Structure
 Revenue Streams
+
+
+
 
 Amélioration : 
 - DOSSIER : save onBlur 

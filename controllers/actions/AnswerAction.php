@@ -21,8 +21,9 @@ class AnswerAction extends CAction
 						"formId" => $id,
 					    "user" 	 => $user,
 					    "name"   => $userO["name"],
-					    "step"   => array_keys( $adminForm["scenarioAdmin"] )[1]
 					);
+					if(@$adminForm["scenarioAdmin"])
+						$adminAnswers["step"] = array_keys( $adminForm["scenarioAdmin"] )[1];
 				}
     			
     			$ctrl->layout = "//layouts/empty";	
@@ -42,7 +43,7 @@ class AnswerAction extends CAction
 		 			"adminForm" 	=> $adminForm,
 		 			"roles" 		=> @Yii::app()->session["custom"]["roles"] );
 
-    			if( in_array( $adminAnswers["step"] , array( "risk","ficheAction" ) ) )
+    			if( in_array( @$adminAnswers["step"] , array( "risk","ficheAction" ) ) )
     			{
     				$params["riskCatalog"] = PHDB::find( "risks" , array("type"=>array('$ne'=>'riskTypes')) );
     				$params["riskTypes"] = array();

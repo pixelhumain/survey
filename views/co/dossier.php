@@ -108,7 +108,7 @@
 				'<thead>'.
 					'<tr>'.
 						'<th>'.Yii::t("common","Question").'</th>'.
-						'<th>'.Yii::t("common","Answer").'</th>'.
+						'<th>Réponse</th>'.
 					'</tr>'.
 				'</thead>'.
 				'<tbody class="directoryLines">';
