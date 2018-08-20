@@ -52,6 +52,40 @@
                             "inputType" : "textarea",
                             "placeholder" : "Décrivez l'état du projet, son degré de maturité et les étapes clefs.",
                             "class" : "description3 markdown"
+                        },
+                        "filterInfo" : {
+                            "inputType" : "custom",
+                            "html" : "<p class='item-comment bg-green-comment'>Veuillez saisir une date pour chacun des états de votre projet (Réaliser ou à venir).</p>"
+                        },
+                        "dateConcept" : {
+                            "inputType" : "date",
+                            "placeholder" : "Date de l'idée ou du concept",
+                            "label" : "Date de l'idée ou du concept"
+                        },
+                        "dateCahier" : {
+                            "inputType" : "date",
+                            "placeholder" : "Date pour le cahier des charges detaillé",
+                            "label" : "Date pour le cahier des charges detaillé"
+                        },
+                        "datePrototype" : {
+                            "inputType" : "date",
+                            "placeholder" : "Date de réalisation du prototype",
+                            "label" : "Date de réalisation du prototype"
+                        },
+                        "dateDeveloppement" : {
+                            "inputType" : "date",
+                            "placeholder" : "Date de début de développement",
+                            "label" : "Date de début de développement"
+                        },
+                        "dateTest" : {
+                            "inputType" : "date",
+                            "placeholder" : "Date des tests",
+                            "label" : "Date des tests"
+                        },
+                        "dateProduction" : {
+                            "inputType" : "date",
+                            "placeholder" : "Date de mise en production",
+                            "label" : "Date de mise en production"
                         }
                     }
                 }
