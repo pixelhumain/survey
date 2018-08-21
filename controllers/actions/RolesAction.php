@@ -31,6 +31,8 @@ class RolesAction extends CAction
 							$params["answers"][$key]["answers"][ $v["formId"] ]['project'] = Element::getByTypeAndId( Project::COLLECTION , $v["answers"]["project"]["id"] );
 					}
 				}
+
+				$params["actions"] = PHDB::find( Action::COLLECTION , array("formId"=>$id, "categories.".$role=>array('$exists'=>1)));
 			}
 	 		echo $ctrl->render( "roles" ,$params);
 		} else 

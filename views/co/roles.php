@@ -65,7 +65,45 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 	<h3>Les fiches actions <?php echo $lblRole[$_GET["role"]] ?></h3>
 	<a href="javascript:;" onclick="dyFObj.openForm(actionForm)" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter une FICHE ACTION</a>
-	<hr>
+
+	<?php 
+		$actions = array('totot' => array(
+				"name"=>"ttotot"  
+			) );
+		if( count(@$actions) ){ ?>
+		
+		<div class="card-columns margin-top-20">
+			
+			<?php 
+			$c = 1;
+			foreach ( $actions as $key => $value ) {?>
+				<div class="card col-xs-12 col-md-4">
+					<div class="card-body padding-15 " style="border: 2px solid MidnightBlue;border-radius: 10px;min-height:265px;">
+						<h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
+							<i class="margin-5 fa fa-lightbulb fa-2x"></i><br>#1 Fiche Action xxx</h4>
+
+						<span class="card-text text-center col-xs-12 no-padding margin-bottom-20">Description Courte </span> 
+						<a href="" class="btn btn-default" style="width:100%"> Détails </a>
+						 <div class="margin-top-10 rounded-bottom mdb-color lighten-3 text-center pt-3">
+						    <ul class="list-unstyled list-inline font-small">
+						      <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i>15/03/2018</li>
+						      <li class="list-inline-item pr-2"><i class="fa fa-lightbulb pr-1"></i>12</li>
+						      <li class="list-inline-item pr-2"><i class="fa fa-thumbs-up pr-1"> </i>21</li>
+						      <li class="list-inline-item"><i class="fa fa-warning pr-1"> </i>5</li>
+						    </ul>
+						  </div>
+					</div>
+				</div>
+			<?php 
+			$c++;
+			} ?>
+
+		</div>
+
+	<?php } ?>
+
+	<hr style="clear:both">
+
 	<?php 
 	if( @$_GET['role'] ){ 
 		if( count(@$answers) ){ ?>
@@ -90,7 +128,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 						      <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i><?php echo date("d/m/Y",@$value["answers"]["cte2"]["created"]) ?></li>
 						      <li class="list-inline-item pr-2"><i class="fa fa-comments-o pr-1"></i>12</li>
 						      <li class="list-inline-item pr-2"><i class="fa fa-thumbs-up pr-1"> </i>21</li>
-						      <li class="list-inline-item"><i class="fa fa-thumbs-down pr-1"> </i>5</li>
+						      <li class="list-inline-item"><i class="fa fa-warning pr-1"> </i>5</li>
 						    </ul>
 						  </div>
 					</div>
@@ -99,7 +137,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 			$c++;
 			} ?>
 
-		</table>
+		</div>
 
 	<?php } else { ?>
 
@@ -147,7 +185,7 @@ var actionForm = {
 	    	}
 	    },
 	    save : function() { 
-	    	/*mylog.log("type : ", $("#ajaxFormModal #type").val());
+	    	mylog.log("type : ", $("#ajaxFormModal #type").val());
             var params = { 
                type : $("#ajaxFormModal #type").val() , 
                desc : $("#ajaxFormModal #desc").val() , 
@@ -164,7 +202,8 @@ var actionForm = {
 			if( $("#ajaxFormModal #id").val() ){
 				params.id = $("#ajaxFormModal #id").val();
 			}
-            $.ajax({
+			toastr.error('todo save!');
+            /*$.ajax({
               type: "POST",
               url: baseUrl+"/"+moduleId+'/element/save',
               data: params,
