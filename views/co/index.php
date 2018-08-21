@@ -172,11 +172,11 @@ jQuery(document).ready(function() {
                     }
 
                 } else {
-                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1>");
+                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+dySObj.surveys.id+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir vos réponses</span></a></center>");
                     //TODO goto read your answers
                 }
             } else 
-                $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1>");
+                $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+dySObj.surveys.id+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir vos réponses</span></a></center>");
         } 
             
     } else {
