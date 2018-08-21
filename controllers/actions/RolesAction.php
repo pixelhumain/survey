@@ -12,7 +12,8 @@ class RolesAction extends CAction
 		else if( Form::canAdmin( $id, $form ) )
 		{ 
 			$params = array(
-				"roles"=>$form["custom"]["roles"]
+				"roles"=>$form["custom"]["roles"],
+				"form"=>$form
 			);
 
 			if($role){
@@ -31,6 +32,9 @@ class RolesAction extends CAction
 							$params["answers"][$key]["answers"][ $v["formId"] ]['project'] = Element::getByTypeAndId( Project::COLLECTION , $v["answers"]["project"]["id"] );
 					}
 				}
+
+
+				$params["actions"] = PHDB::find( Action::COLLECTION , array("parentIdSurvey"=>(String) $form["_id"]));
 			}
 	 		echo $ctrl->render( "roles" ,$params);
 		} else 
