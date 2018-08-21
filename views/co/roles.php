@@ -1,5 +1,52 @@
-<div class="container">
+<?php
+$cssJS = array(
+    
+    '/plugins/jquery.dynForm.js',
+    
+    '/plugins/jQuery-Knob/js/jquery.knob.js',
+    '/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
+    '/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
 
+	'/plugins/jquery-validation/dist/jquery.validate.min.js',
+    '/plugins/select2/select2.min.js' , 
+    '/plugins/moment/min/moment.min.js' ,
+    '/plugins/moment/min/moment-with-locales.min.js',
+
+    // '/plugins/bootbox/bootbox.min.js' , 
+    // '/plugins/blockUI/jquery.blockUI.js' , 
+    
+    '/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js' , 
+    '/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css',
+    '/plugins/jquery-cookieDirective/jquery.cookiesdirective.js' , 
+    '/plugins/ladda-bootstrap/dist/spin.min.js' , 
+    '/plugins/ladda-bootstrap/dist/ladda.min.js' , 
+    '/plugins/ladda-bootstrap/dist/ladda.min.css',
+    '/plugins/ladda-bootstrap/dist/ladda-themeless.min.css',
+    '/plugins/animate.css/animate.min.css',
+    // SHOWDOWN
+	'/plugins/showdown/showdown.min.js',
+	//MARKDOWN
+	'/plugins/to-markdown/to-markdown.js',
+	'/plugins/select2/select2.min.js' ,
+	'/plugins/select2/select2.css',
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
+$cssJS = array(
+    '/js/dataHelpers.js',
+    '/js/sig/geoloc.js',
+    '/js/sig/findAddressGeoPos.js',
+    '/js/default/loginRegister.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
+
+$cssJS = array(
+'/assets/css/default/dynForm.css',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
+?>
+
+<div class="container">
 
 	<h2 class="text-center">
 
@@ -17,7 +64,7 @@
 	if( @$_GET['role'] ){ ?><br/>thématique <?php echo $lblRole[ $_GET['role'] ]; } ?></h1>
 
 	<h3>Les fiches actions <?php echo $lblRole[$_GET["role"]] ?></h3>
-	<a href="" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter une FICHE ACTION</a>
+	<a href="javascript:;" onclick="dyFObj.openForm(actionForm)" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter une FICHE ACTION</a>
 	<hr>
 	<?php 
 	if( @$_GET['role'] ){ 
@@ -89,6 +136,104 @@
 	<?php } ?>
 </div>
 <script type="text/javascript">
-	
-	
+
+var actionForm = {
+    jsonSchema : {
+        title : "NOUVELLE FICHE ACTION",
+        icon : "cogs",
+        onLoads : {
+	    	onload : function(data){
+	    		dyFInputs.setHeader("bg-azure");
+	    	}
+	    },
+	    save : function() { 
+	    	/*mylog.log("type : ", $("#ajaxFormModal #type").val());
+            var params = { 
+               type : $("#ajaxFormModal #type").val() , 
+               desc : $("#ajaxFormModal #desc").val() , 
+               collection : "risks"
+            };
+
+            if($(".addmultifield").length){
+	            params.actions = [];
+				$.each($(".addmultifield"),function(i,k){
+					params.actions.push($(this).val());
+				});
+			}
+
+			if( $("#ajaxFormModal #id").val() ){
+				params.id = $("#ajaxFormModal #id").val();
+			}
+            $.ajax({
+              type: "POST",
+              url: baseUrl+"/"+moduleId+'/element/save',
+              data: params,
+              success: function(data){
+                if(data.result){
+                  	toastr.success( "SUCCESSFULLY  saved risk !");
+                  	mylog.dir(data);
+                  	dyFObj.closeForm();
+                  	
+                  	var newRisk = '<td class="editRisk">'+data.map.type+'</td>'+
+						'<td class="editRisk">'+data.map.desc+'</td>'+
+						'<td class="editRisk">'+data.map.actions.join('<br>')+'</td>'+
+						'<td class="add'+data.id+'"><a href="javascript:;" data-id="'+data.id+'" class="addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td>';
+					if( params.id ){
+						$("#risk"+params.id).html(newRisk);
+						delete params.id;
+					}
+					else { 
+						newRisk = '<tr id="risk'+data.id+'" class="'+data.map.type+' lineRisk">'+
+							newRisk+"</tr>";
+						$("#riskCatalogList").append( newRisk );
+					}
+					riskObj.initAddBtn();
+					delete params.collection;
+					riskObj.catalog[ data.id ] = params; 
+                }
+                else {
+                  toastr.error(data.msg);
+                }
+                $.unblockUI();
+              },
+              dataType: "json"
+            });*/
+	    },
+        properties : {
+        	info : {
+                inputType : "custom",
+                html:"<p><i class='fa fa-info-circle'></i> Un risque Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>"
+            },
+            type : {
+            	inputType : "tags",
+				placeholder : "Selectionner ou créer",
+				minimumInputLength : 0,
+				values : ["technique",
+					"fonctionnelOuTechnique",
+					"organisationnel",
+					"ressourceHumaine",
+					"management",
+					"planification",
+					"moyens",
+					"demarche",
+					"contractuel",
+					"fonctionnel"],
+				label : "Type d'action"
+            },
+            desc : {
+            	"label" : "Description",
+                "inputType" : "textarea",
+                "placeholder" : "décrivez l'action",
+            },
+            actions : {
+                placeholder : "Quelles projets partenaires",
+                label : "Projets partenaires",
+		    	inputType : "array",
+		        value : [],
+		        init:function(){}
+            }
+        }
+    }
+
+};
 </script>

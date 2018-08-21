@@ -22,6 +22,12 @@
     '/plugins/ladda-bootstrap/dist/ladda.min.css',
     '/plugins/ladda-bootstrap/dist/ladda-themeless.min.css',
     '/plugins/animate.css/animate.min.css',
+    // SHOWDOWN
+	'/plugins/showdown/showdown.min.js',
+	//MARKDOWN
+	'/plugins/to-markdown/to-markdown.js',
+	'/plugins/select2/select2.min.js' ,
+	'/plugins/select2/select2.css',
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
@@ -42,21 +48,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 <?php
 //assets from ph base repo
 $cssAnsScriptFilesTheme = array(
-	// SHOWDOWN
-	'/plugins/showdown/showdown.min.js',
-	//MARKDOWN
-	'/plugins/to-markdown/to-markdown.js',
-	'/plugins/select2/select2.min.js' ,
-	'/plugins/select2/select2.css',
+	
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->request->baseUrl);
 
-//gettting asstes from parent module repo
-$cssAnsScriptFilesModule = array( 
-	'/js/dataHelpers.js',
-	//'/css/md.css',
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 
 $cssAnsScriptFilesModule = array( 
 	'/js/eligible.js',
