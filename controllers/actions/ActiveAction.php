@@ -33,27 +33,29 @@ class ActiveAction extends CTKAction{
 
 			if(!empty($_POST["parentId"]) && !empty($_POST["parentType"])){
 
-				$form = Form:: getByIdMongo($_POST["form"], array("parentId", "parentType"));
+				$existParent =PHDB::findOne( $_POST["parentType"] , array("_id"=>new MongoId($_POST["parentId"])) );
 
-				// pour l'orga
-				$child = array();
-				$child[] = array( 	"childId" => $_POST["parentId"],
-									"childType" => $_POST["parentType"],
-									"childName" => $_POST["parentName"],
-									"roles" =>  !empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array());
-				//Rest::json( $form ); exit ;
-				$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+				if(!empty($existParent)){
+					$form = Form:: getByIdMongo($_POST["form"], array("parentId", "parentType"));
 
-				// pour le projet
-				$child = array();
-				$child[] = array( 	"childId" => $_POST["childId"],
-									"childType" => $_POST["childType"],
-									"childName" => $_POST["childName"],
-									"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()));
+					// pour l'orga
+					$child = array();
+					$child[] = array( 	"childId" => $_POST["parentId"],
+										"childType" => $_POST["parentType"],
+										"childName" => $_POST["parentName"],
+										"roles" =>  !empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array());
+					//Rest::json( $form ); exit ;
+					$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
 
-				$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+					// pour le projet
+					$child = array();
+					$child[] = array( 	"childId" => $_POST["childId"],
+										"childType" => $_POST["childType"],
+										"childName" => $_POST["childName"],
+										"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()));
 
-
+					$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+				}
 			}
 
 			$data["eligible"] = true ;
