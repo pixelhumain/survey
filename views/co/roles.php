@@ -2,7 +2,7 @@
 
 
 	<h2 class="text-center">
-	
+
 	<?php 
 	$lblRole = array();
 	foreach ($roles as $key) {
@@ -15,11 +15,17 @@
 
 	<h1 class="text-center">Synthèse <?php 
 	if( @$_GET['role'] ){ ?><br/>thématique <?php echo $lblRole[ $_GET['role'] ]; } ?></h1>
+
+	<h3>Les fiches actions <?php echo $lblRole[$_GET["role"]] ?></h3>
+	<a href="" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter une FICHE ACTION</a>
+	<hr>
 	<?php 
 	if( @$_GET['role'] ){ 
 		if( count(@$answers) ){ ?>
 		
-		
+
+		<h3>Les projets <?php echo $lblRole[$_GET["role"]] ?></h3>
+
 		<div class="card-columns">
 			
 			<?php 
