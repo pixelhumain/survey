@@ -33,8 +33,12 @@ class RolesAction extends CAction
 					}
 				}
 
+<<<<<<< HEAD
 
 				$params["actions"] = PHDB::find( Action::COLLECTION , array("parentIdSurvey"=>(String) $form["_id"]));
+=======
+				$params["actions"] = PHDB::find( Action::COLLECTION , array("formId"=>$id, "categories.".$role=>array('$exists'=>1)));
+>>>>>>> c5128ec94b0526b48106f792cf63b0699d627b96
 			}
 	 		echo $ctrl->render( "roles" ,$params);
 		} else 
