@@ -165,18 +165,20 @@ jQuery(document).ready(function() {
                             $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Connectez-vous avant d\'accéder au formulaire <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
 
                         if(dySObj.surveys.author == userId){
-                            $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="'+baseUrl+'/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">Voir les réponses <i class="fa fa-list fa-2x "></i></a></div>');
+                            $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="'+baseUrl+'/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">Voir votre candidature <i class="fa fa-list fa-2x "></i></a></div>');
                         }
 
                         dySObj.buildOneSurveyFromScenario();
                     }
 
                 } else {
-                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1>");
+                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.id : dySObj.surveys.parentSurvey.id )+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir votre candidature</span></a></center>");
                     //TODO goto read your answers
                 }
-            } else 
-                $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1>");
+            }
+            // } else{
+            //     $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.id : dySObj.surveys.parentSurvey.id )+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir votre candidature</span></a></center>");
+            // }
         } 
             
     } else {

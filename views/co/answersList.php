@@ -82,7 +82,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 									echo $key." ";
 								}
 								 ?> line">
-							<td><a href="/survey/co/logs/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" ><?php echo @$nb ?></a></td>
+							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/logs/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" ><?php echo @$nb ?></a></td>
 							<td><?php echo @$v['name'] ?></td>
 							<td><?php echo @$v['parentName'] ?></td>
 							<td><?php echo @$v['userName'] ?></td>
@@ -96,7 +96,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								$classText = ($c == count(@$v['scenario'])) ? 'text-success' : 'text-red';
 								echo "<span class='".$classText."'>".$c." / ".count(@$v['scenario'])."</span>"; ?>
 							</td>
-							<td><a href="/survey/co/answer/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
+							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/answer/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
 							<td><?php if(isset($userAdminAnswer[$k]["eligible"])){ echo ($userAdminAnswer[$k]["eligible"]) ? "Éligible" : "Non Éligible"; } ?></td>
 							<td><?php if(@$userAdminAnswer[$k]["categories"]){
 								foreach ($userAdminAnswer[$k]["categories"] as $key => $value) {
