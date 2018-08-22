@@ -43,14 +43,6 @@ $cssJS = array(
 
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
-?>
-
-<?php
-//assets from ph base repo
-$cssAnsScriptFilesTheme = array(
-	
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->request->baseUrl);
 
 
 $cssAnsScriptFilesModule = array( 

@@ -61,15 +61,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 	</h2>
 
 	<h1 class="text-center">Synthèse <?php 
-	if( @$_GET['role'] ){ ?><br/>thématique <?php echo $lblRole[ $_GET['role'] ]; } ?></h1>
+	if( @$_GET['role'] ){ ?><br/>thématique <?php echo $lblRole[ $_GET['role'] ];  ?></h1>
 
-	<h3>Les fiches actions <?php echo $lblRole[$_GET["role"]] ?></h3>
+	<h3>Les fiches actions <?php if(@$_GET["role"])echo $lblRole[$_GET["role"]]; ?></h3>
 	<!-- dyFObj.openForm(actionForm) -->
 	<a href="javascript:;" onclick="dyFObj.openForm('action','sub')" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter une FICHE ACTION</a><br/>
 	<div class="card-columns col-xs-12 padding-15">
 		<?php
+		if(@$actions){
 			$c = 1;
-			//var_dump($actions);
 			foreach ( $actions as $key => $value ) {?>
 				<div class="card col-xs-12 col-md-4">
 					<div class="card-body padding-15 " style="border: 2px solid MidnightBlue;border-radius: 10px;min-height:265px;">
@@ -77,7 +77,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 							<i class="margin-5 fa fa-lightbulb fa-2x"></i><br><?php echo "#".$c." ".$value["name"] ?></h4>
 
 						<span class="card-text text-center col-xs-12 no-padding margin-bottom-20"><?php echo @$value["description"] ?></span> 
-						<a href="http://127.0.0.1/ph/survey/co/answer/id/<?php echo $_GET["id"] ?>/user/<?php echo $key ?>" class="btn btn-default answeredfalse" style="width:100%"> Détail </a>
+						<a href="http://127.0.0.1/ph/survey/co/action/id/<?php echo (string)$value["_id"] ?>" class="btn btn-default answeredfalse" style="width:100%"> Détail </a>
 						 <div class="margin-top-10 rounded-bottom mdb-color lighten-3 text-center pt-3">
 						    <ul class="list-unstyled list-inline font-small">
 						      <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i> <?php echo date("d/m/Y",@$value["created"]) ?></li>
@@ -90,11 +90,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 				</div>
 			<?php 
 			$c++;
-			} ?>
+			} 
+		}?>
 
 	</div>
 	<hr>
 	<?php 
+	}
+	
 	if( @$_GET['role'] ){ 
 		if( count(@$answers) ){ ?>
 		
@@ -163,12 +166,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 		</p>
 	<?php } ?>
 </div>
-<?php array($_GET["role"] => $lblRole[$_GET["role"]]) ?>
+<?php 
+
+$r = array();
+if(@$_GET["role"])
+	$r[@$_GET["role"]] = $lblRole[$_GET["role"]]; ?>
 <script type="text/javascript">
 var currentRoomId = "";
 var form =<?php echo json_encode($form); ?>;
 var contextData = { id : form.parentId, type : form.parentType } ;
-var role = <?php echo json_encode( array($_GET["role"] => $lblRole[$_GET["role"]]) ); ?>;
+var role = <?php echo json_encode( $r ); ?>;
 
 
 var actionForm = {
