@@ -5,10 +5,10 @@
 	/* ---------------------------------------------
 	ETAPE DU SCENARIO
 	---------------------------------------------- */
-
-	echo $this->renderPartial( "answerScenario" , array("form"=>$form,
+	echo $this->renderPartial( "answerScenario" , array("form" => $form,
 														"answers" => $action,
-														"user" => $form["user"] ) ); 
+														"user" => $user,
+														'scenario' => "scenarioFicheAction" ) ); 
  
 
 

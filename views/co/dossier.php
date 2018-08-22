@@ -80,7 +80,8 @@
 
 	echo $this->renderPartial( "answerScenario" , array("form"=>$form,
 														"answers" => $answers,
-														"user" => $user) ); 
+														"user" => $user,
+														'scenario' => "scenario") ); 
  ?>
 
 

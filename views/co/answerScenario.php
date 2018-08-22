@@ -3,24 +3,40 @@
 	/* ---------------------------------------------
 	ETAPE DU SCENARIO
 	---------------------------------------------- */
- ?>
+foreach ( $form[ $scenario ] as $k => $v ) {
+	
+	if(!@$answers[$k]){
+		$v["form"] = array( 
+			"title" => $form[$scenario][$k]["title"],
+			"description" => $form[$scenario][$k]["description"],
+			"icon" => $form[$scenario][$k]["icon"]
+		);
 
- <h1>TEST</h1>
+		// $v["form"]["scenario"] = array();
+		// $v["form"]["scenario"][$k] = $form[ $scenario ][$k];
 
-<?php foreach ($form["scenario"] as $k => $v) {
+		$answers["answers"] = array();
+		if(@$form[$scenario][$k]["json"]['jsonSchema']["properties"]){
+			foreach ($form[$scenario][$k]["json"]['jsonSchema']["properties"] as $key => $value) {
+				$answers[$k]["answers"][$key] = "";
+			}
+		}
+		$answers[$k]["created"] = time();
+	}
+
 	if(@$answers[$k]){  ?>
 		
-		<div class=" titleBlock col-xs-12 text-center" style="cursor:pointer;background-color: <?php echo $form["custom"]["color"] ?>"  onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();">
+		<div class=" titleBlock col-xs-12 text-center" style="cursor:pointer;background-color: <?php echo (@$form["custom"]["color"]) ? $form["custom"]["color"] : "grey" ; ?>"  onclick="$('#<?php echo @$v["form"]["id"]; ?>').toggle();">
 			<h1> 
 			<?php echo $v["form"]["title"]; ?><i class="fa pull-right <?php echo @$v["form"]["icon"]; ?>"></i>
 			</h1>
 			<span class="text-dark"><?php echo date('d/m/Y h:i', $answers[$k]["created"]) ?></span>
 		</div>
 
-		<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
+		<div class='col-xs-12' id='<?php echo @$v["form"]["id"]; ?>'>
 
 		<?php 
-			foreach ( $answers[$k]["answers"] as $key => $value) 
+			foreach ( $answers[$k]["answers"] as $key => $value ) 
 			{
 
 			$editBtn = "";
@@ -151,7 +167,8 @@
 			echo "</tbody></table></div>";
 		}
 	} else { ?>
-	<div class="bg-red col-xs-12 text-center text-large text-white margin-bottom-20"><h1> <?php echo $v["form"]["title"]; ?></h1>
+	<div class="bg-red col-xs-12 text-center text-large text-white margin-bottom-20">
+		<h1> <?php echo $k;?> </h1>
 	<?php 
 		echo "<h3 style='' class=''> <i class='fa fa-2x fa-exclamation-triangle'></i> ".Yii::t("surveys","This step {num} hasn't been filed yet",array('{num}'=>$k))."</h3>".
 			"<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k)."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
@@ -163,7 +180,7 @@
 
 
 <script type="text/javascript">
-
+var answers  = <?php echo json_encode($answers); ?>;
 $(document).ready(function() { 
 	
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
