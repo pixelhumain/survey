@@ -4,12 +4,12 @@
 	<h4 class="text-dark">l'équipe Écocité </h4>
 	<br>
 	<div class="col-xs-12">
-		<div class="col-xs-3 col-xs-offset-2 text-center padding-20" style="border:1px solid white; height: 105px">
+		<!-- <div class="col-xs-3 col-xs-offset-2 text-center padding-20" style="border:1px solid white; height: 105px">
 			<h4 class="text-dark">Support CTE
 			<br/><small class="text-white">02 62 458 921</small>
 			</h4>
-		</div>
-		<div class="col-xs-3 text-center padding-20" style="border:1px solid white; height: 105px">
+		</div> -->
+		<div class="col-xs-3 col-xs-offset-3 text-center padding-20" style="border:1px solid white; height: 105px">
 			<h4 class="text-dark">Mr. Eric Caro
 			<br/><small class="text-white">eric.caro@tco.re</small>
 			<br/><small class="text-white">06 92 877 386</small>
