@@ -163,12 +163,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 		</p>
 	<?php } ?>
 </div>
+<?php array($_GET["role"] => $lblRole[$_GET["role"]]) ?>
 <script type="text/javascript">
 var currentRoomId = "";
 var form =<?php echo json_encode($form); ?>;
 var contextData = { id : form.parentId, type : form.parentType } ;
-
-
+var role = <?php echo json_encode( array($_GET["role"] => $lblRole[$_GET["role"]]) ); ?>;
 
 
 var actionForm = {
