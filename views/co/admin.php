@@ -35,7 +35,7 @@ if( Form::canAdmin($id, $form) ){
 			<li class="list-group-item col-md-4 col-sm-6 ">
 				<a class="text-green col-xs-12 text-center" id="btn-projects" style="cursor:pointer;" href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $_GET['id']; ?>">
 					<i class="fa fa-tasks fa-2x"></i>
-					<?php echo Yii::t("common", "Les réponses"); ?>
+					<?php echo Yii::t("common", "Les candidatures"); ?>
 				</a>
 			</li>
 			<li class="list-group-item col-md-4 col-sm-6 ">

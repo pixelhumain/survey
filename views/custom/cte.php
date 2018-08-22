@@ -71,7 +71,7 @@
         <?php }else{ 
             $count=count($answers);
             if(count($answers) < count($form["scenario"]) ){
-            $label=($count > 0) ? "Reprendre le dossier" : "Déposer une candidature"; 
+            $label=($count > 0) ? "Reprendre la candidature" : "Déposer une candidature"; 
           ?>
           <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count+1 ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
         <?php  }
@@ -80,7 +80,7 @@
 
 
           ?>
-          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/cte/user/<?php echo Yii::app()->session['userId'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> REVOIR VOS RÉPONSES </a>
+          <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/cte/user/<?php echo Yii::app()->session['userId'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> VOIR VOTRE CANDIDATURE </a>
           <?php
           }
         } ?>
@@ -95,7 +95,7 @@
         Merci pour votre participation au CTE, <br/>
         Votre projet sera très prochainement évalué <br/>
         Et vous serez informé de la suite.<br/><br/>
-        <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo $form["id"] ?>/user/<?php echo Yii::app()->session["userId"] ?>" class="btn btn-primary">Revoir vos réponses</a>
+        <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo $form["id"] ?>/user/<?php echo Yii::app()->session["userId"] ?>" class="btn btn-primary">Voir votre candidature</a>
     <?php } ?>
     </h2>
     <div id="surveyDesc" class="col-xs-12 padding-20"></div>
