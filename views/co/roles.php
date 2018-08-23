@@ -175,7 +175,7 @@ if(@$_GET["role"])
 var currentRoomId = "";
 var form =<?php echo json_encode($form); ?>;
 var contextData = { id : form.parentId, type : form.parentType } ;
-var role = <?php echo json_encode( $r ); ?>;
+var role = "<?php echo $_GET["role"] ?>";
 
 
 var actionForm = {
