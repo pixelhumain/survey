@@ -168,14 +168,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 </div>
 <?php 
 
-$r = array();
+$r = "";
 if(@$_GET["role"])
-	$r[@$_GET["role"]] = $lblRole[$_GET["role"]]; ?>
+	$r = $_GET["role"]; ?>
 <script type="text/javascript">
 var currentRoomId = "";
 var form =<?php echo json_encode($form); ?>;
 var contextData = { id : form.parentId, type : form.parentType } ;
-var role = "<?php echo $_GET["role"] ?>";
+var role = "<?php echo $r; ?>";
 
 
 var actionForm = {
