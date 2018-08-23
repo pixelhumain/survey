@@ -260,7 +260,9 @@ class Form {
 			!empty($form["links"]["members"][Yii::app()->session["userId"]]["roles"]) &&
 			in_array($role, $form["links"]["members"][Yii::app()->session["userId"]]["roles"]) ){
     		$res = true;
-        }
+        }else if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){
+			$res = true;
+		}
 
         return $res ;
 	}
