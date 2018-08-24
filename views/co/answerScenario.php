@@ -52,8 +52,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 foreach ( $form[ $scenario ] as $k => $v ) {
 	
-	echo count( array_keys(@$answers[$k]["answers"]))."<br/>";
-	echo count(array_keys( $v["form"] ));
+	// echo count( array_keys(@$answers[$k]["answers"]))."<br/>";
+	// echo count(array_keys( $v["form"] ));
 	if(!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"] )) )
 	{
 		foreach ( $v["form"] as $step => $f ) 
