@@ -12,11 +12,15 @@ class ActionAction extends CAction
 			$ctrl->render("co2.views.default.loginSecure");
 		else if( Form::canAdmin( $form["id"], $form ) || $user == Yii::app()->session["userId"])
 		{ 
-    			$ctrl->layout = "//layouts/empty";	
-    			$params = array( 'action' => array( (string)$action["_id"] => $action ),
-    							 'form' => $form ,
-    							 "user" => Person::getById( $action["creator"] ) );
-	 			echo $ctrl->render( "action" , $params);
+			$ctrl->layout = "//layouts/empty";	
+			$params = array( "answers" => $action, 
+							 'answerCollection' => "actions",
+							 'answerId' => (string)$action["_id"] ,
+							 'form' => $form ,
+							 "user" => Person::getById( $action["creator"]),
+							 'scenario' => "scenarioFicheAction" );
+
+ 			echo $ctrl->render( "answerScenario" , $params);
 		} else 
 			$this->getController()->render("co2.views.default.unauthorised"); 
     }

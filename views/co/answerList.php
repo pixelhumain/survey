@@ -182,8 +182,10 @@ if(@$form["custom"]['footer']){
 
 <script type="text/javascript">
 var form = <?php echo json_encode($form); ?>;
-var adminForm = <?php echo json_encode($adminForm); ?>;
 var answers  = <?php echo json_encode($answers); ?>;
+
+var adminForm = <?php echo json_encode($adminForm); ?>;
+
 var adminAnswers  = <?php echo json_encode($adminAnswers); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
 var canAdmin = <?php echo $canAdmin; ?>;
@@ -413,6 +415,7 @@ bug
 		TCO 
 		experts
 		financeurs
+	- check les surveys 
 
 - [TIB] FICHE ACTION : Synthese par thematique avec la listes de plusieurs projets
 - [RAPHA] Calendrier cte2.2
@@ -484,6 +487,10 @@ nouveau projet
 				commentaire et liste AF
 					recevable ou non 
 
+Rocket Chat 
+- activer le user RC automatiquement au register 
+- https://github.com/pixelhumain/co2/issues/1012
+- retablir 
 
 
 */

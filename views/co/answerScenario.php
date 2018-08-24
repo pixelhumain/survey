@@ -1,36 +1,91 @@
+<?php $cssJS = array(
+    '/plugins/jquery.dynForm.js',
+    
+    '/plugins/jQuery-Knob/js/jquery.knob.js',
+    '/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
+    '/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
 
+	'/plugins/jquery-validation/dist/jquery.validate.min.js',
+    '/plugins/select2/select2.min.js' , 
+    '/plugins/moment/min/moment.min.js' ,
+    '/plugins/moment/min/moment-with-locales.min.js',
+
+    // '/plugins/bootbox/bootbox.min.js' , 
+    // '/plugins/blockUI/jquery.blockUI.js' , 
+    
+    '/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js' , 
+    '/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css',
+    '/plugins/jquery-cookieDirective/jquery.cookiesdirective.js' , 
+    '/plugins/ladda-bootstrap/dist/spin.min.js' , 
+    '/plugins/ladda-bootstrap/dist/ladda.min.js' , 
+    '/plugins/ladda-bootstrap/dist/ladda.min.css',
+    '/plugins/ladda-bootstrap/dist/ladda-themeless.min.css',
+    '/plugins/animate.css/animate.min.css',
+    // SHOWDOWN
+	'/plugins/showdown/showdown.min.js',
+	//MARKDOWN
+	'/plugins/to-markdown/to-markdown.js',
+	'/plugins/select2/select2.min.js' ,
+	'/plugins/select2/select2.css'
+);
+
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
+$cssJS = array(
+    '/js/dataHelpers.js',
+    '/js/sig/geoloc.js',
+    '/js/sig/findAddressGeoPos.js',
+    '/js/default/loginRegister.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
+$cssJS = array(
+'/assets/css/default/dynForm.css',
+
+);
+HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
+
+?>
+<h1 class="text-center"><?php echo $answers["name"] ?></h1>
 <?php 
 	/* ---------------------------------------------
 	ETAPE DU SCENARIO
 	---------------------------------------------- */
+
 foreach ( $form[ $scenario ] as $k => $v ) {
 	
-	if(!@$answers[$k]){
-		$v["form"] = array( 
-			"title" => $form[$scenario][$k]["title"],
-			"description" => $form[$scenario][$k]["description"],
-			"icon" => $form[$scenario][$k]["icon"]
-		);
-
-		// $v["form"]["scenario"] = array();
-		// $v["form"]["scenario"][$k] = $form[ $scenario ][$k];
-
-		$answers["answers"] = array();
-		if(@$form[$scenario][$k]["json"]['jsonSchema']["properties"]){
-			foreach ($form[$scenario][$k]["json"]['jsonSchema']["properties"] as $key => $value) {
-				$answers[$k]["answers"][$key] = "";
-			}
+	echo count( array_keys(@$answers[$k]["answers"]))."<br/>";
+	echo count(array_keys( $v["form"] ));
+	if(!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"] )) )
+	{
+		foreach ( $v["form"] as $step => $f ) 
+		{
+			if( !@$answers[$k]["answers"][$step])
+			{
+				$v["form"]["scenario"][$step] = $f;
+				
+				$answers["answers"] = array();
+				$answers["answers"][$step] = array();
+				if( @$f["json"]['jsonSchema']["properties"] )
+				{
+					foreach ( $f["json"]['jsonSchema']["properties"] as $key => $value ) 
+					{
+						$answers[$k]["answers"][$step][$key] = "";
+					}
+				}
+				$answers[$k]["created"] = time();
+			} 
 		}
-		$answers[$k]["created"] = time();
+		$v["form"]["title"] = $v["title"];
+		$v["form"]["description"] = $v["description"];
+		$v["form"]["icon"] = $v["icon"];
 	}
 
 	if(@$answers[$k]){  ?>
 		
-		<div class=" titleBlock col-xs-12 text-center" style="cursor:pointer;background-color: <?php echo (@$form["custom"]["color"]) ? $form["custom"]["color"] : "grey" ; ?>"  onclick="$('#<?php echo @$v["form"]["id"]; ?>').toggle();">
+		<div class=" titleBlock col-xs-12 text-center" style="cursor:pointer; background-color: <?php echo (@$form["custom"]["color"]) ? $form["custom"]["color"] : "LightSeaGreen" ; ?>"  onclick="$('#<?php echo @$v["form"]["id"]; ?>').toggle();">
 			<h1> 
-			<?php echo $v["form"]["title"]; ?><i class="fa pull-right <?php echo @$v["form"]["icon"]; ?>"></i>
+			<?php echo $v["title"]; ?><i class="fa pull-right <?php echo @$v["icon"]; ?>"></i>
 			</h1>
-			<span class="text-dark"><?php echo date('d/m/Y h:i', $answers[$k]["created"]) ?></span>
+			
 		</div>
 
 		<div class='col-xs-12' id='<?php echo @$v["form"]["id"]; ?>'>
@@ -178,9 +233,17 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 
 ?>
 
-
 <script type="text/javascript">
+//if(typeof form == "undefined ")
+var form = <?php echo json_encode($form); ?>;
+//if(typeof answers == "undefined ")
 var answers  = <?php echo json_encode($answers); ?>;
+
+var scenarioKey = "<?php echo $scenario ?>";
+var answerCollection = "<?php echo @$answerCollection ?>";
+var answerId = "<?php echo @$answerId ?>";
+
+
 $(document).ready(function() { 
 	
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
@@ -191,27 +254,28 @@ $(document).ready(function() {
 
 	$('.editStep').click(function() { 
 
+		//editing typed elements like projects, organizations
 		if( $(this).data("type") )
 		{
-			//alert($(this).data("type")+" : "+$(this).data("id"));
+			alert($(this).data("type")+" : "+$(this).data("id"));
 			updateForm = {
 				form : $(this).data("form"),
 				step : $(this).data("step"),
 				type : $(this).data("type"),
 				id : $(this).data("id"),
-				path : modules.co2.url + form.scenario[ $(this).data("form") ].form.scenario[$(this).data("step")].path	
+				path : modules.co2.url + form[scenarioKey][ $(this).data("form") ].form[scenarioKey][$(this).data("step")].path	
 			};
 
 			var subType = "";
 			if( $(this).data("type") == "project" ){
 				subType = "project2";
 				modules.project2 = {
-			        form : modules.co2.url+form.scenario[$(this).data("form")].form.scenario[$(this).data("step")].path
+			        form : modules.co2.url+form[scenarioKey][$(this).data("form")].form[scenarioKey][$(this).data("step")].path
 			    };
 			} else if( $(this).data("type") == "organization" ){
 				subType = "organization2";
 				modules.organization2 = {
-			        form : modules.co2.url+form.scenario[$(this).data("form")].form.scenario[$(this).data("step")].path
+			        form : modules.co2.url+form[scenarioKey][$(this).data("form")].form[scenarioKey][$(this).data("step")].path
 			    };
 			}
 
@@ -225,7 +289,9 @@ $(document).ready(function() {
 				step : $(this).data("step")	
 			};
 
-			var editForm = form.scenario[$(this).data("form")].form.scenario[$(this).data("step")].json;
+			console.log("path",scenarioKey,$(this).data("form"),$(this).data("step"));
+			var editForm = form[scenarioKey][$(this).data("form")].form[$(this).data("step")].json;
+
 			editForm.jsonSchema.onLoads = {
 				onload : function(){
 					dyFInputs.setHeader("bg-dark");
@@ -235,34 +301,66 @@ $(document).ready(function() {
 			};
 			
 			editForm.jsonSchema.save = function(){
-				
-				data={
+				//alert("save");
+				data = {
 	    			formId : updateForm.form,
 	    			answerSection : "answers."+updateForm.step ,
-	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json , true),
-	    			answerUser : adminAnswers.user 
+	    			answers : getAnswers(editForm , true)
 	    		};
 	    		
+	    		var urlPath = baseUrl+"/survey/co/update";
+	    		if(answerCollection) {
+	    			//use case when answers are in a different collection than answers
+	    			//ex : ficheAction
+	    			data.collection = answerCollection;
+	    			data.id = answerId;
+	    			urlPath = baseUrl+"/survey/co/update2";
+	    		}
 	    		console.log("save",data);
-	    		
+
 	    		$.ajax({ type: "POST",
-			        url: baseUrl+"/survey/co/update",
+			        url: urlPath,
 			        data: data,
 					type: "POST",
 			    }).done(function (data) {
 			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
-				    	window.location.reload();
+				    	//window.location.reload();
 				    	updateForm = null;
 				    } 
 			    });
+			    
 			};
 
 
 			var editData = answers[$(this).data("form")]['answers'][$(this).data("step")];
+			console.log("editForm",editForm,updateForm,editData);
 			dyFObj.editStep( editForm , editData);	
 		}
 	});
 });
+
+function getAnswers(dynJson, noTotal)
+{
+	var editAnswers = {};
+	$.each( dynJson.jsonSchema.properties , function(field,fieldObj) { 
+        console.log($(this).data("step")+"."+field, $("#"+field).val() );
+        if( fieldObj.inputType ){
+            if(fieldObj.inputType=="uploader"){
+         		if( $('#'+fieldObj.domElement).fineUploader('getUploads').length > 0 ){
+					$('#'+fieldObj.domElement).fineUploader('uploadStoredFiles');
+					editAnswers[field] = "";
+            	}
+            } else {
+            	console.log(field,$("#"+field).val());
+            	editAnswers[field] = $("#"+field).val();
+            }
+        }
+    });
+    
+	
+	console.log("editAnswers",editAnswers);
+    return editAnswers;
+}
 
 </script>
 

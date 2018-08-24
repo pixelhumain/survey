@@ -543,5 +543,125 @@
                 }
             }
         }
+    },
+    "scenarioFicheAction" : {
+        "ficheAction" : {
+            "title" : "Fiche Action",
+            "description" : "Formulaire d'une Fiche Action",
+            "icon" : "cogs",
+            "form" : {
+                "opportunite" : {
+                    "title" : "MATRICE D'EVALUATION OPPORTUNITE",
+                    "description" : "critère d'évaluation d'opportunité",
+                    "icon" : "fa-clock-o",
+                    "json" : {
+                        "jsonSchema" : {
+                            "title" : "MATRICE D'EVALUATION OPPORTUNITE",
+                            "type" : "object",
+                            "properties" : {
+                                "prioPolitique" : {
+                                    "inputType" : "select",
+                                    "placeholder" : "Priorité Politique",
+                                    "weight" : "25",
+                                    "options" : {
+                                        "1" : "Pas d'alignement stratégique",
+                                        "3" : "Rattachement à 1 opérationnel",
+                                        "5" : "Rattachement à plus d'un objectif opérationnel"
+                                    }
+                                },
+                                "maitriseRisque" : {
+                                    "inputType" : "select",
+                                    "placeholder" : "Maitrise des risques",
+                                    "weight" : "20",
+                                    "options" : {
+                                        "1" : "Pas d'inventaire des risques",
+                                        "3" : "Risques identifiés Service pour l'usager",
+                                        "5" : "Risques identifiés et parades définies pour les contrer"
+                                    }
+                                },
+                                "beneficeUsager" : {
+                                    "inputType" : "select",
+                                    "placeholder" : "Bénéfice pour les usagers",
+                                    "weight" : "30",
+                                    "options" : {
+                                        "1" : "Service pour les entreprises",
+                                        "3" : "Service pour l'usager",
+                                        "5" : "Service de droit commun "
+                                    }
+                                },
+                                "retourInvest" : {
+                                    "inputType" : "select",
+                                    "placeholder" : "Retour sur investissement",
+                                    "weight" : "25",
+                                    "options" : {
+                                        "1" : "> 20 ans",
+                                        "3" : "Comprise entre 3 ans et 20 ans",
+                                        "5" : "< 3 ans"
+                                    }
+                                },
+                                "prioDesc" : {
+                                    "inputType" : "textarea",
+                                    "placeholder" : "Décrivez la raison du choix",
+                                    "class" : "description3 markdown"
+                                }
+                            }
+                        }
+                    }
+                },
+                "faisabilite" : {
+                    "title" : "MATRICE D'EVALUATION FAISABILITE",
+                    "description" : "critère d'évaluation de faisabilité",
+                    "icon" : "fa-thumbs-o-up",
+                    "json" : {
+                        "jsonSchema" : {
+                            "title" : "MATRICE D'EVALUATION FAISABILITE",
+                            "type" : "object",
+                            "properties" : {
+                                "calendrier" : {
+                                    "inputType" : "select",
+                                    "placeholder" : "Maîtrise du calendrier",
+                                    "weight" : "25",
+                                    "options" : {
+                                        "1" : "Pas de planning",
+                                        "3" : "Planning partiellement défini",
+                                        "5" : "Planning maitrisé"
+                                    }
+                                },
+                                "maitriseRisque" : {
+                                    "inputType" : "select",
+                                    "weight" : "25",
+                                    "placeholder" : "Capacité de mobilisation des acteurs",
+                                    "options" : {
+                                        "1" : "Acteurs non identifiés",
+                                        "3" : "Acteurs identifiés non disponibles",
+                                        "5" : "Acteurs identifiés et disponibles"
+                                    }
+                                },
+                                "finance" : {
+                                    "inputType" : "select",
+                                    "weight" : "25",
+                                    "placeholder" : "Capacité financière",
+                                    "options" : {
+                                        "1" : "Capacité financière à 20%",
+                                        "3" : "Capacité financière à 60%",
+                                        "5" : "Capacité financière à 100%"
+                                    }
+                                },
+                                "retourInvest" : {
+                                    "inputType" : "select",
+                                    "weight" : "25",
+                                    "placeholder" : "Capacité technique",
+                                    "options" : {
+                                        "1" : "Pas de processus",
+                                        "3" : "Processus non reproductible",
+                                        "5" : "Processus validé"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

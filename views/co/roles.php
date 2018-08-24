@@ -110,8 +110,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 			$c = 1;
 			foreach ( $answers as $key => $value ) {?>
 				<div class="card col-xs-12 col-md-4">
-					<div class="card-body padding-15 " style="border: 2px solid MidnightBlue;border-radius: 10px;min-height:265px;">
-						<h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
+					<div class="card-body padding-15 bg-green " style="border: 2px solid MidnightBlue;border-radius: 10px;min-height:265px;">
+						<h4 class="card-title bold text-center padding-5" style="border-bottom:1px solid white">
 							<i class="margin-5 fa fa-lightbulb fa-2x"></i><br><?php echo "#".$c." ".$value["answers"]["cte2"]["project"]["name"] ?></h4>
 
 						<span class="card-text text-center col-xs-12 no-padding margin-bottom-20"><?php echo @$value["answers"]["cte2"]["project"]["shortDescription"] ?></span> 
