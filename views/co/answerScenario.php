@@ -52,16 +52,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 foreach ( $form[ $scenario ] as $k => $v ) {
 	
-	// echo count( array_keys(@$answers[$k]["answers"]))."<br/>";
-	// echo count(array_keys( $v["form"] ));
 	if(!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"] )) )
 	{
 		foreach ( $v["form"] as $step => $f ) 
 		{
 			if( !@$answers[$k]["answers"][$step])
 			{
-				$v["form"]["scenario"][$step] = $f;
-				
 				$answers["answers"] = array();
 				$answers["answers"][$step] = array();
 				if( @$f["json"]['jsonSchema']["properties"] )
@@ -73,6 +69,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 				}
 				$answers[$k]["created"] = time();
 			} 
+
 		}
 		$v["form"]["title"] = $v["title"];
 		$v["form"]["description"] = $v["description"];
@@ -290,7 +287,7 @@ $(document).ready(function() {
 			};
 
 			console.log("path",scenarioKey,$(this).data("form"),$(this).data("step"));
-			var editForm = form[scenarioKey][$(this).data("form")].form[$(this).data("step")].json;
+			var editForm = form[scenarioKey][$(this).data("form")].form["scenario"][$(this).data("step")].json;
 
 			editForm.jsonSchema.onLoads = {
 				onload : function(){
@@ -304,7 +301,7 @@ $(document).ready(function() {
 				//alert("save");
 				data = {
 	    			formId : updateForm.form,
-	    			answerSection : "answers."+updateForm.step ,
+	    			answerSection : updateForm.form+".answers."+updateForm.step ,
 	    			answers : getAnswers(editForm , true)
 	    		};
 	    		
@@ -324,7 +321,7 @@ $(document).ready(function() {
 					type: "POST",
 			    }).done(function (data) {
 			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
-				    	//window.location.reload();
+				    	window.location.reload();
 				    	updateForm = null;
 				    } 
 			    });

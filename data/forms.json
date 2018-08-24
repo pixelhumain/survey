@@ -550,6 +550,7 @@
             "description" : "Formulaire d'une Fiche Action",
             "icon" : "cogs",
             "form" : {
+                "scenario" ; {
                 "opportunite" : {
                     "title" : "MATRICE D'EVALUATION OPPORTUNITE",
                     "description" : "critère d'évaluation d'opportunité",
@@ -661,6 +662,7 @@
                         }
                     }
                 }
+            }
             }
         }
     }
