@@ -66,12 +66,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 	<h3>Les fiches actions <?php if(@$_GET["role"])echo $lblRole[$_GET["role"]]; ?>
 	<!-- dyFObj.openForm(actionForm) -->
 	<a href="javascript:;" onclick="dyFObj.openForm('action','sub')" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter une FICHE ACTION</a></h3>
-	<div class="card-columns col-xs-12 padding-15">
+	<div class="card-columns col-xs-12 padding-15 ">
 		<?php
 		if(@$actions){
 			$c = 1;
 			foreach ( $actions as $key => $value ) {?>
-				<div class="card col-xs-12 col-md-4">
+				<div class="card col-xs-12 col-md-4 margin-bottom-10">
 					<div class="card-body padding-15 " style="border: 2px solid MidnightBlue;border-radius: 10px;min-height:265px;">
 						<h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
 							<i class="margin-5 fa fa-lightbulb fa-2x"></i><br><?php echo "#".$c." ".$value["name"] ?></h4>

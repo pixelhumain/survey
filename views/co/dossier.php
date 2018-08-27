@@ -232,7 +232,7 @@ $(document).ready(function() {
 	$.each($('.markdown'),function(i,el) { 
 		$(this).html( dataHelper.markdownToHtml( $(this).html() ) );	
 	});
-	$('.editStep').click(function() { 
+	$('.editStep').off().click(function() { 
 		if( $(this).data("type") )
 		{
 			//alert($(this).data("type")+" : "+$(this).data("id"));

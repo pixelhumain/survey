@@ -44,7 +44,7 @@ $cssJS = array(
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 ?>
-<h1 class="text-center"><?php echo $answers["name"] ?></h1>
+
 <?php 
 	/* ---------------------------------------------
 	ETAPE DU SCENARIO
@@ -251,12 +251,12 @@ $(document).ready(function() {
 		$(this).html( dataHelper.markdownToHtml( $(this).html() ) );	
 	});
 
-	$('.editStep').click(function() { 
+	$('.editStep').off().click(function() { 
 
 		//editing typed elements like projects, organizations
 		if( $(this).data("type") )
 		{
-			alert($(this).data("type")+" : "+$(this).data("id"));
+			//alert($(this).data("type")+" : "+$(this).data("id"));
 			updateForm = {
 				form : $(this).data("form"),
 				step : $(this).data("step"),

@@ -22,8 +22,15 @@ class ActionAction extends CAction
 							 'scenario' => "scenarioFicheAction" );
 			//todo apply cte customisation ???
 			
- 			echo $ctrl->render( "answerScenario" , $params);
+ 			echo $ctrl->render( "action" , $params);
 		} else 
 			$this->getController()->render("co2.views.default.unauthorised"); 
     }
 }
+
+/*
+- top menu 
+- reload on create FA 
+- check FA in espace CO 
+- icon de la page http://127.0.0.1/ph/survey/co/roles/id/cte/role/eco-mobilits
+*/
