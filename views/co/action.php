@@ -57,3 +57,12 @@ $params = array( "answers" => $answers,
  			echo $this->render( "answerScenario" , $params);
 
  ?>
+
+ <script type="text/javascript">
+ 	
+var currentRoomId = "";
+var form =<?php echo json_encode($form); ?>;
+var contextData = { id : form.parentId, type : form.parentType } ;
+var role = "<?php echo $answers["role"]; ?>";
+
+</script>
