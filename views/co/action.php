@@ -23,18 +23,29 @@
 
 			<tr>
 				<td>Date de début </td>
-				<td><?php echo date("d/m/Y h:i",strtotime(@$answers["startDate"])); ?></td>
+				<td><?php if(@$answers["startDate"])echo date("d/m/Y h:i",strtotime(@$answers["startDate"])); ?></td>
 			</tr>
 
 			<tr>
 				<td>Date de fin </td>
-				<td><?php echo date("d/m/Y h:i",strtotime(@$answers["endDate"])); ?></td>
+				<td><?php if (@$answers["endDate"])echo date("d/m/Y h:i",strtotime(@$answers["endDate"])); ?></td>
 			</tr>
 
 			<tr>
 				<td>Description </td>
 				<td><?php echo @$answers["descritption"]; ?></td>
 			</tr>
+
+			<tr>
+				<td>Thématique </td>
+				<?php 
+				foreach ($parentSurvey["custom"]["roles"] as $key) {
+					$lblRole[InflectorHelper::slugify($key)] = $key;
+				}
+				 ?>
+				<td><?php echo $lblRole[$answers["role"]]; ?></td>
+			</tr>
+
 			<tr>
 				<td></td>
 				<td><a class="btn btn-primary" href="javascript:;" onclick="dyFObj.editElement( 'actions', '<?php echo $answers["_id"] ?>' );">Editer</a></td>
@@ -64,5 +75,5 @@ var currentRoomId = "";
 var form =<?php echo json_encode($form); ?>;
 var contextData = { id : form.parentId, type : form.parentType } ;
 var role = "<?php echo $answers["role"]; ?>";
-
+var parentIdSurvey = "<?php echo @$answers["parentIdSurvey"]; ?>";
 </script>

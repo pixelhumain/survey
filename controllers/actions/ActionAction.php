@@ -1,11 +1,11 @@
 <?php
 class ActionAction extends CAction
 {
-    public function run($id)
+    public function run($id,$aid)
     {
     	$ctrl = $this->getController();
     	$ctrl->layout = "//layouts/empty";
-    	$action = PHDB::findOne( Action::COLLECTION , array("_id"=>new MongoId($id)));
+    	$action = PHDB::findOne( Action::COLLECTION , array("_id"=>new MongoId($aid)));
     	$parentSurvey = PHDB::findOne( $action["parentTypeSurvey"] , array("_id"=>new MongoId($action["parentIdSurvey"])));
     	$form = PHDB::findOne( Form::COLLECTION , array( "id"=> $parentSurvey["id"]."Admin" ));
 
@@ -17,6 +17,7 @@ class ActionAction extends CAction
 			$params = array( "answers" => $action, 
 							 'answerCollection' => "actions",
 							 'answerId' => (string)$action["_id"] ,
+							 "parentSurvey"=>$parentSurvey,
 							 'form' => $form ,
 							 "user" => Person::getById( $action["creator"]),
 							 'scenario' => "scenarioFicheAction" );
@@ -29,7 +30,7 @@ class ActionAction extends CAction
 }
 
 /*
-- top menu 
+- top menu base sur id et pas session
 - reload on create FA 
 - check FA in espace CO 
 - icon de la page http://127.0.0.1/ph/survey/co/roles/id/cte/role/eco-mobilits
