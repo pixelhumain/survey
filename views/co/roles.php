@@ -63,9 +63,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 	<h1 class="text-center">Synthèse <?php 
 	if( @$_GET['role'] ){ ?><br/>thématique <?php echo $lblRole[ $_GET['role'] ];  ?></h1>
 
-	<h3>Les fiches actions <?php if(@$_GET["role"])echo $lblRole[$_GET["role"]]; ?></h3>
+	<h3>Les fiches actions <?php if(@$_GET["role"])echo $lblRole[$_GET["role"]]; ?>
 	<!-- dyFObj.openForm(actionForm) -->
-	<a href="javascript:;" onclick="dyFObj.openForm('action','sub')" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter une FICHE ACTION</a><br/>
+	<a href="javascript:;" onclick="dyFObj.openForm('action','sub')" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter une FICHE ACTION</a></h3>
 	<div class="card-columns col-xs-12 padding-15">
 		<?php
 		if(@$actions){
