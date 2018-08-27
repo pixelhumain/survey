@@ -52,11 +52,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 foreach ( $form[ $scenario ] as $k => $v ) {
 	
-	if(!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"] )) )
+	echo count(array_keys( $v["form"] ));
+	if(!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"]["scenario"] )) )
 	{
-		foreach ( $v["form"] as $step => $f ) 
+		foreach ( $v["form"]["scenario"] as $step => $f ) 
 		{
-			if( !@$answers[$k]["answers"][$step])
+			echo $step;
+			if( !@$answers[$k]["answers"][$step] )
 			{
 				$answers["answers"] = array();
 				$answers["answers"][$step] = array();
