@@ -551,110 +551,204 @@
             "icon" : "cogs",
             "form" : {
                 "scenario" : {
-                    "detail" : {
-                        "title" : "Détail",
-                        "description" : "critère d'évaluation de faisabilité",
+                    "descriptif" : {
+                        "title" : "Descriptif de l'action",
+                        "description" : "Descriptif de l'action",
                         "icon" : "fa-thumbs-o-up",
                         "json" : {
                             "jsonSchema" : {
-                                "title" : "MATRICE D'EVALUATION FAISABILITE",
+                                "title" : "Descriptif de l'action",
                                 "type" : "object",
                                 "properties" : {
-                                    "startDate" : {
-                                        "inputType" : "date",
-                                        "label" : "Date de la demande",
-                                        "placeholder" : "Date de la demande"
-                                    },
-                                    "partenaires" : {
-                                        "inputType" : "text",
-                                        "label" : "Partenaires",
-                                        "placeholder" : "Quels sont les partenaires de cette fiche action ?"
-                                    },
-                                    "coherence" : {
+                                    "importance" : {
                                         "inputType" : "textarea",
-                                        "label" : "Analyse de cohérence",
-                                        "placeholder" : "Eléments de justification de la cohérence du projet avec les orientations stratégiques du CTE TCO",
+                                        "label" : "Indiquer les impacts attendus",
+                                        "placeholder" : "Importance de l'action",
                                         "class" : "description3 markdown"
                                     },
-                                    "descriptif" : {
-                                        "title" : "Descriptif de l'action",
-                                        "description" : "Descriptif de l'action",
-                                        "icon" : "fa-thumbs-o-up",
-                                        "json" : {
-                                            "jsonSchema" : {
-                                                "title" : "Descriptif de l'action",
-                                                "type" : "object",
-                                                "properties" : {
-                                                    "importance" : {
-                                                        "inputType" : "textarea",
-                                                        "label" : "Indiquer les impacts attendus",
-                                                        "placeholder" : "Importance de l'action",
-                                                        "class" : "description3 markdown"
-                                                    },
-                                                    "objectifGeneral" : {
-                                                        "inputType" : "textarea",
-                                                        "label" : "Objectif général",
-                                                        "placeholder" : "Pour atteindre l'objectif général il faut plusieurs objectifs intermédiaires. C'est l'objectif stratégique.",
-                                                        "class" : "description3 markdown"
-                                                    },
-                                                    "objectifsIntermediaires" : {
-                                                        "inputType" : "textarea",
-                                                        "label" : "Objectifs intermédiaires et projets portés",
-                                                        "placeholder" : "Indiquez les projets à mener pour atteindre chaque objectif intermédiaire",
-                                                        "class" : "description3 markdown"
-                                                    },
-                                                    "resultatsAttendus" : {
-                                                        "inputType" : "textarea",
-                                                        "label" : "Résultats attendus de l'action",
-                                                        "placeholder" : "Présenter 1 indicateur de résultat à minima et les sources de données",
-                                                        "class" : "description3 markdown"
-                                                    },
-                                                    "evaluation" : {
-                                                        "inputType" : "textarea",
-                                                        "label" : "Evaluation de l'action",
-                                                        "placeholder" : "Définir la méthode d'évaluation de l'action. Indiquer le pilote de l'évaluation si différent du porteur",
-                                                        "class" : "description3 markdown"
-                                                    },
-                                                    "contraintes" : {
-                                                        "inputType" : "textarea",
-                                                        "label" : "Contraintes/ Risques (financiers - juridique/réglmentaire - RH - Technique)",
-                                                        "placeholder" : "Le cadre juridique, financier et technique dans le quel le projet devra se déployer",
-                                                        "class" : "description3 markdown"
-                                                    }
-                                                }
-                                            }
-                                        }
+                                    "objectifGeneral" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Objectif général",
+                                        "placeholder" : "Pour atteindre l'objectif général il faut plusieurs objectifs intermédiaires. C'est l'objectif stratégique.",
+                                        "class" : "description3 markdown"
                                     },
-                                    "potentialite" : {
-                                        "title" : "Potentialité de l'action",
-                                        "description" : "Potentialité de l'action",
-                                        "icon" : "fa-thumbs-o-up",
-                                        "json" : {
-                                            "jsonSchema" : {
-                                                "title" : "Potentialité de l'action",
-                                                "type" : "object",
-                                                "properties" : {
-                                                    "technologique" : {
-                                                        "inputType" : "textarea",
-                                                        "label" : "Technologique",
-                                                        "placeholder" : "Technologique",
-                                                        "class" : "description3 markdown"
-                                                    },
-                                                    "marketingTerritorial" : {
-                                                        "inputType" : "textarea",
-                                                        "label" : "Marketing territorial",
-                                                        "placeholder" : "Marketing territorial",
-                                                        "class" : "description3 markdown"
-                                                    },
-                                                    "other" : {
-                                                        "inputType" : "textarea",
-                                                        "label" : "Autre",
-                                                        "placeholder" : "Autre (à préciser)…",
-                                                        "class" : "description3 markdown"
-                                                    }
-                                                }
-                                            }
-                                        }
+                                    "objectifsIntermediaires" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Objectifs intermédiaires et projets portés",
+                                        "placeholder" : "Indiquez les projets à mener pour atteindre chaque objectif intermédiaire",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "resultatsAttendus" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Résultats attendus de l'action",
+                                        "placeholder" : "Présenter 1 indicateur de résultat à minima et les sources de données",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "evaluation" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Evaluation de l'action",
+                                        "placeholder" : "Définir la méthode d'évaluation de l'action. Indiquer le pilote de l'évaluation si différent du porteur",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "contraintes" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Contraintes/ Risques (financiers - juridique/réglmentaire - RH - Technique)",
+                                        "placeholder" : "Le cadre juridique, financier et technique dans le quel le projet devra se déployer",
+                                        "class" : "description3 markdown"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "potentialite" : {
+                        "title" : "Potentialité de l'action",
+                        "description" : "Potentialité de l'action",
+                        "icon" : "fa-thumbs-o-up",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Potentialité de l'action",
+                                "type" : "object",
+                                "properties" : {
+                                    "technologique" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Technologique",
+                                        "placeholder" : "Technologique",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "marketingTerritorial" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Marketing territorial",
+                                        "placeholder" : "Marketing territorial",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "other" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Autre",
+                                        "placeholder" : "Autre (à préciser)…",
+                                        "class" : "description3 markdown"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "swot" : {
+                        "title" : "Analyse SWOT",
+                        "description" : "Analyse SWOT",
+                        "icon" : "fa-thumbs-o-up",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Analyse SWOT",
+                                "type" : "object",
+                                "properties" : {
+                                    "opportunite" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Opportunité",
+                                        "placeholder" : "Opportunité",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "force" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Force",
+                                        "placeholder" : "Force",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "menaces" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Menaces",
+                                        "placeholder" : "Menaces",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "faiblesse" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Faiblesse",
+                                        "placeholder" : "Faiblesse",
+                                        "class" : "description3 markdown"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "validation" : {
+                        "title" : "Validation de l'action",
+                        "description" : "Validation de l'action",
+                        "icon" : "fa-thumbs-o-up",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Validation de l'action",
+                                "type" : "object",
+                                "properties" : {
+                                    "technique" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Validation technique",
+                                        "placeholder" : "Avis",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "techniqueDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation technique",
+                                        "placeholder" : "Date de la validation technique"
+                                    },
+                                    "financière" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Validation financière",
+                                        "placeholder" : "Avis",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "financiereDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation financière",
+                                        "placeholder" : "Date de la validation financière"
+                                    },
+                                    "juridique" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Validation juridique",
+                                        "placeholder" : "Avis",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "juridiqueDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation juridique",
+                                        "placeholder" : "Date de la validation juridique"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "financement" : {
+                        "title" : "Financement",
+                        "description" : "Financement",
+                        "icon" : "fa-thumbs-o-up",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Validation de l'action",
+                                "type" : "object",
+                                "properties" : {
+                                    "techniqueDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation technique",
+                                        "placeholder" : "Date de la validation technique"
+                                    },
+                                    "financière" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Validation financière",
+                                        "placeholder" : "Avis",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "financiereDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation financière",
+                                        "placeholder" : "Date de la validation financière"
+                                    },
+                                    "juridique" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Validation juridique",
+                                        "placeholder" : "Avis",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "juridiqueDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation juridique",
+                                        "placeholder" : "Date de la validation juridique"
                                     }
                                 }
                             }
