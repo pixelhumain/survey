@@ -575,6 +575,86 @@
                                         "label" : "Analyse de cohérence",
                                         "placeholder" : "Eléments de justification de la cohérence du projet avec les orientations stratégiques du CTE TCO",
                                         "class" : "description3 markdown"
+                                    },
+                                    "descriptif" : {
+                                        "title" : "Descriptif de l'action",
+                                        "description" : "Descriptif de l'action",
+                                        "icon" : "fa-thumbs-o-up",
+                                        "json" : {
+                                            "jsonSchema" : {
+                                                "title" : "Descriptif de l'action",
+                                                "type" : "object",
+                                                "properties" : {
+                                                    "importance" : {
+                                                        "inputType" : "textarea",
+                                                        "label" : "Indiquer les impacts attendus",
+                                                        "placeholder" : "Importance de l'action",
+                                                        "class" : "description3 markdown"
+                                                    },
+                                                    "objectifGeneral" : {
+                                                        "inputType" : "textarea",
+                                                        "label" : "Objectif général",
+                                                        "placeholder" : "Pour atteindre l'objectif général il faut plusieurs objectifs intermédiaires. C'est l'objectif stratégique.",
+                                                        "class" : "description3 markdown"
+                                                    },
+                                                    "objectifsIntermediaires" : {
+                                                        "inputType" : "textarea",
+                                                        "label" : "Objectifs intermédiaires et projets portés",
+                                                        "placeholder" : "Indiquez les projets à mener pour atteindre chaque objectif intermédiaire",
+                                                        "class" : "description3 markdown"
+                                                    },
+                                                    "resultatsAttendus" : {
+                                                        "inputType" : "textarea",
+                                                        "label" : "Résultats attendus de l'action",
+                                                        "placeholder" : "Présenter 1 indicateur de résultat à minima et les sources de données",
+                                                        "class" : "description3 markdown"
+                                                    },
+                                                    "evaluation" : {
+                                                        "inputType" : "textarea",
+                                                        "label" : "Evaluation de l'action",
+                                                        "placeholder" : "Définir la méthode d'évaluation de l'action. Indiquer le pilote de l'évaluation si différent du porteur",
+                                                        "class" : "description3 markdown"
+                                                    },
+                                                    "contraintes" : {
+                                                        "inputType" : "textarea",
+                                                        "label" : "Contraintes/ Risques (financiers - juridique/réglmentaire - RH - Technique)",
+                                                        "placeholder" : "Le cadre juridique, financier et technique dans le quel le projet devra se déployer",
+                                                        "class" : "description3 markdown"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "potentialite" : {
+                                        "title" : "Potentialité de l'action",
+                                        "description" : "Potentialité de l'action",
+                                        "icon" : "fa-thumbs-o-up",
+                                        "json" : {
+                                            "jsonSchema" : {
+                                                "title" : "Potentialité de l'action",
+                                                "type" : "object",
+                                                "properties" : {
+                                                    "technologique" : {
+                                                        "inputType" : "textarea",
+                                                        "label" : "Technologique",
+                                                        "placeholder" : "Technologique",
+                                                        "class" : "description3 markdown"
+                                                    },
+                                                    "marketingTerritorial" : {
+                                                        "inputType" : "textarea",
+                                                        "label" : "Marketing territorial",
+                                                        "placeholder" : "Marketing territorial",
+                                                        "class" : "description3 markdown"
+                                                    },
+                                                    "other" : {
+                                                        "inputType" : "textarea",
+                                                        "label" : "Autre",
+                                                        "placeholder" : "Autre (à préciser)…",
+                                                        "class" : "description3 markdown"
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
