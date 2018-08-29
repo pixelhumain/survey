@@ -136,12 +136,16 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 				foreach ($value as $q => $a) 
 				{
 					if( @$formQ[$q]["inputType"] == "arrayForm" ){
+						
+						//Tout les titre du tableau de réponses 
 						echo '<tr>';
 						foreach ($formQ[$q]["properties"] as $ik => $iv) {
 							echo "<th>".$iv["placeholder"]."</th>";
 						}
 						echo "<th><a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' class='addAF btn btn-primary'><i class='fa fa-plus'></i> Ajouter</a></td>";
 						echo '</tr>';
+
+						//Toutes les réponses du tableau de réponses
 						foreach ($a as $sq => $sa) {
 							echo '<tr>';
 								foreach ($formQ[$q]["properties"] as $ik => $iv) {
@@ -331,7 +335,7 @@ $(document).ready(function() {
 				data = {
 	    			formId : updateForm.form,
 	    			answerSection : updateForm.form+".answers."+updateForm.step ,
-	    			answers : getAnswers(editForm , true)
+	    			answers : arrayForm.getAnswers(editForm , true)
 	    		};
 	    		
 	    		var urlPath = baseUrl+"/survey/co/update";
@@ -377,137 +381,27 @@ $(document).ready(function() {
 	});
 });
 
-function getAnswers(dynJson)
-{
-	var editAnswers = {};
-	$.each( dynJson.jsonSchema.properties , function(field,fieldObj) { 
-        console.log($(this).data("step")+"."+field, $("#"+field).val() );
-        if( fieldObj.inputType ){
-            if(fieldObj.inputType=="uploader"){
-         		if( $('#'+fieldObj.domElement).fineUploader('getUploads').length > 0 ){
-					$('#'+fieldObj.domElement).fineUploader('uploadStoredFiles');
-					editAnswers[field] = "";
-            	}
-            } else {
-            	console.log(field,$("#"+field).val());
-            	editAnswers[field] = $("#"+field).val();
-            }
-        }
-    });
-    
-	
-	console.log("editAnswers",editAnswers);
-    return editAnswers;
-}
-
-var arrayForm = {
-	form : null,
-	buildFormSchema : function(f, k, q, pos) { 
-		arrayForm.form = {
-			jsonSchema : {
-				title : form[scenarioKey][f].form.scenario[k].json.jsonSchema.title,
-				icon : form[scenarioKey][f].form.scenario[k].json.jsonSchema.icon,
-				onLoads : {
-					onload : function(){
-						dyFInputs.setHeader("bg-dark");
-						$('.form-group div').removeClass("text-white");
-						dataHelper.activateMarkdown(".form-control.markdown");
-					}
-				},
-				save : function() { 
-					data = {
-		    			formId : f,
-		    			answerSection : f+".answers."+k+"."+q ,
-		    			arrayForm : true,
-		    			answers : getAnswers(arrayForm.form , true)
-		    		};
-		    		
-		    		//for saving edits
-		    		if(typeof pos != "undefined"){
-		    			data.answerSection = f+".answers."+k+"."+q+"."+pos;
-		    			data.edit = true;
-		    		}
-
-		    		data.collection = answerCollection;
-	    			data.id = answerId;
-	    			urlPath = baseUrl+"/survey/co/update2";
-		    		
-		    		console.log("save",data);
-
-		    		$.ajax({ type: "POST",
-				        url: urlPath,
-				         data: data,
-						type: "POST",
-				    }).done(function (data) {
-				    	window.location.reload(); 
-				    });
-				},
-				properties : form[scenarioKey][f].form.scenario[k].json.jsonSchema.properties[q].properties
+var ctxDynForms = {
+	ficheAction : {
+		projects : {
+			projectsLinked : {
+				title : "Projets associés",
+                icon : "fa-lightbulb-o",
+				properties : {
+                    name : {
+                        inputType : "text",
+                        label : "Nom",
+                        placeholder : "Nom du Projet"
+                    },
+                    desc : {
+                        inputType : "textarea",
+                        label : "Description",
+                        placeholder : "Description du Projet"
+                    }
+                }
 			}
-		};
-		console.log("buildFormSchema AF form",arrayForm.form);
-		
-	},
-	add : function (f, k, q,pos,data) { 
-		console.log("add AF",f, k, q,pos,data);
-		arrayForm.buildFormSchema(f,k,q,pos);
-		if( typeof pos != "undefinde" )
-			dyFObj.openForm( arrayForm.form, null, answers[f].answers[k][q][pos] );
-		else 
-			dyFObj.openForm( arrayForm.form );
-	},
-	del : function  (f,k,q,pos) { 
-		console.log("del AF",f,k,q,pos);
-		var modal = bootbox.dialog({
-	        message: "Vous bien sur ?",
-	        title: "Confirmez",
-	        buttons: [
-	          {
-	            label: "Ok",
-	            className: "btn btn-primary pull-left",
-	            callback: function() {
-	            	
-				data = {
-					formId : f,
-					answerSection : f+".answers."+k+"."+q+"."+pos ,
-					answers : null,
-					pull : f+".answers."+k+"."+q
-					
-				};
-				
-				data.collection = answerCollection;
-				data.id = answerId;
-				urlPath = baseUrl+"/survey/co/update2";
-				
-				console.log("save",data);
-
-				$.ajax({ type: "POST",
-			        url: urlPath,
-			         data: data,
-					type: "POST",
-			    }).done(function (data) {
-			    	window.location.reload(); 
-			    });
-	            }
-	          },
-	          {
-	            label: "Annuler",
-	            className: "btn btn-default pull-left",
-	            callback: function() {}
-	          }
-	        ],
-	        show: false,
-	        onEscape: function() {
-	          modal.modal("hide");
-	        }
-	    });
-	    modal.modal("show");
-		
-	},
-	edit : function  (f,k, q,pos) { 
-		console.log("edit AF",f,k,q,pos);
-		arrayForm.add(f, k, q, pos);
-	},
+		}
+	}
 }
 
 </script>
