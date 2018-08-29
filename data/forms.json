@@ -788,32 +788,44 @@
                         }
                     },
                     "estimation" : {
-                        "title" : "Estimation",
-                        "description" : "décrivez les financements prévues",
+                        "title" : "Plan de Financement",
+                        "description" : "liste des projets associés à cette fiche action",
                         "arrayForm" : true,
                         "icon" : "fa-money",
                         "json" : {
                             "jsonSchema" : {
-                                "title" : "Projets associés",
-                                "icon" : "fa-lightbulb-o",
+                                "title" : "Quel financement",
+                                "icon" : "fa-money",
                                 "properties" : {
                                     "financement" : {
                                         "title" : "Plan de Financement",
                                         "icon" : "fa-money",
+                                        "inputType" : "arrayForm",
                                         "properties" : {
-                                            "project" :  {"placeholder" : "Choisissez un projet"},
-                                            "name" : {"placeholder" : "Projet"},
-                                            "type" : {"placeholder" : "Public ou Privés"},
-                                            "amount" : {"placeholder" : "Montant du Financement"},
-                                            "year" : {"placeholder" : "Année du Financement"},
-                                            "percent" : {"placeholder" : "Quelle part du projet globale"},
-                                            "financer" : {"placeholder" : "Cadre d'intervention"}
+                                            "project" : {
+                                                "placeholder" : "Choisissez un projet"
+                                            },
+                                            "public" : {
+                                                "placeholder" : "Public ou Privés"
+                                            },
+                                            "amount" : {
+                                                "placeholder" : "Montant du Financement"
+                                            },
+                                            "year" : {
+                                                "placeholder" : "Année du Financement"
+                                            },
+                                            "percent" : {
+                                                "placeholder" : "Quelle part du projet globale"
+                                            },
+                                            "financer" : {
+                                                "placeholder" : "Cadre d'intervention"
+                                            }
                                         }
                                     }
                                 }
+                            }
                         }
                     }
-                }
             }
         }
     }

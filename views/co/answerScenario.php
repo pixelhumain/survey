@@ -407,21 +407,18 @@ $(document).ready(function() {
 					title : "Plan de Financement",
 	                icon : "fa-money",
 					properties : {
-						project :  dyFInputs.inputSelect("project", "project", projectsList, {}),
-	                    name : {
-	                        inputType : "text",
-	                        label : "Projet",
-	                        placeholder : "Projet"
-	                    },
+						project :  dyFInputs.inputSelect("project", "project", projectsList, {},function(){
+					            	$("#ajaxFormModal #project").change(function(){
+					            		$($("#ajaxFormModal #name"))[0].val( projects[$(this).val()]["name"] );
+					            	});
+						}),
 	                 	public : dyFInputs.checkboxSimple("true", "public", 
 							{ "onText" : trad.yes,
 							  "offText": trad.no,
 							  "onLabel" : tradDynForm.public,
 							  "offLabel": tradDynForm.private,
-							  //"inputId" : ".amendementDateEnddatetime",
-							  "labelText": tradDynForm.makeeventvisible+" ?",
-							  //"labelInInput": "Activer les amendements",
-							  "labelInformation": tradDynForm.explainvisibleevent
+							  "labelText": "Financement public ou privés ?",
+							  "labelInformation": ""
 			    		}),
 	                    amount : {
 	                        inputType : "text",
