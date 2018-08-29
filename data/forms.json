@@ -615,13 +615,9 @@
                                         "label" : "Liste des projets",
                                         "properties" : {
                                             "name" : {
-                                                "inputType" : "text",
-                                                "label" : "Nom",
                                                 "placeholder" : "Nom du Projet"
                                             },
                                             "desc" : {
-                                                "inputType" : "textarea",
-                                                "label" : "Description",
                                                 "placeholder" : "Description du Projet"
                                             }
                                         }
