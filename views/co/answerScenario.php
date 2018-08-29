@@ -413,8 +413,8 @@ $(document).ready(function() {
 					            	});
 						}),
 	                 	public : dyFInputs.checkboxSimple("true", "public", 
-							{ "onText" : trad.yes,
-							  "offText": trad.no,
+							{ "onText" : "Public",
+							  "offText": "Privé",
 							  "onLabel" : tradDynForm.public,
 							  "offLabel": tradDynForm.private,
 							  "labelText": "Financement public ou privés ?",

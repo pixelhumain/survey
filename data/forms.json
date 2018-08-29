@@ -794,7 +794,7 @@
                                         "inputType" : "arrayForm",
                                         "properties" : {
                                             "project" : {"placeholder" : "Choisissez un projet"},
-                                            "public" : {"placeholder" : "Public ou Privés"},
+                                            "public" : {"placeholder" : "Financement Public"},
                                             "amount" : {"placeholder" : "Montant du Financement"},
                                             "year" : {"placeholder" : "Année du Financement"},
                                             "percent" : {"placeholder" : "Quelle part du projet globale"},
