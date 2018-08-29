@@ -436,7 +436,7 @@ var arrayForm = {
 		console.log("buildFormSchema AF form",arrayForm.form);
 		
 	},
-	add : function (f, k, q) { 
+	add : function (f, k, q,data) { 
 		console.log("add AF",f, k, q);
 		arrayForm.buildFormSchema(f,k,q);
 		dyFObj.openForm( arrayForm.form );

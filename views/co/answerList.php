@@ -65,6 +65,13 @@ if( $this->layout != "//layouts/empty"){
 		
 			<h2>
 				<?php if( $canAdmin ){ ?>
+				<a class="nav-link dropdown-toggle" href="#" id="answerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars text-azure"></i></a>
+		        <div class="dropdown-menu" aria-labelledby="answerDropdown">
+		          <a class="dropdown-item" href="#">Documents</a><br/>
+		          <a class="dropdown-item" href="#">URLs</a><br/>
+		          <a class="dropdown-item" href="#">Chat(bientot)</a><br/>
+		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/cte/user/".(string)$user['_id'])?>">Logs</a><br/>
+		        </div>
 				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"> 
 				<?php 
 				} ?>
@@ -76,6 +83,7 @@ if( $this->layout != "//layouts/empty"){
 					
 				if( $canAdmin ){ ?>
 				</a>
+
 				<?php } ?> 
 			</h2>
 		
