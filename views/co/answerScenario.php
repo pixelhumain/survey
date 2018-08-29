@@ -74,7 +74,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 							foreach ($value["properties"] as $ki => $vi) {
 								$tmp[$ki] = "";
 							}
-							$answers[$k]["answers"][$step][$key][] = $tmp;
+							//$answers[$k]["answers"][$step][$key][] = $tmp;
 						}
 						else 
 							$answers[$k]["answers"][$step][$key] = "";
