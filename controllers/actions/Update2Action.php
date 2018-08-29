@@ -14,11 +14,11 @@ class Update2Action extends CAction
                 $value = (!empty($_POST["answers"]) ? $_POST["answers"] : null);
                 $verb = '$set';
 
-                if( @$_POST["arrayForm"] ){
+                if( @$_POST["arrayForm"] && !@$_POST["edit"]){
                     $verb = '$addToSet';
                     if($value == null)
                         $verb = '$unset';
-                }
+                }   
 
                 if( $value != null && !@$_POST["pull"] ) {
                     $value["created"] = time();

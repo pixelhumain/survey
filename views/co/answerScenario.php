@@ -396,7 +396,7 @@ function getAnswers(dynJson)
 
 var arrayForm = {
 	form : null,
-	buildFormSchema : function(f, k, q) { 
+	buildFormSchema : function(f, k, q, pos) { 
 		arrayForm.form = {
 			jsonSchema : {
 				title : form[scenarioKey][f].form.scenario[k].json.jsonSchema.title,
@@ -416,6 +416,12 @@ var arrayForm = {
 		    			answers : getAnswers(arrayForm.form , true)
 		    		};
 		    		
+		    		//for saving edits
+		    		if(typeof pos != "undefined"){
+		    			data.answerSection = f+".answers."+k+"."+q+"."+pos;
+		    			data.edit = true;
+		    		}
+
 		    		data.collection = answerCollection;
 	    			data.id = answerId;
 	    			urlPath = baseUrl+"/survey/co/update2";
@@ -436,40 +442,65 @@ var arrayForm = {
 		console.log("buildFormSchema AF form",arrayForm.form);
 		
 	},
-	add : function (f, k, q,data) { 
-		console.log("add AF",f, k, q);
-		arrayForm.buildFormSchema(f,k,q);
-		dyFObj.openForm( arrayForm.form );
+	add : function (f, k, q,pos,data) { 
+		console.log("add AF",f, k, q,pos,data);
+		arrayForm.buildFormSchema(f,k,q,pos);
+		if( typeof pos != "undefinde" )
+			dyFObj.openForm( arrayForm.form, null, answers[f].answers[k][q][pos] );
+		else 
+			dyFObj.openForm( arrayForm.form );
 	},
 	del : function  (f,k,q,pos) { 
 		console.log("del AF",f,k,q,pos);
-		data = {
-			formId : f,
-			answerSection : f+".answers."+k+"."+q+"."+pos ,
-			answers : null,
-			pull : f+".answers."+k+"."+q
-			
-		};
-		
-		// if(answers[f].answers[k][q].length > 1)
-		// 	data.answerSection = data.answerSection+"."+pos;
+		var modal = bootbox.dialog({
+	        message: "Vous bien sur ?",
+	        title: "Confirmez",
+	        buttons: [
+	          {
+	            label: "Ok",
+	            className: "btn btn-primary pull-left",
+	            callback: function() {
+	            	
+				data = {
+					formId : f,
+					answerSection : f+".answers."+k+"."+q+"."+pos ,
+					answers : null,
+					pull : f+".answers."+k+"."+q
+					
+				};
+				
+				data.collection = answerCollection;
+				data.id = answerId;
+				urlPath = baseUrl+"/survey/co/update2";
+				
+				console.log("save",data);
 
-		data.collection = answerCollection;
-		data.id = answerId;
-		urlPath = baseUrl+"/survey/co/update2";
-		
-		console.log("save",data);
-
-		$.ajax({ type: "POST",
-	        url: urlPath,
-	         data: data,
-			type: "POST",
-	    }).done(function (data) {
-	    	window.location.reload(); 
+				$.ajax({ type: "POST",
+			        url: urlPath,
+			         data: data,
+					type: "POST",
+			    }).done(function (data) {
+			    	window.location.reload(); 
+			    });
+	            }
+	          },
+	          {
+	            label: "Annuler",
+	            className: "btn btn-default pull-left",
+	            callback: function() {}
+	          }
+	        ],
+	        show: false,
+	        onEscape: function() {
+	          modal.modal("hide");
+	        }
 	    });
+	    modal.modal("show");
+		
 	},
 	edit : function  (f,k, q,pos) { 
 		console.log("edit AF",f,k,q,pos);
+		arrayForm.add(f, k, q, pos);
 	},
 }
 
