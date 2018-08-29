@@ -24,7 +24,7 @@ class Update2Action extends CAction
                     $value["created"] = time();
                     $value["user"] = Yii::app()->session["userId"];
                 }
-
+                
                 PHDB::update($_POST["collection"],
                     array("_id"=>new MongoId((string)$el["_id"])), 
                     array($verb => array($key => $value)));

@@ -379,30 +379,34 @@ $(document).ready(function() {
 	$('.editAF').off().click(function() { 
 		arrayForm.edit($(this).data("form"),$(this).data("step"),$(this).data("q"),$(this).data("pos"));
 	});
-});
 
-var ctxDynForms = {
-	ficheAction : {
-		projects : {
-			projectsLinked : {
-				title : "Projets associés",
-                icon : "fa-lightbulb-o",
-				properties : {
-                    name : {
-                        inputType : "text",
-                        label : "Nom",
-                        placeholder : "Nom du Projet"
-                    },
-                    desc : {
-                        inputType : "textarea",
-                        label : "Description",
-                        placeholder : "Description du Projet"
-                    }
-                }
+	ctxDynForms = {
+		ficheAction : {
+			projects : {
+				projectsLinked : {
+					title : "Projets associés",
+	                icon : "fa-lightbulb-o",
+					properties : {
+						project :  dyFInputs.inputSelect("project", "project", projectsList, {}),
+	                    // name : {
+	                    //     inputType : "text",
+	                    //     label : "Nom",
+	                    //     placeholder : "Nom du Projet"
+	                    // },
+	                    // desc : {
+	                    //     inputType : "textarea",
+	                    //     label : "Description",
+	                    //     placeholder : "Description du Projet"
+	                    // }
+	                }
+				}
 			}
 		}
 	}
-}
+
+});
+
+var ctxDynForms = null;
 
 </script>
 
