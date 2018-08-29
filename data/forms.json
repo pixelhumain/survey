@@ -600,6 +600,36 @@
                             }
                         }
                     },
+                    "projects" : {
+                        "title" : "Projets",
+                        "description" : "liste des projets associés à cette fiche action",
+                        "arrayForm" : true,
+                        "icon" : "fa-lightbulb-o",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Projets associés",
+                                "icon" : "fa-lightbulb-o",
+                                "properties" : {
+                                    "projectsLinked" : {
+                                        "inputType" : "arrayForm",
+                                        "label" : "Liste des projets",
+                                        "properties" : {
+                                            "name" : {
+                                                "inputType" : "text",
+                                                "label" : "Nom",
+                                                "placeholder" : "Nom du Projet"
+                                            },
+                                            "desc" : {
+                                                "inputType" : "textarea",
+                                                "label" : "Description",
+                                                "placeholder" : "Description du Projet"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "potentialite" : {
                         "title" : "Potentialité de l'action",
                         "description" : "Potentialité de l'action",
