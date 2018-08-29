@@ -653,19 +653,10 @@
                                         "inputType" : "arrayForm",
                                         "label" : "Liste des projets",
                                         "properties" : {
-                                            "project" : {
-                                                "placeholder" : "Choisir un project"
-                                            },
-                                            "name" : {
-                                                "placeholder" : "name"
-                                            },
-                                            "description" : {
-                                                "placeholder" : "description"
-                                            },
-                                            "indicateur" : {
-                                                "placeholder" : "indicateur",
-                                                "class" : "description3 markdown"
-                                            }
+                                            "project" : {"placeholder" : "Choisir un project" },
+                                            "name" : {"placeholder" : "name" },
+                                            "description" : {"placeholder" : "description" },
+                                            "indicateur" : {"placeholder" : "indicateur", "class" : "description3 markdown"}
                                         }
                                     }
                                 }
@@ -802,24 +793,12 @@
                                         "icon" : "fa-money",
                                         "inputType" : "arrayForm",
                                         "properties" : {
-                                            "project" : {
-                                                "placeholder" : "Choisissez un projet"
-                                            },
-                                            "public" : {
-                                                "placeholder" : "Public ou Privés"
-                                            },
-                                            "amount" : {
-                                                "placeholder" : "Montant du Financement"
-                                            },
-                                            "year" : {
-                                                "placeholder" : "Année du Financement"
-                                            },
-                                            "percent" : {
-                                                "placeholder" : "Quelle part du projet globale"
-                                            },
-                                            "financer" : {
-                                                "placeholder" : "Cadre d'intervention"
-                                            }
+                                            "project" : {"placeholder" : "Choisissez un projet"},
+                                            "public" : {"placeholder" : "Public ou Privés"},
+                                            "amount" : {"placeholder" : "Montant du Financement"},
+                                            "year" : {"placeholder" : "Année du Financement"},
+                                            "percent" : {"placeholder" : "Quelle part du projet globale"},
+                                            "financer" : {"placeholder" : "Cadre d'intervention"}
                                         }
                                     }
                                 }
