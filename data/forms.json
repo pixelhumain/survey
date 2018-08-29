@@ -614,6 +614,9 @@
                                         "inputType" : "arrayForm",
                                         "label" : "Liste des projets",
                                         "properties" : {
+                                            "project" : {
+                                                "placeholder" : "Choisir un project"
+                                            },
                                             "name" : {
                                                 "placeholder" : "Nom du Projet"
                                             },
