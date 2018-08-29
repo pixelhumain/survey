@@ -401,6 +401,50 @@ $(document).ready(function() {
 	                    
 	                }
 				}
+			},
+			estimation : {
+				financement : {
+					title : "Plan de Financement",
+	                icon : "fa-money",
+					properties : {
+						project :  dyFInputs.inputSelect("project", "project", projectsList, {}),
+	                    name : {
+	                        inputType : "text",
+	                        label : "Projet",
+	                        placeholder : "Projet"
+	                    },
+	                 	public : dyFInputs.checkboxSimple("true", "public", 
+							{ "onText" : trad.yes,
+							  "offText": trad.no,
+							  "onLabel" : tradDynForm.public,
+							  "offLabel": tradDynForm.private,
+							  //"inputId" : ".amendementDateEnddatetime",
+							  "labelText": tradDynForm.makeeventvisible+" ?",
+							  //"labelInInput": "Activer les amendements",
+							  "labelInformation": tradDynForm.explainvisibleevent
+			    		}),
+	                    amount : {
+	                        inputType : "text",
+	                        label : "Montant",
+	                        placeholder : "Montant du Financement"
+	                    },
+	                    year : {
+	                        inputType : "text",
+	                        label : "Année",
+	                        placeholder : "Année du Financement"
+	                    },
+	                    percent : {
+	                        inputType : "text",
+	                        label : "Pourcentage",
+	                        placeholder : "Quelle part du projet globale"
+	                    },
+	                    financer : {
+	                        inputType : "text",
+	                        label : "Financeur",
+	                        placeholder : "Cadre d'intervention"
+	                    }
+	                }
+				}
 			}
 		}
 	}
