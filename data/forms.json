@@ -578,12 +578,7 @@
                                         "placeholder" : "Indiquez les projets à mener pour atteindre chaque objectif intermédiaire",
                                         "class" : "description3 markdown"
                                     },
-                                    "resultatsAttendus" : {
-                                        "inputType" : "textarea",
-                                        "label" : "Résultats attendus de l'action",
-                                        "placeholder" : "Présenter 1 indicateur de résultat à minima et les sources de données",
-                                        "class" : "description3 markdown"
-                                    },
+                                    
                                     "evaluation" : {
                                         "inputType" : "textarea",
                                         "label" : "Evaluation de l'action",
@@ -595,6 +590,50 @@
                                         "label" : "Contraintes/ Risques (financiers - juridique/réglmentaire - RH - Technique)",
                                         "placeholder" : "Le cadre juridique, financier et technique dans le quel le projet devra se déployer",
                                         "class" : "description3 markdown"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "results" : {
+                        "title" : "Résultats attendus de l'action",
+                        "description" : "Présenter 1 indicateur de résultat à minima et les sources de données",
+                        "arrayForm" : true,
+                        "icon" : "fa-calendar-check-o",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Résultats attendus de l'action",
+                                "icon" : "fa-lightbulb-o",
+                                "properties" : {
+                                    "results" : {
+                                        "inputType" : "arrayForm",
+                                        "properties" : {
+                                            "source" : {
+                                                "inputType" : "textarea",
+                                                "label" : "Indiquer les impacts attendus",
+                                                "placeholder" : "Source et modalités de calcul"
+                                            },
+                                            "ref2018" : {
+                                                "inputType" : "textarea",
+                                                "label" : "Réf. 2018",
+                                                "placeholder" : "Réf. 2018"
+                                            },
+                                            "res2019" : {
+                                                "inputType" : "textarea",
+                                                "label" : "Résultat 2019",
+                                                "placeholder" : "Résultat 2019"
+                                            },
+                                            "res2020" : {
+                                                "inputType" : "textarea",
+                                                "label" : "Résultat 2020",
+                                                "placeholder" : "Résultat 2020"
+                                            },
+                                            "res2021" : {
+                                                "inputType" : "textarea",
+                                                "label" : "Résultat 2019",
+                                                "placeholder" : "Résultat 2021"
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -629,6 +668,7 @@
                             }
                         }
                     },
+
                     "potentialite" : {
                         "title" : "Potentialité de l'action",
                         "description" : "Potentialité de l'action",
