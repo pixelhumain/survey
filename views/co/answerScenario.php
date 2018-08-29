@@ -258,13 +258,19 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 var form = <?php echo json_encode($form); ?>;
 //if(typeof answers == "undefined ")
 var answers  = <?php echo json_encode($answers); ?>;
-
+var projects  = <?php echo json_encode($projects); ?>;
+var projectsList = {};
 var scenarioKey = "<?php echo $scenario ?>";
 var answerCollection = "<?php echo @$answerCollection ?>";
 var answerId = "<?php echo @$answerId ?>";
 
 
 $(document).ready(function() { 
+
+	$.each(projects,function(i,el) { 
+		projectsList[i] = el.name;
+	});
+	
 	
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
 	

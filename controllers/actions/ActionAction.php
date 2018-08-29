@@ -13,12 +13,29 @@ class ActionAction extends CAction
 			$ctrl->render("co2.views.default.loginSecure");
 		else if( Form::canAdmin( $form["id"], $form ) || $user == Yii::app()->session["userId"])
 		{ 
+			$idProject = [];
+			$projects = [] ;
+			$formParent = PHDB::findOne( Form::COLLECTION, array( "id"=> $parentSurvey["id"] ), array("links"));
+			//Rest::json($action["role"]); exit ;
+			if(!empty($formParent["links"]["projectExtern"])){
+				foreach ($formParent["links"]["projectExtern"] as $key => $value) {
+					//if(in_array($action["role"], $value["roles"]))
+						$idProject[] = new MongoId($key) ;
+				}
+
+				if(!empty($idProject))
+					$projects = PHDB::find(	Project::COLLECTION, 
+											array( "_id" => array('$in' => $idProject)) );
+			}
+
+			//Rest::json($projects); exit ;
 			
 			$params = array( "answers" => $action, 
 							 'answerCollection' => "actions",
 							 'answerId' => (string)$action["_id"] ,
 							 "parentSurvey"=>$parentSurvey,
 							 'form' => $form ,
+							 'projects' => $projects,
 							 "user" => Person::getById( $action["creator"]),
 							 'scenario' => "scenarioFicheAction" );
 			//todo apply cte customisation ???
