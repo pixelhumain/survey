@@ -25,6 +25,7 @@ class Form {
     }
 
     public static function getByIdMongo($id,$fields=array()){
+    	Rest::json($id);
     	return PHDB::findOne(self::COLLECTION,array("_id"=>new MongoId($id)), $fields);
     }
 

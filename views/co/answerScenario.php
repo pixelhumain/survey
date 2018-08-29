@@ -445,13 +445,14 @@ var arrayForm = {
 		console.log("del AF",f,k,q,pos);
 		data = {
 			formId : f,
-			answerSection : f+".answers."+k+"."+q ,
+			answerSection : f+".answers."+k+"."+q+"."+pos ,
 			answers : null,
 			pull : f+".answers."+k+"."+q
+			
 		};
 		
-		if(answers[f].answers[k][q].length > 1)
-			data.answerSection = data.answerSection+"."+pos;
+		// if(answers[f].answers[k][q].length > 1)
+		// 	data.answerSection = data.answerSection+"."+pos;
 
 		data.collection = answerCollection;
 		data.id = answerId;
