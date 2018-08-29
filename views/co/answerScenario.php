@@ -149,7 +149,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 						foreach ($a as $sq => $sa) {
 							echo '<tr>';
 								foreach ($formQ[$q]["properties"] as $ik => $iv) {
-									echo "<td>".$sa[$ik]."</td>";
+									echo "<td>".@$sa[$ik]."</td>";
 								}
 								echo "<td>".
 									"<a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' data-pos='".$sq."' class='editAF btn btn-default'><i class='fa fa-pencil'></i></a> ".
@@ -387,17 +387,18 @@ $(document).ready(function() {
 					title : "Projets associés",
 	                icon : "fa-lightbulb-o",
 					properties : {
-						project :  dyFInputs.inputSelect("project", "project", projectsList, {}),
-	                    // name : {
-	                    //     inputType : "text",
-	                    //     label : "Nom",
-	                    //     placeholder : "Nom du Projet"
-	                    // },
-	                    // desc : {
-	                    //     inputType : "textarea",
-	                    //     label : "Description",
-	                    //     placeholder : "Description du Projet"
-	                    // }
+						project :  dyFInputs.inputSelect("project", "project", projectsList, {},
+									function(){
+					            	$("#ajaxFormModal #project").change(function(){
+					            		$("#ajaxFormModal #name").val( projects[$(this).val()]["name"] );
+					            		$("#ajaxFormModal #description").val( projects[$(this).val()]["description"] );
+					            	});
+					            }
+			        	),
+	                    name : dyFInputs.inputHidden(""),
+	                    description : dyFInputs.inputHidden(""),
+	                    indicateur : dyFInputs.textarea("Indicateur de résultat", "Indicateur de résultat"),
+	                    
 	                }
 				}
 			}

@@ -657,10 +657,14 @@
                                                 "placeholder" : "Choisir un project"
                                             },
                                             "name" : {
-                                                "placeholder" : "Nom du Projet"
+                                                "placeholder" : "name"
                                             },
-                                            "desc" : {
-                                                "placeholder" : "Description du Projet"
+                                            "description" : {
+                                                "placeholder" : "description"
+                                            },
+                                            "indicateur" : {
+                                                "placeholder" : "indicateur",
+                                                "class" : "description3 markdown"
                                             }
                                         }
                                     }
