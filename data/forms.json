@@ -578,12 +578,7 @@
                                         "placeholder" : "Indiquez les projets à mener pour atteindre chaque objectif intermédiaire",
                                         "class" : "description3 markdown"
                                     },
-                                    "resultatsAttendus" : {
-                                        "inputType" : "textarea",
-                                        "label" : "Résultats attendus de l'action",
-                                        "placeholder" : "Présenter 1 indicateur de résultat à minima et les sources de données",
-                                        "class" : "description3 markdown"
-                                    },
+                                    
                                     "evaluation" : {
                                         "inputType" : "textarea",
                                         "label" : "Evaluation de l'action",
@@ -595,32 +590,6 @@
                                         "label" : "Contraintes/ Risques (financiers - juridique/réglmentaire - RH - Technique)",
                                         "placeholder" : "Le cadre juridique, financier et technique dans le quel le projet devra se déployer",
                                         "class" : "description3 markdown"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "projects" : {
-                        "title" : "Projets",
-                        "description" : "liste des projets associés à cette fiche action",
-                        "arrayForm" : true,
-                        "icon" : "fa-lightbulb-o",
-                        "json" : {
-                            "jsonSchema" : {
-                                "title" : "Projets associés",
-                                "icon" : "fa-lightbulb-o",
-                                "properties" : {
-                                    "projectsLinked" : {
-                                        "inputType" : "arrayForm",
-                                        "label" : "Liste des projets",
-                                        "properties" : {
-                                            "name" : {
-                                                "placeholder" : "Nom du Projet"
-                                            },
-                                            "desc" : {
-                                                "placeholder" : "Description du Projet"
-                                            }
-                                        }
                                     }
                                 }
                             }
@@ -670,6 +639,33 @@
                             }
                         }
                     },
+                    "projects" : {
+                        "title" : "Projets",
+                        "description" : "liste des projets associés à cette fiche action",
+                        "arrayForm" : true,
+                        "icon" : "fa-lightbulb-o",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Projets associés",
+                                "icon" : "fa-lightbulb-o",
+                                "properties" : {
+                                    "projectsLinked" : {
+                                        "inputType" : "arrayForm",
+                                        "label" : "Liste des projets",
+                                        "properties" : {
+                                            "name" : {
+                                                "placeholder" : "Nom du Projet"
+                                            },
+                                            "desc" : {
+                                                "placeholder" : "Description du Projet"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+
                     "potentialite" : {
                         "title" : "Potentialité de l'action",
                         "description" : "Potentialité de l'action",
