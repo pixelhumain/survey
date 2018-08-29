@@ -32,6 +32,5 @@ class ActionAction extends CAction
 /*
 - top menu base sur id et pas session
 - reload on create FA 
-- check FA in espace CO 
 - icon de la page http://127.0.0.1/ph/survey/co/roles/id/cte/role/eco-mobilits
 */

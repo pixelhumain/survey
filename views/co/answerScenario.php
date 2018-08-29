@@ -53,7 +53,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 foreach ( $form[ $scenario ] as $k => $v ) {
 	
 	//echo count(array_keys( $v["form"] ));
-	if(!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"]["scenario"] )) )
+	if(	!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"]["scenario"] )) )
 	{
 		foreach ( $v["form"]["scenario"] as $step => $f ) 
 		{
@@ -66,7 +66,18 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 				{
 					foreach ( $f["json"]['jsonSchema']["properties"] as $key => $value ) 
 					{
-						$answers[$k]["answers"][$step][$key] = "";
+
+						if (@$value["properties"]){
+
+							$answers[$k]["answers"][$step][$key] = []; 
+							$tmp = array();
+							foreach ($value["properties"] as $ki => $vi) {
+								$tmp[$ki] = "";
+							}
+							$answers[$k]["answers"][$step][$key][] = $tmp;
+						}
+						else 
+							$answers[$k]["answers"][$step][$key] = "";
 					}
 				}
 				$answers[$k]["created"] = time();
@@ -92,30 +103,58 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 		<?php 
 			foreach ( $answers[$k]["answers"] as $key => $value ) 
 			{
-
+ 
 			$editBtn = "";
 			if(@$v["form"]["scenario"][$key]["saveElement"]) 
 				$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
-			else 
-			//if(!@$v["form"]["scenario"][$key]["saveElement"]) 
+			else if(!@$v["form"]["scenario"][$key]["arrayForm"])
 				$editBtn = ( (string)$user["_id"] == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
 
 			echo "<div class='col-xs-12'>".
 					"<h2> [ step ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
-			echo '<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">'.
-				'<thead>'.
-					'<tr>'.
+			
+			$head =  '<thead><tr>'.
 						'<th>'.Yii::t("common","Question").'</th>'.
 						'<th>Réponse</th>'.
-					'</tr>'.
-				'</thead>'.
+					'</tr></thead>';
+			if(@@$v["form"]["scenario"][$key]["arrayForm"]  ){
+				$q = array_keys($v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"])[0];
+				$head =  '<thead><tr>'.
+						'<th>Ajouter une ligne</th>'.
+						"<th><a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' class='addAF btn btn-primary'><i class='fa fa-plus'></i> Ajouter</a></th>".
+					'</tr></thead>';
+				if( count($value[$q]) > 0 )
+					$head = "";
+			}
+
+			echo '<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">'.
+				$head.
 				'<tbody class="directoryLines">';
 			if( @$v["form"]["scenario"][$key]["json"] )
 			{
 				$formQ = @$v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"];
 				foreach ($value as $q => $a) 
 				{
-					if(is_string($a)){
+					if( @$formQ[$q]["inputType"] == "arrayForm" ){
+						echo '<tr>';
+						foreach ($formQ[$q]["properties"] as $ik => $iv) {
+							echo "<th>".$iv["placeholder"]."</th>";
+						}
+						echo "<th><a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' class='addAF btn btn-primary'><i class='fa fa-plus'></i> Ajouter</a></td>";
+						echo '</tr>';
+						foreach ($a as $sq => $sa) {
+							echo '<tr>';
+								foreach ($formQ[$q]["properties"] as $ik => $iv) {
+									echo "<td>".$sa[$ik]."</td>";
+								}
+								echo "<td>".
+									"<a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' data-pos='".$sq."' class='editAF btn btn-default'><i class='fa fa-pencil'></i></a> ".
+									"<a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' data-pos='".$sq."' class='deleteAF btn btn-danger'><i class='fa fa-times'></i></a>".
+								"</td>";
+							echo '</tr>';
+						}
+					}
+					else if(is_string($a)){
 						echo '<tr>';
 							echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
 							$markdown = (strpos(@$formQ[ $q ]["class"], 'markdown') !== false) ? 'markdown' : "";
@@ -132,25 +171,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 						echo '</tr>';
 					}
 				}
-			//todo search dynamically if key exists
-			} 
-			else if(@$v["form"]["scenario"]["survey"]["json"][$key])
-			{
-				$formQ = $v["form"]["scenario"]["survey"]["json"][$key]["jsonSchema"]["properties"];
-				foreach ($value as $q => $a) {
-					if(is_string($a)){
-						echo '<tr>';
-							echo "<td>".$formQ[ $q ]["placeholder"]."</td>";
-							echo "<td>".$a."</td>";
-						echo '</tr>';
-					}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
-						echo '<tr>';
-							echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
-							echo "<td>".$a["type"]."</td>";
-						echo '</tr>';
-					}
-				}
-			} 
+			}
 			else if (@$v["form"]["scenario"][$key]["saveElement"]) 
 			{
 				$el = Element::getByTypeAndId( $value["type"] , $value["id"] );
@@ -336,9 +357,21 @@ $(document).ready(function() {
 			dyFObj.editStep( editForm , editData);	
 		}
 	});
+
+	$('.deleteAF').off().click(function() { 
+		arrayForm.del($(this).data("form"),$(this).data("step"),$(this).data("q"),$(this).data("pos"));
+	});
+
+	$('.addAF').off().click(function() { 
+		arrayForm.add($(this).data("form"),$(this).data("step"),$(this).data("q"));
+	});
+
+	$('.editAF').off().click(function() { 
+		arrayForm.edit($(this).data("form"),$(this).data("step"),$(this).data("q"),$(this).data("pos"));
+	});
 });
 
-function getAnswers(dynJson, noTotal)
+function getAnswers(dynJson)
 {
 	var editAnswers = {};
 	$.each( dynJson.jsonSchema.properties , function(field,fieldObj) { 
@@ -359,6 +392,84 @@ function getAnswers(dynJson, noTotal)
 	
 	console.log("editAnswers",editAnswers);
     return editAnswers;
+}
+
+var arrayForm = {
+	form : null,
+	buildFormSchema : function(f, k, q) { 
+		arrayForm.form = {
+			jsonSchema : {
+				title : form[scenarioKey][f].form.scenario[k].json.jsonSchema.title,
+				icon : form[scenarioKey][f].form.scenario[k].json.jsonSchema.icon,
+				onLoads : {
+					onload : function(){
+						dyFInputs.setHeader("bg-dark");
+						$('.form-group div').removeClass("text-white");
+						dataHelper.activateMarkdown(".form-control.markdown");
+					}
+				},
+				save : function() { 
+					data = {
+		    			formId : f,
+		    			answerSection : f+".answers."+k+"."+q ,
+		    			arrayForm : true,
+		    			answers : getAnswers(arrayForm.form , true)
+		    		};
+		    		
+		    		data.collection = answerCollection;
+	    			data.id = answerId;
+	    			urlPath = baseUrl+"/survey/co/update2";
+		    		
+		    		console.log("save",data);
+
+		    		$.ajax({ type: "POST",
+				        url: urlPath,
+				         data: data,
+						type: "POST",
+				    }).done(function (data) {
+				    	window.location.reload(); 
+				    });
+				},
+				properties : form[scenarioKey][f].form.scenario[k].json.jsonSchema.properties[q].properties
+			}
+		};
+		console.log("buildFormSchema AF form",arrayForm.form);
+		
+	},
+	add : function (f, k, q) { 
+		console.log("add AF",f, k, q);
+		arrayForm.buildFormSchema(f,k,q);
+		dyFObj.openForm( arrayForm.form );
+	},
+	del : function  (f,k,q,pos) { 
+		console.log("del AF",f,k,q,pos);
+		data = {
+			formId : f,
+			answerSection : f+".answers."+k+"."+q ,
+			answers : null,
+			pull : f+".answers."+k+"."+q
+		};
+		
+		if(answers[f].answers[k][q].length > 1)
+			data.answerSection = data.answerSection+"."+pos;
+
+		data.collection = answerCollection;
+		data.id = answerId;
+		urlPath = baseUrl+"/survey/co/update2";
+		
+		console.log("save",data);
+
+		$.ajax({ type: "POST",
+	        url: urlPath,
+	         data: data,
+			type: "POST",
+	    }).done(function (data) {
+	    	window.location.reload(); 
+	    });
+	},
+	edit : function  (f,k, q,pos) { 
+		console.log("edit AF",f,k,q,pos);
+	},
 }
 
 </script>
