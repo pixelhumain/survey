@@ -551,10 +551,39 @@
             "icon" : "cogs",
             "form" : {
                 "scenario" : {
+                    "detail" : {
+                        "title" : "Détail",
+                        "description" : "critère d'évaluation de faisabilité",
+                        "icon" : "fa-info-circle",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Détail",
+                                "type" : "object",
+                                "properties" : {
+                                    "startDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la demande",
+                                        "placeholder" : "Date de la demande"
+                                    },
+                                    "partenaires" : {
+                                        "inputType" : "text",
+                                        "label" : "Partenaires",
+                                        "placeholder" : "Quels sont les partenaires de cette fiche action ?"
+                                    },
+                                    "coherence" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Analyse de cohérence",
+                                        "placeholder" : "Eléments de justification de la cohérence du projet avec les orientations stratégiques du CTE TCO",
+                                        "class" : "description3 markdown"
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "descriptif" : {
                         "title" : "Descriptif de l'action",
                         "description" : "Descriptif de l'action",
-                        "icon" : "fa-thumbs-o-up",
+                        "icon" : "fa-info-circle",
                         "json" : {
                             "jsonSchema" : {
                                 "title" : "Descriptif de l'action",
@@ -826,6 +855,39 @@
                             }
                         }
                     },
+
+
+                                    "calendar" : {
+                        "title" : "Calendrier",
+                        "description" : "Etapes clefs de la fiche action",
+                        "arrayForm" : true,
+                        "icon" : "fa-calendar",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Calendier",
+                                "icon" : "fa-calendar",
+                                "properties" : {
+                                    "results" : {
+                                        "inputType" : "arrayForm",
+                                        "properties" : {
+                                            "step" : {
+                                                "inputType" : "text",
+                                                "label" : "Etape",
+                                                "placeholder" : "Début, fin, étapes, milestone, rendu ..."
+                                            },
+                                            "date" : {
+                                                "inputType" : "date",
+                                                "label" : "Date",
+                                                "placeholder" : "Donnez une date acette étape"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                                  
+
                     "estimation" : {
                         "title" : "Plan de Financement",
                         "description" : "liste des projets associés à cette fiche action",
