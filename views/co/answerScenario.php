@@ -111,7 +111,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 				$editBtn = ( (string)$user["_id"] == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
 
 			echo "<div class='col-xs-12'>".
-					"<h2> <i class='fa  fa-caret-square-o-right text-azure'></i> ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
+					"<h2 class='".@$v["form"]["scenario"][$key]['titleClass']."'> <i class='fa  fa-caret-square-o-right text-azure'></i> ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
 			
 			$head =  '<thead><tr>'.
 						'<th>'.Yii::t("common","Question").'</th>'.

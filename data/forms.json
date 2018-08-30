@@ -721,15 +721,26 @@
                             }
                         }
                     },
-                    "validation" : {
-                        "title" : "Validation de l'action",
-                        "description" : "Validation de l'action",
-                        "icon" : "fa-thumbs-o-up",
+                    "validationTech" : {
+                        "title" : "Validation Technique de l'action",
+                        "description" : "Validation Technique de l'action",
+                        "icon" : "fa-cogs",
+                        "titleClass" : "text-red",
                         "json" : {
                             "jsonSchema" : {
-                                "title" : "Validation de l'action",
+                                "title" : "Validation Technique de l'action",
                                 "type" : "object",
                                 "properties" : {
+                                    "confirmationTech" : {
+                                        "inputType" : "select",
+                                        "label" : "Validation",
+                                        "placeholder" : "Confirmez l'aspect technique",
+                                        "options" : {
+                                            "valider" : "Valider",
+                                            "pending" : "En attente",
+                                            "refuser" : "Refuser"
+                                        }
+                                    },
                                     "technique" : {
                                         "inputType" : "textarea",
                                         "label" : "Validation technique",
@@ -740,6 +751,30 @@
                                         "inputType" : "date",
                                         "label" : "Date de la validation technique",
                                         "placeholder" : "Date de la validation technique"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "validationFinance" : {
+                        "title" : "Validation Financière de l'action",
+                        "description" : "Validation Finance de l'action",
+                        "icon" : "fa-money",
+                        "titleClass" : "text-red",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Validation Finance de l'action",
+                                "type" : "object",
+                                "properties" : {
+                                    "confirmationFinance" : {
+                                        "inputType" : "select",
+                                        "label" : "Validation",
+                                        "placeholder" : "Confirmez l'aspect financier",
+                                        "options" : {
+                                            "valider" : "Valider",
+                                            "pending" : "En attente",
+                                            "refuser" : "Refuser"
+                                        }
                                     },
                                     "financière" : {
                                         "inputType" : "textarea",
@@ -751,6 +786,30 @@
                                         "inputType" : "date",
                                         "label" : "Date de la validation financière",
                                         "placeholder" : "Date de la validation financière"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "validationJuridique" : {
+                        "title" : "Validation Juridique de l'action",
+                        "description" : "Validation Juridique de l'action",
+                        "icon" : "fa-gavel",
+                        "titleClass" : "text-red",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Validation Juridique de l'action",
+                                "type" : "object",
+                                "properties" : {
+                                    "confirmationJuridique" : {
+                                        "inputType" : "select",
+                                        "label" : "Validation",
+                                        "placeholder" : "Confirmez l'aspect juridique",
+                                        "options" : {
+                                            "valider" : "Valider",
+                                            "pending" : "En attente",
+                                            "refuser" : "Refuser"
+                                        }
                                     },
                                     "juridique" : {
                                         "inputType" : "textarea",
