@@ -644,23 +644,12 @@
                         "description" : "liste des projets associés à cette fiche action",
                         "arrayForm" : true,
                         "icon" : "fa-lightbulb-o",
-                        "json" : {
-                            "jsonSchema" : {
-                                "title" : "Projets associés",
-                                "icon" : "fa-lightbulb-o",
-                                "properties" : {
-                                    "projectsLinked" : {
-                                        "inputType" : "arrayForm",
-                                        "label" : "Liste des projets",
-                                        "properties" : {
-                                            "project" : {"placeholder" : "Choisir un project" },
-                                            "name" : {"placeholder" : "name" },
-                                            "description" : {"placeholder" : "description" },
-                                            "indicateur" : {"placeholder" : "indicateur", "class" : "description3 markdown"}
-                                        }
-                                    }
-                                }
-                            }
+                        "key" : "projectsLinked",
+                        "properties" : {
+                            "project" : "Project Selectionné(s)",
+                            "name" : "name",
+                            "description" : "description",
+                            "indicateur" : "indicateur"
                         }
                     },
 
@@ -783,28 +772,16 @@
                         "description" : "liste des projets associés à cette fiche action",
                         "arrayForm" : true,
                         "icon" : "fa-money",
-                        "json" : {
-                            "jsonSchema" : {
-                                "title" : "Quel financement",
-                                "icon" : "fa-money",
-                                "properties" : {
-                                    "financement" : {
-                                        "title" : "Plan de Financement",
-                                        "icon" : "fa-money",
-                                        "inputType" : "arrayForm",
-                                        "properties" : {
-                                            "project" : {"placeholder" : "Choisissez un projet"},
-                                            "public" : {"placeholder" : "Financement Public"},
-                                            "amount" : {"placeholder" : "Montant du Financement"},
-                                            "year" : {"placeholder" : "Année du Financement"},
-                                            "percent" : {"placeholder" : "Quelle part du projet globale"},
-                                            "financer" : {"placeholder" : "Cadre d'intervention"}
-                                        }
-                                    }
-                                }
-                            }
+                        "key" : "financement",
+                        "properties" : {
+                            "project" : "Le projet",
+                            "public" : "Public ou Privés",
+                            "amount" : "Montant du Financement",
+                            "year" : "Année du Financement",
+                            "percent" : "Quelle part du projet globale",
+                            "financer" : "Cadre d'intervention"
                         }
-                    }
+                    },
             }
         }
     }
