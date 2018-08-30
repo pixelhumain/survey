@@ -396,7 +396,7 @@ $(document).ready(function() {
 					title : "Projets associés",
 	                icon : "fa-lightbulb-o",
 					properties : {
-						project :  dyFInputs.inputSelect("project", "project", projectsList, {},
+						project :  dyFInputs.inputSelect("project", "project", projectsList, {required : true},
 									function(){
 					            	$("#ajaxFormModal #project").change(function(){
 					            		$("#ajaxFormModal #name").val( projects[$(this).val()]["name"] );
@@ -407,7 +407,7 @@ $(document).ready(function() {
 	                    name : dyFInputs.inputHidden(""),
 	                    description : dyFInputs.inputHidden(""),
 	                    indicateur : dyFInputs.textarea("Indicateur de résultat", "Indicateur de résultat"),
-	                    
+
 	                }
 				}
 			},
