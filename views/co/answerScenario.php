@@ -74,7 +74,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 							foreach ($value["properties"] as $ki => $vi) {
 								$tmp[$ki] = "";
 							}
-							$answers[$k]["answers"][$step][$key][] = $tmp;
+							//$answers[$k]["answers"][$step][$key][] = $tmp;
 						}
 						else 
 							$answers[$k]["answers"][$step][$key] = "";
@@ -399,6 +399,47 @@ $(document).ready(function() {
 	                    description : dyFInputs.inputHidden(""),
 	                    indicateur : dyFInputs.textarea("Indicateur de résultat", "Indicateur de résultat"),
 
+	                }
+				}
+			},
+			estimation : {
+				financement : {
+					title : "Plan de Financement",
+	                icon : "fa-money",
+					properties : {
+						project :  dyFInputs.inputSelect("project", "project", projectsList, {},function(){
+					            	$("#ajaxFormModal #project").change(function(){
+					            		$($("#ajaxFormModal #name"))[0].val( projects[$(this).val()]["name"] );
+					            	});
+						}),
+	                 	public : dyFInputs.checkboxSimple("true", "public", 
+							{ "onText" : "Public",
+							  "offText": "Privé",
+							  "onLabel" : tradDynForm.public,
+							  "offLabel": tradDynForm.private,
+							  "labelText": "Financement public ou privés ?",
+							  "labelInformation": ""
+			    		}),
+	                    amount : {
+	                        inputType : "text",
+	                        label : "Montant",
+	                        placeholder : "Montant du Financement"
+	                    },
+	                    year : {
+	                        inputType : "text",
+	                        label : "Année",
+	                        placeholder : "Année du Financement"
+	                    },
+	                    percent : {
+	                        inputType : "text",
+	                        label : "Pourcentage",
+	                        placeholder : "Quelle part du projet globale"
+	                    },
+	                    financer : {
+	                        inputType : "text",
+	                        label : "Financeur",
+	                        placeholder : "Cadre d'intervention"
+	                    }
 	                }
 				}
 			}
