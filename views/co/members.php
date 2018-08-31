@@ -33,9 +33,6 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 <?php 
 	if(	Form::canAdmin($form["id"], $form) ){ ?>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
-	<div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="goBackToHome">
-		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/admin/id/<?php echo $_GET['id']; ?>" class="col-md-12 col-sm-12 col-xs-12 padding-20 text-center bg-orange" id="btn-home" style="font-size:20px;"><i class="fa fa-home"></i> Back to administrator home</a>
-	</div>
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
 		<h1><?php echo "Membre du ".$form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
 		<div id="" class="" style="width:80%;  display: -webkit-inline-box;">
