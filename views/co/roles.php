@@ -170,7 +170,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 $r = "";
 if(@$_GET["role"])
-	$r = $_GET["role"]; ?>
+	$r = $lblRole[ $_GET['role'] ]; ?>
 <script type="text/javascript">
 var currentRoomId = "";
 var form =<?php echo json_encode($form); ?>;

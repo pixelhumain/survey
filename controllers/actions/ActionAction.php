@@ -19,8 +19,12 @@ class ActionAction extends CAction
 			//Rest::json($action["role"]); exit ;
 			if(!empty($formParent["links"]["projectExtern"])){
 				foreach ($formParent["links"]["projectExtern"] as $key => $value) {
-					//if(in_array($action["role"], $value["roles"]))
-						$idProject[] = new MongoId($key) ;
+
+					foreach ($action["role"] as $keyR => $valueR) {
+						if(in_array($valueR, $value["roles"]))
+							$idProject[] = new MongoId($key) ;
+					}
+					
 				}
 
 				if(!empty($idProject))
