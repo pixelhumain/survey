@@ -551,10 +551,39 @@
             "icon" : "cogs",
             "form" : {
                 "scenario" : {
+                    "detail" : {
+                        "title" : "Détail",
+                        "description" : "critère d'évaluation de faisabilité",
+                        "icon" : "fa-info-circle",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Détail",
+                                "type" : "object",
+                                "properties" : {
+                                    "startDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la demande",
+                                        "placeholder" : "Date de la demande"
+                                    },
+                                    "partenaires" : {
+                                        "inputType" : "text",
+                                        "label" : "Partenaires",
+                                        "placeholder" : "Quels sont les partenaires de cette fiche action ?"
+                                    },
+                                    "coherence" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Analyse de cohérence",
+                                        "placeholder" : "Eléments de justification de la cohérence du projet avec les orientations stratégiques du CTE TCO",
+                                        "class" : "description3 markdown"
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "descriptif" : {
                         "title" : "Descriptif de l'action",
                         "description" : "Descriptif de l'action",
-                        "icon" : "fa-thumbs-o-up",
+                        "icon" : "fa-info-circle",
                         "json" : {
                             "jsonSchema" : {
                                 "title" : "Descriptif de l'action",
@@ -644,23 +673,12 @@
                         "description" : "liste des projets associés à cette fiche action",
                         "arrayForm" : true,
                         "icon" : "fa-lightbulb-o",
-                        "json" : {
-                            "jsonSchema" : {
-                                "title" : "Projets associés",
-                                "icon" : "fa-lightbulb-o",
-                                "properties" : {
-                                    "projectsLinked" : {
-                                        "inputType" : "arrayForm",
-                                        "label" : "Liste des projets",
-                                        "properties" : {
-                                            "project" : {"placeholder" : "Choisir un project" },
-                                            "name" : {"placeholder" : "name" },
-                                            "description" : {"placeholder" : "description" },
-                                            "indicateur" : {"placeholder" : "indicateur", "class" : "description3 markdown"}
-                                        }
-                                    }
-                                }
-                            }
+                        "key" : "projectsLinked",
+                        "properties" : {
+                            "project" : "Project Selectionné(s)",
+                            "name" : "name",
+                            "description" : "description",
+                            "indicateur" : "indicateur"
                         }
                     },
 
@@ -732,15 +750,26 @@
                             }
                         }
                     },
-                    "validation" : {
-                        "title" : "Validation de l'action",
-                        "description" : "Validation de l'action",
-                        "icon" : "fa-thumbs-o-up",
+                    "validationTech" : {
+                        "title" : "Validation Technique de l'action",
+                        "description" : "Validation Technique de l'action",
+                        "icon" : "fa-cogs",
+                        "titleClass" : "text-red",
                         "json" : {
                             "jsonSchema" : {
-                                "title" : "Validation de l'action",
+                                "title" : "Validation Technique de l'action",
                                 "type" : "object",
                                 "properties" : {
+                                    "confirmationTech" : {
+                                        "inputType" : "select",
+                                        "label" : "Validation",
+                                        "placeholder" : "Confirmez l'aspect technique",
+                                        "options" : {
+                                            "valider" : "Valider",
+                                            "pending" : "En attente",
+                                            "refuser" : "Refuser"
+                                        }
+                                    },
                                     "technique" : {
                                         "inputType" : "textarea",
                                         "label" : "Validation technique",
@@ -751,6 +780,30 @@
                                         "inputType" : "date",
                                         "label" : "Date de la validation technique",
                                         "placeholder" : "Date de la validation technique"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "validationFinance" : {
+                        "title" : "Validation Financière de l'action",
+                        "description" : "Validation Finance de l'action",
+                        "icon" : "fa-money",
+                        "titleClass" : "text-red",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Validation Finance de l'action",
+                                "type" : "object",
+                                "properties" : {
+                                    "confirmationFinance" : {
+                                        "inputType" : "select",
+                                        "label" : "Validation",
+                                        "placeholder" : "Confirmez l'aspect financier",
+                                        "options" : {
+                                            "valider" : "Valider",
+                                            "pending" : "En attente",
+                                            "refuser" : "Refuser"
+                                        }
                                     },
                                     "financière" : {
                                         "inputType" : "textarea",
@@ -762,6 +815,30 @@
                                         "inputType" : "date",
                                         "label" : "Date de la validation financière",
                                         "placeholder" : "Date de la validation financière"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "validationJuridique" : {
+                        "title" : "Validation Juridique de l'action",
+                        "description" : "Validation Juridique de l'action",
+                        "icon" : "fa-gavel",
+                        "titleClass" : "text-red",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Validation Juridique de l'action",
+                                "type" : "object",
+                                "properties" : {
+                                    "confirmationJuridique" : {
+                                        "inputType" : "select",
+                                        "label" : "Validation",
+                                        "placeholder" : "Confirmez l'aspect juridique",
+                                        "options" : {
+                                            "valider" : "Valider",
+                                            "pending" : "En attente",
+                                            "refuser" : "Refuser"
+                                        }
                                     },
                                     "juridique" : {
                                         "inputType" : "textarea",
@@ -778,33 +855,54 @@
                             }
                         }
                     },
-                    "estimation" : {
-                        "title" : "Plan de Financement",
-                        "description" : "liste des projets associés à cette fiche action",
+
+
+                                    "calendar" : {
+                        "title" : "Calendrier",
+                        "description" : "Etapes clefs de la fiche action",
                         "arrayForm" : true,
-                        "icon" : "fa-money",
+                        "icon" : "fa-calendar",
                         "json" : {
                             "jsonSchema" : {
-                                "title" : "Quel financement",
-                                "icon" : "fa-money",
+                                "title" : "Calendier",
+                                "icon" : "fa-calendar",
                                 "properties" : {
-                                    "financement" : {
-                                        "title" : "Plan de Financement",
-                                        "icon" : "fa-money",
+                                    "results" : {
                                         "inputType" : "arrayForm",
                                         "properties" : {
-                                            "project" : {"placeholder" : "Choisissez un projet"},
-                                            "public" : {"placeholder" : "Financement Public"},
-                                            "amount" : {"placeholder" : "Montant du Financement"},
-                                            "year" : {"placeholder" : "Année du Financement"},
-                                            "percent" : {"placeholder" : "Quelle part du projet globale"},
-                                            "financer" : {"placeholder" : "Cadre d'intervention"}
+                                            "step" : {
+                                                "inputType" : "text",
+                                                "label" : "Etape",
+                                                "placeholder" : "Début, fin, étapes, milestone, rendu ..."
+                                            },
+                                            "date" : {
+                                                "inputType" : "date",
+                                                "label" : "Date",
+                                                "placeholder" : "Donnez une date acette étape"
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
+                    },
+                                  
+
+                    "estimation" : {
+                        "title" : "Plan de Financement",
+                        "description" : "liste des projets associés à cette fiche action",
+                        "arrayForm" : true,
+                        "icon" : "fa-money",
+                        "key" : "financement",
+                        "properties" : {
+                            "project" : "Le projet",
+                            "public" : "Public ou Privés",
+                            "amount" : "Montant du Financement",
+                            "year" : "Année du Financement",
+                            "percent" : "Quelle part du projet globale",
+                            "financer" : "Cadre d'intervention"
+                        }
+                    },
             }
         }
     }

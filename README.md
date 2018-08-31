@@ -9,16 +9,16 @@ a survey is build dynamically according to it's structure , it put's together di
 
 # TODO 
 [ ] Section Admin
-    - classifiaction
+    - classification
     - structurant / fonctionnel 
     - set dates ( start end )
-[ ] pour chaque classification > notation
-    - opportunité
-    - faisabilité
-    - total > priorisation globale
+[ ] communauté : supprimer une invitation 
+[ ] gestion des sessions
+    nouvelle session 
+    changer les dte start end 
 
 #BUGS
-- PB DE LOGIN
+- PB DE LOGIN : perte de session
 - réparer le directory admin
 - deux tit bugs sur le chat
     1 - pas de btn valider sur le form d'ajout de chat privé (c'est peut etre régler)
@@ -35,6 +35,17 @@ a survey is build dynamically according to it's structure , it put's together di
     - generated based on dynForm schema properties 
 [ ] integrated into DDA : DDDA Define :
 [ ] check json editor exists
+
+# Amélioration : 
+- DOSSIER : save onBlur 
+- multi projet par porteur 
+- historique de modif des risques 
+    - pouvoir laisser un commentaire sur un risque 
+- unifier tout les answers en un seul 
+- avoir des admin liéé juste à un dossier et pas à toute la session 
+- soumettre chaque risque à une vote des acteurs expert / financeurs ...
+    comme une proposition , un risque peut etre levé 
+    mais la communauté le vote et le pondère 
 
 # Features 
 - [get a form json data](http://127.0.0.1/ph/survey/co/form/id/commons)
@@ -254,3 +265,14 @@ This survey contains 5 steps in it's scenario and 3 types of declarations
     + faire le survey du temps citoyen
     + label tiers lieux https://github.com/nicolasloubet/Label-tiers-lieux
 - integrate an option to use https://enketo.org/about/#enketo-features
+
+# Reflexion
+Key Partnerships
+Key Activities
+Key Resources
+Value Propositions
+Customer Relationships
+Channels
+Customer Segments
+Cost Structure
+Revenue Streams

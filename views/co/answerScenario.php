@@ -110,45 +110,55 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 			else if(!@$v["form"]["scenario"][$key]["arrayForm"])
 				$editBtn = ( (string)$user["_id"] == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
 
+			$titleIcon = (@$v["form"]["scenario"][$key]['icon']) ? "<i class='fa ".@$v["form"]["scenario"][$key]['icon']." ".@$v["form"]["scenario"][$key]['titleClass']."'></i>" : "";
 			echo "<div class='col-xs-12'>".
-					"<h2> <i class='fa  fa-caret-square-o-right text-azure'></i> ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
+					"<h2 class='".@$v["form"]["scenario"][$key]['titleClass']."'> <i class='fa  fa-caret-square-o-right text-azure'></i> ".$titleIcon." ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
 			
 			$head =  '<thead><tr>'.
 						'<th>'.Yii::t("common","Question").'</th>'.
 						'<th>Réponse</th>'.
 					'</tr></thead>';
+
 			if(@@$v["form"]["scenario"][$key]["arrayForm"]  ){
-				$q = array_keys($v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"])[0];
+				$ki = (@$v["form"]["scenario"][$key]["key"]) ? $v["form"]["scenario"][$key]["key"] : array_keys($v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"])[0];
 				$head =  '<thead><tr>'.
 						'<th>Ajouter une ligne</th>'.
-						"<th><a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' class='addAF btn btn-primary'><i class='fa fa-plus'></i> Ajouter</a></th>".
+						"<th><a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$ki."' class='addAF btn btn-primary'><i class='fa fa-plus'></i> Ajouter</a></th>".
 					'</tr></thead>';
-				if( count($value[$q]) > 0 )
+				if( count($value[$ki]) > 0 )
 					$head = "";
 			}
 
 			echo '<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">'.
 				$head.
 				'<tbody class="directoryLines">';
-			if( @$v["form"]["scenario"][$key]["json"] )
+			if( @$v["form"]["scenario"][$key]["json"] || @$v["form"]["scenario"][$key]["arrayForm"] )
 			{
 				$formQ = @$v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"];
 				foreach ($value as $q => $a) 
 				{
-					if( @$formQ[$q]["inputType"] == "arrayForm" ){
+					if( @$formQ[$q]["inputType"] == "arrayForm" || @$v["form"]["scenario"][$key]["key"] == $q ){
 						
 						//Tout les titre du tableau de réponses 
 						echo '<tr>';
-						foreach ($formQ[$q]["properties"] as $ik => $iv) {
-							echo "<th>".$iv["placeholder"]."</th>";
-						}
-						echo "<th><a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' class='addAF btn btn-primary'><i class='fa fa-plus'></i> Ajouter</a></td>";
+							if(@$v["form"]["scenario"][$key]["properties"])
+								$props = $v["form"]["scenario"][$key]["properties"];
+							else 
+								$props = $formQ[$q]["properties"];
+
+							foreach ( $props as $ik => $iv) {
+								echo "<th>".( ( is_string($iv) ) ? $iv : $iv["placeholder"] )."</th>";
+							}
+
+							echo "<th><a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' class='addAF btn btn-primary'><i class='fa fa-plus'></i> Ajouter</a></th>";
 						echo '</tr>';
 
 						//Toutes les réponses du tableau
 						foreach ($a as $sq => $sa) {
 							echo '<tr>';
-								foreach ($formQ[$q]["properties"] as $ik => $iv) {
+								
+								foreach ($props as $ik => $iv) {
+									//chaque propriété a sa réponse 
 									echo "<td>".@$sa[$ik]."</td>";
 								}
 								echo "<td>".
@@ -327,7 +337,7 @@ $(document).ready(function() {
 			};
 
 			console.log("path",scenarioKey,$(this).data("form"),$(this).data("step"));
-			var editForm = form[scenarioKey][$(this).data("form")].form["scenario"][$(this).data("step")].json;
+			var editForm = (jsonHelper.notNull( "ctxDynForms."+scenarioKey+"."+$(this).data("form")+"."+$(this).data("step"))) ? ctxDynForms[scenarioKey][$(this).data("form")][$(this).data("step")] : form[scenarioKey][$(this).data("form")].form["scenario"][$(this).data("step")].json;
 
 			editForm.jsonSchema.onLoads = {
 				onload : function(){
@@ -457,6 +467,10 @@ $(document).ready(function() {
 
 var ctxDynForms = null;
 
+
+/* Make it better 
+- convert whole page into JS
+*/
 </script>
 
 <?php } ?>
