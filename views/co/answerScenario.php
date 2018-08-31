@@ -272,7 +272,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 var form = <?php echo json_encode($form); ?>;
 //if(typeof answers == "undefined ")
 var answers  = <?php echo json_encode($answers); ?>;
-var projects  = <?php echo json_encode($projects); ?>;
+var projects  = <?php echo json_encode(@$projects); ?>;
 var projectsList = {};
 var projectsLink = {};
 var scenarioKey = "<?php echo $scenario ?>";
