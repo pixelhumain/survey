@@ -282,15 +282,17 @@ var answerId = "<?php echo @$answerId ?>";
 
 $(document).ready(function() { 
 
-	$.each(projects,function(i,el) { 
-		
-		if(typeof answers.links != "undefined" &&
-			typeof answers.links.projects != "undefined" &&
-			typeof answers.links.projects[i] != "undefined")
-			projectsLink[i] = el.name;
-		else
-			projectsList[i] = el.name;
-	});
+	if(projects != null){
+		$.each(projects,function(i,el) {
+			if(typeof answers.links != "undefined" &&
+				typeof answers.links.projects != "undefined" &&
+				typeof answers.links.projects[i] != "undefined")
+				projectsLink[i] = el.name;
+			else
+				projectsList[i] = el.name;
+		});
+	}
+	
 	
 	
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
