@@ -36,6 +36,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 		<h2 class="text-center">
 			<a href="javascript:;" onclick="showType('line')" class="btn btn-xs btn-default">Tous</a>
+			<a href="javascript:;" onclick="showType('eligible')" class="btn btn-xs btn-default">Éligible</a> 
+			<a href="javascript:;" onclick="showType('noteligible')" class="btn btn-xs btn-default">Non éligible</a> 
+			<a href="javascript:;" onclick="showType('todoeligible')" class="btn btn-xs btn-default">Étudier l'éligibilité</a>
 			<?php 
 			$lblRole = array();
 			foreach ($form["custom"]["roles"] as $key) {
@@ -77,8 +80,24 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						$nb = 0;
 						foreach ($results as $k => $v) {
 							$nb++;
-						?>
-						<tr class="<?php if(@$userAdminAnswer[$k]["categories"])foreach (@$userAdminAnswer[$k]["categories"] as $key => $value) {
+
+							$lblEligible = "À faire";
+							$classEligible = "todoeligible";
+							$colorEligible = "black";
+							if(isset($userAdminAnswer[$k]["eligible"])){ 
+								if($userAdminAnswer[$k]["eligible"]) {
+									$lblEligible = "Éligible";
+									$classEligible = "eligible";
+									$colorEligible = "text-green";
+								}
+								else  {
+									$lblEligible = "Non Éligible"; 
+									$classEligible = "noteligible";
+									$colorEligible = "text-red";
+								}
+							} 
+								 ?>
+						<tr class="<?php echo $classEligible." "; if(@$userAdminAnswer[$k]["categories"])foreach (@$userAdminAnswer[$k]["categories"] as $key => $value) {
 									echo $key." ";
 								}
 								 ?> line">
@@ -97,7 +116,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								echo "<span class='".$classText."'>".$c." / ".count(@$v['scenario'])."</span>"; ?>
 							</td>
 							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/answer/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
-							<td><?php if(isset($userAdminAnswer[$k]["eligible"])){ echo ($userAdminAnswer[$k]["eligible"]) ? "Éligible" : "Non Éligible"; } ?></td>
+							<td class="<?php echo $colorEligible ?>"><?php echo $lblEligible ?></td>
 							<td><?php if(@$userAdminAnswer[$k]["categories"]){
 								foreach ($userAdminAnswer[$k]["categories"] as $key => $value) {
 									echo $value["name"]."<br/>";

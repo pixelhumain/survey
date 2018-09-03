@@ -409,6 +409,7 @@
     "parentType" : "organizations",
     "parentId" : "5b47451ddd0452ca52000693",
     "surveyType" : "oneSurvey",
+    "adminRole" : "TCO",
     "scenarioAdmin" : {
         "dossier" : {
             "title" : "Dossier",

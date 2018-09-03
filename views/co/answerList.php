@@ -196,7 +196,7 @@ var adminForm = <?php echo json_encode($adminForm); ?>;
 
 var adminAnswers  = <?php echo json_encode($adminAnswers); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
-var canAdmin = <?php echo $canAdmin; ?>;
+var canAdmin = <?php echo Form::canAdminRoles($form["id"],@$adminForm["adminRole"],$form); ?>;
 var updateForm = null;
 
 $(document).ready(function() { 
@@ -438,67 +438,22 @@ bug
 	 	var mapElements = new Array(); 
    		mapElements.push(o);
 
-communauté 
-	supprimer une invitation 
 
-gestion des sessions
-	nouvelle session 
-	changer les dte start end 
 	
-Key Partnerships
-Key Activities
-Key Resources
-Value Propositions
-Customer Relationships
-Channels
-Customer Segments
-Cost Structure
-Revenue Streams
 
 
 
 
-Amélioration : 
-- DOSSIER : save onBlur 
-- multi projet par porteur 
-- historique de modif des risques 
-	- pouvoir laisser un commentaire sur un risque 
-- unifier tout les answers en un seul 
-- avoir des admin liéé juste à un dossier et pas à toute la session 
-- soumettre chaque risque à une vote des acteurs expert / financeurs ...
-	comme une proposition , un risque peut etre levé 
-	mais la communauté le vote et le pondère 
 
 
 
 
-inscrit > paiement > Custom 
-mutualisation d'un community manager
 
-event récurent 
-module page == onepage
 
-devis le port Site Web 
-reproduire et améliorer 
-	qui parle du port : mention pour tout 
-	flux rss du quotidien le port dans le live 
 
-nouveau projet
-	liste d'action opérationnel AO
-	devisable > validation et accepttion par les différents acteurs
-	chaque AO et divisé en liste d'actions fonctionnelles AF
-	3 niveau de recette 
-		travailleur : j'ai terminé une AO 
-		client : 
-			je valide l'AO 
-			je n evalide pas encore l'AO 
-				commentaire et liste AF
-					recevable ou non 
 
-Rocket Chat 
-- activer le user RC automatiquement au register 
-- https://github.com/pixelhumain/co2/issues/1012
-- retablir 
+
+
 
 
 */
