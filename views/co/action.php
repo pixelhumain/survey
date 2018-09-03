@@ -38,12 +38,14 @@
 
 			<tr>
 				<td>Thématique </td>
-				<?php 
-				foreach ($parentSurvey["custom"]["roles"] as $key) {
-					$lblRole[InflectorHelper::slugify($key)] = $key;
-				}
-				 ?>
-				<td><?php echo $lblRole[$answers["role"]]; ?></td>
+				<td>
+					<?php 
+						foreach ($answers["role"] as $key => $value) {
+							$role = $value;
+							echo $value;
+						} 
+					?>
+				</td>
 			</tr>
 
 			<tr>
@@ -75,6 +77,6 @@ $params = array( "answers" => $answers,
 var currentRoomId = "";
 var form =<?php echo json_encode($form); ?>;
 var contextData = { id : form.parentId, type : form.parentType } ;
-var role = "<?php echo $answers["role"]; ?>";
+var role = "<?php echo $role; ?>";
 var parentIdSurvey = "<?php echo @$answers["parentIdSurvey"]; ?>";
 </script>

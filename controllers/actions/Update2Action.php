@@ -25,16 +25,24 @@ class Update2Action extends CAction
                     $value["user"] = Yii::app()->session["userId"];
                 }
                 
-                PHDB::update($_POST["collection"],
+                PHDB::update( $_POST["collection"],
                     array("_id"=>new MongoId((string)$el["_id"])), 
                     array($verb => array($key => $value)));
                 
                 if($value == null && @$_POST["pull"] ){
                     PHDB::update(   $_POST["collection"],
-                                    array("_id"=>new MongoId((string)$el["_id"])), 
+                                    array("_id"=>new MongoId((String)$el["_id"])), 
                                     array('$pull' => array($_POST["pull"] => null )));
                 }
-                    
+
+                if($value != null){
+                    $child = array(   "idLink" => $value["project"],
+                                        "typeLink" => Project::COLLECTION,
+                                        "idAction" => (String)$el["_id"],
+                                        "verbLink" => "projects" );
+                    $msgLink=Actions::assign($child);
+                }                    
+
 
                 $msg=Yii::t("common","Evrything allRight");
                 $res=true;
@@ -42,6 +50,6 @@ class Update2Action extends CAction
                 $msg= "Element not found";
         } 
 
-        echo json_encode( array("result"=>$res, "msg"=>$msg) );
+        echo json_encode( array("result"=>$res, "msg"=>$msg, "msgLink" => $msgLink) );
     }
 }

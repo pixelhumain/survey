@@ -272,8 +272,9 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 var form = <?php echo json_encode($form); ?>;
 //if(typeof answers == "undefined ")
 var answers  = <?php echo json_encode($answers); ?>;
-var projects  = <?php echo json_encode($projects); ?>;
+var projects  = <?php echo json_encode(@$projects); ?>;
 var projectsList = {};
+var projectsLink = {};
 var scenarioKey = "<?php echo $scenario ?>";
 var answerCollection = "<?php echo @$answerCollection ?>";
 var answerId = "<?php echo @$answerId ?>";
@@ -281,9 +282,17 @@ var answerId = "<?php echo @$answerId ?>";
 
 $(document).ready(function() { 
 
-	$.each(projects,function(i,el) { 
-		projectsList[i] = el.name;
-	});
+	if(projects != null){
+		$.each(projects,function(i,el) {
+			if(typeof answers.links != "undefined" &&
+				typeof answers.links.projects != "undefined" &&
+				typeof answers.links.projects[i] != "undefined")
+				projectsLink[i] = el.name;
+			else
+				projectsList[i] = el.name;
+		});
+	}
+	
 	
 	
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
@@ -417,7 +426,7 @@ $(document).ready(function() {
 					title : "Plan de Financement",
 	                icon : "fa-money",
 					properties : {
-						project :  dyFInputs.inputSelect("project", "project", projectsList, {},function(){
+						project :  dyFInputs.inputSelect("project", "project", projectsLink, {},function(){
 					            	$("#ajaxFormModal #project").change(function(){
 					            		$($("#ajaxFormModal #name"))[0].val( projects[$(this).val()]["name"] );
 					            	});

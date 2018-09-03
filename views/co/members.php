@@ -33,9 +33,6 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 <?php 
 	if(	Form::canAdmin($form["id"], $form) ){ ?>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
-	<div class="col-md-12 col-sm-12 col-xs-12 no-padding" id="goBackToHome">
-		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/admin/id/<?php echo $_GET['id']; ?>" class="col-md-12 col-sm-12 col-xs-12 padding-20 text-center bg-orange" id="btn-home" style="font-size:20px;"><i class="fa fa-home"></i> Back to administrator home</a>
-	</div>
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
 		<h1><?php echo "Membre du ".$form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
 		<div id="" class="" style="width:80%;  display: -webkit-inline-box;">
@@ -69,13 +66,15 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 	</div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
-
+<?php
+$adminTCO = Form::canAdminRoles($form["id"], "TCO", $form);
+?>
 <script type="text/javascript">
 
 	var form =<?php echo json_encode($form); ?>;
 	var contextData = {id : form._id.$id, type : "forms"};
 	var data =<?php echo json_encode($results); ?>;
-
+	var adminTCO = "<?php echo $adminTCO; ?>";
 	var searchAdmin={
 		parentSurvey : form.id,
 		text:null,
@@ -408,7 +407,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 				actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" data-name="'+value.name+'" data-connection="members" data-parent-hide="'+2+'" class="margin-right-5 disconnectConnection"><span class=""><i class="fa fa-trash"></i></i></span>Supprimer le lien</a></li>';
 
 
-				if( actions != "" ){ 
+				if( actions != "" && true == adminTCO ){ 
 					str += '<div class="btn-group">'+
 								'<a href="#" data-toggle="dropdown" class="btn btn-danger dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>'+
 								'<ul class="dropdown-menu pull-right dropdown-dark" role="menu">'+

@@ -25,7 +25,6 @@ class Form {
     }
 
     public static function getByIdMongo($id,$fields=array()){
-    	Rest::json($id);
     	return PHDB::findOne(self::COLLECTION,array("_id"=>new MongoId($id)), $fields);
     }
 
@@ -237,9 +236,9 @@ class Form {
 		if(	Yii::app()->session["userId"] == $form["author"] ||
 			(	!empty($form["links"]["members"][Yii::app()->session["userId"]]) && 
 				!empty($form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"]) &&
-				$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true &&
-				!empty($form["links"]["members"][Yii::app()->session["userId"]]["roles"]) &&
-				in_array("TCO", $form["links"]["members"][Yii::app()->session["userId"]]["roles"]) ) ){
+				$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true /*&&
+				 !empty($form["links"]["members"][Yii::app()->session["userId"]]["roles"]) &&
+				in_array("TCO", $form["links"]["members"][Yii::app()->session["userId"]]["roles"]) */ ) ){
     		$res = true;
     		
         }else if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){
