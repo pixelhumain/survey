@@ -1,23 +1,5 @@
 <?php if( $canAdmin && array_search('risk', $steps) <= array_search($adminAnswers["step"], $steps)  ){ 
 
-$riskWeight = array(
-	"11" => array( "w" => 1 , "c" => "lightGreen"),
-	"12" => array( "w" => 2 , "c" => "lightGreen"),
-	"13" => array( "w" => 3 , "c" => "lightGreen"),
-	"14" => array( "w" => 4 , "c" => "orange"),
-	"21" => array( "w" => 5 , "c" => "lightGreen"),
-	"22" => array( "w" => 6 , "c" => "lightGreen"),
-	"23" => array( "w" => 7 , "c" => "orange"),
-	"24" => array( "w" => 8 , "c" => "red"),
-	"31" => array( "w" => 9 , "c" => "lightGreen"),
-	"32" => array( "w" => 10 , "c" => "orange"),
-	"33" => array( "w" => 11 , "c" => "red"),
-	"34" => array( "w" => 12 , "c" => "red"),
-	"41" => array( "w" => 13 , "c" => "orange"),
-	"42" => array( "w" => 14 , "c" => "red"),
-	"43" => array( "w" => 15 , "c" => "red"),
-	"44" => array( "w" => 16 , "c" => "red")
-);
 
 ?>
 <style type="text/css">
@@ -67,7 +49,7 @@ $riskWeight = array(
 						<td><?php echo @$value["comment"]?></td>
 						<td><?php echo $value["probability"]?></td>
 						<td><?php echo $value["gravity"]?></td>
-						<td style="color:black; background-color:<?php echo $riskWeight[$value["probability"].$value["gravity"]]["c"]?> "><?php echo $value["weight"]; $totalWeight += (int)$value["weight"];?></td>
+						<td style="color:black; background-color:<?php echo Form::$riskWeight[$value["probability"].$value["gravity"]]["c"]?> "><?php echo $value["weight"]; $totalWeight += (int)$value["weight"];?></td>
 						
 					</tr>
 			<?php } 
@@ -221,7 +203,7 @@ function showType (type) {
 
 var riskObj = {
 	selectedRisks : {},
-	riskWeight : <?php echo json_encode($riskWeight); ?>,
+	riskWeight : <?php echo json_encode(Form::$riskWeight); ?>,
 	catalog : <?php echo json_encode($riskCatalog); ?>,
 	//cancels a risk associated to a project
 	cancel : {},

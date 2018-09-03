@@ -122,8 +122,28 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 									echo $value["name"]."<br/>";
 								}
 								} ?></td>
-							<td><?php if(@$userAdminAnswer[$k]["risks"]){
-								echo count(array_keys($userAdminAnswer[$k]["risks"]));
+							<td><?php 
+								
+								if(@$userAdminAnswer[$k]["risks"]){
+									$list= "";
+									$globrcol = "success";
+									foreach ($userAdminAnswer[$k]["risks"] as $kr => $vr) {
+
+										$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
+
+										if( $globrcol == "success" && $rcol == "orange" )
+											$globrcol = "warning";
+										else if ( ($globrcol == "success" && $rcol == "red") || 
+												  ($globrcol == "orange" && $rcol == "red") )
+											$globrcol = "danger";
+										
+										$list .= "<li class='padding-5' style='background-color:".$rcol."'>".$vr["desc"]."(".$vr["weight"].")</li>";
+									}
+									
+									echo "<a class='btn btn-xs btn-".$globrcol."' href='javascript:;' onclick='$(\"#riskList".$k."\").toggle();'>".count(@$userAdminAnswer[$k]["risks"])." risque(s)</a>";
+									echo "<ul id='riskList".$k."' style='list-style:none; width:100%;display:none;'>";
+										echo $list; 
+									echo "</ul>";
 								} ?></td>
 							<td><?php echo (@$userAdminAnswer[$k]["step"] == "ficheAction") ? "Selectionné" : ""; ?></td>
 						</tr>
