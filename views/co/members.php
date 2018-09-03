@@ -116,67 +116,6 @@ $adminTCO = Form::canSuperAdmin($form["id"], $form);
 	   
 	});
 
-	// function updateRoles(childId, childType, childName, connectType, roles) {
-	// 	mylog.log("updateRoles", form.custom.roles);
-	// 	var formRole = {
-	// 			saveUrl : baseUrl+"/"+moduleId+"/link/removerole/",
-	// 			dynForm : {
-	// 				jsonSchema : {
-	// 					title : tradDynForm.modifyoraddroles+"<br/>"+childName,// trad["Update network"],
-	// 					icon : "fa-key",
-	// 					onLoads : {
-	// 						sub : function(){
-	// 							$("#ajax-modal .modal-header").removeClass("bg-dark bg-purple bg-red bg-azure bg-green bg-green-poi bg-orange bg-yellow bg-blue bg-turq bg-url")
-	// 										  				  .addClass("bg-dark");
-	// 							//bindDesc("#ajaxFormModal");
-	// 						}
-	// 					},
-	// 					beforeSave : function(){
-	// 						mylog.log("beforeSave");
-	// 				    	//removeFieldUpdateDynForm(contextData.type);
-	// 				    },
-	// 					afterSave : function(data){
-	// 						mylog.log("afterSave",data);
-	// 						dyFObj.closeForm();
-	// 						//loadDataDirectory(connectType, "user", true);
-							
-	// 						var str = "";
-	// 						if( typeof data.roles != "undefined") {
-	// 							$.each(data.roles, function(kR, vR){
-	// 								str += vR+" ";
-	// 							});
-	// 						}
-	// 						mylog.log("afterSave", "#role"+childId+childType, str);
-	// 						$("#role"+childId+childType).html(str);
-
-
-	// 						//changeHiddenFields();
-	// 					},
-	// 					properties : {
-	// 						contextId : dyFInputs.inputHidden(),
-	// 						contextType : dyFInputs.inputHidden(), 
-	// 						roles : dyFInputs.tags(form.custom.roles, tradDynForm["addroles"] , tradDynForm["addroles"], 0),
-	// 						childId : dyFInputs.inputHidden(), 
-	// 						childType : dyFInputs.inputHidden(),
-	// 						connectType : dyFInputs.inputHidden()
-	// 					}
-	// 				}
-	// 			}
-	// 		};
-
-	// 		var dataUpdate = {
-	// 	        contextId : contextData.id,
-	// 	        contextType : contextData.type,
-	// 	        childId : childId,
-	// 	        childType : childType,
-	// 	        connectType : connectType,
-	// 		};
-
-	// 		if(notEmpty(roles))
-	// 			dataUpdate.roles = roles;
-	// 		dyFObj.openForm(formRole, "sub", dataUpdate);		
-	// }
-
 
 	function startAdminSearch(initPage){
 		//$("#second-search-bar").val(search);
@@ -244,7 +183,21 @@ $adminTCO = Form::canSuperAdmin($form["id"], $form);
 		        dataType: "json",
 		        success:function(data) { 
 
-			         $("#admin"+params.childId+params.childType).html("Non");
+			        $("#admin"+params.childId+params.childType).html("Non");
+			        $("#removeAdmin"+params.childId).remove();
+			        var action += '<li id="addAdmin'+key+'"><a href="javascript:;" data-id="'+params.childId+'" data-type="'+params.childType+'" class="margin-right-5 addAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Ajouter en tant que admin</a></li>' ;
+			        $("#actionMenu"+params.childId).append(action);
+			        form.links.members[params.childId].isAdmin = false;
+			  //       if( form.links.members[key].type == "<?php //echo Person::COLLECTION ; ?>"){
+					// 	if( typeof form.links.members[key].isAdmin != "undefined" && 
+					// 		form.links.members[key].isAdmin == true) {
+					// 		str += " Oui ";
+					// 		actions += '<li id="removeAdmin'+key+'"><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 removeAdmin"><span class="fa-stack"><i class="fa fa-user-times"></i></i></span>Supprimer de l\'admin</a></li>';
+					// 	}else{
+					// 		str += " Non ";
+					// 		;
+					// 	}
+					// }
 		        },
 		        error:function(xhr, status, error){
 		            $("#searchResults").html("erreur");
@@ -380,10 +333,10 @@ $adminTCO = Form::canSuperAdmin($form["id"], $form);
 					if( typeof form.links.members[key].isAdmin != "undefined" && 
 						form.links.members[key].isAdmin == true) {
 						str += " Oui ";
-						actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 removeAdmin"><span class="fa-stack"><i class="fa fa-user-times"></i></i></span>Supprimer de l\'admin</a></li>';
+						actions += '<li id="removeAdmin'+key+'"><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 removeAdmin"><span class="fa-stack"><i class="fa fa-user-times"></i></i></span>Supprimer de l\'admin</a></li>';
 					}else{
 						str += " Non ";
-						actions += '<li><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 addAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Ajouter en tant que admin</a></li>';
+						actions += '<li id="addAdmin'+key+'"><a href="javascript:;" data-id="'+key+'" data-type="'+form.links.members[key].type+'" class="margin-right-5 addAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Ajouter en tant que admin</a></li>';
 					}
 				}else{
 					str += " ";
