@@ -196,7 +196,8 @@ var adminForm = <?php echo json_encode($adminForm); ?>;
 
 var adminAnswers  = <?php echo json_encode($adminAnswers); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
-var canAdmin = <?php echo Form::canAdminRoles($form["id"],@$form["adminRole"],$form); ?>;
+var canAdmin = <?php echo $canAdmin; ?>;
+var canSuperAdmin = <?php echo Form::canSuperAdmin($form["id"],@$adminForm["adminRole"],$adminForm); ?>;
 var updateForm = null;
 
 $(document).ready(function() { 
@@ -321,7 +322,7 @@ function showTableOrForm(key,type){
 }
 
 function nextState(step,c) { 
-	if( canAdmin && c =="disabled"){
+	if( canSuperAdmin && c =="disabled"){
 		bootbox.dialog({
 	      message: "Ce dossier passera à l'étape : "+step ,
 	      title: "Cette action est irréversible, êtes vous sûr ?",
