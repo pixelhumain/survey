@@ -19,11 +19,6 @@ a survey is build dynamically according to it's structure , it put's together di
 
 #BUGS
 - PB DE LOGIN : perte de session
-- réparer le directory admin
-- deux tit bugs sur le chat
-    1 - pas de btn valider sur le form d'ajout de chat privé (c'est peut etre régler)
-    2 - toujours le undefined dans le form
-    3 - Plus important - le chat ne s'enregistre pas
     
 # good to have 
 [ ] session consultation : edit data 
