@@ -228,6 +228,8 @@ class Form {
 		return $results ;	
 	}
 
+	
+
 	public static function canAdmin($id, $form = array()){
 		if(empty($form));
 			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
@@ -264,6 +266,17 @@ class Form {
 			$res = true;
 		}
 
+        return $res ;
+	}
+
+	public static function canSuperAdmin($id, $form = array(), $formAdmin = array()){
+		if(empty($form))
+			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+
+		if(empty($formAdmin))
+			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin"));
+
+		$res = self::canAdminRoles($id, $formAdmin["adminRole"], $form = array() ) ;
         return $res ;
 	}
 

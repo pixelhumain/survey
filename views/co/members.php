@@ -67,7 +67,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
 <?php
-$adminTCO = Form::canAdminRoles($form["id"], "TCO", $form);
+$adminTCO = Form::canSuperAdmin($form["id"], $form);
 ?>
 <script type="text/javascript">
 
@@ -113,78 +113,69 @@ $adminTCO = Form::canAdminRoles($form["id"], "TCO", $form);
 			//}
 	    });
 
-	    $(".updateRoles").off().click(function(e){
-			var id = $(this).data("id");
-			var name = $(this).data("name");
-			var type = $(this).data("type");
-			mylog.log("updateRoles", id, type, name);
-			if( typeof form.links.members[id] != "undefined" ){
-
-				var roles = ( ( typeof form.links.members[id].roles != "undefined" ) ? form.links.members[id].roles : [] ) ;
-				updateRoles(id, type, name, "members", roles);
-			}
-
-	    });
+	   
 	});
 
-	function updateRoles(childId, childType, childName, connectType, roles) {
-		mylog.log("updateRoles", form.custom.roles);
-		var formRole = {
-				saveUrl : baseUrl+"/"+moduleId+"/link/removerole/",
-				dynForm : {
-					jsonSchema : {
-						title : tradDynForm.modifyoraddroles+"<br/>"+childName,// trad["Update network"],
-						icon : "fa-key",
-						onLoads : {
-							sub : function(){
-								$("#ajax-modal .modal-header").removeClass("bg-dark bg-purple bg-red bg-azure bg-green bg-green-poi bg-orange bg-yellow bg-blue bg-turq bg-url")
-											  				  .addClass("bg-dark");
-								//bindDesc("#ajaxFormModal");
-							}
-						},
-						beforeSave : function(){
-							mylog.log("beforeSave");
-					    	//removeFieldUpdateDynForm(contextData.type);
-					    },
-						afterSave : function(data){
-							mylog.dir(data);
-							dyFObj.closeForm();
-							//loadDataDirectory(connectType, "user", true);
+	// function updateRoles(childId, childType, childName, connectType, roles) {
+	// 	mylog.log("updateRoles", form.custom.roles);
+	// 	var formRole = {
+	// 			saveUrl : baseUrl+"/"+moduleId+"/link/removerole/",
+	// 			dynForm : {
+	// 				jsonSchema : {
+	// 					title : tradDynForm.modifyoraddroles+"<br/>"+childName,// trad["Update network"],
+	// 					icon : "fa-key",
+	// 					onLoads : {
+	// 						sub : function(){
+	// 							$("#ajax-modal .modal-header").removeClass("bg-dark bg-purple bg-red bg-azure bg-green bg-green-poi bg-orange bg-yellow bg-blue bg-turq bg-url")
+	// 										  				  .addClass("bg-dark");
+	// 							//bindDesc("#ajaxFormModal");
+	// 						}
+	// 					},
+	// 					beforeSave : function(){
+	// 						mylog.log("beforeSave");
+	// 				    	//removeFieldUpdateDynForm(contextData.type);
+	// 				    },
+	// 					afterSave : function(data){
+	// 						mylog.log("afterSave",data);
+	// 						dyFObj.closeForm();
+	// 						//loadDataDirectory(connectType, "user", true);
+							
+	// 						var str = "";
+	// 						if( typeof data.roles != "undefined") {
+	// 							$.each(data.roles, function(kR, vR){
+	// 								str += vR+" ";
+	// 							});
+	// 						}
+	// 						mylog.log("afterSave", "#role"+childId+childType, str);
+	// 						$("#role"+childId+childType).html(str);
 
-							var str = "";
-							if( typeof data.roles != "undefined") {
-								$.each(data.roles, function(kR, vR){
-									str += vR+" ";
-								});
-							}
-							mylog.log("beforeSave", "#role"+childId+childType, str);
-							$("#role"+childId+childType).html(str);
-							//changeHiddenFields();
-						},
-						properties : {
-							contextId : dyFInputs.inputHidden(),
-							contextType : dyFInputs.inputHidden(), 
-							roles : dyFInputs.tags(form.custom.roles, tradDynForm["addroles"] , tradDynForm["addroles"], 0),
-							childId : dyFInputs.inputHidden(), 
-							childType : dyFInputs.inputHidden(),
-							connectType : dyFInputs.inputHidden()
-						}
-					}
-				}
-			};
 
-			var dataUpdate = {
-		        contextId : contextData.id,
-		        contextType : contextData.type,
-		        childId : childId,
-		        childType : childType,
-		        connectType : connectType,
-			};
+	// 						//changeHiddenFields();
+	// 					},
+	// 					properties : {
+	// 						contextId : dyFInputs.inputHidden(),
+	// 						contextType : dyFInputs.inputHidden(), 
+	// 						roles : dyFInputs.tags(form.custom.roles, tradDynForm["addroles"] , tradDynForm["addroles"], 0),
+	// 						childId : dyFInputs.inputHidden(), 
+	// 						childType : dyFInputs.inputHidden(),
+	// 						connectType : dyFInputs.inputHidden()
+	// 					}
+	// 				}
+	// 			}
+	// 		};
 
-			if(notEmpty(roles))
-				dataUpdate.roles = roles;
-			dyFObj.openForm(formRole, "sub", dataUpdate);		
-	}
+	// 		var dataUpdate = {
+	// 	        contextId : contextData.id,
+	// 	        contextType : contextData.type,
+	// 	        childId : childId,
+	// 	        childType : childType,
+	// 	        connectType : connectType,
+	// 		};
+
+	// 		if(notEmpty(roles))
+	// 			dataUpdate.roles = roles;
+	// 		dyFObj.openForm(formRole, "sub", dataUpdate);		
+	// }
 
 
 	function startAdminSearch(initPage){
@@ -325,22 +316,18 @@ $adminTCO = Form::canAdminRoles($form["id"], "TCO", $form);
 								//bindDesc("#ajaxFormModal");
 							}
 						},
-						beforeSave : function(){
-							mylog.log("beforeSave");
-					    	//removeFieldUpdateDynForm(contextData.type);
-					    },
 						afterSave : function(data){
-							mylog.dir(data);
+							mylog.log("afterSave",data);
 							dyFObj.closeForm();
 							//loadDataDirectory(connectType, "user", true);
-
+							form.links.members[data.memberid].roles = data.roles ;
 							var str = "";
 							if( typeof data.roles != "undefined") {
 								$.each(data.roles, function(kR, vR){
 									str += vR+" ";
 								});
 							}
-							mylog.log("beforeSave", "#role"+childId+childType, str);
+							mylog.log("afterSave", "#role"+childId+childType, str);
 							$("#role"+childId+childType).html(str);
 							//changeHiddenFields();
 						},
