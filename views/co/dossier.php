@@ -56,7 +56,15 @@
 		<tbody class="directoryLines">
 			<tr>
 				<td>État du dossier</td>
-				<td>Dépot > <b class="text-red">Éligibilité</b> <span style="color:grey"> > Priorisation > Instruction > Selection > Gestion et Suivi</span></td>
+				<td>
+					<?php 
+					foreach ($adminForm["scenarioAdmin"] as $ks => $vs) {
+						$c = (@$adminAnswers["step"] && $ks == $adminAnswers["step"]) ?"text-red bold" :"";
+						echo '<span class="'.$c.'"><i class="'.$vs["icon"].'"></i> '.str_replace("<br/>", "", $vs["title"]).'</span> <br/> ';
+
+					} ?>
+					
+				</td>
 			</tr>
 			<tr>
 				<td>Numéro de dossier</td>
