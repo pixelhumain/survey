@@ -78,10 +78,10 @@
 	ETAPE DU SCENARIO
 	---------------------------------------------- */
 
-	echo $this->renderPartial( "answerScenario" , array("form"=>$form,
-														"answers" => $answers,
-														"user" => $user,
-														'scenario' => "scenario") ); 
+	// echo $this->renderPartial( "answerScenario" , array("form"=>$form,
+	// 													"answers" => $answers,
+	// 													"user" => $user,
+	// 													'scenario' => "scenario") ); 
  ?>
 
  <?php foreach ($form["scenario"] as $k => $v) {
@@ -98,11 +98,12 @@
 			foreach ( $answers[$k]["answers"] as $key => $value) 
 			{
 			$editBtn = "";
-			if(@$v["form"]["scenario"][$key]["saveElement"]) 
-				$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
-			else 
-			//if(!@$v["form"]["scenario"][$key]["saveElement"]) 
-				$editBtn = ( (string)$user["_id"] == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
+			if( (string)$user["_id"] == Yii::app()->session["userId"] ) {
+				if(@$v["form"]["scenario"][$key]["saveElement"]) 
+					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
+				else 
+					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
+			}
 			echo "<div class='col-xs-12'>".
 					"<h2> [ step ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
 			echo '<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">'.
