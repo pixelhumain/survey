@@ -106,7 +106,7 @@
 			foreach ( $answers[$k]["answers"] as $key => $value) 
 			{
 			$editBtn = "";
-			if( (string)$user["_id"] == Yii::app()->session["userId"] ) {
+			if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["id"], $form )) {
 				if(@$v["form"]["scenario"][$key]["saveElement"]) 
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 				else 

@@ -250,7 +250,7 @@ class Form {
 	
 
 	public static function canAdmin($id, $form = array()){
-		if(empty($form));
+		if(empty($form))
 			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
 
 		$res = false;
@@ -269,7 +269,7 @@ class Form {
 	}
 
 	public static function canAdminRoles($id, $role, $form = array() ){
-		if(empty($form));
+		if(empty($form))
 			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
 
 		$res = false;
@@ -331,6 +331,19 @@ class Form {
 	}
 
 
+
+	public static function isFinish($id, $form = array() ){
+		if(empty($form))
+			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+		$res = false;
+		$today = date(DateTime::ISO8601, strtotime("now"));
+		if(!empty($form["endDate"]) ){
+			$endDate = date(DateTime::ISO8601, $form["endDate"]->sec);
+			if($endDate < $today)
+				$res = true;
+		}
+		return $res ;
+	}
 
 	
 
