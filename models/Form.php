@@ -276,7 +276,7 @@ class Form {
 		if(empty($formAdmin))
 			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin"));
 
-		$res = self::canAdminRoles($id, $formAdmin["adminRoles"], $form = array() )
+		$res = self::canAdminRoles($id, $formAdmin["adminRole"], $form = array() ) ;
         return $res ;
 	}
 
