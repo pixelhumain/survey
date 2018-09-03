@@ -228,6 +228,28 @@ class Form {
 		return $results ;	
 	}
 
+	public static function canSuperAdmin($id, $form = array(), $formAdmin = array()){
+		if(empty($form));
+			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+
+		if(empty($formAdmin));
+			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin"));
+
+		$res = false;
+		if(	Yii::app()->session["userId"] == $form["author"] ||
+			(	!empty($form["links"]["members"][Yii::app()->session["userId"]]) && 
+				!empty($form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"]) &&
+				$form["links"]["members"][Yii::app()->session["userId"]]["isAdmin"] == true &&
+				 !empty($form["links"]["members"][Yii::app()->session["userId"]]["roles"]) &&
+				in_array($formAdmin["adminRole", $form["links"]["members"][Yii::app()->session["userId"]]["roles"]) ) ){
+    		$res = true;
+    		
+        }else if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){
+			$res = true;
+		}
+        return $res ;
+	}
+
 	public static function canAdmin($id, $form = array()){
 		if(empty($form));
 			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
