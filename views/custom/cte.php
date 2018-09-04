@@ -177,7 +177,7 @@
 
    <p>
      <ul> 
-        <li><b>2ème étape </b> : du 17 juillet au 18 août 2018, les acteurs économiques pourront déclarer leurs projets en ligne sur la plateforme collaborative « Communecter ».</li>
+        <li><b>2ème étape </b> : du 17 juillet au 17 septembre 2018, les acteurs économiques pourront déclarer leurs projets en ligne sur la plateforme collaborative « Communecter ».</li>
     </ul>
   </p>
   <p>
