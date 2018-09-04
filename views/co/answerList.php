@@ -57,6 +57,7 @@ if( $this->layout != "//layouts/empty"){
 
 
 	$canAdmin = Form::canAdmin($form["id"]);
+	$canSuperAdmin = Form::canSuperAdmin($form["id"], $form, $adminForm);
 	$showStyle = ( $canAdmin ) ? "display:none; " : "";
 ?>
 
@@ -120,7 +121,8 @@ SECTION STEPPER WIZARD
 						$aClass == "class='selected'";
 					?>
 					<li><a onclick="nextState($(this).attr('href'),$(this).attr('class'));" href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
-				<?php } }?>
+				<?php } 
+			}?>
 			</ul>
 			<?php  ?>
 			<div class="progress progress-xs transparent-black no-radius active">
@@ -148,6 +150,7 @@ $pageParams = array(
 	"user" => $user,
 	"prioKey" => @$adminForm['key'],
 	"canAdmin" => $canAdmin,
+	"canSuperAdmin" => $canSuperAdmin,
 	"steps" => array_keys($adminForm["scenarioAdmin"])
 ); 
 
@@ -186,6 +189,8 @@ foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
 if(@$form["custom"]['footer']){
 	echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
 }
+
+$canSuperAdmin = Form::canSuperAdmin($form["id"],$form, $adminForm);
 ?>
 
 <script type="text/javascript">
@@ -196,8 +201,8 @@ var adminForm = <?php echo json_encode($adminForm); ?>;
 
 var adminAnswers  = <?php echo json_encode($adminAnswers); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
-var canAdmin = <?php echo $canAdmin; ?>;
-var canSuperAdmin = <?php echo Form::canSuperAdmin($form["id"],@$adminForm["adminRole"],$adminForm); ?>;
+var canAdmin = "<?php echo $canAdmin; ?>";
+var canSuperAdmin = "<?php echo $canSuperAdmin; ?>";
 var updateForm = null;
 
 $(document).ready(function() { 
@@ -227,7 +232,7 @@ function initWizard () {
 	    },
 	});
 
-	if(canAdmin){
+	if(canAdmin == true){
 		var ix = 0;
 		$.each(adminForm.scenarioAdmin, function(k,v) { 
 			ix++;
@@ -322,7 +327,7 @@ function showTableOrForm(key,type){
 }
 
 function nextState(step,c) { 
-	if( canSuperAdmin && c =="disabled"){
+	if( canSuperAdmin == true && c =="disabled"){
 		bootbox.dialog({
 	      message: "Ce dossier passera à l'étape : "+step ,
 	      title: "Cette action est irréversible, êtes vous sûr ?",
@@ -348,8 +353,33 @@ function nextState(step,c) {
 	          		type: "POST",
 			        url: baseUrl+"/survey/co/update",
 			        data: data
-			    }).done(function (data) { 
-			    	window.location.reload();
+			    }).done(function (data) {
+
+			    	if(typeof adminForm.scenarioAdmin[step.substring(1)].mail != "undefined"){
+			    		paramsMail={
+			    			formId : form.id,
+			    			answerSection : "step" ,
+			    			answers : step.substring(1),
+			    			answerUser : adminAnswers.user
+			    		};
+
+			    		dataMail = adminForm.scenarioAdmin[step.substring(1)].mail;
+			    		dataMail = $.extend(dataMail, paramsMail);
+			    		$.each( answers , function(k,v) {
+			    			if(typeof v.email != null){
+			    				dataMail.tplMail = v.email ;
+			    			}
+			    		});
+
+			    		$.ajax({ 
+			          		type: "POST",
+					        url: baseUrl+"/"+moduleId+"/mailmanagement/createandsend/",
+					        data: dataMail
+					    }).done(function (data) {
+					    	//window.location.reload();
+					    });
+			    	}//else
+			    		//window.location.reload();
 			    });
 	          }
 	        },
@@ -360,7 +390,7 @@ function nextState(step,c) {
  }
 
  function changeCategoryWeight(key,v) { 
- 	if( canAdmin ){
+ 	if( canAdmin == true){
  		bootbox.prompt(	{
 	        title: "Dans ce projet que représente la catégorie "+key+" ?", 
 	        value : v, 

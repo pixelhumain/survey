@@ -60,7 +60,7 @@
 					<?php 
 					foreach ($adminForm["scenarioAdmin"] as $ks => $vs) {
 						$c = (@$adminAnswers["step"] && $ks == $adminAnswers["step"]) ?"text-red bold" :"";
-						echo '<span class="'.$c.'"><i class="'.$vs["icon"].'"></i> '.str_replace("<br/>", "", $vs["title"]).'</span> <br/> ';
+						echo '<span class="'.$c.'"><i class="'.@$vs["icon"].'"></i> '.str_replace("<br/>", "", @$vs["title"]).'</span> <br/> ';
 
 					} ?>
 					
