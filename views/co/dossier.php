@@ -114,7 +114,7 @@
 			}
 			echo "<div class='col-xs-12'>".
 					"<h2> [ step ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
-			echo '<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">'.
+			echo '<table class="table table-striped table-bordered table-hover  directoryTable">'.
 				'<thead>'.
 					'<tr>'.
 						'<th>'.Yii::t("common","Question").'</th>'.
@@ -233,6 +233,35 @@
 	echo "</div>";
 }
 ?>
+
+<?php 
+if(@$adminAnswers["risks"] )
+{
+	$list= "";
+	$globrcol = "success";
+	foreach (@$adminAnswers["risks"] as $kr => $vr) {
+		$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
+		if( $rcol == "red") {
+			$userAction = (@$vr["userAction"]) ? $vr["userAction"] : "<a class='btn btn-danger' href='javascript:;' onclick='alert(\"todo\")'><i class='fa fa-comment'></i> Répondre</a>";
+			$list .= "<tr><td>".$vr["desc"]."</td><td>".$userAction."</td></tr>";
+		}
+	}
+	if($list != "")
+	{
+		echo "<div class='col-xs-12'><h2 class='text-red'>Risques Bloquants à justifier</h2>";
+		echo '<table class="table table-striped table-bordered table-hover  directoryTable">'.
+				'<thead>'.
+					'<tr>'.
+						'<th>Risque</th>'.
+						'<th>Solution ou Justification</th>'.
+					'</tr>'.
+				'</thead>'.
+				'<tbody class="directoryLines">'.
+				$list.
+				'</tbody></table></div>';
+	}
+} ?>
+
 <script type="text/javascript">
 $(document).ready(function() { 
 	
