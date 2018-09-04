@@ -52,6 +52,8 @@ a survey is build dynamically according to it's structure , it put's together di
 - Answers can be made by users that can be invited 
 - different types of users can be defined and invited to the survey process 
 - As part of an administration process other users(admins) can comme add more answers, like moderation, or selection process answers which will complete the initial answers of the users 
+- Géré les dates en fonction de chaque scénario, bloquer les action si date dépasser ou pas encore passé
+- Unifier les answers en db en un seul doc 
 
 
 ## Problems to test

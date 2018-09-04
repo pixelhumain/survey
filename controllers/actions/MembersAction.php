@@ -14,11 +14,18 @@ class MembersAction extends CAction
         	$queryId = array("links.forms.".(String)$form["_id"]=> array('$exists' => 1) );
         	$persons = Person::getWhere($queryId);
         	$orgas = Organization::getWhere($queryId);
-        	$results = array_merge($persons, $orgas);
-        	//Rest::json($results); exit ;
+        	$merge = array_merge($persons, $orgas);
+        	$elt = array();
+
+            foreach ($merge as $key => $value) {
+                if(!empty($form["links"]) &&
+                    !empty($form["links"]["members"]) &&
+                    !empty($form["links"]["members"][$key]) )
+                    $elt[$key] = $value;
+            }
 
 			echo $this->getController()->render("members",
- 												array(  "results" => $results,
+ 												array(  "results" => $elt,
 											 			"form"=> $form ));
 		} else
 			$this->getController()->render("co2.views.default.unauthorised"); 

@@ -242,7 +242,7 @@ if(@$adminAnswers["risks"] )
 	foreach (@$adminAnswers["risks"] as $kr => $vr) {
 		$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
 		if( $rcol == "red") {
-			$userAction = (@$vr["userAction"]) ? $vr["userAction"] : "<a class='btn btn-danger' href='javascript:;' onclick='alert(\"todo\")'><i class='fa fa-comment'></i> Répondre</a>";
+			$userAction = (@$vr["userAction"]) ? $vr["userAction"] : "<a class='btn btn-danger' href='javascript:;' onclick=''><i class='fa fa-comment'></i> Répondre</a>";
 			$list .= "<tr><td>".$vr["desc"]."</td><td>".$userAction."</td></tr>";
 		}
 	}
@@ -339,6 +339,7 @@ $(document).ready(function() {
 			dyFObj.editStep( editForm , editData);	
 		}
 	});
+
 });
 </script>
 

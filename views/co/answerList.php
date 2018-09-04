@@ -376,10 +376,10 @@ function nextState(step,c) {
 					        url: baseUrl+"/"+moduleId+"/mailmanagement/createandsend/",
 					        data: dataMail
 					    }).done(function (data) {
-					    	//window.location.reload();
+					    	window.location.reload();
 					    });
-			    	}//else
-			    		//window.location.reload();
+			    	}else
+			    		window.location.reload();
 			    });
 	          }
 	        },
