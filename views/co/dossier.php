@@ -242,8 +242,8 @@ if(@$adminAnswers["risks"] )
 	foreach (@$adminAnswers["risks"] as $kr => $vr) {
 		$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
 		if( $rcol == "red") {
-			$userAction = (@$vr["userAction"]) ? $vr["userAction"] : "<a class='btn btn-danger' href='javascript:;' onclick=''><i class='fa fa-comment'></i> Répondre</a>";
-			$list .= "<tr><td>".$vr["desc"]."</td><td>".$userAction."</td></tr>";
+			$userAction = (@$vr["userAction"]) ? $vr["userAction"] : "<a class='btn btn-danger userActionBtn' data-riskid='".$kr."' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a>";
+			$list .= "<tr><td>".$vr["desc"]."</td><td>".@$vr["comment"]."</td><td id='userAction".$kr."'>".$userAction."</td></tr>";
 		}
 	}
 	if($list != "")
@@ -253,6 +253,7 @@ if(@$adminAnswers["risks"] )
 				'<thead>'.
 					'<tr>'.
 						'<th>Risque</th>'.
+						'<th>Commentaire</th>'.
 						'<th>Solution ou Justification</th>'.
 					'</tr>'.
 				'</thead>'.
@@ -340,7 +341,64 @@ $(document).ready(function() {
 		}
 	});
 
+	$('.userActionBtn').off().click(function() {
+		commentRisk( $(this).data("riskid") );
+	});
 });
+
+ function commentRisk(riskId) { 
+		var modal = bootbox.dialog({
+	        message: '<div class="form-group">'+
+				      '<label for="comment">Justifier</label>'+
+				      '<br/><textarea type="text" id="riskComment" name="riskComment" style="width:100%"></textarea>'+
+				      '</div>',
+	        title: "Justifier le risque bloquant",
+	        buttons: [
+	          {
+	            label: "Enregistrer",
+	            className: "btn btn-primary pull-left",
+	            callback: function() {
+	            	if ($('#riskComment').last().val()) 
+	            	{
+			            var comment = $('#riskComment').last().val();
+			            modal.modal("hide");
+			            data={
+			    			formId : form.id,
+			    			answerSection : "risks."+riskId+".userAction" ,
+			    			answers : $('#riskComment').last().val(),
+			    			answerUser : adminAnswers.user 
+			    		};
+			    		console.log("saving",data);
+			          	$.ajax({ 
+			          		type: "POST",
+					        url: baseUrl+"/survey/co/update",
+					        data: data
+					    }).done(function (data) { 
+					    	toastr.success('risk successfully saved!');
+					    	$("#userAction"+riskId).html($('#riskComment').last().val());
+					    });
+
+					} else {
+						bootbox.alert({ message: "Vous devez renseigner les poids du risque." });
+					}
+	              return false;
+	            }
+	          },
+	          {
+	            label: "Annuler",
+	            className: "btn btn-default pull-left",
+	            callback: function() {
+	              console.log("just do something on close");
+	            }
+	          }
+	        ],
+	        show: false,
+	        onEscape: function() {
+	          modal.modal("hide");
+	        }
+	    });
+	    modal.modal("show");
+	}
 </script>
 
 
