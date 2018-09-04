@@ -1,6 +1,84 @@
 <?php if( $canAdmin || (string)$user["_id"] == Yii::app()->session["userId"] ){ ?>
 			
 <h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
+
+
+
+<?php 
+	/* ---------------------------------------------
+	ETAT DU DOSSIER
+	---------------------------------------------- */
+ ?>
+
+
+<div class='col-xs-12'>
+	<h2 class="padding-20"  onclick="$('#state').toggle();" style="background-color:lightgrey;cursor:pointer;">ÉTAT DU DOSSIER <i class="fa pull-right  fa-heartbeat"></i></h2>
+	<table id="state" class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
+		
+		<tbody class="directoryLines">
+			<tr>
+				<td>État du dossier</td>
+				<td>
+					<?php 
+					foreach ($adminForm["scenarioAdmin"] as $ks => $vs) {
+						$c = (@$adminAnswers["step"] && $ks == $adminAnswers["step"]) ?"text-red bold" :"";
+						echo '<span class="'.$c.'"><i class="'.@$vs["icon"].'"></i> '.str_replace("<br/>", "", @$vs["title"]).'</span> <br/> ';
+
+					} ?>
+					
+				</td>
+			</tr>
+			<tr>
+				<td>Numéro de dossier</td>
+				<td><?php echo (string)@$adminAnswers["_id"] ?></td>
+			</tr>
+			<tr>
+				<td>Organisation CTE</td>
+				<td><a class="btn btn-default btn-xs" target="_blank" href="<?php echo Yii::app()->createUrl( "#@cteTco"); ?>">Lien</a></td>
+			</tr>
+
+		</tbody>
+	</table>					
+</div>
+
+
+
+<?php 
+	/* ---------------------------------------------
+	RISQUE BLOQUANT
+	---------------------------------------------- */
+ ?>
+
+<?php 
+if(@$adminAnswers["risks"] )
+{
+	$list= "";
+	$globrcol = "success";
+	foreach (@$adminAnswers["risks"] as $kr => $vr) {
+		$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
+		if( $rcol == "red") {
+			$userAction = (@$vr["userAction"]) ? $vr["userAction"] : "<a class='btn btn-danger userActionBtn' data-riskid='".$kr."' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a>";
+			$list .= "<tr><td>".$vr["desc"]."</td><td>".@$vr["comment"]."</td><td id='userAction".$kr."'>".$userAction."</td></tr>";
+		}
+	}
+	if($list != "")
+	{
+		echo "<div class='col-xs-12'><h2 class='text-red'>Risques Bloquants à justifier</h2>";
+		echo '<table class="table table-striped table-bordered table-hover  directoryTable">'.
+				'<thead>'.
+					'<tr>'.
+						'<th>Risque</th>'.
+						'<th>Commentaire</th>'.
+						'<th>Solution ou Justification</th>'.
+					'</tr>'.
+				'</thead>'.
+				'<tbody class="directoryLines">'.
+				$list.
+				'</tbody></table></div>';
+	}
+} ?>
+
+
 <?php 
 	/* ---------------------------------------------
 	SECTION REPONSE PAR 
@@ -39,44 +117,6 @@
 			<?php } } ?>
 		</tbody>
 	</table>
-</div>
-
-
-<?php 
-	/* ---------------------------------------------
-	ETAT DU DOSSIER
-	---------------------------------------------- */
- ?>
-
-
-<div class='col-xs-12'>
-	<h2 class="padding-20"  onclick="$('#state').toggle();" style="background-color:lightgrey;cursor:pointer;">ÉTAT DU DOSSIER <i class="fa pull-right  fa-heartbeat"></i></h2>
-	<table id="state" class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
-		
-		<tbody class="directoryLines">
-			<tr>
-				<td>État du dossier</td>
-				<td>
-					<?php 
-					foreach ($adminForm["scenarioAdmin"] as $ks => $vs) {
-						$c = (@$adminAnswers["step"] && $ks == $adminAnswers["step"]) ?"text-red bold" :"";
-						echo '<span class="'.$c.'"><i class="'.@$vs["icon"].'"></i> '.str_replace("<br/>", "", @$vs["title"]).'</span> <br/> ';
-
-					} ?>
-					
-				</td>
-			</tr>
-			<tr>
-				<td>Numéro de dossier</td>
-				<td><?php echo (string)@$adminAnswers["_id"] ?></td>
-			</tr>
-			<tr>
-				<td>Organisation CTE</td>
-				<td><a class="btn btn-default btn-xs" target="_blank" href="<?php echo Yii::app()->createUrl( "#@cteTco"); ?>">Lien</a></td>
-			</tr>
-
-		</tbody>
-	</table>					
 </div>
 
 
@@ -234,34 +274,7 @@
 }
 ?>
 
-<?php 
-if(@$adminAnswers["risks"] )
-{
-	$list= "";
-	$globrcol = "success";
-	foreach (@$adminAnswers["risks"] as $kr => $vr) {
-		$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
-		if( $rcol == "red") {
-			$userAction = (@$vr["userAction"]) ? $vr["userAction"] : "<a class='btn btn-danger userActionBtn' data-riskid='".$kr."' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a>";
-			$list .= "<tr><td>".$vr["desc"]."</td><td>".@$vr["comment"]."</td><td id='userAction".$kr."'>".$userAction."</td></tr>";
-		}
-	}
-	if($list != "")
-	{
-		echo "<div class='col-xs-12'><h2 class='text-red'>Risques Bloquants à justifier</h2>";
-		echo '<table class="table table-striped table-bordered table-hover  directoryTable">'.
-				'<thead>'.
-					'<tr>'.
-						'<th>Risque</th>'.
-						'<th>Commentaire</th>'.
-						'<th>Solution ou Justification</th>'.
-					'</tr>'.
-				'</thead>'.
-				'<tbody class="directoryLines">'.
-				$list.
-				'</tbody></table></div>';
-	}
-} ?>
+
 
 <script type="text/javascript">
 $(document).ready(function() { 
