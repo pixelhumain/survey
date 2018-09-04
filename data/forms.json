@@ -249,7 +249,6 @@
                     "properties" : {
                         "status" : {
                             "inputType" : "uploader",
-                            "afterUploadComplete" : "/survey/co/index/id/cte2",
                             "label" : "Ajouter les statuts ou Kbis ou Délibération :",
                             "showUploadBtn" : false,
                             "docType" : "file",
@@ -258,7 +257,8 @@
                             "domElement" : "statusFile",
                             "placeholder" : "Statuts de la structure",
                             "linkTo" : "organization",
-                            "endPoint" : "/document/uploadSave/dir/communecter/subDir/status/input/qqfile/docType/file/contentKey/survey/keySurvey/cte1",
+                            "endPoint" : "/subDir/survey.cte1.status/surveyId/cte",
+                            "afterUploadComplete" : "/survey/co/index/id/cte2",
                             "template" : "qq-template-manual-trigger",
                             "filetypes" : [ 
                                 "pdf"
