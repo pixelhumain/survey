@@ -16,20 +16,26 @@
 				//var_dump($adminAnswers); echo "<br/><br/><br/>"; echo json_encode($answers); exit;
 				echo $this->renderPartial( "survey.views.co.modalSelectCategorie",array());
 				?>
-				<center><h2>Eligibilité</h2>
+				<center>
 				<?php
 				echo '<div id="active'.$project["id"].$project["type"].'">';
-					echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-email="'.$answers["cte2"]["email"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
-						if(!empty($project["parentId"]) && !empty($project["parentType"])){
-							echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
-						}
-					echo 'class="btn btn-success activeBtn col-sm-offset-1 col-sm-4 col-xs-12">Eligible</a>';
 
-					echo '<a href="javascript:;"  data-id="'.$project["id"].'"  data-email="'.$answers["cte2"]["email"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
-						if(!empty($project["parentId"]) && !empty($project["parentType"])){
-							echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
-						}
-					echo 'class="btn btn-danger notEligibleBtn col-sm-offset-2 col-sm-4 col-xs-12">Non Eligible</a>';
+					if($canSuperAdmin == true){
+						echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-email="'.$answers["cte2"]["email"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
+							if(!empty($project["parentId"]) && !empty($project["parentType"])){
+								echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
+							}
+						echo 'class="btn btn-success activeBtn col-sm-offset-1 col-sm-4 col-xs-12">Eligible</a>';
+
+						echo '<a href="javascript:;"  data-id="'.$project["id"].'"  data-email="'.$answers["cte2"]["email"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
+							if(!empty($project["parentId"]) && !empty($project["parentType"])){
+								echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
+							}
+						echo 'class="btn btn-danger notEligibleBtn col-sm-offset-2 col-sm-4 col-xs-12">Non Eligible</a>';
+					}else{
+						echo "<span class='text-red' ><h4>En attente d'une réponse</h4></span>";
+					}
+					
 				echo '</div>';
 
 				?>

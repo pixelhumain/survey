@@ -185,7 +185,7 @@ $adminTCO = Form::canSuperAdmin($form["id"], $form);
 
 			        $("#admin"+params.childId+params.childType).html("Non");
 			        $("#removeAdmin"+params.childId).remove();
-			        var action += '<li id="addAdmin'+key+'"><a href="javascript:;" data-id="'+params.childId+'" data-type="'+params.childType+'" class="margin-right-5 addAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Ajouter en tant que admin</a></li>' ;
+			        var action = '<li id="addAdmin'+key+'"><a href="javascript:;" data-id="'+params.childId+'" data-type="'+params.childType+'" class="margin-right-5 addAdmin"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-2x stack-right-bottom text-danger"></i></span>Ajouter en tant que admin</a></li>' ;
 			        $("#actionMenu"+params.childId).append(action);
 			        form.links.members[params.childId].isAdmin = false;
 			  //       if( form.links.members[key].type == "<?php //echo Person::COLLECTION ; ?>"){
