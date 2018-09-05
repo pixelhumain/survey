@@ -7,13 +7,8 @@
 	#riskCatalogList tr {cursor: pointer;}
 </style>
 <div class="col-xs-12 padding-20">
-	<h1>Risques évalués ?</h1>
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	<h1>évalués les risques?</h1>
+	
 	<br>
 	<div class="padding-10 margin-bottom-20"  style="border:1px solid #ccc">
 

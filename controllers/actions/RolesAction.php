@@ -18,10 +18,12 @@ class RolesAction extends CAction
 
 			if($role){
 				$params["answers"] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id, "categories.".$role=>array('$exists'=>1),"step"=>"ficheAction"));
+				//Rest::json( $params["answers"]); exit;
 				foreach ($params["answers"] as $key => $value) {
-					$params["answers"][$key]["answers"] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$id));
+					$params["answers"][$key]["answers"] = PHDB::find( Form::ANSWER_COLLECTION , array("user"=>$value["user"]));
 
 					//CTE specific 
+
 					foreach ( $params["answers"][$key]["answers"] as $k => $v ) {
 						$params["answers"][$key]["answers"][ $v["formId"] ] = $v;
 						if( @$v["answers"]["organization"]["id"] ){
@@ -37,7 +39,9 @@ class RolesAction extends CAction
 				
 				// $params["actions"] = PHDB::find( Action::COLLECTION , array("parentIdSurvey"=>(String) $form["_id"]));
 				// $params["actions"] = PHDB::find( Action::COLLECTION , array("formId"=>$id, "categories.".$role=>array('$exists'=>1)));
+
 			}
+			//Rest::json($params["answers"]); exit;
 	 		echo $ctrl->render( "roles" ,$params);
 		} else 
 			$ctrl->render("co2.views.default.unauthorised"); 

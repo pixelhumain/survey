@@ -50,16 +50,11 @@ if(@$adminAnswers["categories"]){
 	// ---------------------------------------
 	 ?>
 	<div id="eligibleDesc" class="eliSec col-xs-12 padding-20">
-		<h1>Descriptif de la <?php echo mb_strtoupper($prioKey) ?></h1>
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		<br>
-		<div class="padding-10"  style="border:1px solid red">
-			<h3 class="text-center">Matrice de <?php echo mb_strtoupper($prioKey) ?></h3>
+		<h2>Récapitulation de la <?php echo mb_strtoupper($prioKey) ?></h2>
+		La priorisation permet d'évaluer l'opportunité et la faisabilité du projet dans les différentes thématiques qui lui sont associer.
+		<br/><br/><br/>
+		<div class="padding-10"  style="border:0px solid red">
+			<h4 class="text-center">Matrice de <?php echo mb_strtoupper($prioKey) ?></h4>
 			<table border="1" class="text-red text-center bold" style="margin:0px auto;">
 				<tr>
 					<?php foreach ($adminAnswers["categories"] as $ka => $va ) {
@@ -106,25 +101,26 @@ if(@$adminAnswers["categories"]){
 	<?php foreach ($adminAnswers["categories"] as $key => $vey ) {?>
 			<div id="<?php echo $key ?>" style="display:none" class="eliSec col-xs-12 padding-20">
 				<div class="col-xs-12 text-center " >
-					<h2 class="text-center"><?php echo mb_strtoupper($prioKey) ?> <?php echo $key ?></h2>
+					<h2 class=""><?php echo mb_strtoupper($prioKey) ?> <?php echo $key ?></h2>
 
 					<?php 
 						$showHide = (@$adminAnswers["answers"][$prioKey][$key]) ? "" : "hide";
+						$showHide = "";
 					// ---------------------------------------
 					// GLOBAL RESULT TABLE FOR EACH CATEGORY
 					// ---------------------------------------
 					 ?>
 					<div class="margin-bottom-20 padding-10 <?php echo $showHide ?> <?php echo $key?>_Priorisation"  style="border:1px solid red">
 						<h3 class="text-center text-red" >Matrice de <?php echo mb_strtoupper($prioKey) ?>  <?php echo $key ?></h3>
-						<table border="1" class="text-center text-red" style="margin:0px auto;">
+						<table border="1" class="text-center padding-10" style="margin:0px auto;">
 							<tr>
 								<?php 
 								foreach ($prioTypes as $prioType ) 
 								{  ?>
-								<th class="padding-10"><a href="javascript:;" onclick="showTableOrForm('<?php echo $key ?>','<?php echo $prioType ?>')"><?php echo mb_strtoupper($prioType) ?></a></th>
+								<th class="padding-10"><a href="javascript:;" onclick="showTableOrForm('<?php echo $key ?>','<?php echo $prioType ?>')"><i class="fa fa-pencil"></i> <?php echo mb_strtoupper($prioType) ?></a></th>
 								<?php } ?>
-								<th>Note globale</th>
-								<th>Classification</th>
+								<th class="padding-10">Note globale</th>
+								<th class="padding-10">Classification</th>
 							</tr>
 							<tr>
 								<?php 
@@ -138,7 +134,7 @@ if(@$adminAnswers["categories"]){
 							<tr>
 								<?php 
 								$countRes = 0;
-								$countTotal = 0;
+								$countTotal = 0; 
 								foreach ($prioTypes as $prioType ) 
 								{  ?>
 								<td class="<?php echo $key?>_Total <?php echo $key?>_<?php echo $prioType ?>TotalNum">
@@ -169,12 +165,14 @@ if(@$adminAnswers["categories"]){
 						$score = "";
 						$titleResult = "à noter";
 						$btnColor = "btn-danger";
+						$btnColor = "btn-default" ;
 						$hideTable = "";
+						$hideTable = "display:none;";
 						if(@$adminAnswers["answers"][$prioKey][$key][ $prioType ]["total"]){
 							$score = "[NOTE : ".$adminAnswers["answers"][$prioKey][$key][ $prioType ]["total"]."]";
 							$titleResult = "résultat ".$prioType;
 							$btnColor = "btn-default" ;
-							$hideTable = "display:none;";
+							//$hideTable = "display:none;";
 						}
 					?>
 
