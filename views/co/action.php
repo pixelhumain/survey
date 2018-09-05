@@ -58,7 +58,6 @@
 </div>
 
 <?php 
-var_dump(expression)
 $params = array( "answers" => $answers, 
 							 'answerCollection' => "actions",
 							 'answerId' => (string)$answers["_id"] ,
