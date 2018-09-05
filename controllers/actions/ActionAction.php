@@ -33,7 +33,7 @@ class ActionAction extends CAction
 											array( "_id" => array('$in' => $idProject)) );
 			}
 
-			$user = PHDB::findOne( Person::COLLECTION , array("_id"=>new MongoId($action["creator"])))
+			$user = PHDB::findOne( Person::COLLECTION , array("_id"=>new MongoId($action["creator"])));
 			//$user = Person::getById($action["creator"]);
 			//Rest::json($projects); 
 			var_dump($user);
