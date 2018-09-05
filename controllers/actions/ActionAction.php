@@ -9,12 +9,12 @@ class ActionAction extends CAction
     	$user = Person::getById($action["creator"]);
     	$parentSurvey = PHDB::findOne( $action["parentTypeSurvey"] , array("_id"=>new MongoId($action["parentIdSurvey"])));
     	$form = PHDB::findOne( Form::COLLECTION , array( "id"=> $parentSurvey["id"]."Admin" ));
-    	var_dump( $form["links"] );
-    	var_dump(Form::canAdmin( $form["id"], $form ) );
-    	var_dump(( $user == Yii::app()->session["userId"] )); exit;
+    	// var_dump( $form );
+    	// var_dump(Form::canAdmin( $form["id"], $form ) );
+    	// var_dump(( $user == Yii::app()->session["userId"] )); exit;
     	if ( ! Person::logguedAndValid() ) 
 			$ctrl->render("co2.views.default.loginSecure");
-		else if( Form::canAdmin( $form["id"], $form ) || $user == Yii::app()->session["userId"])
+		else if( Form::canAdmin( $form["id"] ) || $user == Yii::app()->session["userId"])
 		{ 
 			$idProject = [];
 			$projects = [] ;
