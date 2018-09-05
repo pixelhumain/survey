@@ -574,6 +574,39 @@
             "icon" : "cogs",
             "form" : {
                 "scenario" : {
+                    "projects" : {
+                        "title" : "Projets",
+                        "description" : "liste des projets associés à cette fiche action",
+                        "arrayForm" : true,
+                        "icon" : "fa-lightbulb-o",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Projets associés",
+                                "icon" : "fa-lightbulb-o",
+                                "properties" : {
+                                    "projectsLinked" : {
+                                        "inputType" : "arrayForm",
+                                        "label" : "Liste des projets",
+                                        "properties" : {
+                                            "project" : {
+                                                "placeholder" : "Projet"
+                                            },
+                                            "name" : {
+                                                "placeholder" : "name"
+                                            },
+                                            "description" : {
+                                                "placeholder" : "description"
+                                            },
+                                            "indicateur" : {
+                                                "placeholder" : "indicateur",
+                                                "class" : "description3 markdown"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "detail" : {
                         "title" : "Détail",
                         "description" : "critère d'évaluation de faisabilité",
@@ -689,19 +722,6 @@
                                     }
                                 }
                             }
-                        }
-                    },
-                    "projects" : {
-                        "title" : "Projets",
-                        "description" : "liste des projets associés à cette fiche action",
-                        "arrayForm" : true,
-                        "icon" : "fa-lightbulb-o",
-                        "key" : "projectsLinked",
-                        "properties" : {
-                            "project" : "Project Selectionné(s)",
-                            "name" : "name",
-                            "description" : "description",
-                            "indicateur" : "indicateur"
                         }
                     },
 
@@ -909,23 +929,86 @@
                             }
                         }
                     },
-                                  
-
+                    "validation" : {
+                        "title" : "Financement",
+                        "description" : "Financement",
+                        "icon" : "fa-thumbs-o-up",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Validation de l'action",
+                                "type" : "object",
+                                "properties" : {
+                                    "techniqueDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation technique",
+                                        "placeholder" : "Date de la validation technique"
+                                    },
+                                    "financière" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Validation financière",
+                                        "placeholder" : "Avis",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "financiereDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation financière",
+                                        "placeholder" : "Date de la validation financière"
+                                    },
+                                    "juridique" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Validation juridique",
+                                        "placeholder" : "Avis",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "juridiqueDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation juridique",
+                                        "placeholder" : "Date de la validation juridique"
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "estimation" : {
                         "title" : "Plan de Financement",
                         "description" : "liste des projets associés à cette fiche action",
                         "arrayForm" : true,
                         "icon" : "fa-money",
-                        "key" : "financement",
-                        "properties" : {
-                            "project" : "Le projet",
-                            "public" : "Public ou Privés",
-                            "amount" : "Montant du Financement",
-                            "year" : "Année du Financement",
-                            "percent" : "Quelle part du projet globale",
-                            "financer" : "Cadre d'intervention"
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Quel financement",
+                                "icon" : "fa-money",
+                                "properties" : {
+                                    "financement" : {
+                                        "title" : "Plan de Financement",
+                                        "icon" : "fa-money",
+                                        "inputType" : "arrayForm",
+                                        "properties" : {
+                                            "project" : {
+                                                "placeholder" : "Choisissez un projet"
+                                            },
+                                            "public" : {
+                                                "placeholder" : "Financement Public"
+                                            },
+                                            "amount" : {
+                                                "placeholder" : "Montant du Financement"
+                                            },
+                                            "year" : {
+                                                "placeholder" : "Année du Financement"
+                                            },
+                                            "percent" : {
+                                                "placeholder" : "Quelle part du projet globale"
+                                            },
+                                            "financer" : {
+                                                "placeholder" : "Cadre d'intervention"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                }
             }
         }
     }
