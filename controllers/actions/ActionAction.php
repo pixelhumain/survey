@@ -6,6 +6,7 @@ class ActionAction extends CAction
     	$ctrl = $this->getController();
     	$ctrl->layout = "//layouts/empty";
     	$action = PHDB::findOne( Action::COLLECTION , array("_id"=>new MongoId($aid)));
+    	
     	$user = Person::getById($action["creator"]);
     	$parentSurvey = PHDB::findOne( $action["parentTypeSurvey"] , array("_id"=>new MongoId($action["parentIdSurvey"])));
     	$form = PHDB::findOne( Form::COLLECTION , array( "id"=> $parentSurvey["id"]."Admin" ));

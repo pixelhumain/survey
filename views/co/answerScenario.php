@@ -51,13 +51,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 	---------------------------------------------- */
 
 foreach ( $form[ $scenario ] as $k => $v ) {
-	
+	echo "K = ".$k."<br/>";
 	//echo count(array_keys( $v["form"] ));
 	if(	!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"]["scenario"] )) )
 	{
 		foreach ( $v["form"]["scenario"] as $step => $f ) 
 		{
-			//echo $step;
+			echo "step = ".$step."<br/>";
 			if( !@$answers[$k]["answers"][$step] )
 			{
 				$answers["answers"] = array();
