@@ -51,25 +51,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 	---------------------------------------------- */
 
 foreach ( $form[ $scenario ] as $k => $v ) {
-	echo "K = ".$k."<br/>";
 	//echo count(array_keys( $v["form"] ));
 	if(	!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"]["scenario"] )) )
 	{
 		foreach ( $v["form"]["scenario"] as $step => $f ) 
 		{
-			echo "step = ".$step."<br/>";
 			if( !@$answers[$k]["answers"][$step] )
 			{
-				echo "Here <br/>";
 				$answers["answers"] = array();
 				$answers["answers"][$step] = array();
 				if( @$f["json"]['jsonSchema']["properties"] )
 				{
 					foreach ( $f["json"]['jsonSchema']["properties"] as $key => $value ) 
 					{
-						echo "key = ".$key."<br/>";
 						if (@$value["properties"]){
-							echo "Here 2 <br/>";
 							$answers[$k]["answers"][$step][$key] = []; 
 							$tmp = array();
 							foreach ($value["properties"] as $ki => $vi) {
