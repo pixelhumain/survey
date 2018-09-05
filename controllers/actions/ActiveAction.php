@@ -30,7 +30,7 @@ class ActiveAction extends CTKAction{
 			//Rest::json($child);exit ;
 
 			$res[] = Link::multiconnect($child, $_POST["form"], Form::COLLECTION);
-
+			var_dump("HERE11");
 			if(!empty($_POST["parentId"]) && !empty($_POST["parentType"])){
 				var_dump("HERE2");
 				$existParent =PHDB::findOne( $_POST["parentType"] , array("_id"=>new MongoId($_POST["parentId"])) );
