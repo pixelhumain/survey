@@ -31,7 +31,7 @@ class ActionAction extends CAction
 					$projects = PHDB::find(	Project::COLLECTION, 
 											array( "_id" => array('$in' => $idProject)) );
 			}
-			$user = Person::getById($action["creator"])
+			$user = Person::getById($action["creator"]);
 			//Rest::json($projects); exit ;
 			
 			$params = array( "answers" => $action, 
