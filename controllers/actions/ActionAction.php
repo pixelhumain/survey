@@ -38,7 +38,7 @@ class ActionAction extends CAction
 
 			
 			
-			
+			Rest::json($projects); exit ;
 			$params = array( "answers" => $action, 
 							 'answerCollection' => "actions",
 							 'answerId' => (string)$action["_id"] ,
