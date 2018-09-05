@@ -27,10 +27,16 @@ class ActiveAction extends CTKAction{
 								"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()),
 							 	"link" => "projectExtern");
 			var_dump("HERE1");
+			var_dump($child);
+
+			var_dump("HERE1");
+			var_dump($_POST["form"]);
+			var_dump("HERE1");
+			var_dump(Form::COLLECTION));
 			//Rest::json($child);exit ;
 
 			$res[] = Link::multiconnect($child, $_POST["form"], Form::COLLECTION);
-			
+			var_dump("HERE11");
 			if(!empty($_POST["parentId"]) && !empty($_POST["parentType"])){
 				
 				$existParent =PHDB::findOne( $_POST["parentType"] , array("_id"=>new MongoId($_POST["parentId"])) );
