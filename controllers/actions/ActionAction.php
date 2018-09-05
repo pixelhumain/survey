@@ -22,6 +22,7 @@ class ActionAction extends CAction
 			$formParent = PHDB::findOne( Form::COLLECTION, array( "id"=> $parentSurvey["id"] ), array("links"));
 			//Rest::json($action["role"]); exit ;
 			if(!empty($formParent["links"]["projectExtern"])){
+				Rest::json($formParent["links"]["projectExtern"]); exit ;
 				foreach ($formParent["links"]["projectExtern"] as $key => $value) {
 
 					foreach ($action["role"] as $keyR => $valueR) {
