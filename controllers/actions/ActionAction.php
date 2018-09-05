@@ -30,7 +30,7 @@ class ActionAction extends CAction
 					}
 					
 				}
-
+				Rest::json($idProject); exit ;
 				if(!empty($idProject))
 					$projects = PHDB::find(	Project::COLLECTION, 
 											array( "_id" => array('$in' => $idProject)) );
