@@ -31,7 +31,7 @@ class ActionAction extends CAction
 					$projects = PHDB::find(	Project::COLLECTION, 
 											array( "_id" => array('$in' => $idProject)) );
 			}
-
+			$user = Person::getById($action["creator"])
 			//Rest::json($projects); exit ;
 			
 			$params = array( "answers" => $action, 
@@ -40,7 +40,7 @@ class ActionAction extends CAction
 							 "parentSurvey"=>$parentSurvey,
 							 'form' => $form ,
 							 'projects' => $projects,
-							 "user" => Person::getById( $action["creator"]),
+							 "user" => $user,
 							 'scenario' => "scenarioFicheAction" );
 			//todo apply cte customisation ???
 			

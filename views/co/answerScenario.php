@@ -108,7 +108,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 			if(@$v["form"]["scenario"][$key]["saveElement"]) 
 				$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 			else if(!@$v["form"]["scenario"][$key]["arrayForm"])
-				$editBtn = ( @(string)$user["_id"] == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
+				$editBtn = ( !empty($user) && (string)$user["_id"] == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
 
 			$titleIcon = (@$v["form"]["scenario"][$key]['icon']) ? "<i class='fa ".@$v["form"]["scenario"][$key]['icon']." ".@$v["form"]["scenario"][$key]['titleClass']."'></i>" : "";
 			echo "<div class='col-xs-12'>".
