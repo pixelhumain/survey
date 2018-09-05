@@ -6,6 +6,7 @@ class ActionAction extends CAction
     	$ctrl = $this->getController();
     	$ctrl->layout = "//layouts/empty";
     	$action = PHDB::findOne( Action::COLLECTION , array("_id"=>new MongoId($aid)));
+    	var_dump($action);
     	$parentSurvey = PHDB::findOne( $action["parentTypeSurvey"] , array("_id"=>new MongoId($action["parentIdSurvey"])));
     	$form = PHDB::findOne( Form::COLLECTION , array( "id"=> $parentSurvey["id"]."Admin" ));
 
@@ -32,8 +33,8 @@ class ActionAction extends CAction
 											array( "_id" => array('$in' => $idProject)) );
 			}
 			$user = Person::getById($action["creator"]);
-			//Rest::json($projects); exit ;
-			
+			//Rest::json($projects); 
+			var_dump($user);exit ;
 			$params = array( "answers" => $action, 
 							 'answerCollection' => "actions",
 							 'answerId' => (string)$action["_id"] ,
