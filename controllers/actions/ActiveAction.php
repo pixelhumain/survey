@@ -17,7 +17,7 @@ class ActiveAction extends CTKAction{
 		$res = array("result" => false,
 					"msg" => "N\'est pas éligible");
 		
-		var_dump("HERE1");
+	
 		if(!empty($_POST["eligible"]) && ($_POST["eligible"] === true || $_POST["eligible"] == "true")) {
 
 			$child = array();
@@ -26,19 +26,13 @@ class ActiveAction extends CTKAction{
 								"childName" => $_POST["childName"],
 								"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()),
 							 	"link" => "projectExtern");
-			var_dump("HERE12");
-			var_dump($child);
 
-			var_dump("HERE13");
-			var_dump($_POST["form"]);
-			var_dump("HERE14");
-			var_dump(Form::COLLECTION);
 			//Rest::json($child);exit ;
 
 			$res[] = Link::multiconnect($child, $_POST["form"], Form::COLLECTION);
-			var_dump("HERE15");
+
 			if(!empty($_POST["parentId"]) && !empty($_POST["parentType"])){
-				
+
 				$existParent =PHDB::findOne( $_POST["parentType"] , array("_id"=>new MongoId($_POST["parentId"])) );
 
 				if(!empty($existParent)){
@@ -63,7 +57,7 @@ class ActiveAction extends CTKAction{
 					$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
 				}
 			}
-			
+
 			$data["eligible"] = true ;
 			$data["step"] = array_keys($adminForm["scenarioAdmin"])[2] ;
 			$roles = explode(",", $_POST["roles"]);
@@ -71,7 +65,7 @@ class ActiveAction extends CTKAction{
 			$pourcentage = round(100 / count($roles), 2);
 
 			$data["categories"] = array() ;
-			
+
 			foreach ($roles as $key => $value) {
 				$data["categories"][InflectorHelper::slugify( $value )] = array( "name" => $value,"pourcentage" => $pourcentage);
 			}
@@ -86,7 +80,7 @@ class ActiveAction extends CTKAction{
 							"msg" => "Eligible",
 							"data" => $data);
 		}
-		
+
 		Form::save($data);
 		Mail::createAndSend($paramMail);
 		echo Rest::json( $res );
