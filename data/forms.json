@@ -291,8 +291,8 @@
     "title" : "Objectifs ?",
     "author" : "5534fd9da1aa14201b0041cb",
     "description" : "Définissez l'action dans le cadre du contrat de transition Ecologique",
-    "parenType" : "organizations",
-    "parentId" : "592e54d1539f2278258b456c",
+    "parentType" : "organizations",
+    "parentId" : "5b47451ddd0452ca52000693",
     "surveyType" : "oneSurvey",
     "scenario" : {
         "objectif" : {
@@ -413,23 +413,45 @@
     "scenarioAdmin" : {
         "dossier" : {
             "title" : "Dossier",
-            "icon" : "folder-open-o"
+            "icon" : "folder-open-o",
+            "startDate" : ISODate("2018-06-10T12:01:14.000Z"),
+            "endDate" : ISODate("2018-09-17T12:01:14.000Z")
         },
         "eligible" : {
             "title" : "Éligibilité <br/>par TCOPIL",
-            "icon" : "thumbs-o-up"
+            "icon" : "thumbs-o-up",
+            "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "endDate" : ISODate("2018-09-17T12:01:14.000Z")
         },
         "priorisation" : {
             "title" : "Priorisation<br/> par TCOPIL",
-            "icon" : "sort-amount-desc"
+            "icon" : "sort-amount-desc",
+            "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "mail" : {
+                "tpl" : "priorisationCTE",
+                "tplObject" : "Etape de priorisation CTE"
+            }
         },
         "risk" : {
             "title" : "Gestion du Risque",
-            "icon" : "warning"
+            "icon" : "warning",
+            "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "mail" : {
+                "tpl" : "riskCTE",
+                "tplObject" : "Etape de risque CTE"
+            }
         },
         "ficheAction" : {
             "title" : "Fiches Actions",
-            "icon" : "file-text"
+            "icon" : "file-text",
+            "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "mail" : {
+                "tpl" : "actionCTE",
+                "tplObject" : "Etape de risque CTE"
+            }
         }
     },
     "scenario" : {
