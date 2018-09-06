@@ -31,14 +31,18 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 </style>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
 	
-	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-		<h1><?php echo $form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
-
-		<h2 class="text-center">
+	<div class="col-md-12 col-sm-12 col-xs-12 ">
+		<h1 class="text-center">Liste des projets <!-- <a href="<?php //echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php // echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a>  --></h1>
+		<br/>
+		<h5 class="">
+			Filtres : 
 			<a href="javascript:;" onclick="showType('line')" class="btn btn-xs btn-default">Tous</a>
 			<a href="javascript:;" onclick="showType('eligible')" class="btn btn-xs btn-default">Éligible</a> 
 			<a href="javascript:;" onclick="showType('noteligible')" class="btn btn-xs btn-default">Non éligible</a> 
 			<a href="javascript:;" onclick="showType('todoeligible')" class="btn btn-xs btn-default">Étudier l'éligibilité</a>
+		</h5>
+		<h5 class="">	
+			Thématiques : 
 			<?php 
 			$lblRole = array();
 			foreach ($form["custom"]["roles"] as $key) {
@@ -46,10 +50,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 				?>
 				<a href="javascript:;" onclick="showType('<?php echo InflectorHelper::slugify($key)?>')" class="btn btn-xs btn-default"><?php echo $key; ?></a>
 			<?php } ?>
-			</h2>
+		</h5>	
 
 		<div style="width:80%;  display: -webkit-inline-box;">
-	    	<input type="text" class="form-control" id="search" placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
+	    	<input type="text" class="form-control" id="search" placeholder="Rechercher une information dans le tableau">
 	    </div>
     </div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
@@ -71,7 +75,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th>Voir la réponse</th>
 						<th>Eligibilité</th>
 						<th>Priorisation</th>
-						<th>Risques</th>
+						<th>Contraintes</th>
 						<th>Fiche Action</th>
 					</tr>
 				</thead>

@@ -34,7 +34,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 	if(	Form::canAdmin($form["id"], $form) ){ ?>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-		<h1><?php echo "Membre du ".$form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
+		<h1><?php echo "Liste des membres "?> <!-- <a href="<?php //echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php //echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> --> </h1>
 		<div id="" class="" style="width:80%;  display: -webkit-inline-box;">
 	    	<input type="text" class="form-control" id="input-search-table" 
 					placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
@@ -50,9 +50,9 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 			<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
-						<th>Name</th>
+						<th>Nom</th>
 						<th>Email</th>
-						<th>userID</th>
+						<th>Identifiant</th>
 						<th>Roles</th>
 						<th>Admin</th>
 						<th>Action</th>
