@@ -60,7 +60,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	<div class="panel-body">
 		<div>
 			<!-- <a href="<?php //echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a> -->
-			<span><b>Il y a <?php echo count(@$results); ?> réponses</b></span> 
+			<span><b>Il y a <span id="nbLine"><?php echo count(@$results); ?></span> réponses</b></span> 
 			<a href="<?php echo Yii::app()->createUrl('survey/co/roles/id/'.$_GET["id"]); ?>" class="pull-right btn btn-xs btn-primary margin-10">Fiche Action</a>
 			<br/>
 
@@ -173,11 +173,19 @@ jQuery(document).ready(function() {
 	$("#search").on("keyup", function() {
 	    var value = $(this).val().toLowerCase();
 	    $("#panelAdmin tr.line").filter( function() {
-	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    	$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+	    	countLine();
 	    });
 	});
 
 });
+
+function countLine(){
+	var nbLine = $("#panelAdmin tr.line").filter(function() {
+			    return $(this).css('display') !== 'none';
+			}).length ;
+	$("#nbLine").html(nbLine);
+}
 
 
 
