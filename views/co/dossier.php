@@ -153,7 +153,7 @@ if(@$adminAnswers["risks"] )
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 			}
 			echo "<div class='col-xs-12'>".
-					"<h2> [ step ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
+					"<h2> [ étape ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
 			echo '<table class="table table-striped table-bordered table-hover  directoryTable">'.
 				'<thead>'.
 					'<tr>'.
