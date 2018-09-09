@@ -1,15 +1,15 @@
 <?php
 class RolesAction extends CAction
 {
-    public function run($id,$role=null)
+    public function run($id,$session,$role=null)
     {
     	$ctrl = $this->getController();
     	$ctrl->layout = "//layouts/empty";
-    	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+    	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id,"session"=>$session));
 
     	if ( ! Person::logguedAndValid() ) 
 			$ctrl->render("co2.views.default.loginSecure");
-		else if( Form::canAdmin( $id, $form ) )
+		else if( Form::canAdmin( (string)$form["_id"], $form ) )
 		{ 
 			$params = array(
 				"roles"=>$form["custom"]["roles"],

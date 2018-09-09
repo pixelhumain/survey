@@ -1,12 +1,12 @@
 <?php
 class AnswersAction extends CAction{
-	public function run($id,$role=null){
+	public function run($id,$session,$role=null){
 		$this->getController()->layout = "//layouts/empty";
 
-		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id,"session"=>$session));
 		if ( ! Person::logguedAndValid() ) {
 			$this->getController()->render("co2.views.default.loginSecure");
-		}else if(Form::canAdmin($id, $form)){ 
+		}else if(Form::canAdmin((string)$form["_id"], $form)){ 
 			
 			if( $form["surveyType"] == "surveyList" )  {
 				// $answers = PHDB::find( Form::ANSWER_COLLECTION , 

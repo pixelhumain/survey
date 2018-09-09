@@ -33,7 +33,7 @@ if(@$adminAnswers["categories"]){
 
 		foreach ($adminAnswers["categories"] as $ka => $va ) { ?>
 		  <li id="<?php echo $ka?>Btn" class="catElLI bold"><a href="javascript:;" onclick="EliTabs('<?php echo $ka ?>')"><?php 
-		  	$ic = ( !@$adminAnswers["answers"][$prioKey][ $va["name"]]["total"] && Form::canAdminRoles($form["id"], $va["name"], $form) ) ? " <i class='text-red fa fa-cog'></i>" : "";
+		  	$ic = ( !@$adminAnswers["answers"][$prioKey][ $va["name"]]["total"] && Form::canAdminRoles((string)$form["_id"], $va["name"], $form) ) ? " <i class='text-red fa fa-cog'></i>" : "";
 			echo mb_strtoupper($va["name"]).$ic; ?></a></li>
 		  <?php } ?>
 			<li class="pull-right">
@@ -178,7 +178,7 @@ if(@$adminAnswers["categories"]){
 
 					<div class="padding-10 <?php echo $key?>_DataTables" id="<?php echo $key?>_<?php echo $prioType ?>Table"  style="<?php echo $hideTable ?> border:1px solid #666">
 
-						<?php if( Form::canAdminRoles($form["id"], $vey["name"], $form) )  { ?>
+						<?php if( Form::canAdminRoles((string)$form["_id"], $vey["name"], $form) )  { ?>
 						<a href="javascript:;" data-section="<?php echo $prioKey?>" data-category="<?php echo $key?>" data-step="<?php echo $prioType ?>" data-form="<?php echo substr( $adminForm["parentSurvey"], 0, -5 )?>" class="adminStep btn <?php echo $btnColor; ?>"><?php echo $adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ]["title"] ?></a>
 					<?php } ?>
 						<h3 class="text-center <?php echo $key?>_<?php echo $prioType ?>ResultHead <?php echo $key?>_prioTitle <?php echo $showHide ?>"><span class="<?php echo $key?>_<?php echo $prioType ?>ResultHeadLabel"><?php echo $titleResult ?></span> <span class="text-red <?php echo $key?>_<?php echo $prioType ?>Total"><?php echo $score ?></span></h3>
@@ -276,6 +276,7 @@ if(@$adminAnswers["categories"]){
 			
 			data={
     			formId : updateForm.form,
+    			session : form.session,
     			answerSection : "answers."+updateForm.category+"."+updateForm.step ,
     			answerKey : "<?php echo $adminForm['key'] ?>" ,
     			answerStep : updateForm.cat ,

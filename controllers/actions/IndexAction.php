@@ -1,17 +1,16 @@
 <?php
 class IndexAction extends CAction
 {
-    public function run($id=NULL)
+    public function run($id=null,$session=null)
     {
     	$this->getController()->layout = "//layouts/empty";
     	if( @$id )
     	{
-	 		if(@$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id) )){
+	 		if(@$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id,"session"=>$session) )){
 	 			$this->getController()->pageTitle = @$form["seo"]["title"];
 				$this->getController()->keywords = @$form["seo"]["keywords"];
 				$form["t"] = time();
-	 			//pour etre sur qu'on passe par le process dans CO pour enregistrer on decodera le hash
-	 			//dans l'autre sens 
+	 			//pour etre sur qu'on passe par le process dans CO pour enregistrer on decodera le hash dans l'autre sens 
 	 			$form["h"] = hash('sha256', $form["t"].Yii::app()->params["idOpenAgenda"] );
 	 			$answers = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id,"user"=> @Yii::app()->session["userId"] ) );
 	 			if( $form["surveyType"] == "surveyList" || @$form["parentSurvey"] ){
@@ -22,7 +21,7 @@ class IndexAction extends CAction
 	 			$startDate = null;
 	 			$endDate = null;
 	 			if( @$form["parentSurvey"] ){
-	 				$form["parentSurvey"] = PHDB::findOne( Form::COLLECTION , array("id"=>$form["parentSurvey"]) );
+	 				$form["parentSurvey"] = PHDB::findOne( Form::COLLECTION , array("id"=>$form["parentSurvey"],"session"=>$form["session"]) );
 	 				if(@$form["parentSurvey"]["startDate"])
 	 					$startDate = $form["parentSurvey"]["startDate"];
 	 				if(@$form["parentSurvey"]["endDate"])

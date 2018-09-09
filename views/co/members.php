@@ -31,7 +31,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
  	}
 </style>
 <?php 
-	if(	Form::canAdmin($form["id"], $form) ){ ?>
+	if(	Form::canAdmin((string)$form["_id"], $form) ){ ?>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
 		<h1><?php echo "Liste des membres "?> <!-- <a href="<?php //echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php //echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> --> </h1>
@@ -65,7 +65,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
 <?php
-$adminTCO = Form::canSuperAdmin($form["id"], $form);
+$adminTCO = Form::canSuperAdmin($form["id"],$form["session"], $form);
 ?>
 <script type="text/javascript">
 

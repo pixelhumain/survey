@@ -250,8 +250,8 @@ class Form {
 	
 
 	public static function canAdmin($id, $form = array()){
-		if(empty($form))
-			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+		if(empty($form) && @$id)
+			$form = PHDB::findOne( Form::COLLECTION , array("_id"=>new MongoId($id)));
 
 		$res = false;
 		if(	Yii::app()->session["userId"] == $form["author"] ||
@@ -270,7 +270,7 @@ class Form {
 
 	public static function canAdminRoles($id, $role, $form = array() ){
 		if(empty($form))
-			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+			$form = PHDB::findOne( Form::COLLECTION , array("_id"=>new MongoId($id)));
 
 		$res = false;
 		if( !empty($form["links"]) && 
@@ -288,14 +288,14 @@ class Form {
         return $res ;
 	}
 
-	public static function canSuperAdmin($id, $form = array(), $formAdmin = array()){
+	public static function canSuperAdmin($id,$session, $form = array(), $formAdmin = array()){
 		if(empty($form))
-			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id,"session"=>$session));
 
 		if(empty($formAdmin))
-			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin"));
+			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session));
 		if(@$formAdmin["adminRole"])
-			$res = self::canAdminRoles($id, $formAdmin["adminRole"], $form = array() ) ;
+			$res = self::canAdminRoles((string)$form["_id"], $formAdmin["adminRole"], $form = array() ) ;
 		else
 			$res = false;
         return $res ;
@@ -334,9 +334,7 @@ class Form {
 
 
 
-	public static function isFinish($id, $form = array() ){
-		if(empty($form))
-			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+	public static function isFinish($form){
 		$res = false;
 		$today = date(DateTime::ISO8601, strtotime("now"));
 		if(!empty($form["endDate"]) ){

@@ -1,7 +1,7 @@
 <?php
 class ActiveAction extends CTKAction{
 	public function run(){
-		$adminForm =  PHDB::findOne( Form::COLLECTION , array("id"=>$_POST["formId"]."Admin") );
+		$adminForm =  PHDB::findOne( Form::COLLECTION , array("id"=>$_POST["formId"]."Admin","session"=>$_POST["session"]) );
 		$data = array(
 			"formId" => $_POST["formId"],
 			"user" => $_POST["userId"],

@@ -1,13 +1,13 @@
 <?php
 class EditAction extends CTKAction
 {
-    public function run($id)
+    public function run($id,$session)
     {
     	//takes a form ID
         //builds the corresponding dynForm specification
         //listing all scenarios 
         //and each property cn be edited 
-        $form = PHDB::findOne( Form::COLLECTION ,array("id"=>$id));
+        $form = PHDB::findOne( Form::COLLECTION ,array("id"=>$id,"session"=>$session));
         $form["scenario"][$id]['json'] = array(
             "jsonSchema" => array(
                 "title" => $form[ "title" ],
@@ -17,7 +17,7 @@ class EditAction extends CTKAction
         //run through parent Survey scenario
         foreach ($form["scenario"] as $key => $value) 
         {
-            $stepform = PHDB::findOne( Form::COLLECTION ,array("id"=>$key));
+            $stepform = PHDB::findOne( Form::COLLECTION ,array("id"=>$key,"session"=>$session));
             $form["scenario"][$key]['json'] = array(
                 "jsonSchema" => array(
                     "title" => $stepform[ "title" ],

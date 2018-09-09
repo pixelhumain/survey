@@ -56,8 +56,8 @@ if( $this->layout != "//layouts/empty"){
 }
 
 
-	$canAdmin = Form::canAdmin($form["id"]);
-	$canSuperAdmin = Form::canSuperAdmin($form["id"], $form, $adminForm);
+	$canAdmin = Form::canAdmin((string)$form["_id"]);
+	$canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"], $form, $adminForm);
 	$showStyle = ( $canAdmin ) ? "display:none; " : "";
 ?>
 
@@ -71,7 +71,7 @@ if( $this->layout != "//layouts/empty"){
 		          <a class="dropdown-item" href="#">Documents</a><br/>
 		          <a class="dropdown-item" href="#">URLs</a><br/>
 		          <a class="dropdown-item" href="#">Chat(bientot)</a><br/>
-		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/cte/user/".(string)$user['_id'])?>">Logs</a><br/>
+		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/".$form["id"]."/session/".$form["session"]."/user/".(string)$user['_id'])?>">Logs</a><br/>
 		        </div>
 				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"> 
 				<?php 
@@ -190,7 +190,7 @@ if(@$form["custom"]['footer']){
 	echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
 }
 
-$canSuperAdmin = Form::canSuperAdmin($form["id"],$form, $adminForm);
+$canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"],$form, $adminForm);
 ?>
 
 <script type="text/javascript">

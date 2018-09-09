@@ -119,7 +119,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								$classText = ($c == count(@$v['scenario'])) ? 'text-success' : 'text-red';
 								echo "<span class='".$classText."'>".$c." / ".count(@$v['scenario'])."</span>"; ?>
 							</td>
-							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/answer/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
+							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/answer/id/<?php echo $form['id'] ?>/session/<?php echo $form['session'] ?>/user/<?php echo @$k  ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
 							<td class="<?php echo $colorEligible ?>"><?php echo $lblEligible ?></td>
 							<td><?php if(@$userAdminAnswer[$k]["categories"]){
 								foreach ($userAdminAnswer[$k]["categories"] as $key => $value) {

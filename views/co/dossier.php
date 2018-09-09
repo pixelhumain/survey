@@ -146,7 +146,7 @@ if(@$adminAnswers["risks"] )
 			foreach ( $answers[$k]["answers"] as $key => $value) 
 			{
 			$editBtn = "";
-			if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["id"], $form )) {
+			if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form )) {
 				if(@$v["form"]["scenario"][$key]["saveElement"]) 
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 				else 
@@ -329,6 +329,7 @@ $(document).ready(function() {
 				
 				data={
 	    			formId : updateForm.form,
+	    			session : form.session,
 	    			answerSection : "answers."+updateForm.step ,
 	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json , true),
 	    			answerUser : adminAnswers.user 
@@ -377,6 +378,7 @@ $(document).ready(function() {
 			            modal.modal("hide");
 			            data={
 			    			formId : form.id,
+			    			session : form.session,
 			    			answerSection : "risks."+riskId+".userAction" ,
 			    			answers : $('#riskComment').last().val(),
 			    			answerUser : adminAnswers.user 
