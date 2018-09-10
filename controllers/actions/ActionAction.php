@@ -15,7 +15,7 @@ class ActionAction extends CAction
     	// var_dump(( $user == Yii::app()->session["userId"] )); exit;
     	if ( ! Person::logguedAndValid() ) 
 			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
-		else if( Form::canAdmin( (string)$parentSurvey["_id"]) ) || $user == Yii::app()->session["userId"])
+		else if( Form::canAdmin( (string)$parentSurvey["_id"]) || $user == Yii::app()->session["userId"])
 		{ 
 			$idProject = [];
 			$projects = [] ;
