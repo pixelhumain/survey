@@ -1,7 +1,7 @@
 <?php
 class EditAction extends CTKAction
 {
-    public function run($id,$session)
+    public function run($id,$session="1")
     {
     	//takes a form ID
         //builds the corresponding dynForm specification

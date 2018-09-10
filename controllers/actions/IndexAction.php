@@ -1,7 +1,7 @@
 <?php
 class IndexAction extends CAction
 {
-    public function run($id=null,$session=null)
+    public function run($id=null,$session="1")
     {
     	$this->getController()->layout = "//layouts/empty";
     	if( @$id )

@@ -1,7 +1,7 @@
 <?php
 class AnswerAction extends CAction
 {
-    public function run($id,$session,$user,$view=null)
+    public function run($id,$session="1",$user,$view=null)
     {
     	$ctrl = $this->getController();
     	$ctrl->layout = "//layouts/empty";
