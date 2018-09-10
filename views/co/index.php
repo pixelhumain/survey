@@ -135,10 +135,10 @@ jQuery(document).ready(function() {
                             });
                             
                             if(answered)
-                                str +='<a href="'+baseUrl+'/survey/co/answer/id/'+dySObj.surveys.id+'/user/'+userId+'/#head'+i+'" style="width:100%" class="btn bg-azure">'+
+                                str +='<a href="'+baseUrl+'/survey/co/answer/id/'+dySObj.surveys.id+'/session/'+dySObj.surveys.session+'/user/'+userId+'/#head'+i+'" style="width:100%" class="btn bg-azure">'+
                                         'Déjà rempli</span> <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
                             else  
-                                str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'" class="btn btn-default answered'+answered+' hidden"  style="width:100%"> Commencer <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
+                                str +='<a href="'+baseUrl+'/survey/co/index/id/'+i+'/session/'+dySObj.surveys.session+'" class="btn btn-default answered'+answered+' hidden"  style="width:100%"> Commencer <i class="fa fa-'+v.icon+' fa-2x "></i></a>';
 
 
                         } else if( surveyType != "oneSurvey" ) {
@@ -165,14 +165,14 @@ jQuery(document).ready(function() {
                             $("#surveyBtn").append('<div class="margin-top-15 hidden"><a href="javascript:;" onclick="" class="btn btn-danger">Connectez-vous avant d\'accéder au formulaire <i class="fa fa-arrow-circle-right fa-2x "></i></a></div>');
 
                         if(dySObj.surveys.author == userId){
-                            $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="'+baseUrl+'/survey/co/answers/id/'+dySObj.surveys.id+'" class="btn btn-default"  style="width:100%">Voir votre candidature <i class="fa fa-list fa-2x "></i></a></div>');
+                            $("#surveyBtn").append('<div class="margin-top-15 col-xs-6" id="seeAnswers"><a href="'+baseUrl+'/survey/co/answers/id/'+dySObj.surveys.id+'/session/'+dySObj.surveys.session+'" class="btn btn-default"  style="width:100%">Voir votre candidature <i class="fa fa-list fa-2x "></i></a></div>');
                         }
 
                         dySObj.buildOneSurveyFromScenario();
                     }
 
                 } else {
-                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.id : dySObj.surveys.parentSurvey.id )+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir votre candidature</span></a></center>");
+                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.id : dySObj.surveys.parentSurvey.id )+"/session/"+dySObj.surveys.parentSurvey.session+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir votre candidature</span></a></center>");
                     //TODO goto read your answers
                 }
             }
