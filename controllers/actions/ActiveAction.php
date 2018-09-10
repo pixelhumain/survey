@@ -6,7 +6,8 @@ class ActiveAction extends CTKAction{
 			"formId" => $_POST["formId"],
 			"user" => $_POST["userId"],
 			"name" => $_POST["userName"],
-			"eligible" => false, 
+			"eligible" => false,
+			"session" => $_POST["session"],
 			"step" => array_keys($adminForm["scenarioAdmin"])[1]
 		);
 

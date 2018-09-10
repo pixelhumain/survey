@@ -68,6 +68,7 @@ function bindAnwserList(){
 			email : $(this).data("email"),
 			form : form._id.$id,
 			formId : form.id,
+			session : form.session,
 			eligible : false,
 		};
 
