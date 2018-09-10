@@ -1,6 +1,6 @@
 <?php
 class AnswersAction extends CAction{
-	public function run($id,$session,$role=null){
+	public function run($id,$session="1",$role=null){
 		$this->getController()->layout = "//layouts/empty";
 
 		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id,"session"=>$session));

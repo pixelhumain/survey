@@ -1,7 +1,7 @@
 <?php
 class AdminAction extends CAction{
 
-    public function run($id,$session, $view=""){
+    public function run($id,$session="1", $view=""){
 
     	$this->getController()->layout = "//layouts/empty";
 

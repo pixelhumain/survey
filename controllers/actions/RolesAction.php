@@ -1,7 +1,7 @@
 <?php
 class RolesAction extends CAction
 {
-    public function run($id,$session,$role=null)
+    public function run($id,$session="1",$role=null)
     {
     	$ctrl = $this->getController();
     	$ctrl->layout = "//layouts/empty";

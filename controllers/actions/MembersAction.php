@@ -1,7 +1,7 @@
 <?php
 class MembersAction extends CAction
 {
-    public function run($id,$session)
+    public function run($id,$session="1")
     {
     	$this->getController()->layout = "//layouts/empty";
 
