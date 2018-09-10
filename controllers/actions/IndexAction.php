@@ -45,7 +45,7 @@ class IndexAction extends CAction
 		 			echo $this->getController()->render("index",$params );
 	 		}
 		 	else 
-		 		echo "Form not found";
+		 		$this->getController()->render("co2.views.default.unfound",array("msg"=>"Form not found")); 
 		 } else 
 		 	echo $this->getController()->render("home");
     }
