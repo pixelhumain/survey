@@ -171,7 +171,10 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 							echo "<td class='".$markdown."'>".$a."</td>";
 						echo '</tr>';
 					}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
+
 						$document=Document::getById($a["id"]);
+						var_dump($answers[$k]["answers"][$key]);
+						$answers[$k]["answers"][$key]["files"]=$document;
 						$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
 						echo '<tr>';
 							echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
@@ -379,6 +382,7 @@ $(document).ready(function() {
 
 
 			var editData = answers[$(this).data("form")]['answers'][$(this).data("step")];
+
 			console.log("editForm",editForm,updateForm,editData);
 			dyFObj.editStep( editForm , editData);	
 		}
