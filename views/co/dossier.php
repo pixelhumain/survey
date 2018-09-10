@@ -19,11 +19,12 @@
 			<tr>
 				<td>État du dossier</td>
 				<td>
-					<?php 
+					<?php
+					$i = 1 ;
 					foreach ($adminForm["scenarioAdmin"] as $ks => $vs) {
-						$c = (@$adminAnswers["step"] && $ks == $adminAnswers["step"]) ?"text-red bold" :"";
+						$c = (@$adminAnswers["step"] && $ks == $adminAnswers["step"]) ? "text-red bold" : ( ($i == 1) ? "text-red bold" : "") ;
 						echo '<span class="'.$c.'"><i class="'.@$vs["icon"].'"></i> '.str_replace("<br/>", "", @$vs["title"]).'</span> <br/> ';
-
+						$i++;
 					} ?>
 					
 				</td>
@@ -56,19 +57,20 @@ if(@$adminAnswers["risks"] )
 	$globrcol = "success";
 	foreach (@$adminAnswers["risks"] as $kr => $vr) {
 		$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
-		if( $rcol == "red") {
+		// if( $rcol == "red") {
 			$userAction = (@$vr["userAction"]) ? $vr["userAction"] : "<a class='btn btn-danger userActionBtn' data-riskid='".$kr."' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a>";
-			$list .= "<tr><td>".$vr["desc"]."</td><td>".@$vr["comment"]."</td><td id='userAction".$kr."'>".$userAction."</td></tr>";
-		}
+			$list .= "<tr><td>".$vr["desc"]."</td><td>".@$vr["comment"]."</td><td style='background-color:".$rcol."'>".$vr["weight"]."</td><td id='userAction".$kr."'>".$userAction."</td></tr>";
+		// }
 	}
 	if($list != "")
 	{
-		echo "<div class='col-xs-12'><h2 class='text-red'>Risques Bloquants à justifier</h2>";
+		echo "<div class='col-xs-12'><h2 class='text-red'>Risques à justifier</h2>";
 		echo '<table class="table table-striped table-bordered table-hover  directoryTable">'.
 				'<thead>'.
 					'<tr>'.
 						'<th>Risque</th>'.
 						'<th>Commentaire</th>'.
+						'<th>Poids</th>'.
 						'<th>Solution ou Justification</th>'.
 					'</tr>'.
 				'</thead>'.

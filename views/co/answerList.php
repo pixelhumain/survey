@@ -105,6 +105,7 @@ if( $this->layout != "//layouts/empty"){
 /* ---------------------------------------------
 SECTION STEPPER WIZARD
 ---------------------------------------------- */
+	if( $canAdmin ){
 ?>				
 
 		<div id="wizard" class="swMain">
@@ -113,16 +114,16 @@ SECTION STEPPER WIZARD
 				$ct = 0;
 				$currentStep = (@$adminAnswers["step"]) ? $adminAnswers["step"] : "" ;
 				if($adminForm["scenarioAdmin"]){
-				foreach ( @$adminForm["scenarioAdmin"] as $k => $v) { 
-					$aClass = ( $currentStep != "") ? $currentStep : "";
-					if( $aClass != "" && $currentStep != $k )
-						$aClass == "class='done'";
-					else if( $aClass != "" && $currentStep == $k )
-						$aClass == "class='selected'";
-					?>
-					<li><a onclick="nextState($(this).attr('href'),$(this).attr('class'));" href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
-				<?php } 
-			}?>
+					foreach ( @$adminForm["scenarioAdmin"] as $k => $v) { 
+						$aClass = ( $currentStep != "") ? $currentStep : "";
+						if( $aClass != "" && $currentStep != $k )
+							$aClass == "class='done'";
+						else if( $aClass != "" && $currentStep == $k )
+							$aClass == "class='selected'";
+						?>
+						<li><a onclick="nextState($(this).attr('href'),$(this).attr('class'));" href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
+					<?php } 
+				}?>
 			</ul>
 			<?php  ?>
 			<div class="progress progress-xs transparent-black no-radius active">
@@ -136,7 +137,7 @@ SECTION STEPPER WIZARD
 			</div>
 
 <?php 
-
+	}
 /* ---------------------------------------------
 each section must have a template , with the same key name
 ---------------------------------------------- */
@@ -173,13 +174,15 @@ foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
 	$showHide = "hide";
 }
 
+
+
 ?>
 
 
 
 
-</div>
-</div>
+		</div>
+	</div>
 </div>
 </div>
 
