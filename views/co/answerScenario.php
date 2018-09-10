@@ -266,6 +266,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 <script type="text/javascript">
 //if(typeof form == "undefined ")
 var form = <?php echo json_encode($form); ?>;
+var formSession = "<?php echo $_GET["session"]; ?>";
 //if(typeof answers == "undefined ")
 var answers  = <?php echo json_encode($answers); ?>;
 var projects  = <?php echo json_encode(@$projects); ?>;
@@ -349,7 +350,7 @@ $(document).ready(function() {
 				//alert("save");
 				data = {
 	    			formId : updateForm.form,
-	    			//session : form.session,
+	    			//session : formSession,
 	    			answerSection : updateForm.form+".answers."+updateForm.step ,
 	    			answers : arrayForm.getAnswers(editForm , true)
 	    		};

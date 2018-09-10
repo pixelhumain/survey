@@ -198,6 +198,7 @@ $canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"],$form, $adminF
 
 <script type="text/javascript">
 var form = <?php echo json_encode($form); ?>;
+var formSession = "<?php echo $_GET["session"]; ?>";
 var answers  = <?php echo json_encode($answers); ?>;
 
 var adminForm = <?php echo json_encode($adminForm); ?>;
@@ -348,7 +349,7 @@ function nextState(step,c) {
 	          callback: function() {
 	          	data={
 	    			formId : form.id,
-	    			session : form.session,
+	    			session : formSession,
 	    			answerSection : "step" ,
 	    			answers : step.substring(1),
 	    			answerUser : adminAnswers.user 
@@ -362,7 +363,7 @@ function nextState(step,c) {
 			    	if(typeof adminForm.scenarioAdmin[step.substring(1)].mail != "undefined"){
 			    		paramsMail={
 			    			formId : form.id,
-			    			session : form.session,
+			    			session : formSession,
 			    			answerSection : "step" ,
 			    			answers : step.substring(1),
 			    			answerUser : adminAnswers.user
@@ -405,7 +406,7 @@ function nextState(step,c) {
 			        url: baseUrl+"/survey/co/update",
 			        data: {
 		    			formId        : form.id,
-		    			session : form.session,
+		    			session : formSession,
 		    			answerSection : "categories."+key ,
 		    			answers       : result,
 		    			answerUser : adminAnswers.user 

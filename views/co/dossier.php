@@ -332,7 +332,7 @@ $(document).ready(function() {
 				
 				data={
 	    			formId : updateForm.form,
-	    			session : form.session,
+	    			session : formSession,
 	    			answerSection : "answers."+updateForm.step ,
 	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json , true),
 	    			answerUser : adminAnswers.user 
@@ -381,7 +381,7 @@ $(document).ready(function() {
 			            modal.modal("hide");
 			            data={
 			    			formId : form.id,
-			    			session : form.session,
+			    			session : formSession,
 			    			answerSection : "risks."+riskId+".userAction" ,
 			    			answers : $('#riskComment').last().val(),
 			    			answerUser : adminAnswers.user 

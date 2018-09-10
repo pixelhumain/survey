@@ -7,7 +7,7 @@ class EditAction extends CTKAction
         //builds the corresponding dynForm specification
         //listing all scenarios 
         //and each property cn be edited 
-        $form = PHDB::findOne( Form::COLLECTION ,array("id"=>$id,"session"=>$session));
+        $form = PHDB::findOne( Form::COLLECTION ,array("id"=>$id));
         $form["scenario"][$id]['json'] = array(
             "jsonSchema" => array(
                 "title" => $form[ "title" ],

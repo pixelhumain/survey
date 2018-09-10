@@ -238,7 +238,7 @@ var riskObj = {
 
 						data={
 			    			formId : form.id,
-			    			session : form.session,
+			    			session : formSession,
 			    			answerSection : "risks."+riskId ,
 			    			answers : riskObj.selectedRisks[ riskId ],
 			    			answerUser : adminAnswers.user ,
@@ -298,7 +298,7 @@ var riskObj = {
 	            	//ajout attribut sur answer.cte.infoRequest
 	            	data={
 		    			formId : form.id,
-		    			session : form.session,
+		    			session : formSession,
 		    			answerSection : "infoRequest" ,
 		    			answers : true,
 		    			answerUser : adminAnswers.user ,

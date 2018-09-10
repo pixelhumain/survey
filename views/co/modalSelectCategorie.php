@@ -49,7 +49,7 @@
                 formId : $("#formId").val(),
                 eligible : $("#eligible").val(),
                 email : $("#email").val(),
-                session : form.session,
+                session : formSession,
                 roles : $("#selectCategorie").val()
             };
 

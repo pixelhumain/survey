@@ -8,7 +8,7 @@ class FormAction extends CTKAction
     	//id : commons
     	//parentType : xxx
     	//parentId : xxx
-        $form = PHDB::findOne( Form::COLLECTION ,array("id"=>$id,"session"=>$session));    	
+        $form = PHDB::findOne( Form::COLLECTION ,array("id"=>$id));    	
     	echo Rest::json( $form );
     }
 }

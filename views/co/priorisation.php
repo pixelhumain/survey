@@ -276,7 +276,7 @@ if(@$adminAnswers["categories"]){
 			
 			data={
     			formId : updateForm.form,
-    			session : form.session,
+    			session : formSession,
     			answerSection : "answers."+updateForm.category+"."+updateForm.step ,
     			answerKey : "<?php echo $adminForm['key'] ?>" ,
     			answerStep : updateForm.cat ,

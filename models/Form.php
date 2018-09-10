@@ -290,7 +290,7 @@ class Form {
 
 	public static function canSuperAdmin($id,$session, $form = array(), $formAdmin = array()){
 		if(empty($form))
-			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id,"session"=>$session));
+			$form = PHDB::findOne( Form::COLLECTION , array( "id"=>$id ));
 
 		if(empty($formAdmin))
 			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session));
