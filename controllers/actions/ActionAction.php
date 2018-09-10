@@ -14,7 +14,7 @@ class ActionAction extends CAction
     	// var_dump(Form::canAdmin( $form["id"], $form ) );
     	// var_dump(( $user == Yii::app()->session["userId"] )); exit;
     	if ( ! Person::logguedAndValid() ) 
-			$ctrl->render("co2.views.default.loginSecure");
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
 		else if( Form::canAdmin( (string)$parentSurvey["_id"]) ) || $user == Yii::app()->session["userId"])
 		{ 
 			$idProject = [];
@@ -49,7 +49,7 @@ class ActionAction extends CAction
 			
  			echo $ctrl->render( "action" , $params);
 		} else 
-			$this->getController()->render("co2.views.default.unauthorised"); 
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
     }
 }
 

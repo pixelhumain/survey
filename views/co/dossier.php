@@ -130,6 +130,7 @@ if(@$adminAnswers["risks"] )
 	// 													"answers" => $answers,
 	// 													"user" => $user,
 	// 													'scenario' => "scenario") ); 
+
  ?>
 
  <?php foreach ($form["scenario"] as $k => $v) {

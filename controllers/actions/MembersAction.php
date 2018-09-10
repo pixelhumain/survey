@@ -8,7 +8,7 @@ class MembersAction extends CAction
         $form = PHDB::findOne( Form::COLLECTION , array("id"=>$id,"session"=>$session));
 
     	if ( ! Person::logguedAndValid() ) {
-            $this->getController()->render("co2.views.default.loginSecure");
+            $this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
         }else if( Form::canAdmin((string)$form["_id"], $form) ){
 
         	$queryId = array("links.forms.".(String)$form["_id"]=> array('$exists' => 1) );
@@ -24,10 +24,9 @@ class MembersAction extends CAction
                     $elt[$key] = $value;
             }
 
-			echo $this->getController()->render("members",
- 												array(  "results" => $elt,
-											 			"form"=> $form ));
+			$this->getController()->render("members", array(  "results" => $elt,
+											 			      "form"=> $form ));
 		} else
-			$this->getController()->render("co2.views.default.unauthorised"); 
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
     }
 }

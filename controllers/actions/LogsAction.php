@@ -8,7 +8,7 @@ class LogsAction extends CAction
     	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id,"session"=>$session));
 
     	if ( ! Person::logguedAndValid() ) 
-			$ctrl->render("co2.views.default.loginSecure");
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
 		else if( Form::canAdmin( (string)$form["_id"], $form ) || $user == Yii::app()->session["userId"])
 		{ 
     		$logs = $form = PHDB::find( Log::COLLECTION , array("params.session"=>$id));
@@ -20,6 +20,6 @@ class LogsAction extends CAction
 		 										"answers"=> PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$id,"user"=>$user )) ));
 			//} 
 		} else 
-			$this->getController()->render("co2.views.default.unauthorised"); 
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
     }
 }

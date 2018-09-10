@@ -23,9 +23,9 @@ class SearchAdminMembersAction extends CTKAction{
 	    		Rest::json($results); exit ;
 
 			} else 
-				$this->getController()->render("co2.views.default.unauthorised"); 
+				$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
 		} else
-			$this->getController()->render("co2.views.default.loginSecure");
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
     }
 
 

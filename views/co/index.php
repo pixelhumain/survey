@@ -172,13 +172,10 @@ jQuery(document).ready(function() {
                     }
 
                 } else {
-                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.id : dySObj.surveys.parentSurvey.id )+"/session/"+dySObj.surveys.parentSurvey.session+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir votre candidature</span></a></center>");
+                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.id : dySObj.surveys.parentSurvey.id )+"/session/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.session : dySObj.surveys.parentSurvey.session )+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir votre candidature</span></a></center>");
                     //TODO goto read your answers
                 }
             }
-            // } else{
-            //     $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.id : dySObj.surveys.parentSurvey.id )+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir votre candidature</span></a></center>");
-            // }
         } 
             
     } else {

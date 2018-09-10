@@ -71,9 +71,9 @@ if( $this->layout != "//layouts/empty"){
 		          <a class="dropdown-item" href="#">Documents</a><br/>
 		          <a class="dropdown-item" href="#">URLs</a><br/>
 		          <a class="dropdown-item" href="#">Chat(bientot)</a><br/>
-		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/".$form["id"]."/session/".$form["session"]."/user/".(string)$user['_id'])?>">Logs</a><br/>
+		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/".$form["id"]."/session/".$_GET["session"]."/user/".(string)$user['_id'])?>">Logs</a><br/>
 		        </div>
-				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"> 
+				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $_GET["id"]; ?>/session/<?php echo $_GET["session"]; ?>"> 
 				<?php 
 				} ?>
 					<?php /*if(@$form["custom"]['logo']){ ?>
@@ -345,6 +345,7 @@ function nextState(step,c) {
 	          callback: function() {
 	          	data={
 	    			formId : form.id,
+	    			session : form.session,
 	    			answerSection : "step" ,
 	    			answers : step.substring(1),
 	    			answerUser : adminAnswers.user 
@@ -358,6 +359,7 @@ function nextState(step,c) {
 			    	if(typeof adminForm.scenarioAdmin[step.substring(1)].mail != "undefined"){
 			    		paramsMail={
 			    			formId : form.id,
+			    			session : form.session,
 			    			answerSection : "step" ,
 			    			answers : step.substring(1),
 			    			answerUser : adminAnswers.user
@@ -400,6 +402,7 @@ function nextState(step,c) {
 			        url: baseUrl+"/survey/co/update",
 			        data: {
 		    			formId        : form.id,
+		    			session : form.session,
 		    			answerSection : "categories."+key ,
 		    			answers       : result,
 		    			answerUser : adminAnswers.user 

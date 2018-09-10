@@ -440,6 +440,6 @@ $adminTCO = Form::canSuperAdmin($form["id"],$form["session"], $form);
 </script> 
 <?php	
 	} else {
-		$this->getController()->render("co2.views.default.unauthorised"); 
+		$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
 	} ?>
 

@@ -8,7 +8,7 @@ class RolesAction extends CAction
     	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id,"session"=>$session));
 
     	if ( ! Person::logguedAndValid() ) 
-			$ctrl->render("co2.views.default.loginSecure");
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
 		else if( Form::canAdmin( (string)$form["_id"], $form ) )
 		{ 
 			$params = array(
@@ -42,8 +42,8 @@ class RolesAction extends CAction
 
 			}
 			//Rest::json($params["answers"]); exit;
-	 		echo $ctrl->render( "roles" ,$params);
+	 		$ctrl->render( "roles" ,$params);
 		} else 
-			$ctrl->render("co2.views.default.unauthorised"); 
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
     }
 }

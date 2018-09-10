@@ -30,7 +30,7 @@ class SearchAdminFormAction extends CTKAction{
 			} else 
 				$this->getController()->render("co2.views.default.unauthorised"); 
 		} else
-			$this->getController()->render("co2.views.default.loginSecure");
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
     }
 
 
