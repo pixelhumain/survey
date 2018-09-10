@@ -7,19 +7,14 @@
 	#riskCatalogList tr {cursor: pointer;}
 </style>
 <div class="col-xs-12 padding-20">
-	<h1>Risques évalués ?</h1>
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	<h1>évalués les contraintes?</h1>
+	
 	<br>
 	<div class="padding-10 margin-bottom-20"  style="border:1px solid #ccc">
 
-		<h2 class="text-center" >Liste des risques détectés <a href="#toto" onclick="$('#riskCatalogue').toggle()" class="btn btn-primary">CATALOGUE DES RISQUES</a></h2>
+		<h2 class="text-center" >Liste des contraintes détectés <a href="#toto" onclick="$('#riskCatalogue').toggle()" class="btn btn-primary">CATALOGUE DES CONTRAINTES</a></h2>
 		<?php if( !@$adminAnswers["risks"]){ ?>
-		<h3 id="noriskTtile" class=" text-center text-red">Aucun Risque detecté</h3>
+		<h3 id="noriskTtile" class=" text-center text-red">Aucune contrainte détectée</h3>
 		<?php } ?>
 		<table border="1" id="riskList"  class="table table-striped table-bordered table-hover  directoryTable margin-bottom-20" style="width:100%;">
 			<tr>
@@ -72,7 +67,7 @@
 				<a href="javascript:;" onclick="showType('<?php echo InflectorHelper::slugify($key); ?>')" class="btn btn-xs btn-default"><?php echo $key; ?></a>
 			<?php }
 			} ?>
-			<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class=" btn btn-xs btn-danger"><i class="fa fa-plus"></i> AJOUTER UN RISQUE</a><br/>
+			<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class=" btn btn-xs btn-danger"><i class="fa fa-plus"></i> AJOUTER UNE CONTRAINTE</a><br/>
 			<input type="text" id="searchRisks" name="searchRisks" style="width:50%;margin-top: 10px" placeholder="Chercher et filtrer les risques "/>
 		</div>
 		
@@ -81,7 +76,7 @@
 				<th>Type</th>
 				<th>Danger</th>
 				<th>Actions</th>
-				<th>Ajouter ce risque</th>
+				<th>Ajouter cette contraintes</th>
 			</tr>
 			<?php 
 			if( @$riskCatalog ){
@@ -105,7 +100,7 @@
 			
 			
 		</table>
-		<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class="btn btn-danger"><i class="fa fa-plus"></i>AJOUTER UN RISQUE</a>
+		<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class="btn btn-danger"><i class="fa fa-plus"></i>AJOUTER UNE CONTRAINTE</a>
 		
 	</div>
 </div>
@@ -243,6 +238,7 @@ var riskObj = {
 
 						data={
 			    			formId : form.id,
+			    			session : formSession,
 			    			answerSection : "risks."+riskId ,
 			    			answers : riskObj.selectedRisks[ riskId ],
 			    			answerUser : adminAnswers.user ,
@@ -302,6 +298,7 @@ var riskObj = {
 	            	//ajout attribut sur answer.cte.infoRequest
 	            	data={
 		    			formId : form.id,
+		    			session : formSession,
 		    			answerSection : "infoRequest" ,
 		    			answers : true,
 		    			answerUser : adminAnswers.user ,

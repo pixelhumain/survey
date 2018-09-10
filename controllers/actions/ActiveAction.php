@@ -1,12 +1,13 @@
 <?php
 class ActiveAction extends CTKAction{
 	public function run(){
-		$adminForm =  PHDB::findOne( Form::COLLECTION , array("id"=>$_POST["formId"]."Admin") );
+		$adminForm =  PHDB::findOne( Form::COLLECTION , array("id"=>$_POST["formId"]."Admin","session"=>$_POST["session"]) );
 		$data = array(
 			"formId" => $_POST["formId"],
 			"user" => $_POST["userId"],
 			"name" => $_POST["userName"],
-			"eligible" => false, 
+			"eligible" => false,
+			"session" => $_POST["session"],
 			"step" => array_keys($adminForm["scenarioAdmin"])[1]
 		);
 

@@ -1,20 +1,27 @@
 <?php
 class AnswerAction extends CAction
 {
-    public function run($id,$user,$view=null)
+    public function run($id,$session="1",$user,$view=null)
     {
     	$ctrl = $this->getController();
     	$ctrl->layout = "//layouts/empty";
     	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
 
     	if ( ! Person::logguedAndValid() ) 
-			$ctrl->render("co2.views.default.loginSecure");
-		else if( Form::canAdmin( $id, $form ) || $user == Yii::app()->session["userId"])
+			$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
+		else if( Form::canAdmin( (string)$form["_id"], $form ) || $user == Yii::app()->session["userId"])
 		{ 
+			if(!@$form["session"][$session])
+	 				$ctrl->render("co2.views.default.unTpl",array("msg"=>"Session introuvable sur ".$id,"icon"=>"fa-search")); 
+
     		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user" => @$user ) ) )
     		{
-				$adminAnswers = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id, "user"=> @$user) );
-				$adminForm = ( Form::canAdmin($form["id"]) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin") ) : null;
+				$adminAnswers = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id,"session"=>$session, "user"=> @$user) );
+				$adminForm = ( Form::canAdmin((string)$form["_id"], $form) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session) ) : PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session), array("scenarioAdmin") ) ;
+
+				//$adminForm = ( Form::canAdmin((string)$form["_id"]) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session) ) : null ;
+
+
 				$userO = Person::getById($user);
 				if( !@$adminAnswers ){
 					$adminAnswers = array(
@@ -22,7 +29,7 @@ class AnswerAction extends CAction
 					    "user" 	 => $user,
 					    "name"   => $userO["name"],
 					);
-					if(@$adminForm["scenarioAdmin"])
+					if(@$adminForm["scenarioAdmin"] && Form::canAdmin((string)$form["_id"], $form) )
 						$adminAnswers["step"] = array_keys( $adminForm["scenarioAdmin"] )[1];
 				}
     			
@@ -54,7 +61,7 @@ class AnswerAction extends CAction
     			}
 	 			echo $ctrl->render( "answerList" ,$params);
     		}
-	 		else if( @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("_id"=>new MongoId($id) ) ) )
+	 		else if( @$id & @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>$id ) ) )
 	 		{
 	 			if( !$view ){
 		 			$ctrl->layout = "//layouts/empty";	
@@ -68,9 +75,9 @@ class AnswerAction extends CAction
 		 		}
 	 		}
 		 	else 
-		 		echo "Answer not found"; 
+		 		$ctrl->render("co2.views.default.unTpl",array("msg"=>"Answer not found","icon"=>"fa-search")); 
 			//} 
 		} else 
-			$this->getController()->render("co2.views.default.unauthorised"); 
+			$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
     }
 }

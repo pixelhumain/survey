@@ -14,14 +14,15 @@ class ActionAction extends CAction
     	// var_dump(Form::canAdmin( $form["id"], $form ) );
     	// var_dump(( $user == Yii::app()->session["userId"] )); exit;
     	if ( ! Person::logguedAndValid() ) 
-			$ctrl->render("co2.views.default.loginSecure");
-		else if( Form::canAdmin( $parentSurvey["id"] ) || $user == Yii::app()->session["userId"])
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
+		else if( Form::canAdmin( (string)$parentSurvey["_id"]) || $user == Yii::app()->session["userId"])
 		{ 
 			$idProject = [];
 			$projects = [] ;
 			$formParent = PHDB::findOne( Form::COLLECTION, array( "id"=> $parentSurvey["id"] ), array("links"));
 			//Rest::json($action["role"]); exit ;
 			if(!empty($formParent["links"]["projectExtern"])){
+
 				foreach ($formParent["links"]["projectExtern"] as $key => $value) {
 
 					foreach ($action["role"] as $keyR => $valueR) {
@@ -30,15 +31,12 @@ class ActionAction extends CAction
 					}
 					
 				}
-
+				
 				if(!empty($idProject))
 					$projects = PHDB::find(	Project::COLLECTION, 
 											array( "_id" => array('$in' => $idProject)) );
 			}
 
-			
-			
-			//Rest::json($projects); 
 			$params = array( "answers" => $action, 
 							 'answerCollection' => "actions",
 							 'answerId' => (string)$action["_id"] ,
@@ -51,7 +49,7 @@ class ActionAction extends CAction
 			
  			echo $ctrl->render( "action" , $params);
 		} else 
-			$this->getController()->render("co2.views.default.unauthorised"); 
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
     }
 }
 

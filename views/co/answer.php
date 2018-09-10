@@ -21,7 +21,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 
 <div class="panel panel-dark col-lg-offset-1 col-lg-10 col-xs-12 no-padding margin-top-50">
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-		<h1><a class="lbh" href="/ph/survey/co/answers/id/<?php echo $form["id"]; ?>"><?php echo $form["title"]; ?></a> </h1>
+		<h1><a  href="/ph/survey/co/answers/id/<?php echo $form["id"]."/session/".$form["session"]; ?>"><?php echo $form["title"]; ?></a> </h1>
 		<h4 style="text-align: center;padding:10px;">
 			Answers by <?php echo $answer["name"]; ?>
 		</h4>

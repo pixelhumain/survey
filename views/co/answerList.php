@@ -56,8 +56,8 @@ if( $this->layout != "//layouts/empty"){
 }
 
 
-	$canAdmin = Form::canAdmin($form["id"]);
-	$canSuperAdmin = Form::canSuperAdmin($form["id"], $form, $adminForm);
+	$canAdmin = Form::canAdmin((string)$form["_id"]);
+	$canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"], $form, $adminForm);
 	$showStyle = ( $canAdmin ) ? "display:none; " : "";
 ?>
 
@@ -71,9 +71,9 @@ if( $this->layout != "//layouts/empty"){
 		          <a class="dropdown-item" href="#">Documents</a><br/>
 		          <a class="dropdown-item" href="#">URLs</a><br/>
 		          <a class="dropdown-item" href="#">Chat(bientot)</a><br/>
-		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/cte/user/".(string)$user['_id'])?>">Logs</a><br/>
+		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/".$form["id"]."/session/".$_GET["session"]."/user/".(string)$user['_id'])?>">Logs</a><br/>
 		        </div>
-				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $form["id"]; ?>"> 
+				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $_GET["id"]; ?>/session/<?php echo $_GET["session"]; ?>"> 
 				<?php 
 				} ?>
 					<?php /*if(@$form["custom"]['logo']){ ?>
@@ -105,6 +105,7 @@ if( $this->layout != "//layouts/empty"){
 /* ---------------------------------------------
 SECTION STEPPER WIZARD
 ---------------------------------------------- */
+	if( $canAdmin ){
 ?>				
 
 		<div id="wizard" class="swMain">
@@ -113,16 +114,16 @@ SECTION STEPPER WIZARD
 				$ct = 0;
 				$currentStep = (@$adminAnswers["step"]) ? $adminAnswers["step"] : "" ;
 				if($adminForm["scenarioAdmin"]){
-				foreach ( @$adminForm["scenarioAdmin"] as $k => $v) { 
-					$aClass = ( $currentStep != "") ? $currentStep : "";
-					if( $aClass != "" && $currentStep != $k )
-						$aClass == "class='done'";
-					else if( $aClass != "" && $currentStep == $k )
-						$aClass == "class='selected'";
-					?>
-					<li><a onclick="nextState($(this).attr('href'),$(this).attr('class'));" href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
-				<?php } 
-			}?>
+					foreach ( @$adminForm["scenarioAdmin"] as $k => $v) { 
+						$aClass = ( $currentStep != "") ? $currentStep : "";
+						if( $aClass != "" && $currentStep != $k )
+							$aClass == "class='done'";
+						else if( $aClass != "" && $currentStep == $k )
+							$aClass == "class='selected'";
+						?>
+						<li><a onclick="nextState($(this).attr('href'),$(this).attr('class'));" href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
+					<?php } 
+				}?>
 			</ul>
 			<?php  ?>
 			<div class="progress progress-xs transparent-black no-radius active">
@@ -136,7 +137,7 @@ SECTION STEPPER WIZARD
 			</div>
 
 <?php 
-
+	}
 /* ---------------------------------------------
 each section must have a template , with the same key name
 ---------------------------------------------- */
@@ -173,13 +174,15 @@ foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
 	$showHide = "hide";
 }
 
+
+
 ?>
 
 
 
 
-</div>
-</div>
+		</div>
+	</div>
 </div>
 </div>
 
@@ -190,11 +193,12 @@ if(@$form["custom"]['footer']){
 	echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
 }
 
-$canSuperAdmin = Form::canSuperAdmin($form["id"],$form, $adminForm);
+$canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"],$form, $adminForm);
 ?>
 
 <script type="text/javascript">
 var form = <?php echo json_encode($form); ?>;
+var formSession = "<?php echo $_GET["session"]; ?>";
 
 var adminForm = <?php echo json_encode($adminForm); ?>;
 
@@ -357,6 +361,7 @@ function nextState(step,c) {
 	          callback: function() {
 	          	data={
 	    			formId : form.id,
+	    			session : formSession,
 	    			answerSection : "step" ,
 	    			answers : step.substring(1),
 	    			answerUser : adminAnswers.user 
@@ -370,6 +375,7 @@ function nextState(step,c) {
 			    	if(typeof adminForm.scenarioAdmin[step.substring(1)].mail != "undefined"){
 			    		paramsMail={
 			    			formId : form.id,
+			    			session : formSession,
 			    			answerSection : "step" ,
 			    			answers : step.substring(1),
 			    			answerUser : adminAnswers.user
@@ -412,6 +418,7 @@ function nextState(step,c) {
 			        url: baseUrl+"/survey/co/update",
 			        data: {
 		    			formId        : form.id,
+		    			session : formSession,
 		    			answerSection : "categories."+key ,
 		    			answers       : result,
 		    			answerUser : adminAnswers.user 
