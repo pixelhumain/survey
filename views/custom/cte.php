@@ -91,29 +91,32 @@
         else 
           $sessions = $form["session"];
 
-
-        foreach ($sessions as $s => $sv) {
-            //if(@$answers[$s]){
+        foreach ($sessions as $s => $sv) 
+        {
+            
+            if(@$answers[$s])
+            {
                 echo "<tr>";
                     echo "<td>#".$s."</td>";
-                    echo "<td>".((@$sv["startDate"]) ? $sv["startDate"] : "Pas de date")."</td>";
-                    echo "<td>".((@$sv["endDate"]) ? $sv["endDate"] : "Pas de date")."</td>";
+                    echo "<td>".( ( @$sv["startDate"] ) ? $sv["startDate"] : "Pas de date")."</td>";
+                    echo "<td>".( ( @$sv["endDate"] ) ? $sv["endDate"] : "Pas de date")."</td>";
                     echo "<td>";
-            				$count=count(@$answers[$s]);
-            				if(count($answers[$s]) < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
+    				$count=count( @$answers[$s] );
+
+    				if( $count < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
                     {
-                					$label=( $count > 0 ) ? "Reprendre la candidature" : "Déposer une candidature"; 
-                		    ?>
-                					<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
-            		    <?php }
+                		$label=( $count > 0 ) ? "Reprendre la candidature" : "Déposer une candidature".$count; 
+                	?>
+                		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
+        	  <?php }
             			
-            				if($count > 0){ ?>
-            					<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo $form['id'] ?>/session/<?php echo $s ?>/user/<?php echo Yii::app()->session['userId'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> VOIR VOTRE CANDIDATURE  </a>
-            				<?php
-            				}
+    				if($count > 0)
+                    { ?>
+            			<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo $form['id'] ?>/session/<?php echo $s ?>/user/<?php echo Yii::app()->session['userId'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> VOIR VOTRE CANDIDATURE  </a>
+        	<?php	}
                     echo "</td>";
                 echo "</tr>";
-            //} 
+            } 
         } ?>
         </tbody>
         </table>
