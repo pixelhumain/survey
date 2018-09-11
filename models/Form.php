@@ -334,11 +334,11 @@ class Form {
 
 
 
-	public static function isFinish($form){
+	public static function isFinish($endDate){
 		$res = false;
 		$today = date(DateTime::ISO8601, strtotime("now"));
-		if(!empty($form["endDate"]) ){
-			$endDate = date(DateTime::ISO8601, $form["endDate"]->sec);
+		if(!empty($endDate) ){
+			$endDate = date(DateTime::ISO8601, $endDate->sec);
 			if($endDate < $today)
 				$res = true;
 		}
