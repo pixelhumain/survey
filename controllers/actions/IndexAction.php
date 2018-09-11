@@ -18,17 +18,15 @@ class IndexAction extends CAction
 	 			$answers = array();
 	 			if ( @$session){
 
-	 				$answers[$session] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id,"session"=>$session,"user"=> @Yii::app()->session["userId"] ) );
+	 				$answers[$session] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$id,"session"=>$session,"user"=> @Yii::app()->session["userId"] ) );
 	 			} else {
-
 	 				//si pas de session fourni on liste toute les 
 	 				if(@$form["session"]){
 			 			foreach ($form["session"] as $s => $sv) {
-			 				
-				 			$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id,"session"=>$s,"user"=> @Yii::app()->session["userId"] ) );
+				 			$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id,"session"=>(string)$s,"user"=> @Yii::app()->session["userId"] ) );
 				 			if( $form["surveyType"] == "surveyList" || @$form["parentSurvey"] ){
 				 				$pId = (@$form["parentSurvey"] ) ? $form["parentSurvey"]  : $id;
-				 				$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$pId,"session"=>$s, "user"=> @Yii::app()->session["userId"] ) );	 				
+				 				$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$pId,"session"=>(string)$s, "user"=> @Yii::app()->session["userId"] ) );	 				
 				 			}
 				 		}
 				 	} 
@@ -45,7 +43,6 @@ class IndexAction extends CAction
 	 				$form["parentSurvey"] = PHDB::findOne( Form::COLLECTION , array("id"=>$form["parentSurvey"]) );
 	 				if($form["parentSurvey"]["session"][$session]){
 	 					$sessionExist = true;
-	 				
 		 				if(@$form["parentSurvey"]["session"][$session]["startDate"])
 		 					$startDate = $form["parentSurvey"]["session"][$session]["startDate"];
 		 				if(@$form["parentSurvey"]["session"][$session]["endDate"])
@@ -53,13 +50,11 @@ class IndexAction extends CAction
 		 			}
 	 			} else {
 	 				//sinon on est sur le form parent, point de départ d'un survey
-	 				
-	 					$sessionExist = true;
-	 				
-		 				if(@$form["session"][$session]["startDate"])
-		 					$startDate = $form["session"][$session]["startDate"];
-		 				if(@$form["session"][$session]["endDate"])
-		 					$endDate = $form["session"][$session]["endDate"];
+ 					$sessionExist = true;
+	 				if(@$form["session"][$session]["startDate"])
+	 					$startDate = $form["session"][$session]["startDate"];
+	 				if(@$form["session"][$session]["endDate"])
+	 					$endDate = $form["session"][$session]["endDate"];
 		 			
 	 			}
 

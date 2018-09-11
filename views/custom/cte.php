@@ -85,19 +85,26 @@
         </thead>
         <tbody>
         <?php
-        var_dump($form["session"]);
-        foreach ($form["session"] as $s => $sv) {
-            if(@$answers[$s]){
+        $sessions = array();
+        if(@$_GET["session"])
+          $sessions[(string)$_GET["session"]] = $form["session"][$_GET["session"]];
+        else 
+          $sessions = $form["session"];
+
+
+        foreach ($sessions as $s => $sv) {
+            //if(@$answers[$s]){
                 echo "<tr>";
                     echo "<td>#".$s."</td>";
                     echo "<td>".((@$sv["startDate"]) ? $sv["startDate"] : "Pas de date")."</td>";
                     echo "<td>".((@$sv["endDate"]) ? $sv["endDate"] : "Pas de date")."</td>";
                     echo "<td>";
-        				$count=count($answers[$s]);
-        				if(count($answers[$s]) < count($form["scenario"]) && !Form::isFinish($form ) ){
-                      		$label=($count > 0) ? "Reprendre la candidature" : "Déposer une candidature"; 
-            		    ?>
-            					<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
+            				$count=count(@$answers[$s]);
+            				if(count($answers[$s]) < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
+                    {
+                					$label=( $count > 0 ) ? "Reprendre la candidature" : "Déposer une candidature"; 
+                		    ?>
+                					<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
             		    <?php }
             			
             				if($count > 0){ ?>
@@ -106,7 +113,7 @@
             				}
                     echo "</td>";
                 echo "</tr>";
-            } 
+            //} 
         } ?>
         </tbody>
         </table>
