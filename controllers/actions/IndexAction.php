@@ -17,19 +17,17 @@ class IndexAction extends CAction
 	 			
 	 			$answers = array();
 	 			if ( @$session){
-	 				$answers[$session] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id,"session"=>$session,"user"=> @Yii::app()->session["userId"] ) );
-	 			} 
-	 			else 
-	 			{
+
+	 				$answers[$session] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$id,"session"=>$session,"user"=> @Yii::app()->session["userId"] ) );
+	 			} else {
 	 				//si pas de session fourni on liste toute les 
 	 				if(@$form["session"]){
 			 			foreach ($form["session"] as $s => $sv) {
-			 				
+				 			$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id,"session"=>(string)$s,"user"=> @Yii::app()->session["userId"] ) );
 				 			if( $form["surveyType"] == "surveyList" || @$form["parentSurvey"] ){
 				 				$pId = (@$form["parentSurvey"] ) ? $form["parentSurvey"]  : $id;
-				 				$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$pId,"session"=>$s, "user"=> @Yii::app()->session["userId"] ) );	 				
-				 			} else 
-				 				$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id,"session"=>$s,"user"=> @Yii::app()->session["userId"] ) );
+				 				$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$pId,"session"=>(string)$s, "user"=> @Yii::app()->session["userId"] ) );	 				
+				 			}
 				 		}
 				 	} 
 				 	//si on est sur un form child du scenario
