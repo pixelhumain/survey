@@ -146,8 +146,7 @@ if(@$adminAnswers["risks"] )
 		</div>
 		<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
 		<?php 
-			foreach ( $answers[$k]["answers"] as $key => $value) 
-			{
+		foreach ( $answers[$k]["answers"] as $key => $value) {
 			$editBtn = "";
 			if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form )) {
 				if(@$v["form"]["scenario"][$key]["saveElement"]) 
