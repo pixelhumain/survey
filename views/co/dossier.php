@@ -5,6 +5,12 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
+$cssAnsScriptFilesModule = array(
+	'/plugins/underscore-master/underscore.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true))
 ?>
 			
 <h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
