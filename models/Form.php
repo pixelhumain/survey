@@ -47,6 +47,10 @@ class Form {
     	return PHDB::findOne(self::COLLECTION,array("_id"=>new MongoId($id)), $fields);
     }
 
+    public static function getAnswerById($id,$fields=array()){
+    	return PHDB::findOne(self::ANSWER_COLLECTION,array("_id"=>new MongoId($id)), $fields);
+    }
+
     public static function getLinksById($id){
     	return self::getByIdMongo($id,array("links"));
     }

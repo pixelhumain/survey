@@ -1,4 +1,11 @@
-<?php if( $canAdmin || (string)$user["_id"] == Yii::app()->session["userId"] ){ ?>
+<?php if( $canAdmin || (string)$user["_id"] == Yii::app()->session["userId"] ){ 
+
+$cssAnsScriptFilesModule = array(
+	'/assets/js/comments.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
+
+?>
 			
 <h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
 
@@ -419,7 +426,6 @@ function commentRisk(answerId, riskId){
 	            }
 	          }
 	        ],
-	        show: false,
 	        onEscape: function() {
 	          modal.modal("hide");
 	        }
