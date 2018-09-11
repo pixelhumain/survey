@@ -41,7 +41,12 @@
 						<td><?php foreach ($value["actions"] as $act) {
 							echo $act."<br/>";
 						 } ?></td>
-						<td><?php echo @$value["comment"]?></td>
+						<td>
+							<?php 
+								$userAction = "<a class='btn btn-danger userActionBtn' data-riskid='".$key."' data-answerid='".(string)$adminAnswers["_id"]."' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a>"; 
+								echo $userAction ;
+							?>
+						</td>
 						<td><?php echo $value["probability"]?></td>
 						<td><?php echo $value["gravity"]?></td>
 						<td style="color:black; background-color:<?php echo Form::$riskWeight[$value["probability"].$value["gravity"]]["c"]?> "><?php echo $value["weight"]; $totalWeight += (int)$value["weight"];?></td>
@@ -130,10 +135,10 @@
       </select>
     </div>
 
-    <div class="form-group">
+<!--     <div class="form-group">
       <label for="comment">Commentaire</label>
       <br/><textarea type="text" id="comment" name="comment" style="width:100%"></textarea>
-    </div>
+    </div> -->
 	
 	<div id="explainProbGrav" class="padding-10 bold"></div>
 
@@ -216,7 +221,7 @@ var riskObj = {
 			            riskObj.selectedRisks[ riskId ].probability = $('.inputprobGrav #probability').last().val();
 			            riskObj.selectedRisks[ riskId ].gravity = $('.inputprobGrav #gravity').last().val();
 			            riskObj.selectedRisks[ riskId ].weight = riskObj.riskWeight[$('.inputprobGrav #probability').last().val()+""+$('.inputprobGrav #gravity').last().val()].w;
-			            riskObj.selectedRisks[ riskId ].comment = $('.inputprobGrav #comment').last().val();
+			            //riskObj.selectedRisks[ riskId ].comment = $('.inputprobGrav #comment').last().val();
 			            modal.modal("hide");
 			            console.log("riskObj.selectedRisks",riskObj.selectedRisks);
 						$("#noriskTtile").hide();
@@ -226,7 +231,8 @@ var riskObj = {
 						"<td>"+riskObj.selectedRisks[ riskId ].type+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].desc+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].actions.join("<br/>")+"</td>"+
-						"<td>"+riskObj.selectedRisks[ riskId ].comment+"</td>"+
+						//"<td>"+riskObj.selectedRisks[ riskId ].comment+"</td>"+
+						"<td><a class='btn btn-danger userActionBtn' data-riskid='"+riskId+"' data-answerid='"+adminAnswers._id.$id+"' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a></td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].probability+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].gravity+"</td>"+
 						"<td style='color:black;background-color:"+riskObj.riskWeight[riskObj.selectedRisks[ riskId ].probability+""+riskObj.selectedRisks[ riskId ].gravity].c+"'>"+riskObj.selectedRisks[ riskId ].weight+"</td></tr>";
@@ -252,6 +258,9 @@ var riskObj = {
 					    }).done(function (data) { 
 					    	toastr.success('risk successfully saved!');
 					    	$(".add"+riskId).html("");
+					    	$('.userActionBtn').off().click(function() {
+								commentRisk($(this).data("answerid"), $(this).data("riskid"));
+							});
 					    });
 
 					} else {
