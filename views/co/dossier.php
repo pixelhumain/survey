@@ -178,6 +178,8 @@ if(@$adminAnswers["risks"] )
 						echo '</tr>';
 					}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
 						$document=Document::getById($a["id"]);
+						$document["docId"]=$a["id"];
+						$answers[$k]["answers"][$key]["files"]=array($document);
 						$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
 						echo '<tr>';
 							echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
@@ -280,6 +282,7 @@ if(@$adminAnswers["risks"] )
 
 
 <script type="text/javascript">
+var answers  = <?php echo json_encode($answers); ?>;
 $(document).ready(function() { 
 	
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
@@ -345,7 +348,15 @@ $(document).ready(function() {
 			        data: data,
 					type: "POST",
 			    }).done(function (data) {
-			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
+			    	listObject=$('.fine-uploader-manual-trigger').fineUploader('getUploads');
+			    	goToUpload=false;
+			    	if(listObject.length > 0){
+			    		$.each(listObject, function(e,v){
+			    			if(v.status == "submitted")
+			    				goToUpload=true;
+			    		});
+			    	}
+					if( !goToUpload ){
 				    	window.location.reload();
 				    	updateForm = null;
 				    } 

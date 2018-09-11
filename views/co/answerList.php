@@ -199,7 +199,6 @@ $canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"],$form, $adminF
 <script type="text/javascript">
 var form = <?php echo json_encode($form); ?>;
 var formSession = "<?php echo $_GET["session"]; ?>";
-var answers  = <?php echo json_encode($answers); ?>;
 
 var adminForm = <?php echo json_encode($adminForm); ?>;
 
@@ -267,9 +266,22 @@ function getAnswers(dynJson, noTotal)
         console.log($(this).data("step")+"."+field, $("#"+field).val() );
         if( fieldObj.inputType ){
             if(fieldObj.inputType=="uploader"){
-         		if( $('#'+fieldObj.domElement).fineUploader('getUploads').length > 0 ){
-					$('#'+fieldObj.domElement).fineUploader('uploadStoredFiles');
-					editAnswers[field] = "";
+            	listObject=$('#'+fieldObj.domElement).fineUploader('getUploads');
+		    	goToUpload=false;
+		    	if(listObject.length > 0){
+		    		$.each(listObject, function(e,v){
+		    			if(v.status == "submitted")
+		    				goToUpload=true;
+		    			else
+		    				releventDoc=v;
+		    		});
+		    	}
+		    	console.log("herreeee",listObject);
+		    	editAnswers[field] = "";
+				if( goToUpload ){       		
+         			$('#'+fieldObj.domElement).fineUploader('uploadStoredFiles');
+            	}else if(typeof releventDoc != "undefined"){
+            		editAnswers[field] = {"type":"documents", "id":releventDoc.uuid};
             	}
             }else{
             	editAnswers[field] = $("#"+field).val();
