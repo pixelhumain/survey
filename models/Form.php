@@ -111,71 +111,77 @@ class Form {
 		}
 
 		//Rest::json($answers); exit ;
-		foreach ( $answers as $key => $value) {
-			
-			if( !empty($value["answers"]) && 
-				!empty($value["answers"][Organization::CONTROLLER]) && 
-				!in_array( $value["answers"][Organization::CONTROLLER]["id"], $uniqO )  && 
-				( 	empty($results[$value["user"]]) || 
-					(!empty($results[$value["user"]]) && empty($results[$value["user"]]["parentId"]) ) ) ) {
+		if(@$answers["answers"] )
+		{
+			foreach ( @$answers["answers"] as $ka => $va) {
 
-					$orga = Element::getElementById($value["answers"][Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email"));
-					$ans["parentId"] = $value["answers"][Organization::CONTROLLER]["id"];
-					$ans["parentType"] = Organization::COLLECTION;
-					$ans["parentName"] = $orga["name"];
-					$ans["userId"] = $value["user"];
-					$results[$value["user"]] = $ans;
-				
-				$uniqO[] = $value["answers"][Organization::CONTROLLER]["id"];
-			}
-
-			if( !empty($value["answers"]) && 
-				!empty($value["answers"][Project::CONTROLLER]) && 
-				!in_array( $value["answers"][Project::CONTROLLER]["id"], $uniqP ) ){
-
-				$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
-				$orga["id"] = $value["answers"][Project::CONTROLLER]["id"];
-				$orga["type"] = Project::COLLECTION;
-
-				if(!empty($value["answers"][Project::CONTROLLER]["parentId"])){
-					$orga["parentId"] = $value["answers"][Project::CONTROLLER]["parentId"];
-					$orga["parentType"] = Element::getCollectionByControler($value["answers"][Project::CONTROLLER]["parentType"]);
-					$parent = Element::getSimpleByTypeAndId($orga["parentType"], $orga["parentId"]);
-					$orga["parentName"] = $parent["name"];
-				}else{
-					$answersParent = PHDB::findOne( Form::ANSWER_COLLECTION , 
-										array("parentSurvey"=>@$value["parentSurvey"], 
-												"answers.organization" => array('$exists' => 1),
-												"user" => $value["user"]) );
+				foreach ( $va["answers"] as $key => $value) {
 					
-					$orga["parentId"] = $answersParent["answers"][Organization::CONTROLLER]["id"];
-					$orga["parentType"] = Organization::COLLECTION;
-					$orga["parentName"] = $answersParent["answers"][Organization::CONTROLLER]["name"];
+					if( !empty($value["answers"]) && 
+						!empty($value["answers"][Organization::CONTROLLER]) && 
+						!in_array( $value["answers"][Organization::CONTROLLER]["id"], $uniqO )  && 
+						( 	empty($results[$value["user"]]) || 
+							(!empty($results[$value["user"]]) && empty($results[$value["user"]]["parentId"]) ) ) ) {
+
+							$orga = Element::getElementById($value["answers"][Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email"));
+							$ans["parentId"] = $value["answers"][Organization::CONTROLLER]["id"];
+							$ans["parentType"] = Organization::COLLECTION;
+							$ans["parentName"] = $orga["name"];
+							$ans["userId"] = $value["user"];
+							$results[$value["user"]] = $ans;
+						
+						$uniqO[] = $value["answers"][Organization::CONTROLLER]["id"];
+					}
+
+					if( !empty($value["answers"]) && 
+						!empty($value["answers"][Project::CONTROLLER]) && 
+						!in_array( $value["answers"][Project::CONTROLLER]["id"], $uniqP ) ){
+
+						$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
+						$orga["id"] = $value["answers"][Project::CONTROLLER]["id"];
+						$orga["type"] = Project::COLLECTION;
+
+						if(!empty($value["answers"][Project::CONTROLLER]["parentId"])){
+							$orga["parentId"] = $value["answers"][Project::CONTROLLER]["parentId"];
+							$orga["parentType"] = Element::getCollectionByControler($value["answers"][Project::CONTROLLER]["parentType"]);
+							$parent = Element::getSimpleByTypeAndId($orga["parentType"], $orga["parentId"]);
+							$orga["parentName"] = $parent["name"];
+						}else{
+							$answersParent = PHDB::findOne( Form::ANSWER_COLLECTION , 
+												array("parentSurvey"=>@$value["parentSurvey"], 
+														"answers.organization" => array('$exists' => 1),
+														"user" => $value["user"]) );
+							
+							$orga["parentId"] = $answersParent["answers"][Organization::CONTROLLER]["id"];
+							$orga["parentType"] = Organization::COLLECTION;
+							$orga["parentName"] = $answersParent["answers"][Organization::CONTROLLER]["name"];
+						}
+
+						$orga["userId"] = $value["user"];
+						$orga["userName"] = $value["name"];
+						
+						$results[ $value["user"] ]["id"] = @$orga["id"];
+						$results[ $value["user"] ]["type"] = @$orga["type"];
+						$results[ $value["user"] ]["name"] = @$orga["name"];
+						$results[ $value["user"] ]["email"] = @$orga["email"];
+						$results[ $value["user"] ]["parentId"] = @$orga["parentType"];
+						$results[ $value["user"] ]["parentName"] = @$orga["parentName"];
+						$results[ $value["user"] ]["userId"] = @$orga["userId"];
+						$results[ $value["user"] ]["userName"] = @$orga["userName"];
+
+						$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
+					}
+
+
+					if ( !empty($results[$value["user"]]) ) {
+
+						if ( empty($results[$value["user"]]["scenario"]) )
+							$results[$value["user"]]["scenario"] = $scenario;
+						//var_dump($results[$value["user"]]); echo "</br></br>";
+						if ( isset($results[$value["user"]]["scenario"][$value["formId"]]) )
+							$results[$value["user"]]["scenario"][$value["formId"]] = true;
+					}
 				}
-
-				$orga["userId"] = $value["user"];
-				$orga["userName"] = $value["name"];
-				
-				$results[ $value["user"] ]["id"] = @$orga["id"];
-				$results[ $value["user"]]["type"] = @$orga["type"];
-				$results[ $value["user"]]["name"] = @$orga["name"];
-				$results[ $value["user"]]["email"] = @$orga["email"];
-				$results[ $value["user"]]["parentId"] = @$orga["parentType"];
-				$results[ $value["user"]]["parentName"] = @$orga["parentName"];
-				$results[ $value["user"]]["userId"] = @$orga["userId"];
-				$results[ $value["user"]]["userName"] = @$orga["userName"];
-
-				$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
-			}
-
-
-			if ( !empty($results[$value["user"]]) ) {
-
-				if ( empty($results[$value["user"]]["scenario"]) )
-					$results[$value["user"]]["scenario"] = $scenario;
-				//var_dump($results[$value["user"]]); echo "</br></br>";
-				if ( isset($results[$value["user"]]["scenario"][$value["formId"]]) )
-					$results[$value["user"]]["scenario"][$value["formId"]] = true;
 			}
 		}
 		// Rest::json($results);exit ;
