@@ -373,7 +373,6 @@ $(document).ready(function() {
 			        data: data,
 					type: "POST",
 			    }).done(function (data) {
-			    	alert("hzaza");
 			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
 				    	window.location.reload();
 				    	updateForm = null;
