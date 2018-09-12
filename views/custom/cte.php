@@ -93,19 +93,19 @@
 
         foreach ($sessions as $s => $sv) 
         {
-            
-            if(@$answers[$s])
+            //var_dump($answers);
+            if(isset($answers[$s]))
             {
                 echo "<tr>";
                     echo "<td>#".$s."</td>";
-                    echo "<td>".( ( @$sv["startDate"] ) ? $sv["startDate"] : "Pas de date")."</td>";
-                    echo "<td>".( ( @$sv["endDate"] ) ? $sv["endDate"] : "Pas de date")."</td>";
+                    echo "<td>".( ( @$sv["startDate"] ) ? date('d/m/Y H:i', $sv["startDate"]->sec) : "Pas de date")."</td>";
+                    echo "<td>".( ( @$sv["endDate"] ) ? date('d/m/Y H:i', $sv["endDate"]->sec) : "Pas de date")."</td>";
                     echo "<td>";
     				$count=count( @$answers[$s] );
 
     				if( $count < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
                     {
-                		$label=( $count > 0 ) ? "Reprendre la candidature" : "Déposer une candidature".$count; 
+                		$label=( $count > 0 ) ? "Reprendre la candidature" : "Déposer une candidature"; 
                 	?>
                 		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
         	  <?php }

@@ -72,6 +72,7 @@ if(@$form["custom"]['footer']){
 <script type="text/javascript">
 var answers = null;
 var surveyContry = "<?php echo @$form["countryCode"] ?>";
+var formSession = "<?php echo @$_GET["session"]; ?>";
 jQuery(document).ready(function() {
 
     $(".openFile").click( function() { 

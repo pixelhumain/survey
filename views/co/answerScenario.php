@@ -366,7 +366,7 @@ $(document).ready(function() {
 	    			data.id = answerId;
 	    			urlPath = baseUrl+"/survey/co/update2";
 	    		}
-	    		console.log("save",data);
+	    		console.log("save!!!",data);
 
 	    		$.ajax({ type: "POST",
 			        url: urlPath,
