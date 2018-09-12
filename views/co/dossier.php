@@ -190,15 +190,17 @@ if(@$adminAnswers["risks"] )
 						echo '</tr>';
 					}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
 						$document=Document::getById($a["id"]);
-						$document["docId"]=$a["id"];
-						$answers[$k]["answers"][$key]["files"]=array($document);
-						$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
-						echo '<tr>';
-							echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
-							echo "<td>";
-								echo "<a href='".$path."' target='_blank'><i class='fa fa-file-pdf-o text-red'></i> ".$document["name"]."</a>";
-							echo "</td>";
-						echo '</tr>';
+						if(!empty($document)){ 
+							$document["docId"]=$a["id"];
+							$answers[$k]["answers"][$key]["files"]=array($document);
+							$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
+							echo '<tr>';
+								echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
+								echo "<td>";
+									echo "<a href='".$path."' target='_blank'><i class='fa fa-file-pdf-o text-red'></i> ".$document["name"]."</a>";
+								echo "</td>";
+							echo '</tr>';
+						}
 					}
 				}
 			//todo search dynamically if key exists

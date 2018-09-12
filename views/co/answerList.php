@@ -272,7 +272,7 @@ function getAnswers(dynJson, noTotal)
 		    		$.each(listObject, function(e,v){
 		    			if(v.status == "submitted")
 		    				goToUpload=true;
-		    			else
+		    			else if(v.status!="deleted") 
 		    				releventDoc=v;
 		    		});
 		    	}
