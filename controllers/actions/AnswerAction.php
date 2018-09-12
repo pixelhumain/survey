@@ -8,6 +8,7 @@ class AnswerAction extends CAction
 
     	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
  ///test commit 
+    	/// 2
     	
     	if ( ! Person::logguedAndValid() ) 
 			$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
