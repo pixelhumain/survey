@@ -43,7 +43,15 @@
 						 } ?></td>
 						<td>
 							<?php 
-								$userAction = "<a class='btn btn-danger userActionBtn' data-riskid='".$key."' data-answerid='".(string)$adminAnswers["_id"]."' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a>"; 
+								
+
+								// if(@$adminAnswers["comment"]["risks"][(string)$adminAnswers["_id"]."Count"] &&
+								// 	$adminAnswers["comment"]["risks"][(string)$adminAnswers["_id"]."Count"] > 0 )
+								// 	$labelR = "Lire";
+								// else
+								// 	$labelR = "Ajouter un commentaire";
+
+								$userAction = "<a class='btn btn-danger userActionBtn' data-riskid='".$key."' data-answerid='".(string)$adminAnswers["_id"]."' href='javascript:;'><i class='fa fa-comment'></i> Ajouter un commentaire</a>";
 								echo $userAction ;
 							?>
 						</td>
