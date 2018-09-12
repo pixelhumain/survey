@@ -7,7 +7,8 @@ class AnswerAction extends CAction
     	$ctrl->layout = "//layouts/empty";
 
     	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
- 
+ ///test commit 
+    	
     	if ( ! Person::logguedAndValid() ) 
 			$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
 		else if( Form::canAdmin( (string)$form["_id"], $form ) || $user == Yii::app()->session["userId"])
