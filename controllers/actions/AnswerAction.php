@@ -21,7 +21,13 @@ class AnswerAction extends CAction
 								? PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin","session"=>$answer["session"] ) ) 
 								: PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin","session"=>$answer["session"] ), array("scenarioAdmin") ) ;
 
-				$userO = Person::getById($answer["user"]);
+
+				//$userO = Person::getById($answer["user"]);
+
+				//$adminForm = ( Form::canAdmin((string)$form["_id"]) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session) ) : null ;
+
+
+				$userO = Person::getById($user);
 				if( !@$adminAnswers ){
 					$adminAnswers = array(
 						"formId" => $answer["formId"],
