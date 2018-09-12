@@ -23,10 +23,10 @@ class IndexAction extends CAction
 	 				//si pas de session fourni on liste toute les 
 	 				if(@$form["session"]){
 			 			foreach ($form["session"] as $s => $sv) {
-				 			$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id,"session"=>(string)$s,"user"=> @Yii::app()->session["userId"] ) );
+				 			$answers[ strval( $s )] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$id,"session"=>strval( $s ),"user"=> @Yii::app()->session["userId"] ) );
 				 			if( $form["surveyType"] == "surveyList" || @$form["parentSurvey"] ){
 				 				$pId = (@$form["parentSurvey"] ) ? $form["parentSurvey"]  : $id;
-				 				$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$pId,"session"=>(string)$s, "user"=> @Yii::app()->session["userId"] ) );	 				
+				 				$answers[strval( $s )] = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>$pId,"session"=>strval( $s ), "user"=> @Yii::app()->session["userId"] ) );	 				
 				 			}
 				 		}
 				 	} 
