@@ -4,7 +4,7 @@ class SearchAdminMembersAction extends CTKAction{
     	if ( Person::logguedAndValid() ) {
     		//$form = PHDB::findOne( Form::COLLECTION , array("id"=>$_POST["parentSurvey"]));
     		$form = Form::getById($_POST["parentSurvey"],$fields=array("links", "author"));
-            if(	Form::canAdmin($_POST["parentSurvey"], $form)  ){
+            if(	Form::canAdmin((string)$form["_id"], $form)  ){
 
             	$queryId = array("links.forms.".(String)$form["_id"]=> array('$exists' => 1) );
             	if (!empty($_POST["text"])){
@@ -23,9 +23,9 @@ class SearchAdminMembersAction extends CTKAction{
 	    		Rest::json($results); exit ;
 
 			} else 
-				$this->getController()->render("co2.views.default.unauthorised"); 
+				$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
 		} else
-			$this->getController()->render("co2.views.default.loginSecure");
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
     }
 
 

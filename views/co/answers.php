@@ -54,9 +54,9 @@ $layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
 				<tbody class="directoryLines">
 				<?php  foreach ($results as $key => $v) { ?>
 					<tr>
-						<td><?php echo $v["name"]; ?></td>
-						<td><?php echo $v["email"]; ?></td>
-						<td><a href="<?php echo "/ph/survey/co/answer/id/".(string)$v["_id"]; ?>" >Read</a></td>
+						<td><?php echo @$v["name"]; ?></td>
+						<td><?php echo @$v["email"]; ?></td>
+						<td><a href="<?php echo "/ph/survey/co/answer/id/".(string)$v["_id"]; ?>/id/<?php echo $v["session"]; ?>" >Read</a></td>
 					</tr>
 				<?php } ?>
 				</tbody>

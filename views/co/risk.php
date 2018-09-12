@@ -7,19 +7,14 @@
 	#riskCatalogList tr {cursor: pointer;}
 </style>
 <div class="col-xs-12 padding-20">
-	<h1>Risques évalués ?</h1>
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	<h1>évalués les contraintes?</h1>
+	
 	<br>
 	<div class="padding-10 margin-bottom-20"  style="border:1px solid #ccc">
 
-		<h2 class="text-center" >Liste des risques détectés <a href="#toto" onclick="$('#riskCatalogue').toggle()" class="btn btn-primary">CATALOGUE DES RISQUES</a></h2>
+		<h2 class="text-center" >Liste des contraintes détectés <a href="#toto" onclick="$('#riskCatalogue').toggle()" class="btn btn-primary">CATALOGUE DES CONTRAINTES</a></h2>
 		<?php if( !@$adminAnswers["risks"]){ ?>
-		<h3 id="noriskTtile" class=" text-center text-red">Aucun Risque detecté</h3>
+		<h3 id="noriskTtile" class=" text-center text-red">Aucune contrainte détectée</h3>
 		<?php } ?>
 		<table border="1" id="riskList"  class="table table-striped table-bordered table-hover  directoryTable margin-bottom-20" style="width:100%;">
 			<tr>
@@ -46,7 +41,20 @@
 						<td><?php foreach ($value["actions"] as $act) {
 							echo $act."<br/>";
 						 } ?></td>
-						<td><?php echo @$value["comment"]?></td>
+						<td>
+							<?php 
+								
+
+								// if(@$adminAnswers["comment"]["risks"][(string)$adminAnswers["_id"]."Count"] &&
+								// 	$adminAnswers["comment"]["risks"][(string)$adminAnswers["_id"]."Count"] > 0 )
+								// 	$labelR = "Lire";
+								// else
+								// 	$labelR = "Ajouter un commentaire";
+
+								$userAction = "<a class='btn btn-danger userActionBtn' data-riskid='".$key."' data-answerid='".(string)$adminAnswers["_id"]."' href='javascript:;'><i class='fa fa-comment'></i> Ajouter un commentaire</a>";
+								echo $userAction ;
+							?>
+						</td>
 						<td><?php echo $value["probability"]?></td>
 						<td><?php echo $value["gravity"]?></td>
 						<td style="color:black; background-color:<?php echo Form::$riskWeight[$value["probability"].$value["gravity"]]["c"]?> "><?php echo $value["weight"]; $totalWeight += (int)$value["weight"];?></td>
@@ -72,7 +80,7 @@
 				<a href="javascript:;" onclick="showType('<?php echo InflectorHelper::slugify($key); ?>')" class="btn btn-xs btn-default"><?php echo $key; ?></a>
 			<?php }
 			} ?>
-			<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class=" btn btn-xs btn-danger"><i class="fa fa-plus"></i> AJOUTER UN RISQUE</a><br/>
+			<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class=" btn btn-xs btn-danger"><i class="fa fa-plus"></i> AJOUTER UNE CONTRAINTE</a><br/>
 			<input type="text" id="searchRisks" name="searchRisks" style="width:50%;margin-top: 10px" placeholder="Chercher et filtrer les risques "/>
 		</div>
 		
@@ -81,7 +89,7 @@
 				<th>Type</th>
 				<th>Danger</th>
 				<th>Actions</th>
-				<th>Ajouter ce risque</th>
+				<th>Ajouter cette contraintes</th>
 			</tr>
 			<?php 
 			if( @$riskCatalog ){
@@ -105,7 +113,7 @@
 			
 			
 		</table>
-		<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class="btn btn-danger"><i class="fa fa-plus"></i>AJOUTER UN RISQUE</a>
+		<a href="javascript:;" onclick="dyFObj.openForm(riskForm)" class="btn btn-danger"><i class="fa fa-plus"></i>AJOUTER UNE CONTRAINTE</a>
 		
 	</div>
 </div>
@@ -135,10 +143,10 @@
       </select>
     </div>
 
-    <div class="form-group">
+<!--     <div class="form-group">
       <label for="comment">Commentaire</label>
       <br/><textarea type="text" id="comment" name="comment" style="width:100%"></textarea>
-    </div>
+    </div> -->
 	
 	<div id="explainProbGrav" class="padding-10 bold"></div>
 
@@ -221,7 +229,7 @@ var riskObj = {
 			            riskObj.selectedRisks[ riskId ].probability = $('.inputprobGrav #probability').last().val();
 			            riskObj.selectedRisks[ riskId ].gravity = $('.inputprobGrav #gravity').last().val();
 			            riskObj.selectedRisks[ riskId ].weight = riskObj.riskWeight[$('.inputprobGrav #probability').last().val()+""+$('.inputprobGrav #gravity').last().val()].w;
-			            riskObj.selectedRisks[ riskId ].comment = $('.inputprobGrav #comment').last().val();
+			            //riskObj.selectedRisks[ riskId ].comment = $('.inputprobGrav #comment').last().val();
 			            modal.modal("hide");
 			            console.log("riskObj.selectedRisks",riskObj.selectedRisks);
 						$("#noriskTtile").hide();
@@ -231,7 +239,8 @@ var riskObj = {
 						"<td>"+riskObj.selectedRisks[ riskId ].type+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].desc+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].actions.join("<br/>")+"</td>"+
-						"<td>"+riskObj.selectedRisks[ riskId ].comment+"</td>"+
+						//"<td>"+riskObj.selectedRisks[ riskId ].comment+"</td>"+
+						"<td><a class='btn btn-danger userActionBtn' data-riskid='"+riskId+"' data-answerid='"+adminAnswers._id.$id+"' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a></td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].probability+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].gravity+"</td>"+
 						"<td style='color:black;background-color:"+riskObj.riskWeight[riskObj.selectedRisks[ riskId ].probability+""+riskObj.selectedRisks[ riskId ].gravity].c+"'>"+riskObj.selectedRisks[ riskId ].weight+"</td></tr>";
@@ -243,6 +252,7 @@ var riskObj = {
 
 						data={
 			    			formId : form.id,
+			    			session : formSession,
 			    			answerSection : "risks."+riskId ,
 			    			answers : riskObj.selectedRisks[ riskId ],
 			    			answerUser : adminAnswers.user ,
@@ -256,6 +266,9 @@ var riskObj = {
 					    }).done(function (data) { 
 					    	toastr.success('risk successfully saved!');
 					    	$(".add"+riskId).html("");
+					    	$('.userActionBtn').off().click(function() {
+								commentRisk($(this).data("answerid"), $(this).data("riskid"));
+							});
 					    });
 
 					} else {
@@ -302,6 +315,7 @@ var riskObj = {
 	            	//ajout attribut sur answer.cte.infoRequest
 	            	data={
 		    			formId : form.id,
+		    			session : formSession,
 		    			answerSection : "infoRequest" ,
 		    			answers : true,
 		    			answerUser : adminAnswers.user ,

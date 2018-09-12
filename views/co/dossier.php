@@ -1,4 +1,17 @@
-<?php if( $canAdmin || (string)$user["_id"] == Yii::app()->session["userId"] ){ ?>
+<?php if( $canAdmin || (string)$user["_id"] == Yii::app()->session["userId"] ){ 
+
+$cssAnsScriptFilesModule = array(
+	'/assets/js/comments.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
+
+$cssAnsScriptFilesModule = array(
+	'/plugins/underscore-master/underscore.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true))
+?>
 			
 <h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
 
@@ -19,11 +32,12 @@
 			<tr>
 				<td>État du dossier</td>
 				<td>
-					<?php 
+					<?php
+					$i = 1 ;
 					foreach ($adminForm["scenarioAdmin"] as $ks => $vs) {
-						$c = (@$adminAnswers["step"] && $ks == $adminAnswers["step"]) ?"text-red bold" :"";
+						$c = (@$adminAnswers["step"] && $ks == $adminAnswers["step"]) ? "text-red bold" : ( ($i == 1) ? "text-red bold" : "") ;
 						echo '<span class="'.$c.'"><i class="'.@$vs["icon"].'"></i> '.str_replace("<br/>", "", @$vs["title"]).'</span> <br/> ';
-
+						$i++;
 					} ?>
 					
 				</td>
@@ -56,19 +70,20 @@ if(@$adminAnswers["risks"] )
 	$globrcol = "success";
 	foreach (@$adminAnswers["risks"] as $kr => $vr) {
 		$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
-		if( $rcol == "red") {
-			$userAction = (@$vr["userAction"]) ? $vr["userAction"] : "<a class='btn btn-danger userActionBtn' data-riskid='".$kr."' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a>";
-			$list .= "<tr><td>".$vr["desc"]."</td><td>".@$vr["comment"]."</td><td id='userAction".$kr."'>".$userAction."</td></tr>";
-		}
+		// if( $rcol == "red") {
+			$userAction = (@$vr["userAction"]) ? $vr["userAction"] : "<a class='btn btn-danger userActionBtn' data-riskid='".$kr."' data-answerid='".(string)$adminAnswers["_id"]."' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a>";
+			$list .= "<tr><td>".$vr["desc"]."</td><td>".@$vr["comment"]."</td><td style='background-color:".$rcol."'>".$vr["weight"]."</td><td id='userAction".$kr."'>".$userAction."</td></tr>";
+		// }
 	}
 	if($list != "")
 	{
-		echo "<div class='col-xs-12'><h2 class='text-red'>Risques Bloquants à justifier</h2>";
+		echo "<div class='col-xs-12'><h2 class='text-red'>Risques à justifier</h2>";
 		echo '<table class="table table-striped table-bordered table-hover  directoryTable">'.
 				'<thead>'.
 					'<tr>'.
 						'<th>Risque</th>'.
 						'<th>Commentaire</th>'.
+						'<th>Poids</th>'.
 						'<th>Solution ou Justification</th>'.
 					'</tr>'.
 				'</thead>'.
@@ -130,6 +145,7 @@ if(@$adminAnswers["risks"] )
 	// 													"answers" => $answers,
 	// 													"user" => $user,
 	// 													'scenario' => "scenario") ); 
+
  ?>
 
  <?php foreach ($form["scenario"] as $k => $v) {
@@ -143,17 +159,16 @@ if(@$adminAnswers["risks"] )
 		</div>
 		<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
 		<?php 
-			foreach ( $answers[$k]["answers"] as $key => $value) 
-			{
+		foreach ( $answers[$k]["answers"] as $key => $value) {
 			$editBtn = "";
-			if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["id"], $form )) {
+			if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$session]["endDate"] )) {
 				if(@$v["form"]["scenario"][$key]["saveElement"]) 
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 				else 
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 			}
 			echo "<div class='col-xs-12'>".
-					"<h2> [ step ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
+					"<h2> [ étape ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
 			echo '<table class="table table-striped table-bordered table-hover  directoryTable">'.
 				'<thead>'.
 					'<tr>'.
@@ -175,13 +190,18 @@ if(@$adminAnswers["risks"] )
 						echo '</tr>';
 					}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
 						$document=Document::getById($a["id"]);
+						if(!empty($document)){
+						$document["docId"]=$a["id"];
+						$answers[$k]["answers"][$key]["files"]=array($document);
 						$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
 						echo '<tr>';
 							echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
 							echo "<td>";
 								echo "<a href='".$path."' target='_blank'><i class='fa fa-file-pdf-o text-red'></i> ".$document["name"]."</a>";
-							echo "</td>";
+							
+						echo "</td>";
 						echo '</tr>';
+						}
 					}
 				}
 			//todo search dynamically if key exists
@@ -277,6 +297,7 @@ if(@$adminAnswers["risks"] )
 
 
 <script type="text/javascript">
+var answers  = <?php echo json_encode($answers); ?>;
 $(document).ready(function() { 
 	
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
@@ -328,8 +349,10 @@ $(document).ready(function() {
 			editForm.jsonSchema.save = function(){
 				
 				data={
+					answerId : adminAnswers["_id"]["$id"],
 	    			formId : updateForm.form,
-	    			answerSection : "answers."+updateForm.step ,
+	    			session : formSession,
+	    			answerSection : "answers."+updateForm.form+".answers."+updateForm.step ,
 	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json , true),
 	    			answerUser : adminAnswers.user 
 	    		};
@@ -341,7 +364,15 @@ $(document).ready(function() {
 			        data: data,
 					type: "POST",
 			    }).done(function (data) {
-			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
+			    	listObject=$('.fine-uploader-manual-trigger').fineUploader('getUploads');
+			    	goToUpload=false;
+			    	if(listObject.length > 0){
+			    		$.each(listObject, function(e,v){
+			    			if(v.status == "submitted")
+			    				goToUpload=true;
+			    		});
+			    	}
+					if( !goToUpload ){
 				    	window.location.reload();
 				    	updateForm = null;
 				    } 
@@ -355,11 +386,72 @@ $(document).ready(function() {
 	});
 
 	$('.userActionBtn').off().click(function() {
-		commentRisk( $(this).data("riskid") );
+		commentRisk($(this).data("answerid"), $(this).data("riskid"));
 	});
 });
+function commentRisk(answerId, riskId){
+	var modal = bootbox.dialog({
+	        message: '<div class="content-risk-comment-tree">'+
+				      //'<label for="comment">Justifier</label>'+
+				      //'<br/><textarea type="text" id="riskComment" name="riskComment" style="width:100%"></textarea>'+
+				      '</div>',
+	        title: "Fil de commentaire du risque",
+	        buttons: [
+	        //{
+	           /* label: "Enregistrer",
+	            className: "btn btn-primary pull-left",
+	            callback: function() {
+	            	if ($('#riskComment').last().val()) 
+	            	{
+			            var comment = $('#riskComment').last().val();
+			            modal.modal("hide");
+			            data={
+			    			formId : form.id,
+			    			session : formSession,
+			    			answerSection : "risks."+riskId+".userAction" ,
+			    			answers : $('#riskComment').last().val(),
+			    			answerUser : adminAnswers.user 
+			    		};
+			    		console.log("saving",data);
+			          	$.ajax({ 
+			          		type: "POST",
+					        url: baseUrl+"/survey/co/update",
+					        data: data
+					    }).done(function (data) { 
+					    	toastr.success('risk successfully saved!');
+					    	$("#userAction"+riskId).html($('#riskComment').last().val());
+					    });
 
- function commentRisk(riskId) { 
+					} else {
+						bootbox.alert({ message: "Vous devez renseigner les poids du risque." });
+					}
+	              return false;
+	            }
+	          },*/
+	          {
+	            label: "Annuler",
+	            className: "btn btn-default pull-left",
+	            callback: function() {
+	              console.log("just do something on close");
+	            }
+	          }
+	        ],
+	        onEscape: function() {
+	          modal.modal("hide");
+	        }
+	    });
+		modal.on("shown.bs.modal", function() {
+		  $.unblockUI();
+		  	getAjax(".content-risk-comment-tree",baseUrl+"/"+moduleId+"/comment/index/type/answers/id/"+answerId+"/path/risks."+riskId,
+			function(){  //$(".commentCount").html( $(".nbComments").html() ); 
+			},"html");
+
+		  //bindEventTextAreaNews('#textarea-edit-news'+idNews, idNews, updateNews[idNews]);
+		});
+	   // modal.modal("show");
+	//}
+}
+ /*function commentRisk(riskId) { 
 		var modal = bootbox.dialog({
 	        message: '<div class="form-group">'+
 				      '<label for="comment">Justifier</label>'+
@@ -377,6 +469,7 @@ $(document).ready(function() {
 			            modal.modal("hide");
 			            data={
 			    			formId : form.id,
+			    			session : formSession,
 			    			answerSection : "risks."+riskId+".userAction" ,
 			    			answers : $('#riskComment').last().val(),
 			    			answerUser : adminAnswers.user 
@@ -411,7 +504,7 @@ $(document).ready(function() {
 	        }
 	    });
 	    modal.modal("show");
-	}
+	}*/
 </script>
 
 

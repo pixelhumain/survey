@@ -6,7 +6,7 @@ class SearchAdminFormAction extends CTKAction{
     	if ( Person::logguedAndValid() ) {
     		//$form = PHDB::findOne( Form::COLLECTION , array("id"=>$_POST["parentSurvey"]));
     		$form = Form::getById($_POST["parentSurvey"],$fields=array("links", "author"));
-            if(	Form::canAdmin($_POST["parentSurvey"], $form) ){
+            if(	Form::canAdmin((string)$form["_id"], $form) ){
 
             	$indexMin = isset($_POST['indexMin']) ? $_POST['indexMin'] : 0;
 				$indexStep = 30;
@@ -30,7 +30,7 @@ class SearchAdminFormAction extends CTKAction{
 			} else 
 				$this->getController()->render("co2.views.default.unauthorised"); 
 		} else
-			$this->getController()->render("co2.views.default.loginSecure");
+			$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
     }
 
 

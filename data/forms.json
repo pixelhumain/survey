@@ -291,8 +291,8 @@
     "title" : "Objectifs ?",
     "author" : "5534fd9da1aa14201b0041cb",
     "description" : "Définissez l'action dans le cadre du contrat de transition Ecologique",
-    "parenType" : "organizations",
-    "parentId" : "592e54d1539f2278258b456c",
+    "parentType" : "organizations",
+    "parentId" : "5b47451ddd0452ca52000693",
     "surveyType" : "oneSurvey",
     "scenario" : {
         "objectif" : {
@@ -386,7 +386,7 @@
                             "contentKey" : "survey",
                             "placeholder" : "Budget prévisionel",
                             "domElement" : "previsionelFile",
-                            "endPoint" : "/document/uploadSave/dir/communecter/subDir/previsionel/input/qqfile/docType/file/contentKey/survey/keySurvey/cte2",
+                            "endPoint" : "/subDir/previsionel.cte3.status/surveyId/cte",
                             "template" : "qq-template-manual-trigger",
                             "filetypes" : [ 
                                 "pdf"
@@ -413,23 +413,45 @@
     "scenarioAdmin" : {
         "dossier" : {
             "title" : "Dossier",
-            "icon" : "folder-open-o"
+            "icon" : "folder-open-o",
+            "startDate" : ISODate("2018-06-10T12:01:14.000Z"),
+            "endDate" : ISODate("2018-09-17T12:01:14.000Z")
         },
         "eligible" : {
             "title" : "Éligibilité <br/>par TCOPIL",
-            "icon" : "thumbs-o-up"
+            "icon" : "thumbs-o-up",
+            "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "endDate" : ISODate("2018-09-17T12:01:14.000Z")
         },
         "priorisation" : {
             "title" : "Priorisation<br/> par TCOPIL",
-            "icon" : "sort-amount-desc"
+            "icon" : "sort-amount-desc",
+            "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "mail" : {
+                "tpl" : "priorisationCTE",
+                "tplObject" : "Etape de priorisation CTE"
+            }
         },
         "risk" : {
             "title" : "Gestion du Risque",
-            "icon" : "warning"
+            "icon" : "warning",
+            "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "mail" : {
+                "tpl" : "riskCTE",
+                "tplObject" : "Etape de risque CTE"
+            }
         },
         "ficheAction" : {
             "title" : "Fiches Actions",
-            "icon" : "file-text"
+            "icon" : "file-text",
+            "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
+            "mail" : {
+                "tpl" : "actionCTE",
+                "tplObject" : "Etape de risque CTE"
+            }
         }
     },
     "scenario" : {
@@ -552,6 +574,39 @@
             "icon" : "cogs",
             "form" : {
                 "scenario" : {
+                    "projects" : {
+                        "title" : "Projets",
+                        "description" : "liste des projets associés à cette fiche action",
+                        "arrayForm" : true,
+                        "icon" : "fa-lightbulb-o",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Projets associés",
+                                "icon" : "fa-lightbulb-o",
+                                "properties" : {
+                                    "projectsLinked" : {
+                                        "inputType" : "arrayForm",
+                                        "label" : "Liste des projets",
+                                        "properties" : {
+                                            "project" : {
+                                                "placeholder" : "Projet"
+                                            },
+                                            "name" : {
+                                                "placeholder" : "name"
+                                            },
+                                            "description" : {
+                                                "placeholder" : "description"
+                                            },
+                                            "indicateur" : {
+                                                "placeholder" : "indicateur",
+                                                "class" : "description3 markdown"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "detail" : {
                         "title" : "Détail",
                         "description" : "critère d'évaluation de faisabilité",
@@ -667,19 +722,6 @@
                                     }
                                 }
                             }
-                        }
-                    },
-                    "projects" : {
-                        "title" : "Projets",
-                        "description" : "liste des projets associés à cette fiche action",
-                        "arrayForm" : true,
-                        "icon" : "fa-lightbulb-o",
-                        "key" : "projectsLinked",
-                        "properties" : {
-                            "project" : "Project Selectionné(s)",
-                            "name" : "name",
-                            "description" : "description",
-                            "indicateur" : "indicateur"
                         }
                     },
 
@@ -887,23 +929,86 @@
                             }
                         }
                     },
-                                  
-
+                    "validation" : {
+                        "title" : "Financement",
+                        "description" : "Financement",
+                        "icon" : "fa-thumbs-o-up",
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Validation de l'action",
+                                "type" : "object",
+                                "properties" : {
+                                    "techniqueDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation technique",
+                                        "placeholder" : "Date de la validation technique"
+                                    },
+                                    "financière" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Validation financière",
+                                        "placeholder" : "Avis",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "financiereDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation financière",
+                                        "placeholder" : "Date de la validation financière"
+                                    },
+                                    "juridique" : {
+                                        "inputType" : "textarea",
+                                        "label" : "Validation juridique",
+                                        "placeholder" : "Avis",
+                                        "class" : "description3 markdown"
+                                    },
+                                    "juridiqueDate" : {
+                                        "inputType" : "date",
+                                        "label" : "Date de la validation juridique",
+                                        "placeholder" : "Date de la validation juridique"
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "estimation" : {
                         "title" : "Plan de Financement",
                         "description" : "liste des projets associés à cette fiche action",
                         "arrayForm" : true,
                         "icon" : "fa-money",
-                        "key" : "financement",
-                        "properties" : {
-                            "project" : "Le projet",
-                            "public" : "Public ou Privés",
-                            "amount" : "Montant du Financement",
-                            "year" : "Année du Financement",
-                            "percent" : "Quelle part du projet globale",
-                            "financer" : "Cadre d'intervention"
+                        "json" : {
+                            "jsonSchema" : {
+                                "title" : "Quel financement",
+                                "icon" : "fa-money",
+                                "properties" : {
+                                    "financement" : {
+                                        "title" : "Plan de Financement",
+                                        "icon" : "fa-money",
+                                        "inputType" : "arrayForm",
+                                        "properties" : {
+                                            "project" : {
+                                                "placeholder" : "Choisissez un projet"
+                                            },
+                                            "public" : {
+                                                "placeholder" : "Financement Public"
+                                            },
+                                            "amount" : {
+                                                "placeholder" : "Montant du Financement"
+                                            },
+                                            "year" : {
+                                                "placeholder" : "Année du Financement"
+                                            },
+                                            "percent" : {
+                                                "placeholder" : "Quelle part du projet globale"
+                                            },
+                                            "financer" : {
+                                                "placeholder" : "Cadre d'intervention"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                }
             }
         }
     }

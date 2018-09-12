@@ -38,13 +38,17 @@ class Form {
     public static function countStep($idParent){
     	return PHDB::count( self::COLLECTION, array("parentForm"=>$idParent));
     }
-
+ 
     public static function getById($parentForm, $fields=array()){
     	return PHDB::findOne( self::COLLECTION, array("id"=>$parentForm), $fields);
     }
 
     public static function getByIdMongo($id,$fields=array()){
     	return PHDB::findOne(self::COLLECTION,array("_id"=>new MongoId($id)), $fields);
+    }
+
+    public static function getAnswerById($id,$fields=array()){
+    	return PHDB::findOne(self::ANSWER_COLLECTION,array("_id"=>new MongoId($id)), $fields);
     }
 
     public static function getLinksById($id){
@@ -107,71 +111,77 @@ class Form {
 		}
 
 		//Rest::json($answers); exit ;
-		foreach ( $answers as $key => $value) {
-			
-			if( !empty($value["answers"]) && 
-				!empty($value["answers"][Organization::CONTROLLER]) && 
-				!in_array( $value["answers"][Organization::CONTROLLER]["id"], $uniqO )  && 
-				( 	empty($results[$value["user"]]) || 
-					(!empty($results[$value["user"]]) && empty($results[$value["user"]]["parentId"]) ) ) ) {
+		if(@$answers["answers"] )
+		{
+			foreach ( @$answers["answers"] as $ka => $va) {
 
-					$orga = Element::getElementById($value["answers"][Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email"));
-					$ans["parentId"] = $value["answers"][Organization::CONTROLLER]["id"];
-					$ans["parentType"] = Organization::COLLECTION;
-					$ans["parentName"] = $orga["name"];
-					$ans["userId"] = $value["user"];
-					$results[$value["user"]] = $ans;
-				
-				$uniqO[] = $value["answers"][Organization::CONTROLLER]["id"];
-			}
-
-			if( !empty($value["answers"]) && 
-				!empty($value["answers"][Project::CONTROLLER]) && 
-				!in_array( $value["answers"][Project::CONTROLLER]["id"], $uniqP ) ){
-
-				$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
-				$orga["id"] = $value["answers"][Project::CONTROLLER]["id"];
-				$orga["type"] = Project::COLLECTION;
-
-				if(!empty($value["answers"][Project::CONTROLLER]["parentId"])){
-					$orga["parentId"] = $value["answers"][Project::CONTROLLER]["parentId"];
-					$orga["parentType"] = Element::getCollectionByControler($value["answers"][Project::CONTROLLER]["parentType"]);
-					$parent = Element::getSimpleByTypeAndId($orga["parentType"], $orga["parentId"]);
-					$orga["parentName"] = $parent["name"];
-				}else{
-					$answersParent = PHDB::findOne( Form::ANSWER_COLLECTION , 
-										array("parentSurvey"=>@$value["parentSurvey"], 
-												"answers.organization" => array('$exists' => 1),
-												"user" => $value["user"]) );
+				foreach ( $va["answers"] as $key => $value) {
 					
-					$orga["parentId"] = $answersParent["answers"][Organization::CONTROLLER]["id"];
-					$orga["parentType"] = Organization::COLLECTION;
-					$orga["parentName"] = $answersParent["answers"][Organization::CONTROLLER]["name"];
+					if( !empty($value["answers"]) && 
+						!empty($value["answers"][Organization::CONTROLLER]) && 
+						!in_array( $value["answers"][Organization::CONTROLLER]["id"], $uniqO )  && 
+						( 	empty($results[$value["user"]]) || 
+							(!empty($results[$value["user"]]) && empty($results[$value["user"]]["parentId"]) ) ) ) {
+
+							$orga = Element::getElementById($value["answers"][Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email"));
+							$ans["parentId"] = $value["answers"][Organization::CONTROLLER]["id"];
+							$ans["parentType"] = Organization::COLLECTION;
+							$ans["parentName"] = $orga["name"];
+							$ans["userId"] = $value["user"];
+							$results[$value["user"]] = $ans;
+						
+						$uniqO[] = $value["answers"][Organization::CONTROLLER]["id"];
+					}
+
+					if( !empty($value["answers"]) && 
+						!empty($value["answers"][Project::CONTROLLER]) && 
+						!in_array( $value["answers"][Project::CONTROLLER]["id"], $uniqP ) ){
+
+						$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
+						$orga["id"] = $value["answers"][Project::CONTROLLER]["id"];
+						$orga["type"] = Project::COLLECTION;
+
+						if(!empty($value["answers"][Project::CONTROLLER]["parentId"])){
+							$orga["parentId"] = $value["answers"][Project::CONTROLLER]["parentId"];
+							$orga["parentType"] = Element::getCollectionByControler($value["answers"][Project::CONTROLLER]["parentType"]);
+							$parent = Element::getSimpleByTypeAndId($orga["parentType"], $orga["parentId"]);
+							$orga["parentName"] = $parent["name"];
+						}else{
+							$answersParent = PHDB::findOne( Form::ANSWER_COLLECTION , 
+												array("parentSurvey"=>@$value["parentSurvey"], 
+														"answers.organization" => array('$exists' => 1),
+														"user" => $value["user"]) );
+							
+							$orga["parentId"] = $answersParent["answers"][Organization::CONTROLLER]["id"];
+							$orga["parentType"] = Organization::COLLECTION;
+							$orga["parentName"] = $answersParent["answers"][Organization::CONTROLLER]["name"];
+						}
+
+						$orga["userId"] = $value["user"];
+						$orga["userName"] = $value["name"];
+						
+						$results[ $value["user"] ]["id"] = @$orga["id"];
+						$results[ $value["user"] ]["type"] = @$orga["type"];
+						$results[ $value["user"] ]["name"] = @$orga["name"];
+						$results[ $value["user"] ]["email"] = @$orga["email"];
+						$results[ $value["user"] ]["parentId"] = @$orga["parentType"];
+						$results[ $value["user"] ]["parentName"] = @$orga["parentName"];
+						$results[ $value["user"] ]["userId"] = @$orga["userId"];
+						$results[ $value["user"] ]["userName"] = @$orga["userName"];
+
+						$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
+					}
+
+
+					if ( !empty($results[$value["user"]]) ) {
+
+						if ( empty($results[$value["user"]]["scenario"]) )
+							$results[$value["user"]]["scenario"] = $scenario;
+						//var_dump($results[$value["user"]]); echo "</br></br>";
+						if ( isset($results[$value["user"]]["scenario"][$value["formId"]]) )
+							$results[$value["user"]]["scenario"][$value["formId"]] = true;
+					}
 				}
-
-				$orga["userId"] = $value["user"];
-				$orga["userName"] = $value["name"];
-				
-				$results[ $value["user"] ]["id"] = @$orga["id"];
-				$results[ $value["user"]]["type"] = @$orga["type"];
-				$results[ $value["user"]]["name"] = @$orga["name"];
-				$results[ $value["user"]]["email"] = @$orga["email"];
-				$results[ $value["user"]]["parentId"] = @$orga["parentType"];
-				$results[ $value["user"]]["parentName"] = @$orga["parentName"];
-				$results[ $value["user"]]["userId"] = @$orga["userId"];
-				$results[ $value["user"]]["userName"] = @$orga["userName"];
-
-				$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
-			}
-
-
-			if ( !empty($results[$value["user"]]) ) {
-
-				if ( empty($results[$value["user"]]["scenario"]) )
-					$results[$value["user"]]["scenario"] = $scenario;
-				//var_dump($results[$value["user"]]); echo "</br></br>";
-				if ( isset($results[$value["user"]]["scenario"][$value["formId"]]) )
-					$results[$value["user"]]["scenario"][$value["formId"]] = true;
 			}
 		}
 		// Rest::json($results);exit ;
@@ -250,8 +260,8 @@ class Form {
 	
 
 	public static function canAdmin($id, $form = array()){
-		if(empty($form))
-			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+		if(empty($form) && @$id)
+			$form = PHDB::findOne( Form::COLLECTION , array("_id"=>new MongoId($id)));
 
 		$res = false;
 		if(	Yii::app()->session["userId"] == $form["author"] ||
@@ -270,7 +280,7 @@ class Form {
 
 	public static function canAdminRoles($id, $role, $form = array() ){
 		if(empty($form))
-			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+			$form = PHDB::findOne( Form::COLLECTION , array("_id"=>new MongoId($id)));
 
 		$res = false;
 		if( !empty($form["links"]) && 
@@ -288,14 +298,14 @@ class Form {
         return $res ;
 	}
 
-	public static function canSuperAdmin($id, $form = array(), $formAdmin = array()){
+	public static function canSuperAdmin($id,$session, $form = array(), $formAdmin = array()){
 		if(empty($form))
-			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+			$form = PHDB::findOne( Form::COLLECTION , array( "id"=>$id ));
 
 		if(empty($formAdmin))
-			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin"));
+			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session));
 		if(@$formAdmin["adminRole"])
-			$res = self::canAdminRoles($id, $formAdmin["adminRole"], $form = array() ) ;
+			$res = self::canAdminRoles((string)$form["_id"], $formAdmin["adminRole"], $form = array() ) ;
 		else
 			$res = false;
         return $res ;
@@ -334,13 +344,11 @@ class Form {
 
 
 
-	public static function isFinish($id, $form = array() ){
-		if(empty($form))
-			$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+	public static function isFinish($endDate){
 		$res = false;
 		$today = date(DateTime::ISO8601, strtotime("now"));
-		if(!empty($form["endDate"]) ){
-			$endDate = date(DateTime::ISO8601, $form["endDate"]->sec);
+		if(!empty($endDate) ){
+			$endDate = date(DateTime::ISO8601, $endDate->sec);
 			if($endDate < $today)
 				$res = true;
 		}

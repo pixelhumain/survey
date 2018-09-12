@@ -1,7 +1,7 @@
 <?php
 class EditAction extends CTKAction
 {
-    public function run($id)
+    public function run($id,$session="1")
     {
     	//takes a form ID
         //builds the corresponding dynForm specification
@@ -9,14 +9,15 @@ class EditAction extends CTKAction
         //and each property cn be edited 
         $form = PHDB::findOne( Form::COLLECTION ,array("id"=>$id));
         $form["scenario"][$id]['json'] = array(
-                "jsonSchema" => array(
-                    "title" => $form[ "title" ],
-                    "properties"=> array()
-                )
-            );
+            "jsonSchema" => array(
+                "title" => $form[ "title" ],
+                "properties"=> array()
+            )
+        );
         //run through parent Survey scenario
-        foreach ($form["scenario"] as $key => $value) {
-            $stepform = PHDB::findOne( Form::COLLECTION ,array("id"=>$key));
+        foreach ($form["scenario"] as $key => $value) 
+        {
+            $stepform = PHDB::findOne( Form::COLLECTION ,array("id"=>$key,"session"=>$session));
             $form["scenario"][$key]['json'] = array(
                 "jsonSchema" => array(
                     "title" => $stepform[ "title" ],
@@ -52,7 +53,15 @@ class EditAction extends CTKAction
                     );
                 }
             }
-        }    	
-    	echo Rest::json( $form );
+        }
+
+        //ideas : 
+        // make a dynform editor == based on jsonSchema generate all editable features, CRUDing inputs into the edited DF
+        // make an answerScenario listing all sections of a survey in a tree manor with btns that generate a dynform that can add more inputs
+        
+
+    	// //echo Rest::json( $form );
+        $this->getController()->layout = "//layouts/empty";
+        echo $this->getController()->render("edit",array( "form"=> $form ) );
     }
 }

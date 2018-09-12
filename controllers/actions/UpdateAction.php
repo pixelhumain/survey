@@ -7,7 +7,7 @@ class UpdateAction extends CAction
         $msg=Yii::t("common","Please Login First");
         if ( Person::logguedAndValid() ) 
         {
-            $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array("formId"=>@$_POST["formId"], "user"=>$_POST["answerUser"]));
+            $answer = PHDB::findOne( Form::ANSWER_COLLECTION , array( "_id"=>new MongoId(@$_POST["answerId"]) ) );
             if(!empty($answer)){
                 $key = $_POST["answerSection"];
                 $value = $_POST["answers"];
@@ -28,8 +28,11 @@ class UpdateAction extends CAction
                 //****************************
                 //update total scores 
                 //****************************
-                $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array( "formId"=>@$_POST["formId"], "user"=>@Yii::app()->session["userId"]));
-                $form = PHDB::findOne(Form::COLLECTION , array( "id"=>@$_POST["formId"]."Admin"));
+                $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array( 
+                                "formId"=>@$_POST["formId"], 
+                                "session"=>@$_POST["session"],
+                                "user"=>@Yii::app()->session["userId"]));
+                $form = PHDB::findOne(Form::COLLECTION , array( "id"=>@$_POST["formId"]."Admin","session"=>@$_POST["session"]));
 
                 $total = null;
                 

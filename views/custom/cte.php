@@ -72,21 +72,59 @@
 				</button>
 
 		<?php 
-			}else{ 
-				$count=count($answers);
-				if(count($answers) < count($form["scenario"]) && !Form::isFinish($form["id"], $form ) ){
-					$label=($count > 0) ? "Reprendre la candidature" : "Déposer une candidature"; 
-		?>
-					<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte<?php echo $count+1 ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
-		<?php 	}
-			
-				if($count > 0){ ?>
-					<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/cte/user/<?php echo Yii::app()->session['userId'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> VOIR VOTRE CANDIDATURE  </a>
-				<?php
-				} 
-			}?>
+			}else{
+      ?> 
+        <table class="table table-striped table-bordered table-hover  directoryTable" >
+        <thead>
+          <tr>
+            <th class="text-center">Session</th>
+            <th class="text-center">Date de début</th>
+            <th class="text-center">Date de fin</th>
+            <th class="text-center">Action</th>
+          </tr> 
+        </thead>
+        <tbody>
+        <?php
+        $sessions = array();
+        if(@$_GET["session"])
+          $sessions[(string)$_GET["session"]] = $form["session"][$_GET["session"]];
+        else 
+          $sessions = $form["session"];
+
+        foreach ($sessions as $s => $sv) 
+        {
+            //var_dump($answers);
+            if(isset($answers[$s]))
+            {
+                echo "<tr>";
+                    echo "<td>#".$s."</td>";
+                    echo "<td>".( ( @$sv["startDate"] ) ? date('d/m/Y H:i', $sv["startDate"]->sec) : "Pas de date")."</td>";
+                    echo "<td>".( ( @$sv["endDate"] ) ? date('d/m/Y H:i', $sv["endDate"]->sec) : "Pas de date")."</td>";
+                    echo "<td>";
+    				$count=count( @$answers[$s] );
+
+    				if( $count < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
+                    {
+                		$label=( $count > 0 ) ? "Reprendre la candidature" : "Déposer une candidature"; 
+                	?>
+                		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
+        	  <?php }
+            			
+    				if($count > 0)
+                    { ?>
+            			<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo $form['id'] ?>/session/<?php echo $s ?>/user/<?php echo Yii::app()->session['userId'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> VOIR VOTRE CANDIDATURE  </a>
+        	<?php	}
+                    echo "</td>";
+                echo "</tr>";
+            } 
+        } ?>
+        </tbody>
+        </table>
+			<?php }?>
 		</div>
   </div>
+
+<?php /* ?>
   <div class="col-xs-offset-1 col-xs-10 shadow2" >
     <?php //if(@$form["description"]) echo "<span class='text-center pull-left padding-20'>".$form["description"]."</span>" ?>
     <h2 class="text-center" style="color:#00B794" >
@@ -96,13 +134,13 @@
         Merci pour votre participation au CTE, <br/>
         Votre projet sera très prochainement évalué <br/>
         Et vous serez informé de la suite.<br/><br/>
-        <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo $form["id"] ?>/user/<?php echo Yii::app()->session["userId"] ?>" class="btn btn-primary">Voir votre candidature</a>
+        <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo $form["id"] ?>/session/<?php echo @$_GET["session"] ?>/user/<?php echo Yii::app()->session["userId"] ?>" class="btn btn-primary">Voir votre candidature</a>
     <?php } ?>
     </h2>
     <div id="surveyDesc" class="col-xs-12 padding-20"></div>
     
   </div>
-
+*/?>
 <div class="space50"></div>
 
   <div class="col-xs-offset-1 col-xs-10 shadow2 padding-20 margin-top-20">
@@ -177,7 +215,7 @@
 
    <p>
      <ul> 
-        <li><b>2ème étape </b> : du 17 juillet au 18 août 2018, les acteurs économiques pourront déclarer leurs projets en ligne sur la plateforme collaborative « Communecter ».</li>
+        <li><b>2ème étape </b> : du 17 juillet au 17 septembre 2018, les acteurs économiques pourront déclarer leurs projets en ligne sur la plateforme collaborative « Communecter ».</li>
     </ul>
   </p>
   <p>

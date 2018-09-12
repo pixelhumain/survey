@@ -51,13 +51,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 	---------------------------------------------- */
 
 foreach ( $form[ $scenario ] as $k => $v ) {
-	
 	//echo count(array_keys( $v["form"] ));
 	if(	!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"]["scenario"] )) )
 	{
 		foreach ( $v["form"]["scenario"] as $step => $f ) 
 		{
-			//echo $step;
 			if( !@$answers[$k]["answers"][$step] )
 			{
 				$answers["answers"] = array();
@@ -66,9 +64,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 				{
 					foreach ( $f["json"]['jsonSchema']["properties"] as $key => $value ) 
 					{
-
 						if (@$value["properties"]){
-
 							$answers[$k]["answers"][$step][$key] = []; 
 							$tmp = array();
 							foreach ($value["properties"] as $ki => $vi) {
@@ -108,7 +104,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 			if(@$v["form"]["scenario"][$key]["saveElement"]) 
 				$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 			else if(!@$v["form"]["scenario"][$key]["arrayForm"])
-				$editBtn = ( (string)$user["_id"] == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
+				$editBtn = ( !empty($user) && (string)$user["_id"] == Yii::app()->session["userId"] ) ? "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>" : "";
 
 			$titleIcon = (@$v["form"]["scenario"][$key]['icon']) ? "<i class='fa ".@$v["form"]["scenario"][$key]['icon']." ".@$v["form"]["scenario"][$key]['titleClass']."'></i>" : "";
 			echo "<div class='col-xs-12'>".
@@ -175,7 +171,10 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 							echo "<td class='".$markdown."'>".$a."</td>";
 						echo '</tr>';
 					}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
+
 						$document=Document::getById($a["id"]);
+						var_dump($answers[$k]["answers"][$key]);
+						$answers[$k]["answers"][$key]["files"]=$document;
 						$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
 						echo '<tr>';
 							echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
@@ -270,6 +269,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 <script type="text/javascript">
 //if(typeof form == "undefined ")
 var form = <?php echo json_encode($form); ?>;
+var formSession = "<?php echo $_GET["session"]; ?>";
 //if(typeof answers == "undefined ")
 var answers  = <?php echo json_encode($answers); ?>;
 var projects  = <?php echo json_encode(@$projects); ?>;
@@ -353,6 +353,7 @@ $(document).ready(function() {
 				//alert("save");
 				data = {
 	    			formId : updateForm.form,
+	    			//session : formSession,
 	    			answerSection : updateForm.form+".answers."+updateForm.step ,
 	    			answers : arrayForm.getAnswers(editForm , true)
 	    		};
@@ -365,7 +366,7 @@ $(document).ready(function() {
 	    			data.id = answerId;
 	    			urlPath = baseUrl+"/survey/co/update2";
 	    		}
-	    		console.log("save",data);
+	    		console.log("save!!!",data);
 
 	    		$.ajax({ type: "POST",
 			        url: urlPath,
@@ -375,13 +376,15 @@ $(document).ready(function() {
 			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
 				    	window.location.reload();
 				    	updateForm = null;
-				    } 
+				    }
+				    window.location.reload();
 			    });
 			    
 			};
 
 
 			var editData = answers[$(this).data("form")]['answers'][$(this).data("step")];
+
 			console.log("editForm",editForm,updateForm,editData);
 			dyFObj.editStep( editForm , editData);	
 		}

@@ -31,28 +31,26 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
  	}
 </style>
 <?php 
-	if(	Form::canAdmin($form["id"], $form) ){ ?>
+	if(	Form::canAdmin((string)$form["_id"], $form) ){ ?>
 <div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
 	<div class="col-md-12 col-sm-12 col-xs-12 text-center">
-		<h1><?php echo "Membre du ".$form["title"] ?> <a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> </h1>
+		<h1><?php echo "Liste des membres "?> <!-- <a href="<?php //echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php //echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a> --> </h1>
+		<br/>
 		<div id="" class="" style="width:80%;  display: -webkit-inline-box;">
 	    	<input type="text" class="form-control" id="input-search-table" 
-					placeholder="search by name or by #tag, ex: 'commun' or '#commun'">
-		    <button class="btn btn-default hidden-xs menu-btn-start-search-admin btn-directory-type">
-		        <i class="fa fa-search"></i>
-		    </button>
+					placeholder="Rechercher une information dans le tableau">
 	    </div>
     </div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
 	<div class="panel-body">
 		<div>
-			<a href="<?php echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a>
+			<a href="<?php echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-success btn-xs pull-right margin-10 lbhp"><i class="fa fa-user-plus"></i> Inviter des Admins et des Participants</a>
 			<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
-						<th>Name</th>
+						<th>Nom</th>
 						<th>Email</th>
-						<th>userID</th>
+						<th>Identifiant</th>
 						<th>Roles</th>
 						<th>Admin</th>
 						<th>Action</th>
@@ -67,7 +65,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
 <?php
-$adminTCO = Form::canSuperAdmin($form["id"], $form);
+$adminTCO = Form::canSuperAdmin($form["id"],$form["session"], $form);
 ?>
 <script type="text/javascript">
 
@@ -100,21 +98,35 @@ $adminTCO = Form::canSuperAdmin($form["id"], $form);
 		});
 
 
-		$("#input-search-table").keyup(function(e){
-			//if(e.keyCode == 13){
-			searchAdmin.page=0;
-			searchAdmin.text = $(this).val();
-			if(searchAdmin.text=="")
-				searchAdmin.text=null;
-			startAdminSearch(true);
-			// Init of search for count
-			if(searchAdmin.text===true)
-				searchAdmin.text=null;
-			//}
-	    });
+		// $("#input-search-table").keyup(function(e){
+		// 	//if(e.keyCode == 13){
+		// 	searchAdmin.page=0;
+		// 	searchAdmin.text = $(this).val();
+		// 	if(searchAdmin.text=="")
+		// 		searchAdmin.text=null;
+		// 	startAdminSearch(true);
+		// 	// Init of search for count
+		// 	if(searchAdmin.text===true)
+		// 		searchAdmin.text=null;
+	 //    });
+
+	    $("#input-search-table").on("keyup", function() {
+		    var value = $(this).val().toLowerCase();
+		    $("#panelAdmin tr.line").filter( function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+				//countLine();
+		    });
+		});
 
 	   
 	});
+
+	// function countLine(){
+	// 	var nbLine = $("#panelAdmin tr.line").filter(function() {
+	// 			    return $(this).css('display') !== 'none';
+	// 			}).length ;
+	// 	$("#nbLine").html(nbLine);
+	// }
 
 
 	function startAdminSearch(initPage){
@@ -312,7 +324,7 @@ $adminTCO = Form::canSuperAdmin($form["id"], $form);
 	function buildDirectoryLine(key, value){
 		console.log("buildDirectoryLine", key, value);
 		actions = "";
-		str = '<tr id="lineMember'+key+'">';
+		str = '<tr id="lineMember'+key+'" class="line">';
 			str += '<td>'+value.name+'</td>';
 			str += '<td>'+value.email+'</td>';
 			str += '<td>'+key+'</td>';
@@ -324,7 +336,7 @@ $adminTCO = Form::canSuperAdmin($form["id"], $form);
 				str += '<td id="role'+key+form.links.members[key].type+'">';
 				if( typeof form.links.members[key].roles != "undefined") {
 					$.each(form.links.members[key].roles, function(kR, vR){
-						str += vR+" ";
+						str += vR+"<br/>";
 					});
 				}
 				str += '</td>';
@@ -428,6 +440,6 @@ $adminTCO = Form::canSuperAdmin($form["id"], $form);
 </script> 
 <?php	
 	} else {
-		$this->getController()->render("co2.views.default.unauthorised"); 
+		$this->getController()->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
 	} ?>
 

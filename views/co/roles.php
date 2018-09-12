@@ -50,22 +50,29 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 	<h2 class="text-center">
 
-	<?php 
+	<?php
+	
+	if( !@$_GET['role'] ){
+
+		echo "Les thématique : <br/><br/>";
+	}
+
+
 	$lblRole = array();
 	foreach ($roles as $key) {
 		$lblRole[InflectorHelper::slugify($key)] = $key;
 		?>
 
-		<a href="<?php echo Yii::app()->createUrl("/survey/co/roles/id/".$_GET["id"]."/role/".InflectorHelper::slugify($key) ) ?>" class="btn btn-xs btn-default"><?php echo $key; ?></a>
+		<a href="<?php echo Yii::app()->createUrl("/survey/co/roles/id/".$_GET["id"]."/session/".$_GET["session"]."/role/".InflectorHelper::slugify($key) ) ?>" class="btn btn-xs btn-default"><?php echo $key; ?></a>
 	<?php } ?>
 	</h2>
 
-	<h1 class="text-center">Synthèse <?php 
-	if( @$_GET['role'] ){ ?><br/>thématique <?php echo $lblRole[ $_GET['role'] ];  ?></h1>
-
-	<h3>Les fiches actions <?php if(@$_GET["role"])echo $lblRole[$_GET["role"]]; ?>
+	<h1 class="text-center">
+	<?php if( @$_GET['role'] ){ ?>thématique : <?php echo $lblRole[ $_GET['role'] ];  ?></h1>
+	<br/>
+	<h4>Les fiches actions <?php //if(@$_GET["role"])echo $lblRole[$_GET["role"]]; ?> </h4>
 	<!-- dyFObj.openForm(actionForm) -->
-	<a href="javascript:;" onclick="dyFObj.openForm('action','sub')" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter une FICHE ACTION</a></h3>
+	<a href="javascript:;" onclick="dyFObj.openForm('action','sub')" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter une FICHE ACTION</a>
 	<div class="card-columns col-xs-12 padding-15 ">
 		<?php
 		if(@$actions){
@@ -77,7 +84,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 							<i class="margin-5 fa fa-lightbulb fa-2x"></i><br><?php echo "#".$c." ".$value["name"] ?></h4>
 
 						<span class="card-text text-center col-xs-12 no-padding margin-bottom-20"><?php echo @$value["description"] ?></span> 
-						<a href="<?php echo Yii::app()->createUrl("/survey/co/action/id/".$_GET["id"]."/aid/".(string)$value["_id"]) ?>" class="btn btn-default answeredfalse" style="width:100%"> Détail </a>
+						<a href="<?php echo Yii::app()->createUrl("/survey/co/action/id/".$_GET["id"]."/session/".$_GET["session"]."/aid/".(string)$value["_id"]) ?>" class="btn btn-default answeredfalse" style="width:100%"> Détail </a>
 						 <div class="margin-top-10 rounded-bottom mdb-color lighten-3 text-center pt-3">
 						    <ul class="list-unstyled list-inline font-small">
 						      <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i> <?php echo date("d/m/Y",@$value["created"]) ?></li>
@@ -102,20 +109,23 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 		if( count(@$answers) ){ ?>
 		
 
-		<h3>Les projets <?php echo $lblRole[$_GET["role"]] ?></h3>
+		<h4>Les projets associés à la thématique : <?php echo $lblRole[$_GET["role"]] ?></h4>
 
 		<div class="card-columns col-xs-12 padding-15">
 			
 			<?php 
 			$c = 1;
-			foreach ( $answers as $key => $value ) {?>
+			foreach ( $answers as $key => $value ) {
+				//var_dump($value["answers"]["cte2"]["project"]); echo "<br/>";
+				?>
+
 				<div class="card col-xs-12 col-md-4">
 					<div class="card-body padding-15 bg-green " style="border: 2px solid MidnightBlue;border-radius: 10px;min-height:265px;">
 						<h4 class="card-title bold text-center padding-5" style="border-bottom:1px solid white">
 							<i class="margin-5 fa fa-lightbulb fa-2x"></i><br><?php echo "#".$c." ".$value["answers"]["cte2"]["project"]["name"] ?></h4>
 
 						<span class="card-text text-center col-xs-12 no-padding margin-bottom-20"><?php echo @$value["answers"]["cte2"]["project"]["shortDescription"] ?></span> 
-						<a href="http://127.0.0.1/ph/survey/co/answer/id/<?php echo $_GET["id"] ?>/user/<?php echo $value["answers"]["cte2"]["user"] ?>" class="btn btn-default answeredfalse" style="width:100%"> Voir Réponses </a>
+						<a href="<?php echo Yii::app()->createUrl('/survey/co/answer/id/'.$_GET["id"].'/user/'.$value["answers"]["cte2"]["user"]) ; ?>" class="btn btn-default answeredfalse" style="width:100%" target="_blank"> Voir Réponses </a>
 						 <div class="margin-top-10 rounded-bottom mdb-color lighten-3 text-center pt-3">
 						    <ul class="list-unstyled list-inline font-small">
 						      <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i><?php echo date("d/m/Y",@$value["answers"]["cte2"]["created"]) ?></li>
@@ -139,30 +149,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 	<?php	}
 	} else { ?>
 		<p>
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		</p>
-
-		<p>
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		</p>
-
-		<p>
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		
 		</p>
 	<?php } ?>
 </div>
