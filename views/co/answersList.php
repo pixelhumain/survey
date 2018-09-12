@@ -61,7 +61,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		<div>
 			<!-- <a href="<?php //echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a> -->
 			<span><b>Il y a <span id="nbLine"><?php echo count(@$results); ?></span> réponses</b></span> 
-			<a href="<?php echo Yii::app()->createUrl('survey/co/roles/id/'.$_GET["id"]); ?>" class="pull-right btn btn-xs btn-primary margin-10">Fiche Action</a>
+			<a href="<?php echo Yii::app()->createUrl('survey/co/roles/id/'.$_GET["id"].'/session/1'); ?>" class="pull-right btn btn-xs btn-primary margin-10">Fiche Action</a>
 			<br/>
 
 			<table class="table table-striped table-bordered table-hover directoryTable" id="panelAdmin">
