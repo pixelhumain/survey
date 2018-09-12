@@ -18,19 +18,20 @@ class AnswersAction extends CAction{
 				// 								"answers.project" => array('$exists' => 1) ) );
 
 				$answers = PHDB::find( Form::ANSWER_COLLECTION , 
-										array( "formId" => @$id, 
+										array( "parentSurvey" => @$id, 
 											   "answers" => array('$exists' => 1) ) );
+				$adminAnswers = PHDB::find( Form::ANSWER_COLLECTION , array( "formId" => @$id ));
 				$userAdminAnswer = array();
-				foreach ($answers as $key => $value) {
+				foreach ($adminAnswers as $key => $value) {
 					$userAdminAnswer[ $value["user"] ] = $value;
 				}
 				$results = ( empty($answers) ? array() : Form::listForAdminNews($form, $answers) );
 
 	 			$ctrl->render("answersList",
-	 								array(  "results" => $results,
-								 			"form"=> $form,
-								 			"userAdminAnswer" => $userAdminAnswer,
-								 			"roles" => $form["custom"]["roles"] ));
+	 												array(  "results" => $results,
+												 			"form"=> $form,
+												 			"userAdminAnswer" => $userAdminAnswer,
+												 			"roles" => $form["custom"]["roles"] ));
 
 	 		} else if(@$answers = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>@$id) )){
 		 		$ctrl->render("answers",array( 
@@ -38,7 +39,7 @@ class AnswersAction extends CAction{
 													 			"form"=> $form ));
 	 		} 
 		 	else 
-		 		$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "No answers found"),"icon"=>"fa-search")); 
+		 		echo "No answers found"; 
 		} else 
 			$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
 	}

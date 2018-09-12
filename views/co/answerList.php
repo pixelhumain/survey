@@ -57,7 +57,7 @@ if( $this->layout != "//layouts/empty"){
 
 
 	$canAdmin = Form::canAdmin((string)$form["_id"]);
-	$canSuperAdmin = Form::canSuperAdmin($form["id"],$session, $form, $adminForm);
+	$canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"], $form, $adminForm);
 	$showStyle = ( $canAdmin ) ? "display:none; " : "";
 ?>
 
@@ -71,16 +71,16 @@ if( $this->layout != "//layouts/empty"){
 		          <a class="dropdown-item" href="#">Documents</a><br/>
 		          <a class="dropdown-item" href="#">URLs</a><br/>
 		          <a class="dropdown-item" href="#">Chat(bientot)</a><br/>
-		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/".(string)$answer["_id"])?>">Logs</a><br/>
+		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/".$form["id"]."/session/".$_GET["session"]."/user/".(string)$user['_id'])?>">Logs</a><br/>
 		        </div>
-				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $answer["formId"]; ?>/session/<?php echo $session; ?>"> 
+				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $_GET["id"]; ?>/session/<?php echo $_GET["session"]; ?>"> 
 				<?php 
 				} ?>
 					<?php /*if(@$form["custom"]['logo']){ ?>
 					<img class="img-responsive margin-20" style="vertical-align: middle; height:150px" src='<?php echo Yii::app()->getModule("survey")->assetsUrl.$form["custom"]['logo']; ?>'  >
 					<?php } */ 
 					
-					echo @$answer['answers']["cte2"]["answers"]["project"]["name"]."<br/><small> par ".@$answer['answers']["cte1"]["answers"]["organization"]["name"]."</small>";//$form["title"]; 
+					echo @$answers["cte2"]["answers"]["project"]["name"]."<br/><small> par ".@$answers["cte1"]["answers"]["organization"]["name"]."</small>";//$form["title"]; 
 					
 				if( $canAdmin ){ ?>
 				</a>
@@ -112,7 +112,7 @@ SECTION STEPPER WIZARD
 			<ul id="wizardLinks">
 				<?php 
 				$ct = 0;
-				$currentStep = (@$answer["step"]) ? $answer["step"] : "" ;
+				$currentStep = (@$adminAnswers["step"]) ? $adminAnswers["step"] : "" ;
 				if($adminForm["scenarioAdmin"]){
 					foreach ( @$adminForm["scenarioAdmin"] as $k => $v) { 
 						$aClass = ( $currentStep != "") ? $currentStep : "";
@@ -144,16 +144,15 @@ each section must have a template , with the same key name
 if(!isset($adminForm["scenarioAdmin"]))
 	$adminForm["scenarioAdmin"] = array("dossier"=>[]);
 $pageParams = array(
-	"adminAnswers"=>$answer,
+	"adminAnswers"=>$adminAnswers,
 	"adminForm"=>$adminForm,
-	"answers" => $answer['answers'],
+	"answers" => $answers,
 	"form" => $form,
 	"user" => $user,
 	"prioKey" => @$adminForm['key'],
 	"canAdmin" => $canAdmin,
 	"canSuperAdmin" => $canSuperAdmin,
-	"steps" => array_keys($adminForm["scenarioAdmin"]),
-	"session"=>$session
+	"steps" => array_keys($adminForm["scenarioAdmin"])
 ); 
 
 $ct = 0;
@@ -162,7 +161,7 @@ $showHide = "";
 
 foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
 	
-	if( in_array( @$answer["step"] , array( "risk","ficheAction" ) ) ){
+	if( in_array( @$adminAnswers["step"] , array( "risk","ficheAction" ) ) ){
 		$pageParams["riskTypes"] = @$riskTypes;
 		$pageParams["riskCatalog" ] = @$riskCatalog;
 	}
@@ -191,7 +190,7 @@ foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
 
 <?php 
 if(@$form["custom"]['footer']){
-	echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answer['answers']));
+	echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
 }
 
 $canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"],$form, $adminForm);
@@ -199,11 +198,11 @@ $canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"],$form, $adminF
 
 <script type="text/javascript">
 var form = <?php echo json_encode($form); ?>;
-var formSession = "<?php echo $session; ?>";
+var formSession = "<?php echo $_GET["session"]; ?>";
 
 var adminForm = <?php echo json_encode($adminForm); ?>;
 
-var adminAnswers  = <?php echo json_encode($answer); ?>;
+var adminAnswers  = <?php echo json_encode($adminAnswers); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
 var canAdmin = "<?php echo $canAdmin; ?>";
 var canSuperAdmin = "<?php echo $canSuperAdmin; ?>";
@@ -273,10 +272,11 @@ function getAnswers(dynJson, noTotal)
 		    		$.each(listObject, function(e,v){
 		    			if(v.status == "submitted")
 		    				goToUpload=true;
-		    			else if(v.status!="deleted") 
+		    			else
 		    				releventDoc=v;
 		    		});
 		    	}
+		    	console.log("herreeee",listObject);
 		    	editAnswers[field] = "";
 				if( goToUpload ){       		
          			$('#'+fieldObj.domElement).fineUploader('uploadStoredFiles');
