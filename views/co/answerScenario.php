@@ -366,13 +366,14 @@ $(document).ready(function() {
 	    			data.id = answerId;
 	    			urlPath = baseUrl+"/survey/co/update2";
 	    		}
-	    		console.log("save",data);
+	    		console.log("save!!!",data);
 
 	    		$.ajax({ type: "POST",
 			        url: urlPath,
 			        data: data,
 					type: "POST",
 			    }).done(function (data) {
+			    	alert("hzaza");
 			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
 				    	window.location.reload();
 				    	updateForm = null;
