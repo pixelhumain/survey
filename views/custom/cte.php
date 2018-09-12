@@ -98,8 +98,8 @@
             {
                 echo "<tr>";
                     echo "<td>#".$s."</td>";
-                    echo "<td>".( ( @$sv["startDate"] ) ? $sv["startDate"] : "Pas de date")."</td>";
-                    echo "<td>".( ( @$sv["endDate"] ) ? $sv["endDate"] : "Pas de date")."</td>";
+                    echo "<td>".( ( @$sv["startDate"] ) ? date('d/m/Y H:i', $sv["startDate"]->sec) : "Pas de date")."</td>";
+                    echo "<td>".( ( @$sv["endDate"] ) ? date('d/m/Y H:i', $sv["endDate"]->sec) : "Pas de date")."</td>";
                     echo "<td>";
     				$count=count( @$answers[$s] );
 

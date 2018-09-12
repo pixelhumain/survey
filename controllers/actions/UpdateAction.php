@@ -7,9 +7,7 @@ class UpdateAction extends CAction
         $msg=Yii::t("common","Please Login First");
         if ( Person::logguedAndValid() ) 
         {
-            $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array("formId"=>@$_POST["formId"],
-                                                                    "session"=>@$_POST["session"], 
-                                                                    "user"=>$_POST["answerUser"]));
+            $answer = PHDB::findOne( Form::ANSWER_COLLECTION , array( "_id"=>new MongoId(@$_POST["answerId"]) ) );
             if(!empty($answer)){
                 $key = $_POST["answerSection"];
                 $value = $_POST["answers"];
