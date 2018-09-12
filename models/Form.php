@@ -38,7 +38,7 @@ class Form {
     public static function countStep($idParent){
     	return PHDB::count( self::COLLECTION, array("parentForm"=>$idParent));
     }
-
+ 
     public static function getById($parentForm, $fields=array()){
     	return PHDB::findOne( self::COLLECTION, array("id"=>$parentForm), $fields);
     }
