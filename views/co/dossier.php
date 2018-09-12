@@ -161,7 +161,7 @@ if(@$adminAnswers["risks"] )
 		<?php 
 		foreach ( $answers[$k]["answers"] as $key => $value) {
 			$editBtn = "";
-			if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$_GET['session']]["endDate"] )) {
+			if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$session]["endDate"] )) {
 				if(@$v["form"]["scenario"][$key]["saveElement"]) 
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 				else 
@@ -350,9 +350,10 @@ $(document).ready(function() {
 			editForm.jsonSchema.save = function(){
 				
 				data={
+					answerId : adminAnswers["_id"]["$id"],
 	    			formId : updateForm.form,
 	    			session : formSession,
-	    			answerSection : "answers."+updateForm.step ,
+	    			answerSection : "answers."+updateForm.form+".answers."+updateForm.step ,
 	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json , true),
 	    			answerUser : adminAnswers.user 
 	    		};
