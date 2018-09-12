@@ -5,9 +5,9 @@ class AnswerAction extends CAction
     {
     	$ctrl = $this->getController();
     	$ctrl->layout = "//layouts/empty";
-    	$answer = PHDB::findOne( Form::ANSWER_COLLECTION, array("_id"=>new MongoId($id)));
-    	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]));
 
+    	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
+ 
     	if ( ! Person::logguedAndValid() ) 
 			$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
 		else if( Form::canAdmin( (string)$form["_id"], $form ) || $user == Yii::app()->session["userId"])
