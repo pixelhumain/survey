@@ -20,7 +20,7 @@ class AnswerAction extends CAction
 				$adminForm = ( Form::canAdmin((string)$form["_id"], $form) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session) ) : PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session), array("scenarioAdmin") ) ;
 
 				//$adminForm = ( Form::canAdmin((string)$form["_id"]) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session) ) : null ;
-
+ 
 
 				$userO = Person::getById($user);
 				if( !@$adminAnswers ){
