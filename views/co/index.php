@@ -74,6 +74,7 @@ var answers = null;
 var surveyContry = "<?php echo @$form["countryCode"] ?>";
 var formSession = "<?php echo @$_GET["session"]; ?>";
 var answerId = "<?php echo @$_GET["answer"]; ?>";
+
 jQuery(document).ready(function() {
 
     $(".openFile").click( function() { 

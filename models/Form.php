@@ -28,6 +28,11 @@ class Form {
 	
 	public static function newAnswer($data){
 		try{
+			//check doesn't exist a project with no answer
+			// $form = PHDB::findOne( Form::ANSWER_COLLECTION , array( "formId"=>$data["id"],
+			// 														"user"=>$data["user"],
+			// 														"session"=>$data["session"]) );
+
 			$answer = array(
 				"formId"=>$data["id"],
 				"user"=>$data["user"],
@@ -48,7 +53,7 @@ class Form {
 		try
 		{
 			return PHDB::update( Form::ANSWER_COLLECTION,
-                    array( "_id" => new MongoId((string)$data["answerId"])), 
+                    array( "_id" => new MongoId((string)$id)), 
                     array( '$set' => array( "answers.".$data["formId"] => array(
 							"answers" => array(
 								$data["formId"] => $data

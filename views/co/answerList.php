@@ -143,6 +143,9 @@ each section must have a template , with the same key name
 ---------------------------------------------- */
 if(!isset($adminForm["scenarioAdmin"]))
 	$adminForm["scenarioAdmin"] = array("dossier"=>[]);
+if(!isset($answer["step"]))
+	$answer["step"] = "";
+
 $pageParams = array(
 	"adminAnswers"=>$answer,
 	"adminForm"=>$adminForm,

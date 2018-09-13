@@ -1,7 +1,7 @@
 <?php
 class SaveAction extends CAction
 {
-    public function run() {
+    public function run($id) {
 		$controller=$this->getController();
 		
 		//imagine a validation process
@@ -16,11 +16,12 @@ class SaveAction extends CAction
  		unset( $_POST["h"] );
  		$_POST["created"] = time();
  		$res = "Empty data cannot be saved";
-		if ( !empty($_POST) ){
-			$res = Form::save($_POST);
 
-        	$countStepSurvey=Form::countStep($_POST["parentSurvey"]);
-        	$surveyParent=Form::getById($_POST["parentSurvey"]);
+		if ( !empty($_POST) ){
+			$res = Form::save( $id , $_POST );
+
+        	$countStepSurvey = Form::countStep($_POST["parentSurvey"]);
+        	$surveyParent = Form::getById($_POST["parentSurvey"]);
             // $typeChild = null ;
             // if(!empty($_POST["answers"][Organization::CONTROLLER]) ){
             //     $typeChild = Organization::COLLECTION;
