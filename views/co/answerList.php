@@ -333,7 +333,8 @@ function calcPrio (key)
 	} );
 	t = parseFloat( t / $("."+key+"_Total").length ).toFixed(2) ;
 	//alert(t);
-	$( "."+key+"_Total" ).html( t );
+	$( "."+key+"_Totaldesc" ).html( t );
+	$( "."+key+"_totalTotal" ).html( t );
 	return false;
 }
 

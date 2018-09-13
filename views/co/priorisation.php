@@ -78,7 +78,7 @@ if(@$adminAnswers["categories"]){
 					$ctot = 0;
 					if(@$adminAnswers["answers"][$prioKey]){ 
 						foreach ( @$adminAnswers["answers"][$prioKey] as $ka => $va ) {?>
-							<td class="<?php echo $ka ?>_Total">
+							<td class="<?php echo $ka ?>_Totaldesc">
 							<?php if(@$va['total']){
 										echo $va['total'];
 										$ctot++;
