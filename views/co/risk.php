@@ -378,7 +378,7 @@ var riskForm = {
                   	mylog.dir(data);
                   	dyFObj.closeForm();
                   	
-                  	var newRisk = '<td class="editRisk">'+data.map.type+'</td>'+
+                  	var newRisk = '<td class="editRisk '+slugify(data.map.type)+' ">'+data.map.type+'</td>'+
 						'<td class="editRisk">'+data.map.desc+'</td>'+
 						'<td class="editRisk">'+data.map.actions.join('<br>')+'</td>'+
 						'<td class="add'+data.id+'"><a href="javascript:;" data-id="'+data.id+'" class="addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td>';
