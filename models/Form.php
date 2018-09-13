@@ -204,7 +204,6 @@ class Form {
 
 
 					if ( !empty($results[$value["user"]]) ) {
-
 						if ( empty($results[$value["user"]]["scenario"]) )
 							$results[$value["user"]]["scenario"] = $scenario;
 						//var_dump($results[$value["user"]]); echo "</br></br>";
@@ -219,72 +218,37 @@ class Form {
 	}
 
 
-	public static function listForAdmin($answers = array()){
-		$results = array();
+	public static function listForAdmin($answers){
+		//Rest::json($answers); exit ;
 		$uniq = array();
-		$uniqO = array();
-		$uniqP = array();
-		$uniqE = array();
 		
-		foreach ( $answers as $key => $value) {
+		if(!empty($answers)){
+			foreach ( $answers as $key => $value) {
+				$new = $value ;
+				foreach ( $value["answers"] as $keyA => $valA) {
+					//Rest::json($valA); exit ;
+					
+					if( !empty($valA[Organization::CONTROLLER]) ){
+						$orga = Element::getElementById($valA[Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email"));
+						$orga["id"] = $valA[Organization::CONTROLLER]["id"];
+						$orga["type"] = Organization::COLLECTION;
+						$new[Organization::CONTROLLER] = $orga;
+					}
 
-			if( !empty($value["answers"]) && 
-				!empty($value["answers"][Organization::CONTROLLER]) && 
-				!in_array( $value["answers"][Organization::CONTROLLER]["id"], $uniqO ) ){
-				$orga = Element::getElementById($value["answers"][Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email"));
-				$orga["id"] = $value["answers"][Organization::CONTROLLER]["id"];
-				$orga["type"] = Organization::COLLECTION;
-				$results[] = $orga;
-				$uniqO[] = $value["answers"][Organization::CONTROLLER]["id"];
-			}
 
-			if( !empty($value["answers"]) && 
-				!empty($value["answers"][Project::CONTROLLER]) && 
-				!in_array( $value["answers"][Project::CONTROLLER]["id"], $uniqP ) ){
-
-				$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
-				$orga["id"] = $value["answers"][Project::CONTROLLER]["id"];
-				$orga["type"] = Project::COLLECTION;
-
-				if(!empty($value["answers"][Project::CONTROLLER]["parentId"])){
-					$orga["parentId"] = $value["answers"][Project::CONTROLLER]["parentId"];
-					$orga["parentType"] = Element::getCollectionByControler($value["answers"][Project::CONTROLLER]["parentType"]);
-					$parent = Element::getSimpleByTypeAndId($orga["parentType"], $orga["parentId"]);
-					$orga["parentName"] = $parent["name"];
-				}else{
-					$answersParent = PHDB::findOne( Form::ANSWER_COLLECTION , 
-										array("parentSurvey"=>@$value["parentSurvey"], 
-												"answers.organization" => array('$exists' => 1),
-												"user" => $value["user"]) );
-					// Rest::json(array("parentSurvey"=>@$value["parentSurvey"], 
-					// 							"answers.organization" => array('$exists' => 1),
-					// 							"user" => $value["user"])); exit;
-					//Rest::json($answersParent); exit;
-					$orga["parentId"] = $answersParent["answers"][Organization::CONTROLLER]["id"];
-					$orga["parentType"] = Organization::COLLECTION;
-					$orga["parentName"] = $answersParent["answers"][Organization::CONTROLLER]["name"];
+					if( !empty($valA[Project::CONTROLLER]) ){
+						$project = Element::getElementById($valA[Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
+						$project["id"] = $valA[Project::CONTROLLER]["id"];
+						$project["type"] = Project::COLLECTION;
+						$new[Project::CONTROLLER] = $project;
+					}
 				}
-
-				$orga["userId"] = $value["user"];
-				$orga["userName"] = $value["name"];
-				
-				$results[] = $orga;
-				$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
-			}
-
-
-			if( !empty($value["answers"]) && 
-				!empty($value["answers"][Event::CONTROLLER]) && 
-				!in_array( $value["answers"][Event::CONTROLLER]["id"], $uniqE ) ){
-				$orga = Element::getElementById($value["answers"][Event::CONTROLLER]["id"], Event::COLLECTION, null, array("name", "email"));
-				$orga["id"] = $value["answers"][Event::CONTROLLER]["id"];
-				$orga["type"] = Event::COLLECTION;
-				$results[] = $orga;
-				$uniqE[] = $value["answers"][Event::CONTROLLER]["id"];
+				$res[$key] = $new ;
 			}
 		}
 
-		return $results ;	
+		//Rest::json($res); exit ;
+		return $res ;	
 	}
 
 	
