@@ -153,9 +153,10 @@
   </form>
 </div>
 <script type="text/javascript">
-
+risksAnswer=<?php echo json_encode(@$adminAnswers["risks"]) ?>;
 $(document).ready(function() { 
-
+	if(!notNull(risksAnswer))
+		$('#riskCatalogue').toggle();
 	$("#searchRisks").on("keyup", function() {
 	    var value = $(this).val().toLowerCase();
 	    $("#riskCatalogList tr").filter( function() {
