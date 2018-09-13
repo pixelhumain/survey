@@ -95,15 +95,16 @@
         {
             //var_dump($answers);
             if(@$answers[$s]){
+
             foreach (@$answers[$s] as $a => $av) 
             {
+
                 echo "<tr>";
                     echo "<td>#".$s."</td>";
                     echo "<td>".( ( @$sv["startDate"] ) ? date('d/m/Y H:i', $sv["startDate"]->sec) : "Pas de date")."</td>";
                     echo "<td>".( ( @$sv["endDate"] ) ? date('d/m/Y H:i', $sv["endDate"]->sec) : "Pas de date")."</td>";
                     echo "<td>";
-      				$count=count( @$answers[$s] );
-
+      				$count = count( @$av["answers"] );
       				if( $count < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
               {
                   		$label=( $count > 0 ) ? "Reprendre la candidature" : "Déposer une candidature"; 
@@ -123,7 +124,7 @@
                 echo "<td>#".$s."</td>"; 
                 echo "<td></td>";  
                 echo "<td></td>"; 
-                echo "<td> <a href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/index/id/".$form['id']."1/session/".$s."' class='pull-left btn btn-primary'><i class='fa fa-plus'></i> Ajouter une réponse</a></td>";
+                echo "<td> <a href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/new/id/".$form['id']."/session/".$s."' class='pull-left btn btn-primary'><i class='fa fa-plus'></i> Ajouter une réponse</a></td>";
               echo "</tr>";
         } ?>
         </tbody>

@@ -17,13 +17,16 @@ class IndexAction extends CAction
 	 			
 	 			$answers = array();
 	 			if ( @$session){
-	 				$answers[$session] = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>$id,"session"=>$session,"user"=> @Yii::app()->session["userId"] ) );
+	 				$answers[$session] = PHDB::find( Form::ANSWER_COLLECTION , 
+	 												array("formId"=>$id,
+	 													  "session"=>$session,
+	 													  "user"=> @Yii::app()->session["userId"] ) );
 	 			} else {
 	 				//si pas de session fourni on liste toute les 
 	 				if(@$form["session"]){
 			 			foreach ($form["session"] as $s => $sv) {
 				 			$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , 
-				 							array("formId"=>"cte",
+				 							array("formId"=>$id,
 				 								  "session"=>(string)$s,
 				 								  "user"=> @Yii::app()->session["userId"] ) );
 				 			
