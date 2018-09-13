@@ -24,16 +24,13 @@ class ActionAction extends CAction
 			if(!empty($formParent["links"]["projectExtern"])){
 
 				foreach ($formParent["links"]["projectExtern"] as $key => $value) {
-					var_dump($value["roles"]); echo "<br/>";
 					foreach ($action["role"] as $keyR => $valueR) {
-						var_dump($valueR); echo "<br/>";
-						var_dump(in_array(trim ($valueR), $value["roles"])); echo "<br/><br/>";
 						if(in_array(trim ($valueR), $value["roles"]))
 							$idProject[] = new MongoId($key) ;
 					}
 					
 				}
-				exit ;
+				
 				if(!empty($idProject))
 					$projects = PHDB::find(	Project::COLLECTION, 
 											array( "_id" => array('$in' => $idProject)) );
