@@ -253,7 +253,7 @@ function initWizard () {
 
 function getAnswers(dynJson, noTotal)
 {
-	//alert("get Answers");
+	alert("get Answers");
 	var editAnswers = {};
 	var total = 0;
 	if( $("."+updateForm.cat+"_"+updateForm.step+"Result") )
@@ -308,6 +308,7 @@ function getAnswers(dynJson, noTotal)
     });
     
     if(!noTotal){
+    	alert("total"+total);
 	    $("."+updateForm.cat+"_"+updateForm.step+"Total").html( "[ Note : "+( parseFloat(total).toFixed(2) )+" ]" );
 	    $("."+updateForm.cat+"_"+updateForm.step+"TotalNum").html( parseFloat(total).toFixed(2) );
 	    $("."+updateForm.cat+"_"+updateForm.step+"ResultTitle").append( "<td class='bold'>Note</td>" );
@@ -333,6 +334,7 @@ function calcPrio (key)
 	} );
 	t = parseFloat( t / $("."+key+"_Total").length ).toFixed(2) ;
 	//alert(t);
+	$( "."+key+"_Totaldesc" ).html( t );
 	$( "."+key+"_totalTotal" ).html( t );
 	return false;
 }
@@ -361,6 +363,7 @@ function nextState(step,c) {
 	          callback: function() {
 	          	data={
 	    			formId : form.id,
+	    			answerId : adminAnswers["_id"]["$id"],
 	    			session : formSession,
 	    			answerSection : "step" ,
 	    			answers : step.substring(1),
@@ -418,6 +421,7 @@ function nextState(step,c) {
 			        url: baseUrl+"/survey/co/update",
 			        data: {
 		    			formId        : form.id,
+		    			answerId : adminAnswers["_id"]["$id"],
 		    			session : formSession,
 		    			answerSection : "categories."+key ,
 		    			answers       : result,

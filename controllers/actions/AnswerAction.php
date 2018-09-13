@@ -4,7 +4,7 @@ class AnswerAction extends CAction
     public function run($id,$view=null)
     {
     	$ctrl = $this->getController();
-    	$ctrl->layout = "//layouts/empty";
+    	$ctrl->layout = "//layouts/empty"; 
     	$answer = PHDB::findOne( Form::ANSWER_COLLECTION, array("_id"=>new MongoId($id)));
     	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]));
 
