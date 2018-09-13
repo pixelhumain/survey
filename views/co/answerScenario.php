@@ -353,6 +353,7 @@ $(document).ready(function() {
 				//alert("save");
 				data = {
 	    			formId : updateForm.form,
+	    			answerId : adminAnswers["_id"]["$id"],
 	    			//session : formSession,
 	    			answerSection : updateForm.form+".answers."+updateForm.step ,
 	    			answers : arrayForm.getAnswers(editForm , true)

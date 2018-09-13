@@ -37,11 +37,11 @@ class UpdateAction extends CAction
                 $total = null;
                 
                 if( ( @$_POST["answerKey"] && @$_POST["answerStep"] ) && 
-                        ( @$answer[ "answers" ][ @$_POST["answerKey"] ][ @$_POST["answerStep"] ]["total"] || count( $answer[ "answers" ][ @$_POST["answerKey"] ][ @$_POST["answerStep"] ] ) == count( $form["scenario"] ) ) )
+                        ( @$answer[ @$_POST["answerKey"] ][ @$_POST["answerStep"] ]["total"] || count( $answer[ @$_POST["answerKey"] ][ @$_POST["answerStep"] ] ) == count( $form["scenario"] ) ) )
                 {
                     //calculate total and update in DB
                     $total = 0;
-                    foreach ( $answer[ "answers" ][ $_POST["answerKey"] ][ $_POST["answerStep"] ] as $key => $value) {
+                    foreach ( $answer[ $_POST["answerKey"] ][ $_POST["answerStep"] ] as $key => $value) {
                         //FOR THE MOMENT ALL steps have same weight
                         if(@$value[ "total" ])
                             $total += (float)$value[ "total" ];
@@ -49,7 +49,7 @@ class UpdateAction extends CAction
                     $total = floor( ($total / count( $form["scenario"] ))*100 ) / 100;
                     PHDB::update(Form::ANSWER_COLLECTION,
                         array( "_id"=>new MongoId( (string)$answer["_id"]) ), 
-                        array( '$set' => array( 'answers.'.$_POST["answerKey"].".".$_POST["answerStep"].".total" => $total ) ) );
+                        array( '$set' => array( $_POST["answerKey"].".".$_POST["answerStep"].".total" => $total ) ) );
                 }
                 
                 
