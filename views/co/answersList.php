@@ -88,8 +88,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 							$lblEligible = "À faire";
 							$classEligible = "todoeligible";
 							$colorEligible = "black";
-							if(isset($userAdminAnswer[$k]["eligible"])){ 
-								if($userAdminAnswer[$k]["eligible"]) {
+							if(isset($v["eligible"])){ 
+								if($v["eligible"]) {
 									$lblEligible = "Éligible";
 									$classEligible = "eligible";
 									$colorEligible = "text-green";
@@ -101,38 +101,42 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								}
 							} 
 								 ?>
-						<tr class="<?php echo $classEligible." "; if(@$userAdminAnswer[$k]["categories"])foreach (@$userAdminAnswer[$k]["categories"] as $key => $value) {
+						<tr class="<?php echo $classEligible." "; if(@$v["categories"])foreach (@$v["categories"] as $key => $value) {
 									echo $key." ";
 								}
 								 ?> line">
 							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/logs/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" ><?php echo @$nb ?></a></td>
+							<td><?php echo @$v[Project::CONTROLLER]["name"] ?></td>
+							<td><?php echo @$v[Organization::CONTROLLER]["name"] ?></td>
 							<td><?php echo @$v['name'] ?></td>
-							<td><?php echo @$v['parentName'] ?></td>
-							<td><?php echo @$v['userName'] ?></td>
 							<td>
 								<?php
-								$c = 0 ;
-								foreach ($v['scenario'] as $key => $value) {
-									if($value == true)
-										$c++;
-								}
-								$classText = ($c == count(@$v['scenario'])) ? 'text-success' : 'text-red';
-								echo "<span class='".$classText."'>".$c." / ".count(@$v['scenario'])."</span>"; ?>
+									$c = 0 ;
+									foreach ($v['answers'] as $key => $value) {
+										if($value == true)
+											$c++;
+									}
+									$classText = ($c == count(@$v['answers'])) ? 'text-success' : 'text-red';
+									echo "<span class='".$classText."'>".$c." / ".count(@$form['scenario'])."</span>"; 
+								?>
 							</td>
 							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/answer/id/<?php echo $form['id'] ?>/session/<?php echo $_GET['session'] ?>/user/<?php echo @$k  ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
 							<td class="<?php echo $colorEligible ?>"><?php echo $lblEligible ?></td>
-							<td><?php if(@$userAdminAnswer[$k]["categories"]){
-								foreach ($userAdminAnswer[$k]["categories"] as $key => $value) {
-									echo $value["name"]."<br/>";
-								}
-								} ?></td>
-							<td><?php 
-								
-								if(@$userAdminAnswer[$k]["risks"]){
+							<td>
+								<?php 
+								if(@$v["categories"]){
+									foreach ($v["categories"] as $kC => $vC) {
+										echo $vC["name"]."<br/>";
+									}
+								} 
+								?>
+							</td>
+							<td>
+							<?php
+								if(!empty($v["risks"])){
 									$list= "";
 									$globrcol = "success";
-									foreach ($userAdminAnswer[$k]["risks"] as $kr => $vr) {
-
+									foreach ($v["risks"] as $kr => $vr) {
 										$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
 
 										if( $globrcol == "success" && $rcol == "orange" )
@@ -144,12 +148,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 										$list .= "<li class='padding-5' style='background-color:".$rcol."'>".$vr["desc"]."(".$vr["weight"].")</li>";
 									}
 									
-									echo "<a class='btn btn-xs btn-".$globrcol."' href='javascript:;' onclick='$(\"#riskList".$k."\").toggle();'>".count(@$userAdminAnswer[$k]["risks"])." risque(s)</a>";
+									echo "<a class='btn btn-xs btn-".$globrcol."' href='javascript:;' onclick='$(\"#riskList".$k."\").toggle();'>".count(@$v["risks"])." risque(s)</a>";
 									echo "<ul id='riskList".$k."' style='list-style:none; width:100%;display:none;'>";
 										echo $list; 
 									echo "</ul>";
-								} ?></td>
-							<td><?php echo (@$userAdminAnswer[$k]["step"] == "ficheAction") ? "Selectionné" : ""; ?></td>
+								} 
+							?>
+								
+							</td>
+							<td>
+								<?php echo (@$v["step"] == "ficheAction") ? "Selectionné" : ""; ?>		
+							</td>
 						</tr>
 						<?php
 					} ?>

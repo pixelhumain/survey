@@ -18,14 +18,19 @@ class AnswersAction extends CAction{
 				// 								"answers.project" => array('$exists' => 1) ) );
 
 				$answers = PHDB::find( Form::ANSWER_COLLECTION , 
-										array( "formId" => @$id, 
-											   "answers" => array('$exists' => 1) ) );
-				$userAdminAnswer = array();
-				foreach ($answers as $key => $value) {
-					$userAdminAnswer[ $value["user"] ] = $value;
-				}
-				$results = ( empty($answers) ? array() : Form::listForAdminNews($form, $answers) );
+										array( "formId" => @$id ) );
 
+				//Rest::json($answers); exit ;
+				$results = Form::listForAdmin($answers) ;
+
+
+				$userAdminAnswer = array();
+				// foreach ($answers as $key => $value) {
+				// 	$userAdminAnswer[ $value["user"] ] = $value;
+				// }
+				
+				// Rest::json($userAdminAnswer); exit ;
+				//Rest::json($results); exit ;
 	 			$ctrl->render("answersList",
 	 								array(  "results" => $results,
 								 			"form"=> $form,
