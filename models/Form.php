@@ -28,8 +28,38 @@ class Form {
 	
 	public static function save($data){
 		try{
-			PHDB::insert( self::ANSWER_COLLECTION, $data);
-			
+			$answer = PHDB::findOne( self::ANSWER_COLLECTION, array(
+				"formId"=>$data["formId"],
+				"user"=>$data["user"],
+				"session"=>$data["session"],
+				));
+			if(!$answer){
+				$parentForm = PHDB::findOne( self::COLLECTION, array("formId"=>$data["formId"]));
+				$struct = array(
+					"formId"=>$$parentForm["id"],
+					"user"=>$data["user"],
+					"session"=>$data["session"],
+					"name"=>$data["name"],
+					"email"=>$data["email"],
+					"answers" => array(
+						$data["formId"] => $data
+					),
+					"created"=>time()
+				);
+				PHDB::insert( self::ANSWER_COLLECTION, $struct);
+			} else {
+				//update
+				PHDB::update( Form::ANSWER_COLLECTION,
+                    array("_id"=>new MongoId((string)$answer["_id"])), 
+                    array('$set' => array("answers.".$data["formId"] => array(
+							"answers" => array(
+								$data["formId"] => $data
+							),
+							"created"=>time()
+						))
+                ));
+			}
+		
 	        return true;	
 		} catch (CTKException $e){
    			return $e->getMessage();
