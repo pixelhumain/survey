@@ -63,14 +63,14 @@ if(@$adminAnswers["categories"]){
 					<th class="padding-10"><a href="javascript:;" onclick="EliTabs('<?php echo $ka ?>')"><?php echo mb_strtoupper($va["name"]) ?></a></th>
 					<?php } ?>
 					<th class="padding-10">Note globale</th>
-					<th class="padding-10">Classification</th>
+					<!-- th class="padding-10">Classification</th-->
 				</tr>
 				<tr>
 					<?php foreach ($adminAnswers["categories"] as $ka => $va ) {?>
 					<td><a href="javascript:;" onclick="changeCategoryWeight('<?php echo $ka ?>','<?php echo @$va["pourcentage"] ?>')"><?php echo @$va["pourcentage"]."%" ?></a></td>
 					<?php } ?>
 					<td>100%</td>
-					<td>Note</td>
+					<!-- td>Note</td-->
 				</tr>
 				<tr>
 					<?php 
@@ -92,7 +92,7 @@ if(@$adminAnswers["categories"]){
 						} 
 					}?>
 					<td ><?php if($ctot == count($adminAnswers["categories"]) ) echo $tot; ?></td>
-					<td></td>
+					<!--td></td-->
 				</tr>
 			</table>
 		</div>
@@ -120,7 +120,7 @@ if(@$adminAnswers["categories"]){
 								<th class="padding-10"><a href="javascript:;" onclick="showTableOrForm('<?php echo $key ?>','<?php echo $prioType ?>')"><i class="fa fa-pencil"></i> <?php echo mb_strtoupper($prioType) ?></a></th>
 								<?php } ?>
 								<th class="padding-10">Note globale</th>
-								<th class="padding-10">Classification</th>
+								<!-- th class="padding-10">Classification</th-->
 							</tr>
 							<tr>
 								<?php 
@@ -129,7 +129,7 @@ if(@$adminAnswers["categories"]){
 								<td><?php echo floor( (100/count($prioTypes)) ) ?>%</td>
 								<?php } ?>
 								<td class="text-red" >100%</td>
-								<td class="text-red">Note</td>
+								<!--td class="text-red">Note</td-->
 							</tr>
 							<tr>
 								<?php 
@@ -149,7 +149,7 @@ if(@$adminAnswers["categories"]){
 									<?php if($countRes == count($prioTypes) )
 										echo floor( ( $countTotal / count($prioTypes) )*100 )/100; ?>
 								</td>
-								<td></td>
+								<!--td></td-->
 							</tr>
 						</table>
 					</div>
