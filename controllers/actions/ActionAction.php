@@ -27,8 +27,8 @@ class ActionAction extends CAction
 					var_dump($value["roles"]); echo "<br/>";
 					foreach ($action["role"] as $keyR => $valueR) {
 						var_dump($valueR); echo "<br/>";
-						var_dump(in_array($valueR, $value["roles"])); echo "<br/><br/>";
-						if(in_array($valueR, $value["roles"]))
+						var_dump(in_array(trim ($valueR), $value["roles"])); echo "<br/><br/>";
+						if(in_array(trim ($valueR), $value["roles"]))
 							$idProject[] = new MongoId($key) ;
 					}
 					
