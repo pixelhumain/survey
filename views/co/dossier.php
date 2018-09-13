@@ -155,7 +155,7 @@ if(@$adminAnswers["risks"] )
 			<h1> 
 			<?php echo $v["form"]["title"]; ?><i class="fa pull-right <?php echo @$v["form"]["icon"]; ?>"></i>
 			</h1>
-			<span class="text-dark"><?php echo date('d/m/Y h:i', $answers[$k]["created"]) ?></span>
+			<span class="text-dark"><?php echo date('d/m/Y h:i', @$answers[$k]["created"]) ?></span>
 		</div>
 		<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
 		<?php 
@@ -255,6 +255,29 @@ if(@$adminAnswers["risks"] )
 						echo "</td>";
 					echo '</tr>';
 				}
+				if(@$el["address"]){
+					$address = "";
+					$address .= '<span> '.
+									(( @$el["address"]["streetAddress"]) ? 
+										$el["address"]["streetAddress"]."<br/>": 
+										((@$el["address"]["codeInsee"])?"":Yii::t("common","Unknown Locality")));
+					$address .= (( @$el["address"]["postalCode"]) ?
+									 $el["address"]["postalCode"].", " :
+									 "")
+									." ".(( @$el["address"]["addressLocality"]) ? 
+											 $el["address"]["addressLocality"] : "") ;
+					$address .= (( @$el["address"]["addressCountry"]) ?
+									 ", ".OpenData::$phCountries[ $el["address"]["addressCountry"] ] 
+					 				: "").
+					 			'</span>';
+					echo '<tr>';
+						echo "<td>".Yii::t("common","Locality")."</td>";
+						echo "<td>";
+						echo $address;
+						echo "</td>";
+					echo '</tr>';
+				}
+				
 				if(@$el["shortDescription"]){
 					echo '<tr>';
 						echo "<td>".Yii::t("common","Short description")."</td>";
