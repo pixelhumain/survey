@@ -226,8 +226,10 @@ if(@$adminAnswers["categories"]){
 								if(@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]){
 								foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ] as $k => $v ) {?>
 									<?php 
-										if(! in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) && $k != "total")
-											echo '<td class="padding-10">'.$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v].'</td>' ?>
+										if(! in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) 
+											&& $k != "total" 
+											&& @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v])
+											echo '<td class="padding-10">'.$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v].'</td>'; ?>
 								<?php }} ?>
 							</tr>
 						
@@ -273,14 +275,13 @@ if(@$adminAnswers["categories"]){
 		
 		editForm.jsonSchema.save = function()
 		{
-			
 			data={
     			formId : updateForm.form,
     			session : formSession,
     			answerSection : "answers."+updateForm.category+"."+updateForm.step ,
     			answerKey : "<?php echo $adminForm['key'] ?>" ,
     			answerStep : updateForm.cat ,
-    			answers : getAnswers(adminForm.scenario[ updateForm.step ].json),
+    			answers : getAnswers( adminForm.scenario[ updateForm.step ].json ),
     			answerUser : adminAnswers.user ,
     			total : true
     		};
@@ -296,16 +297,19 @@ if(@$adminAnswers["categories"]){
 			    	//window.location.reload();
 			    	dyFObj.closeForm();
 			    	toastr.success('successfully saved !');
-			    	if(data.total != null){
+			    	if(data.total != null)
 			    		$("#"+updateForm.cat+"Btn i").hide();
-
-			    	}
 			    	updateForm = null;
 			    } 
 		    });
 		};
 
-		dyFObj.editStep( editForm );	
+		if(adminAnswers.answers.priorisation && 
+			adminAnswers.answers.priorisation[updateForm.cat] &&
+			adminAnswers.answers.priorisation[updateForm.cat][updateForm.step])
+			dyFObj.editStep( editForm, adminAnswers.answers.priorisation[updateForm.cat][updateForm.step] );
+		else 
+			dyFObj.editStep( editForm );	
 
 	});
 

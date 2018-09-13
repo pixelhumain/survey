@@ -467,7 +467,9 @@
                         "prioPolitique" : {
                             "inputType" : "select",
                             "placeholder" : "Priorité Politique",
-                            "weight" : "25",
+                            "weight" : "25","rules" : {
+                                "required" : true
+                            },
                             "options" : {
                                 "1" : "Pas d'alignement stratégique",
                                 "3" : "Rattachement à 1 opérationnel",
@@ -477,7 +479,9 @@
                         "maitriseRisque" : {
                             "inputType" : "select",
                             "placeholder" : "Maitrise des risques",
-                            "weight" : "20",
+                            "weight" : "20","rules" : {
+                                "required" : true
+                            },
                             "options" : {
                                 "1" : "Pas d'inventaire des risques",
                                 "3" : "Risques identifiés Service pour l'usager",
@@ -487,7 +491,9 @@
                         "beneficeUsager" : {
                             "inputType" : "select",
                             "placeholder" : "Bénéfice pour les usagers",
-                            "weight" : "30",
+                            "weight" : "30","rules" : {
+                                "required" : true
+                            },
                             "options" : {
                                 "1" : "Service pour les entreprises",
                                 "3" : "Service pour l'usager",
@@ -498,6 +504,9 @@
                             "inputType" : "select",
                             "placeholder" : "Retour sur investissement",
                             "weight" : "25",
+                            "rules" : {
+                                "required" : true
+                            },
                             "options" : {
                                 "1" : "> 20 ans",
                                 "3" : "Comprise entre 3 ans et 20 ans",
@@ -526,6 +535,9 @@
                             "inputType" : "select",
                             "placeholder" : "Maîtrise du calendrier",
                             "weight" : "25",
+                            "rules" : {
+                                "required" : true
+                            },
                             "options" : {
                                 "1" : "Pas de planning",
                                 "3" : "Planning partiellement défini",
@@ -535,6 +547,9 @@
                         "maitriseRisque" : {
                             "inputType" : "select",
                             "weight" : "25",
+                            "rules" : {
+                                "required" : true
+                            },
                             "placeholder" : "Capacité de mobilisation des acteurs",
                             "options" : {
                                 "1" : "Acteurs non identifiés",
@@ -545,6 +560,9 @@
                         "finance" : {
                             "inputType" : "select",
                             "weight" : "25",
+                            "rules" : {
+                                "required" : true
+                            },
                             "placeholder" : "Capacité financière",
                             "options" : {
                                 "1" : "Capacité financière à 20%",
@@ -555,6 +573,9 @@
                         "retourInvest" : {
                             "inputType" : "select",
                             "weight" : "25",
+                            "rules" : {
+                                "required" : true
+                            },
                             "placeholder" : "Capacité technique",
                             "options" : {
                                 "1" : "Pas de processus",

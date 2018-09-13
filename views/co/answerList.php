@@ -332,8 +332,8 @@ function calcPrio (key)
 		t += parseFloat( $(v).html() );
 	} );
 	t = parseFloat( t / $("."+key+"_Total").length ).toFixed(2) ;
-	//alert(t);
-	$( "."+key+"_totalTotal" ).html( t );
+	alert(t);
+	$( "."+key+"_Total" ).html( t );
 	return false;
 }
 
