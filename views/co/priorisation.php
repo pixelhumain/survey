@@ -304,7 +304,8 @@ if(@$adminAnswers["categories"]){
 		    });
 		};
 
-		if(adminAnswers.answers.priorisation && 
+		if(adminAnswers.answers &&
+			adminAnswers.answers.priorisation && 
 			adminAnswers.answers.priorisation[updateForm.cat] &&
 			adminAnswers.answers.priorisation[updateForm.cat][updateForm.step])
 			dyFObj.editStep( editForm, adminAnswers.answers.priorisation[updateForm.cat][updateForm.step] );
