@@ -74,7 +74,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th>Etape</th>
 						<th>Voir la réponse</th>
 						<th>Eligibilité</th>
-						<th>Thématiques</th>
+						<th>Étiquetage</th>
 						<th>Contraintes</th>
 						<th>Fiche Action</th>
 						<th>PDF</th>
