@@ -78,6 +78,7 @@
         <thead>
           <tr>
             <th class="text-center">Session</th>
+            <th class="text-center">Avancement</th>
             <th class="text-center">Organisation</th>
             <th class="text-center">Projet</th>
             <th class="text-center">Action</th>
@@ -99,13 +100,15 @@
 
             foreach (@$answers[$s] as $a => $av) 
             {
-
+              $count = count( @$av["answers"] );
                 echo "<tr>";
                     echo "<td>#".$s."</td>";
+                    $c = ($count < count($form["scenario"])) ? "badge-danger" : "";
+                    echo "<td class=' bold'><span class='badge ".$c."'>".$count."/".count($form["scenario"])."</span></td>";
                     echo "<td>".@$av["answers"]["cte1"]["answers"]["organization"]["name"]."</td>";
                     echo "<td>".@$av["answers"]["cte2"]["answers"]["project"]["name"]."</td>";
                     echo "<td>";
-      				$count = count( @$av["answers"] );
+      				
       				if( $count < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
               { 
               	?>
