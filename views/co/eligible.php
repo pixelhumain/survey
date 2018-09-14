@@ -21,17 +21,9 @@
 				echo '<div id="active'.$project["id"].$project["type"].'">';
 
 					if($canSuperAdmin == true){
-						echo '<a href="javascript:;"  data-id="'.$project["id"].'" data-email="'.$answers["cte2"]["email"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
-							if(!empty($project["parentId"]) && !empty($project["parentType"])){
-								echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
-							}
-						echo 'class="btn btn-success activeBtn col-sm-offset-1 col-sm-4 col-xs-12">Eligible</a>';
+						echo '<a href="javascript:;" data-id="'.(String)$adminAnswers["_id"].'" class="btn btn-success activeBtn col-sm-offset-1 col-sm-4 col-xs-12">Eligible</a>';
 
-						echo '<a href="javascript:;"  data-id="'.$project["id"].'"  data-email="'.$answers["cte2"]["email"].'" data-type="'.$project["type"].'" data-name="'.$project["name"].'" data-userid="'.$answers["cte2"]["user"].'" data-username="'.$answers["cte2"]["name"].'" ';
-							if(!empty($project["parentId"]) && !empty($project["parentType"])){
-								echo 'data-parentId="'.$project["parentId"].'" data-parenttype="'.$answers["cte2"]["parentType"].'" data-parentname="'.$answers["cte2"]["parentName"].'" ';
-							}
-						echo 'class="btn btn-danger notEligibleBtn col-sm-offset-2 col-sm-4 col-xs-12">Non Eligible</a>';
+						echo '<a href="javascript:;" data-id="'.(String)$adminAnswers["_id"].'" class="btn btn-danger notEligibleBtn col-sm-offset-2 col-sm-4 col-xs-12">Non Eligible</a>';
 					}else{
 						echo "<span class='text-red' ><h4>En attente d'une réponse</h4></span>";
 					}

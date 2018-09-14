@@ -23,18 +23,8 @@ function bindAnwserList(){
 
 	$(".activeBtn").on("click",function(e){
 			$('#modalCatgeorieAnswers').modal("show");
-			$("#childId").val($(this).data("id"));
-			$("#childType").val($(this).data("type"));
-			$("#childName").val($(this).data("name"));
-			$("#email").val($(this).data("email"));
-			$("#userName").val($(this).data("username"));
-			$("#userId").val($(this).data("userid"));
-			$("#form").val(form._id.$id);
-			$("#formId").val(form.id);
+			$("#answerId").val($(this).data("id"));
 			$("#eligible").val(true);
-			$("#parentId").val( $(this).data("parentid"));
-			$("#parentType").val( $(this).data("parenttype"));
-			$("#parentName").val($(this).data("parentname"));
 			 
 			// var params = {
 			// 	childId : $(this).data("id"),
