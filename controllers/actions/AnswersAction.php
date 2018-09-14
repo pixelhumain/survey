@@ -30,7 +30,7 @@ class AnswersAction extends CAction{
 
 					foreach ($adminAnswers2 as $key2 => $value2) {
 						if($value["user"] ==  $value2["user"] && in_array($value2["formId"], array("cte1", "cte2", "cte3")) ){
-							if(!empty($userAdminAnswer[ $value["user"] ]["scenario"]))
+							if(empty($userAdminAnswer[ $value["user"] ]["scenario"]))
 								$userAdminAnswer[ $value["user"] ]["scenario"] = array();
 
 							$userAdminAnswer[ $value["user"] ]["scenario"][$value2["formId"]] = $value2["answers"] ;

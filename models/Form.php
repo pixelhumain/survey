@@ -133,7 +133,7 @@ class Form {
 				!empty($value["answers"][Project::CONTROLLER]) && 
 				!in_array( $value["answers"][Project::CONTROLLER]["id"], $uniqP ) ){
 
-				$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
+				$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email", "shortDescription", "shortDescription"));
 				$orga["id"] = $value["answers"][Project::CONTROLLER]["id"];
 				$orga["type"] = Project::COLLECTION;
 
@@ -164,6 +164,11 @@ class Form {
 				$results[ $value["user"]]["parentName"] = @$orga["parentName"];
 				$results[ $value["user"]]["userId"] = @$orga["userId"];
 				$results[ $value["user"]]["userName"] = @$orga["userName"];
+
+				if(!empty($orga["shortDescription"]) )
+					$results[ $value["user"]]["desc"] = $orga["shortDescription"];
+				else if(!empty($orga["description"]) )
+						$results[ $value["user"]]["desc"] = $orga["description"];
 
 				$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
 			}

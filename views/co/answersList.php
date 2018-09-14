@@ -69,6 +69,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 					<tr>
 						<th>#</th>
 						<th>Nom du projet</th>
+						<th>Description</th>
 						<th>Organisation</th>
 						<th>Référent</th>
 						<th>Etape</th>
@@ -86,7 +87,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						$nb = 0;
 						foreach ($results as $k => $v) {
 							$nb++;
-
 							$lblEligible = "À faire";
 							$classEligible = "todoeligible";
 							$colorEligible = "black";
@@ -109,6 +109,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								 ?> line">
 							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/logs/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" ><?php echo @$nb ?></a></td>
 							<td><?php echo @$v['name'] ?></td>
+							<td><?php echo @$v['desc'] ?></td>
 							<td><?php echo @$v['parentName'] ?></td>
 							<td><?php echo @$v['userName'] ?></td>
 							<td>
