@@ -26,13 +26,10 @@ class Form {
 		"44" => array( "w" => 16 , "c" => "red")
 	);
 	
-	public static function newAnswer($data){
+	public static function newAnswer($data)
+	{
 		try{
-			//check doesn't exist a project with no answer
-			// $form = PHDB::findOne( Form::ANSWER_COLLECTION , array( "formId"=>$data["id"],
-			// 														"user"=>$data["user"],
-			// 														"session"=>$data["session"]) );
-
+	
 			$answer = array(
 				"formId"=>$data["id"],
 				"user"=>$data["user"],
@@ -49,7 +46,8 @@ class Form {
   		}
 	}
 
-	public static function save($id,$data){
+	public static function save($id,$data)
+	{
 		try
 		{
 			$step = $data["formId"];
@@ -63,6 +61,17 @@ class Form {
    			return $e->getMessage();
   		}
     }
+
+    public static function delAnswer($id)
+    {
+		try {
+			return PHDB::remove( Form::ANSWER_COLLECTION,
+                    array( "_id" => new MongoId((string)$id)));
+		} catch (CTKException $e){
+   			return $e->getMessage();
+  		}
+    }
+
     public static function countStep($idParent){
     	return PHDB::count( self::COLLECTION, array("parentForm"=>$idParent));
     }

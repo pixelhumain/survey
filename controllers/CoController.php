@@ -25,6 +25,7 @@ class CoController extends CommunecterController {
 	        'save'  => 'survey.controllers.actions.SaveAction',
 	        'update'=> 'survey.controllers.actions.UpdateAction',
 	        'update2'=> 'survey.controllers.actions.Update2Action',
+	        'delete'  => 'survey.controllers.actions.DeleteAction',
 	        'roles'=> 'survey.controllers.actions.RolesAction',
 	        'logs'=> 'survey.controllers.actions.LogsAction',
 	        'answers'  => 'survey.controllers.actions.AnswersAction',

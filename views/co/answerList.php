@@ -256,7 +256,7 @@ function initWizard () {
 
 function getAnswers(dynJson, noTotal)
 {
-	alert("get Answers");
+	//alert("get Answers");
 	var editAnswers = {};
 	var total = 0;
 	if( $("."+updateForm.cat+"_"+updateForm.step+"Result") )

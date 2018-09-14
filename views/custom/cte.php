@@ -81,6 +81,7 @@
             <th class="text-center">Organisation</th>
             <th class="text-center">Projet</th>
             <th class="text-center">Action</th>
+            <th class="text-center">Delete</th>
           </tr> 
         </thead>
         <tbody>
@@ -116,6 +117,7 @@
               	<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)@$av['_id'] ?> " style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> VOIR VOTRE CANDIDATURE </a>
           	<?php	}
                       echo "</td>";
+                      echo "<td> <a href='javascript:;' data-id='".(string)$av['_id']."' class='deleteAnswer pull-left btn btn-default'><i class='fa text-red fa-times'></i></a></td>";
                   echo "</tr>";
               } 
             }
@@ -124,6 +126,7 @@
                 echo "<td class='bold'>Date de début </br>".( ( @$sv["startDate"] ) ? date('d/m/Y H:i', $sv["startDate"]->sec) : "Pas de date")."</td>";
                 echo "<td class='bold'>Date de fin<br/>".( ( @$sv["endDate"] ) ? date('d/m/Y H:i', $sv["endDate"]->sec) : "Pas de date")."</td>";
                 echo "<td> <a href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/new/id/".$form['id']."/session/".$s."' class='pull-left btn btn-primary'><i class='fa fa-plus'></i> Ajouter une réponse</a></td>";
+
               echo "</tr>";
         } ?>
         </tbody>
@@ -315,4 +318,29 @@
 
 </div>
 
- 
+ <script type="text/javascript">
+   $(document).ready(function() { 
+  
+  $('.deleteAnswer').off().click( function(){
+      id = $(this).data("id");
+      bootbox.dialog({
+          title: "Confirmez la suppression du dossier",
+          message: "<span class='text-red bold'><i class='fa fa-warning'></i> Cette action sera irréversible</span>",
+          buttons: [
+            {
+              label: "Ok",
+              className: "btn btn-primary pull-left",
+              callback: function() {
+                window.location.href = baseUrl+"/survey/co/delete/id/"+id;
+              }
+            },
+            {
+              label: "Annuler",
+              className: "btn btn-default pull-left",
+              callback: function() {}
+            }
+          ]
+      });
+    });
+});
+ </script>
