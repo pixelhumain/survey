@@ -52,15 +52,13 @@ class Form {
 	public static function save($id,$data){
 		try
 		{
+			$step = $data["formId"];
+			unset($data["formId"]);
+			unset($data["parentSurvey"]);
+			$data["created"] = time();
 			return PHDB::update( Form::ANSWER_COLLECTION,
                     array( "_id" => new MongoId((string)$id)), 
-                    array( '$set' => array( "answers.".$data["formId"] => array(
-							"answers" => array(
-								$data["formId"] => $data
-							),
-							"created"=>time()
-						)))
-                    );
+                    array( '$set' => array( "answers.".$step => $data)));
 		} catch (CTKException $e){
    			return $e->getMessage();
   		}
