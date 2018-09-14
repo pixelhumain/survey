@@ -26,7 +26,7 @@ class AnswersAction extends CAction{
 					$userAdminAnswer[ $value["user"] ] = $value;
 				}
 				$results = ( empty($answers) ? array() : Form::listForAdminNews($form, $answers) );
-
+				//Rest::json($adminAnswers); exit;
 	 			$ctrl->render("answersList",
 	 												array(  "results" => $results,
 												 			"form"=> $form,

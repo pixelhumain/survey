@@ -70,13 +70,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th>#</th>
 						<th>Nom du projet</th>
 						<th>Organisation</th>
-						<th>Utilisateur</th>
+						<th>Référent</th>
 						<th>Etape</th>
 						<th>Voir la réponse</th>
 						<th>Eligibilité</th>
-						<th>Priorisation</th>
+						<th>Thématiques</th>
 						<th>Contraintes</th>
 						<th>Fiche Action</th>
+						<th>PDF</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -150,6 +151,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 									echo "</ul>";
 								} ?></td>
 							<td><?php echo (@$userAdminAnswer[$k]["step"] == "ficheAction") ? "Selectionné" : ""; ?></td>
+
+							<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".$form['id']."/session/".$_GET['session']."/user/".@$k."' target='_blanck'><i class='fa fa-2x fa-file' ></i></a>"; ?></td>
 						</tr>
 						<?php
 					} ?>

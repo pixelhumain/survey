@@ -51,6 +51,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				<td><a class="btn btn-default btn-xs" target="_blank" href="<?php echo Yii::app()->createUrl( "#@cteTco"); ?>">Lien</a></td>
 			</tr>
 
+			<tr>
+				<td>PDF </td>
+				<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".$_GET['id']."/session/".$_GET['session']."/user/".@$_GET['user']."' target='_blanck'><i class='fa fa-2x fa-file' ></i></a>"; ?></td>
+			</tr>
+			
+
 		</tbody>
 	</table>					
 </div>
