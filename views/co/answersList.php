@@ -60,8 +60,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		<div>
 			<!-- <a href="<?php //echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a> -->
 			<span><b>Il y a <span id="nbLine"><?php echo count(@$results); ?></span> réponses</b></span> 
+			<span> <a href="javascript:;" id="csv"><i class='fa fa-2x fa-table text-green'></i></a></span> 
 			<!-- <a href="<?php //echo Yii::app()->createUrl('survey/co/roles/id/'.$_GET["id"].'/session/1'); ?>" class="pull-right btn btn-xs btn-primary margin-10">Fiche Action</a> -->
-			<br/>
+			<br/><br/>
 			
 			<div style="max-height: 480px;; overflow: auto">
 				<table class="table table-striped table-bordered table-hover directoryTable" id="panelAdmin">
@@ -112,7 +113,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								<td><?php echo @$v['desc'] ?></td>
 								<td><?php echo @$v['parentName'] ?></td>
 								<td><?php echo @$v['userName'] ?></td>
-								<td>
+								<td >
 									<?php
 									$c = 0 ;
 									foreach ($v['scenario'] as $key => $value) {
@@ -120,11 +121,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 											$c++;
 									}
 									$classText = ($c == count(@$v['scenario'])) ? 'text-success' : 'text-red';
-									echo "<span class='".$classText."'>".$c." / ".count(@$v['scenario'])."</span>"; ?>
+									echo "<span id='".$k."etape' class='".$classText."'>".$c." / ".count(@$v['scenario'])."</span>"; ?>
 								</td>
 								<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/answer/id/<?php echo $form['id'] ?>/session/<?php echo $_GET['session'] ?>/user/<?php echo @$k  ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
-								<td class="<?php echo $colorEligible ?>"><?php echo $lblEligible ?></td>
-								<td><?php if(@$userAdminAnswer[$k]["categories"]){
+								<td id='<?php echo $k."eligible";?>' class="<?php echo $colorEligible ?>"><?php echo $lblEligible ?></td>
+								<td id='<?php echo $k."etiquetage";?>'><?php if(@$userAdminAnswer[$k]["categories"]){
 									foreach ($userAdminAnswer[$k]["categories"] as $key => $value) {
 										echo $value["name"]."<br/>";
 									}
@@ -147,12 +148,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 											$list .= "<li class='padding-5' style='background-color:".$rcol."'>".$vr["desc"]."(".$vr["weight"].")</li>";
 										}
 										
-										echo "<a class='btn btn-xs btn-".$globrcol."' href='javascript:;' onclick='$(\"#riskList".$k."\").toggle();'>".count(@$userAdminAnswer[$k]["risks"])." risque(s)</a>";
+										echo "<a  id='".$k."risk' class='btn btn-xs btn-".$globrcol."' href='javascript:;' onclick='$(\"#riskList".$k."\").toggle();'>".count(@$userAdminAnswer[$k]["risks"])." risque(s)</a>";
 										echo "<ul id='riskList".$k."' style='list-style:none; width:100%;display:none;'>";
 											echo $list; 
 										echo "</ul>";
 									} ?></td>
-								<td><?php echo (@$userAdminAnswer[$k]["step"] == "ficheAction") ? "Selectionné" : ""; ?></td>
+								<td id='<?php echo $k."action";?>'><?php echo (@$userAdminAnswer[$k]["step"] == "ficheAction") ? "Selectionné" : ""; ?></td>
 
 								<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".$form['id']."/session/".$_GET['session']."/user/".@$k."' target='_blanck'><i class='fa fa-2x fa-file-pdf-o text-red' ></i></a>"; ?></td>
 
@@ -181,6 +182,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 <script type="text/javascript">
 
+
+var results  = <?php echo json_encode($results); ?>;
 function showType (type) { 
 	$(".line").hide();
 	$("."+type).show();
@@ -196,6 +199,44 @@ jQuery(document).ready(function() {
 	    });
 	});
 
+	$("#csv").off().on('click',function(){
+    	var chaine = "";
+    	var csv = '"Num";"Projet";"Desc";"Organisation";"Référent";"Etape";"Eligibilité";"Etiquetage";"Contraintes";"Fiche Action"' ;
+    	var i = 1 ;
+    	if(typeof results != "undefined"){
+        	$.each(results, function(key, value2){
+        		console.log(value2)
+        		csv += "\n";
+        		csv += '"'+i+'";';
+        		csv += '"'+(notNull(value2.name) ? value2.name: "")+'";';
+        		csv += '"'+(notNull(value2.desc) ? value2.desc: "")+'";';
+        		csv += '"'+(notNull(value2.parentName) ? value2.parentName: "")+'";';
+        		csv += '"'+(notNull(value2.userName) ? value2.userName: "")+'";';
+        		csv += '"'+$("#"+key+"etape").html()+'";';
+        		csv += '"'+$("#"+key+"eligible").html()+'";';
+        		csv += '"'+$("#"+key+"etiquetage").html()+'";';
+        		csv += '"'+(notNull($("#"+key+"risk").html()) ? $("#"+key+"risk").html(): "")+'";';
+        		csv += '"'+$("#"+key+"action").html()+'";';
+        		// csv += '"'+(notNull(value2.name) ? value2.name: "")+'";';
+        		// csv += '"'+value2.info+'";"'+baseUrl+value2.url+'";"'+value2.type+'";"'+value2.id+'";' ;
+
+        		i++;
+        		
+			});
+  		}
+  		
+    	$("<a />", {
+		    "download": "cte.csv",
+		    "href" : "data:application/csv," + encodeURIComponent(csv)
+		  }).appendTo("body")
+		  .click(function() {
+		     $(this).remove()
+		  })[0].click() ;
+
+			$("#bodyResult").html(chaine);
+    	$.unblockUI();
+	});
+
 });
 
 function countLine(){
@@ -204,6 +245,9 @@ function countLine(){
 			}).length ;
 	$("#nbLine").html(nbLine);
 }
+
+
+
 
 
 
