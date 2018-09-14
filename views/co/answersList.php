@@ -78,6 +78,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th>Contraintes</th>
 						<th>Fiche Action</th>
 						<th>PDF</th>
+						<th>Budget</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -152,7 +153,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								} ?></td>
 							<td><?php echo (@$userAdminAnswer[$k]["step"] == "ficheAction") ? "Selectionné" : ""; ?></td>
 
-							<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".$form['id']."/session/".$_GET['session']."/user/".@$k."' target='_blanck'><i class='fa fa-2x fa-file' ></i></a>"; ?></td>
+							<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".$form['id']."/session/".$_GET['session']."/user/".@$k."' target='_blanck'><i class='fa fa-2x fa-file-pdf-o text-red' ></i></a>"; ?></td>
+
+							<td><?php 
+								if(!empty($userAdminAnswer[$k]["scenario"]["cte3"]["previsionnel"]["previsionel"]["id"])){
+									$a = $userAdminAnswer[$k]["scenario"]["cte3"]["previsionnel"]["previsionel"];
+									$document=Document::getById($a["id"]);
+									if(!empty($document)){ 
+										$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
+										echo "<a href='".$path."' target='_blank'><i class='fa fa-2x fa-file-pdf-o text-red'></i></a>";
+									}
+								}
+							 ?></td>
+
 						</tr>
 						<?php
 					} ?>
