@@ -290,7 +290,7 @@ if(@$adminAnswers["risks"] )
 	<div class="bg-red col-xs-12 text-center text-large text-white margin-bottom-20"><h1> <?php echo $v["form"]["title"]; ?></h1>
 	<?php 
 		echo "<h3 style='' class=''> <i class='fa fa-2x fa-exclamation-triangle'></i> ".Yii::t("surveys","This step {num} hasn't been filed yet",array('{num}'=>$k))."</h3>".
-			"<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k)."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
+			"<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k.'/session/'.$session.'/answer/'.(string)$_GET['id'])."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
 	}
 	echo "</div>";
 }
