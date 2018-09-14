@@ -103,8 +103,8 @@
               $count = count( @$av["answers"] );
                 echo "<tr>";
                     echo "<td>#".$s."</td>";
-                    $c = ($count < count($form["scenario"])) ? "badge-danger" : "";
-                    echo "<td class=' bold'><span class='badge ".$c."'>".$count."/".count($form["scenario"])."</span></td>";
+                    $c = ($count < count($form["scenario"])) ? "orange" : $form["custom"]["color"];
+                    echo "<td class=' bold'><span class='text-dark badge' style='background-color:".$c."'>".$count." / ".count($form["scenario"])." </span></td>";
                     echo "<td>".@$av["answers"]["cte1"]["answers"]["organization"]["name"]."</td>";
                     echo "<td>".@$av["answers"]["cte2"]["answers"]["project"]["name"]."</td>";
                     echo "<td>";
@@ -112,7 +112,7 @@
       				if( $count < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
               { 
               	?>
-              		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>/answer/<?php echo (string)$av['_id'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> Reprendre la candidature</a>
+              		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>/answer/<?php echo (string)$av['_id'] ?>" style="background-color:orange" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> Reprendre la candidature</a>
           	  <?php }
               			
       				if($count > 0)
