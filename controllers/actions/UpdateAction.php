@@ -28,10 +28,7 @@ class UpdateAction extends CAction
                 //****************************
                 //update total scores 
                 //****************************
-                $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array( 
-                                "formId"=>@$_POST["formId"], 
-                                "session"=>@$_POST["session"],
-                                "user"=>@Yii::app()->session["userId"]));
+                $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array( "_id"=>new MongoId(@$_POST["answerId"])) );
                 $form = PHDB::findOne(Form::COLLECTION , array( "id"=>@$_POST["formId"]."Admin","session"=>@$_POST["session"]));
 
                 $total = null;
@@ -47,7 +44,7 @@ class UpdateAction extends CAction
                             $total += (float)$value[ "total" ];
                     }
                     $total = floor( ($total / count( $form["scenario"] ))*100 ) / 100;
-                    PHDB::update(Form::ANSWER_COLLECTION,
+                    PHDB::update ( Form::ANSWER_COLLECTION,
                         array( "_id"=>new MongoId( (string)$answer["_id"]) ), 
                         array( '$set' => array( $_POST["answerKey"].".".$_POST["answerStep"].".total" => $total ) ) );
                 }

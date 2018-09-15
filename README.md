@@ -32,11 +32,9 @@ a survey is build dynamically according to it's structure , it put's together di
 [ ] check json editor exists
 
 # Amélioration : 
+- faire tourner le survey sur le server TCO
+- générer un mode brouillon : un pad avec les questions 
 - DOSSIER : save onBlur 
-- multi projet par porteur 
-- historique de modif des risques 
-    - pouvoir laisser un commentaire sur un risque 
-- unifier tout les answers en un seul 
 - avoir des admin liéé juste à un dossier et pas à toute la session 
 - soumettre chaque risque à une vote des acteurs expert / financeurs ...
     comme une proposition , un risque peut etre levé 

@@ -311,7 +311,7 @@ function getAnswers(dynJson, noTotal)
     });
     
     if(!noTotal){
-    	alert("total"+total);
+    	//alert("total"+total);
 	    $("."+updateForm.cat+"_"+updateForm.step+"Total").html( "[ Note : "+( parseFloat(total).toFixed(2) )+" ]" );
 	    $("."+updateForm.cat+"_"+updateForm.step+"TotalNum").html( parseFloat(total).toFixed(2) );
 	    $("."+updateForm.cat+"_"+updateForm.step+"ResultTitle").append( "<td class='bold'>Note</td>" );
