@@ -51,12 +51,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				<td><a class="btn btn-default btn-xs" target="_blank" href="<?php echo Yii::app()->createUrl( "#@cteTco"); ?>">Lien</a></td>
 			</tr>
 
-			<tr>
-				<td>PDF </td>
-				<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".$_GET['id']."/session/".$_GET['session']."/user/".@$_GET['user']."' target='_blanck'><i class='fa fa-2x fa-file' ></i></a>"; ?></td>
-			</tr>
-			
-
 		</tbody>
 	</table>					
 </div>
@@ -162,13 +156,13 @@ if(@$adminAnswers["risks"] )
 			<h1> 
 			<?php echo $v["form"]["title"]; ?><i class="fa pull-right <?php echo @$v["form"]["icon"]; ?>"></i>
 			</h1>
-			<span class="text-dark"><?php echo date('d/m/Y h:i', @$answers[$k]["created"]) ?></span>
+			<span class="text-dark"><?php echo date('d/m/Y h:i', $answers[$k]["created"]) ?></span>
 		</div>
 		<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
 		<?php 
 		foreach ( $answers[$k]["answers"] as $key => $value) {
 			$editBtn = "";
-			if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$_GET['session']]["endDate"] ) ) {
+			if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$session]["endDate"] )) {
 				if(@$v["form"]["scenario"][$key]["saveElement"]) 
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 				else 
@@ -196,6 +190,8 @@ if(@$adminAnswers["risks"] )
 							echo "<td class='".$markdown."'>".$a."</td>";
 						echo '</tr>';
 					}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
+
+					
 						$document=Document::getById($a["id"]);
 						if(!empty($document)){ 
 							$document["docId"]=$a["id"];
@@ -262,29 +258,6 @@ if(@$adminAnswers["risks"] )
 						echo "</td>";
 					echo '</tr>';
 				}
-				if(@$el["address"]){
-					$address = "";
-					$address .= '<span> '.
-									(( @$el["address"]["streetAddress"]) ? 
-										$el["address"]["streetAddress"]."<br/>": 
-										((@$el["address"]["codeInsee"])?"":Yii::t("common","Unknown Locality")));
-					$address .= (( @$el["address"]["postalCode"]) ?
-									 $el["address"]["postalCode"].", " :
-									 "")
-									." ".(( @$el["address"]["addressLocality"]) ? 
-											 $el["address"]["addressLocality"] : "") ;
-					$address .= (( @$el["address"]["addressCountry"]) ?
-									 ", ".OpenData::$phCountries[ $el["address"]["addressCountry"] ] 
-					 				: "").
-					 			'</span>';
-					echo '<tr>';
-						echo "<td>".Yii::t("common","Locality")."</td>";
-						echo "<td>";
-						echo $address;
-						echo "</td>";
-					echo '</tr>';
-				}
-				
 				if(@$el["shortDescription"]){
 					echo '<tr>';
 						echo "<td>".Yii::t("common","Short description")."</td>";
@@ -316,11 +289,8 @@ if(@$adminAnswers["risks"] )
 	} else { ?>
 	<div class="bg-red col-xs-12 text-center text-large text-white margin-bottom-20"><h1> <?php echo $v["form"]["title"]; ?></h1>
 	<?php 
-		echo "<h3 style='' class=''> <i class='fa fa-2x fa-exclamation-triangle'></i> ".Yii::t("surveys","This step {num} hasn't been filed yet",array('{num}'=>$k))."</h3>";
-		if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$_GET['session']]["endDate"] ) ) {
-			echo "<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k.'/session/'.$session.'/answer/'.(string)$_GET['id'])."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
-		}
-
+		echo "<h3 style='' class=''> <i class='fa fa-2x fa-exclamation-triangle'></i> ".Yii::t("surveys","This step {num} hasn't been filed yet",array('{num}'=>$k))."</h3>".
+			"<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k.'/session/'.$session.'/answer/'.(string)$_GET['id'])."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
 	}
 	echo "</div>";
 }
@@ -381,9 +351,10 @@ $(document).ready(function() {
 			editForm.jsonSchema.save = function(){
 				
 				data={
+					answerId : adminAnswers["_id"]["$id"],
 	    			formId : updateForm.form,
 	    			session : formSession,
-	    			answerSection : "answers."+updateForm.step ,
+	    			answerSection : "answers."+updateForm.form+".answers."+updateForm.step ,
 	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json , true),
 	    			answerUser : adminAnswers.user 
 	    		};
