@@ -1,49 +1,54 @@
 <?php
 class AnswerAction extends CAction
 {
-    public function run($id,$view=null)
+    public function run($id,$session="1",$user,$view=null)
     {
     	$ctrl = $this->getController();
     	$ctrl->layout = "//layouts/empty"; 
     	$answer = PHDB::findOne( Form::ANSWER_COLLECTION, array("_id"=>new MongoId($id)));
     	$form = PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]));
 
+
     	if ( ! Person::logguedAndValid() ) 
 			$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
 		else if( Form::canAdmin( (string)$form["_id"], $form ) || $user == Yii::app()->session["userId"])
 		{ 
-			if(!@$form["session"][ $answer["session"] ])
-	 				$ctrl->render("co2.views.default.unTpl",array("msg"=>"Session introuvable sur ".$answer["formId"],"icon"=>"fa-search")); 
+			if(!@$form["session"][$session])
+	 				$ctrl->render("co2.views.default.unTpl",array("msg"=>"Session introuvable sur ".$id,"icon"=>"fa-search")); 
 
-    		if( $form["surveyType"] == "surveyList" && @$answer["answers"] )
+    		if( $form["surveyType"] == "surveyList" && @$answers = PHDB::find( Form::ANSWER_COLLECTION , array("parentSurvey"=>@$id, "user" => @$user ) ) )
     		{
-				$adminForm = ( Form::canAdmin((string)$form["_id"], $form) ) 
-								? PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin","session"=>$answer["session"] ) ) 
-								: PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin","session"=>$answer["session"] ), array("scenarioAdmin") ) ;
+				$adminAnswers = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>@$id,"session"=>$session, "user"=> @$user) );
+				$adminForm = ( Form::canAdmin((string)$form["_id"], $form) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session) ) : PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session), array("scenarioAdmin") ) ;
 
-				$userO = Person::getById($answer["user"]);
+				//$adminForm = ( Form::canAdmin((string)$form["_id"]) ) ? PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session) ) : null ;
+
+
+				$userO = Person::getById($user);
 				if( !@$adminAnswers ){
 					$adminAnswers = array(
-						"formId" => $answer["formId"],
-					    "user" 	 => $answer["user"],
+						"formId" => $id,
+					    "user" 	 => $user,
 					    "name"   => $userO["name"],
 					);
 					if(@$adminForm["scenarioAdmin"] && Form::canAdmin((string)$form["_id"], $form) )
-						$adminAnswers["step"] = array_keys( $adminForm["scenarioAdmin"] )[1];
+						$adminAnswers["step"] = array_keys( $adminForm["scenarioAdmin"] )[0];
 				}
     			
     			$ctrl->layout = "//layouts/empty";	
-    			
+    			foreach ($answers as $k => $v) {
+    				$answers[$v["formId"]] = $v;
+    			}
 
-    			$forms = PHDB::find( Form::COLLECTION , array("parentSurvey"=>$answer["formId"]));
+    			$forms = PHDB::find( Form::COLLECTION , array("parentSurvey"=>$id));
     			foreach ($forms as $k => $v) {
     				$form["scenario"][$v["id"]]["form"] = $v;
     			}
     			$params = array( 
-    				"session" 		=> $answer["session"],
-		 			"answer" 		=> $answer,
+		 			"answers" 		=> $answers,
 		 			"form"    		=> $form,
 		 			"user"	  		=> $userO,
+		 			"adminAnswers"	=> $adminAnswers,
 		 			"adminForm" 	=> $adminForm,
 		 			"roles" 		=> @Yii::app()->session["custom"]["roles"] );
 
@@ -58,7 +63,7 @@ class AnswerAction extends CAction
     			}
 	 			echo $ctrl->render( "answerList" ,$params);
     		}
-	 		else if( @$answer["formId"] && @$answer["answers"] )
+	 		else if( @$id & @$answer = PHDB::findOne( Form::ANSWER_COLLECTION , array("formId"=>$id ) ) )
 	 		{
 	 			if( !$view ){
 		 			$ctrl->layout = "//layouts/empty";	

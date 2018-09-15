@@ -38,6 +38,7 @@ class CoController extends CommunecterController {
 	        'members'=> 'survey.controllers.actions.MembersAction',
 	        'searchadminmembers' => 'survey.controllers.actions.SearchAdminMembersAction',
 	        'updatepriorisation'=> 'survey.controllers.actions.UpdatePriorisationAction',
+	        'pdf'=> 'survey.controllers.actions.PdfAction',
 	    );
 	}
 

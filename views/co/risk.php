@@ -153,9 +153,10 @@
   </form>
 </div>
 <script type="text/javascript">
-
+risksAnswer=<?php echo json_encode(@$adminAnswers["risks"]) ?>;
 $(document).ready(function() { 
-
+	if(!notNull(risksAnswer))
+		$('#riskCatalogue').toggle();
 	$("#searchRisks").on("keyup", function() {
 	    var value = $(this).val().toLowerCase();
 	    $("#riskCatalogList tr").filter( function() {
@@ -240,7 +241,7 @@ var riskObj = {
 						"<td>"+riskObj.selectedRisks[ riskId ].desc+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].actions.join("<br/>")+"</td>"+
 						//"<td>"+riskObj.selectedRisks[ riskId ].comment+"</td>"+
-						"<td><a class='btn btn-danger userActionBtn' data-riskid='"+riskId+"' data-answerid='"+adminAnswers._id.$id+"' href='javascript:;'><i class='fa fa-comment'></i> Répondre</a></td>"+
+						"<td><a class='btn btn-danger userActionBtn' data-riskid='"+riskId+"' data-answerid='"+adminAnswers._id.$id+"' href='javascript:;'><i class='fa fa-comment'></i> "+trad.answer+"</a></td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].probability+"</td>"+
 						"<td>"+riskObj.selectedRisks[ riskId ].gravity+"</td>"+
 						"<td style='color:black;background-color:"+riskObj.riskWeight[riskObj.selectedRisks[ riskId ].probability+""+riskObj.selectedRisks[ riskId ].gravity].c+"'>"+riskObj.selectedRisks[ riskId ].weight+"</td></tr>";
@@ -265,7 +266,7 @@ var riskObj = {
 					        url: baseUrl+"/survey/co/update",
 					        data: data
 					    }).done(function (data) { 
-					    	toastr.success('risk successfully saved!');
+					    	toastr.success('Risque ajouté avec succès');
 					    	$(".add"+riskId).html("");
 					    	$('.userActionBtn').off().click(function() {
 								commentRisk($(this).data("answerid"), $(this).data("riskid"));
@@ -328,7 +329,7 @@ var riskObj = {
 				        url: baseUrl+"/survey/co/update",
 				        data: data
 				    }).done(function (data) { 
-				    	toastr.success('risk successfully saved!');
+				    	toastr.success('Demande envoyée avec succès');
 				    });
 	            }
 	          },
@@ -376,11 +377,11 @@ var riskForm = {
               data: params,
               success: function(data){
                 if(data.result){
-                  	toastr.success( "SUCCESSFULLY  saved risk !");
+                  	toastr.success( "Risque enregistré avec succès !");
                   	mylog.dir(data);
                   	dyFObj.closeForm();
                   	
-                  	var newRisk = '<td class="editRisk">'+data.map.type+'</td>'+
+                  	var newRisk = '<td class="editRisk '+slugify(data.map.type)+' ">'+data.map.type+'</td>'+
 						'<td class="editRisk">'+data.map.desc+'</td>'+
 						'<td class="editRisk">'+data.map.actions.join('<br>')+'</td>'+
 						'<td class="add'+data.id+'"><a href="javascript:;" data-id="'+data.id+'" class="addRiskBtn btn btn-primary"><i class="fa fa-plus"></i></a></td>';

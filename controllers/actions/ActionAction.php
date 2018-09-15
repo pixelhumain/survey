@@ -24,9 +24,8 @@ class ActionAction extends CAction
 			if(!empty($formParent["links"]["projectExtern"])){
 
 				foreach ($formParent["links"]["projectExtern"] as $key => $value) {
-
 					foreach ($action["role"] as $keyR => $valueR) {
-						if(in_array($valueR, $value["roles"]))
+						if(in_array(trim ($valueR), $value["roles"]))
 							$idProject[] = new MongoId($key) ;
 					}
 					

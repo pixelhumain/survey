@@ -306,10 +306,18 @@ if(@$adminAnswers["categories"]){
 		    });
 		};
 
+//<<<<<<< HEAD
 		if( adminAnswers[updateForm.section] && 
 			adminAnswers[updateForm.section][updateForm.cat] &&
 			adminAnswers[updateForm.section][updateForm.cat][updateForm.step])
 			dyFObj.editStep( editForm, adminAnswers[updateForm.section][updateForm.cat][updateForm.step] );
+// =======
+// 		if(adminAnswers.answers &&
+// 			adminAnswers.answers.priorisation && 
+// 			adminAnswers.answers.priorisation[updateForm.cat] &&
+// 			adminAnswers.answers.priorisation[updateForm.cat][updateForm.step])
+// 			dyFObj.editStep( editForm, adminAnswers.answers.priorisation[updateForm.cat][updateForm.step] );
+// >>>>>>> master
 		else 
 			dyFObj.editStep( editForm );	
 
