@@ -353,7 +353,7 @@ $(document).ready(function() {
 				//alert("save");
 				data = {
 	    			formId : updateForm.form,
-	    			answerId : adminAnswers["_id"]["$id"],
+	    			answerId : "<?php echo $answerId ?>",
 	    			//session : formSession,
 	    			answerSection : updateForm.form+".answers."+updateForm.step ,
 	    			answers : arrayForm.getAnswers(editForm , true)
@@ -374,8 +374,8 @@ $(document).ready(function() {
 			        data: data,
 					type: "POST",
 			    }).done(function (data) {
+			    	alert("done")
 			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
-				    	window.location.reload();
 				    	updateForm = null;
 				    }
 				    window.location.reload();
