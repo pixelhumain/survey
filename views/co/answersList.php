@@ -184,6 +184,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 
 var results  = <?php echo json_encode($results); ?>;
+var formId = "<?php echo $form['id']; ?>";
+var sessionId = "<?php echo $_GET['session'] ?>";
 function showType (type) { 
 	$(".line").hide();
 	$("."+type).show();
@@ -201,7 +203,7 @@ jQuery(document).ready(function() {
 
 	$("#csv").off().on('click',function(){
     	var chaine = "";
-    	var csv = '"Num";"Projet";"Desc";"Organisation";"Référent";"Etape";"Eligibilité";"Etiquetage";"Contraintes";"Fiche Action"' ;
+    	var csv = '"Num";"Projet";"Desc";"Organisation";"Référent";"Etape";"Lire";"Eligibilité";"Etiquetage";"Contraintes";"Fiche Action"' ;
     	var i = 1 ;
     	if(typeof results != "undefined"){
         	$.each(results, function(key, value2){
@@ -213,13 +215,13 @@ jQuery(document).ready(function() {
         		csv += '"'+(notNull(value2.parentName) ? value2.parentName: "")+'";';
         		csv += '"'+(notNull(value2.userName) ? value2.userName: "")+'";';
         		csv += '"'+$("#"+key+"etape").html()+'";';
+        		csv += '"'+baseUrl + "/survey/co/answer/id/"+formId+"/session/"+sessionId+"/user/"+key+'";';
         		csv += '"'+$("#"+key+"eligible").html()+'";';
         		csv += '"'+$("#"+key+"etiquetage").html()+'";';
         		csv += '"'+(notNull($("#"+key+"risk").html()) ? $("#"+key+"risk").html(): "")+'";';
         		csv += '"'+$("#"+key+"action").html()+'";';
         		// csv += '"'+(notNull(value2.name) ? value2.name: "")+'";';
-        		// csv += '"'+value2.info+'";"'+baseUrl+value2.url+'";"'+value2.type+'";"'+value2.id+'";' ;
-
+        		
         		i++;
         		
 			});
