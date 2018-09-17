@@ -6,6 +6,8 @@ class ActiveAction extends CTKAction{
 		$answer =  Form::getAnswerById($_POST["answerId"]);
 
 		$adminForm =  PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin","session"=>$answer["session"]) );
+
+		$form = Form::getByIdMongo( $_POST["form"] );
 		
 		$data = array(
 			"eligible" => false,
@@ -19,44 +21,59 @@ class ActiveAction extends CTKAction{
 		$res = array("result" => false,
 					"msg" => "N\'est pas éligible");
 		
+		$projet = array();
+
+		if(!empty($answer["answers"]["cte2"]["answers"]["project"])){
+			$project = array("id" => $answer["answers"]["cte2"]["answers"]["project"]["id"],
+								"type" => $answer["answers"]["cte2"]["answers"]["project"]["type"],
+								"name" => $answer["answers"]["cte2"]["answers"]["project"]["name"]);
+		}
 	
-		if(!empty($_POST["eligible"]) && ($_POST["eligible"] === true || $_POST["eligible"] == "true")) {
+		if(!empty($_POST["eligible"]) && ($_POST["eligible"] === true || $_POST["eligible"] == "true") && !empty($project)) {
 
-			// $child = array();
-			// $child[] = array( 	"childId" => $_POST["childId"],
-			// 					"childType" => Element::getCollectionByControler($_POST["childType"]),
-			// 					"childName" => $_POST["childName"],
-			// 					"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()),
-			// 				 	"link" => "projectExtern");
+			$child = array();
+			$child[] = array( 	"childId" => $project["id"],
+								"childType" => Element::getCollectionByControler($project["type"]),
+								"childName" => $project["name"],
+								"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()),
+							 	"link" => "projectExtern");
 
-			// $res[] = Link::multiconnect($child, $_POST["form"], Form::COLLECTION);
+			$res[] = Link::multiconnect($child, $_POST["form"], Form::COLLECTION);
 
-			// if(!empty($_POST["parentId"]) && !empty($_POST["parentType"])){
+			$orga = array();
 
-			// 	$existParent =PHDB::findOne( $_POST["parentType"] , array("_id"=>new MongoId($_POST["parentId"])) );
+			if(!empty($answer["answers"]["cte1"]["answers"]["organization"])){
+				$orga = array("id" => $answer["answers"]["cte1"]["answers"]["organization"]["id"],
+									"type" => $answer["answers"]["cte1"]["answers"]["organization"]["type"],
+									"name" => $answer["answers"]["cte1"]["answers"]["organization"]["name"]);
+			}
 
-			// 	if(!empty($existParent)){
-			// 		$form = Form:: getByIdMongo($_POST["form"], array("parentId", "parentType"));
+			if(!empty($orga["id"]) && !empty($orga["type"])){
 
-			// 		// pour l'orga
-			// 		$child = array();
-			// 		$child[] = array( 	"childId" => $_POST["parentId"],
-			// 							"childType" => $_POST["parentType"],
-			// 							"childName" => $_POST["parentName"],
-			// 							"roles" =>  !empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array());
-			// 		//Rest::json( $form ); exit ;
-			// 		$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+				$existParent =PHDB::findOne( Element::getCollectionByControler($orga["type"]) , array("_id"=>new MongoId($orga["id"])) );
+				//Rest::json($existParent); exit; 
+				if(!empty($existParent)){
+					$form = Form:: getByIdMongo($_POST["form"], array("parentId", "parentType"));
 
-			// 		// pour le projet
-			// 		$child = array();
-			// 		$child[] = array( 	"childId" => $_POST["childId"],
-			// 							"childType" => $_POST["childType"],
-			// 							"childName" => $_POST["childName"],
-			// 							"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()));
+					// pour l'orga
+					$child = array();
+					$child[] = array( 	"childId" => $orga["id"],
+										"childType" => Element::getCollectionByControler($orga["type"]),
+										"childName" => $orga["name"],
+										"roles" =>  !empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array());
+					//Rest::json( $form ); exit ;
+					$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
 
-			// 		$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
-			// 	}
-			// }
+					// pour le projet
+					$child = array();
+					$child[] = array( 	"childId" => $project["id"],
+										"childType" => Element::getCollectionByControler($project["type"]),
+										"childName" => $project["name"],
+										"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()));
+
+					$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+				}
+			}
 
 			$data["eligible"] = true ;
 			$data["step"] = array_keys($adminForm["scenarioAdmin"])[2] ;
@@ -83,7 +100,6 @@ class ActiveAction extends CTKAction{
 		PHDB::update(Form::ANSWER_COLLECTION, 
 						  	array("_id"=>new MongoId($_POST["answerId"])),
 	                        array(	'$set' => $data));
-		//Form::save($data);
 		Mail::createAndSend($paramMail);
 		echo Rest::json( $res );
 		

@@ -50,12 +50,12 @@ function bindAnwserList(){
 
 	$(".notEligibleBtn").on("click",function(e){
 		var params = {
-			childId : $(this).data("id"),
-			childType : $(this).data("type"),
-			childName : $(this).data("name"),
-			userName : $(this).data("username"),
-			userId : $(this).data("userid"),
-			email : $(this).data("email"),
+			answerId : $(this).data("id"),
+			// childType : $(this).data("type"),
+			// childName : $(this).data("name"),
+			// userName : $(this).data("username"),
+			// userId : $(this).data("userid"),
+			// email : $(this).data("email"),
 			form : form._id.$id,
 			formId : form.id,
 			session : formSession,

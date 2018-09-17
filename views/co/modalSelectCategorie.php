@@ -25,12 +25,17 @@
     jQuery(document).ready(function() {
         if(typeof rolesListCustom != "undefined" && notNull(rolesListCustom) && rolesListCustom.length > 0)
             rolesList = rolesListCustom ;
+
+        if(typeof form != "undefined" && typeof form.custom != "undefined" && typeof form.custom.roles != "undefined" && notNull(form.custom.roles) && form.custom.roles.length > 0)
+            rolesList = form.custom.roles ;
+
         $('#modalCatgeorieAnswers #selectCategorie').select2({tags:rolesList});
         $("#validEligible").on("click",function(e){
             var params = {
                 answerId : $("#answerId").val(),
-                // form : $("#form").val(),
-                // formId : $("#formId").val(),
+                form : form._id.$id,
+                formId : form.id,
+                session : formSession,
                 eligible : $("#eligible").val(),
                 roles : $("#selectCategorie").val()
             };
