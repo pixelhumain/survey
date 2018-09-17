@@ -300,14 +300,15 @@ class Form {
         return $res ;
 	}
 
-	public static function canSuperAdmin($id,$session, $form = array(), $formAdmin = array()){
+	public static function canSuperAdmin($id, $session, $form = array(), $formAdmin = array()){
 		if(empty($form))
 			$form = PHDB::findOne( Form::COLLECTION , array( "id"=>$id ));
 
 		if(empty($formAdmin))
-			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session));
+			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin", "session"=>$session));
+
 		if(@$formAdmin["adminRole"])
-			$res = self::canAdminRoles((string)$form["_id"], $formAdmin["adminRole"], $form = array() ) ;
+			$res = self::canAdminRoles( (String)$form["_id"], $formAdmin["adminRole"], $form ) ;
 		else
 			$res = false;
         return $res ;

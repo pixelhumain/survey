@@ -65,7 +65,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
 <?php
-$adminTCO = Form::canSuperAdmin($form["id"],$form["session"], $form);
+$adminTCO = Form::canSuperAdmin($form["id"], $_GET["session"], $form);
 ?>
 <script type="text/javascript">
 
