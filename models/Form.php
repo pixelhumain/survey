@@ -295,19 +295,19 @@ class Form {
 			foreach ( $answers as $key => $value) {
 				$new = $value ;
 				foreach ( $value["answers"] as $keyA => $valA) {
-					//Rest::json($valA); exit ;
 					
-					if( !empty($valA[Organization::CONTROLLER]) ){
-						$orga = Element::getElementById($valA[Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email"));
-						$orga["id"] = $valA[Organization::CONTROLLER]["id"];
+					
+					if( !empty($valA["answers"][Organization::CONTROLLER]) ){
+						$orga = Element::getElementById($valA["answers"][Organization::CONTROLLER]["id"], Organization::COLLECTION, null, array("name", "email", "shortDescription"));
+						$orga["id"] = $valA["answers"][Organization::CONTROLLER]["id"];
 						$orga["type"] = Organization::COLLECTION;
 						$new[Organization::CONTROLLER] = $orga;
 					}
 
 
-					if( !empty($valA[Project::CONTROLLER]) ){
-						$project = Element::getElementById($valA[Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
-						$project["id"] = $valA[Project::CONTROLLER]["id"];
+					if( !empty($valA["answers"][Project::CONTROLLER]) ){
+						$project = Element::getElementById($valA["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email", "shortDescription"));
+						$project["id"] = $valA["answers"][Project::CONTROLLER]["id"];
 						$project["type"] = Project::COLLECTION;
 						$new[Project::CONTROLLER] = $project;
 					}

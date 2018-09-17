@@ -57,6 +57,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	    </div>
     </div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
+</div>
+<div class="panel panel-white col-lg-12 col-xs-12 no-padding">
 	<div class="panel-body">
 		<div>
 			<!-- <a href="<?php //echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a> -->
@@ -64,19 +66,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 			<a href="<?php echo Yii::app()->createUrl('survey/co/roles/id/'.$_GET["id"].'/session/1'); ?>" class="pull-right btn btn-xs btn-primary margin-10">Fiche Action</a>
 			<br/>
 
-			<table class="table table-striped table-bordered table-hover directoryTable" id="panelAdmin">
+			<table class="table table-striped table-bordered table-hover directoryTable" id="panelAdmin" style="table-layout: fixed; width:100%; word-wrap:break-word;">
 				<thead>
 					<tr>
-						<th>#</th>
-						<th>Nom du projet</th>
-						<th>Organisation</th>
-						<th>Utilisateur</th>
-						<th>Etape</th>
-						<th>Voir la réponse</th>
-						<th>Eligibilité</th>
-						<th>Priorisation</th>
-						<th>Contraintes</th>
-						<th>Fiche Action</th>
+						<th class="">#</th>
+						<th class="col-xs-1">Projet</th>
+						<th class="col-xs-1">Description</th>
+						<th class="col-xs-1">Organisation</th>
+						<th class="">Référent</th>
+						<th class="">Etape</th>
+						<th class="">Lire</th>
+						<th class="">Eligibilité</th>
+						<th class="col-xs-1">Étiquetage</th>
+						<th class="">Contraintes</th>
+						<th class="">Fiche Action</th>
+						<th >PDF</th>
+						<th >Budget</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -106,6 +111,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								}
 								 ?> line">
 							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/logs/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" ><?php echo @$nb ?></a></td>
+							<td><?php echo @$v[Project::CONTROLLER]["shortDescription"] ?></td>
 							<td><?php echo @$v[Project::CONTROLLER]["name"] ?></td>
 							<td><?php echo @$v[Organization::CONTROLLER]["name"] ?></td>
 							<td><?php echo @$v['name'] ?></td>
@@ -159,6 +165,20 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 							<td>
 								<?php echo (@$v["step"] == "ficheAction") ? "Selectionné" : ""; ?>		
 							</td>
+							<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".$form['id']."/session/".$_GET['session']."/user/".@$k."' target='_blanck'><i class='fa fa-2x fa-file-pdf-o text-red' ></i></a>"; ?></td>
+
+								<td><?php
+									//var_dump($userAdminAnswer[$k]["scenario"]["cte3"]);
+									if(!empty($v["answers"]["cte3"]["answers"]["previsionnel"]["previsionel"]["id"])){
+										$a = $v["answers"]["cte3"]["answers"]["previsionnel"]["previsionel"];
+										//var_dump($a );
+										$document=Document::getById($a["id"]);
+										if(!empty($document)){ 
+											$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
+											echo "<a href='".$path."' target='_blank'><i class='fa fa-2x fa-file-pdf-o text-red'></i></a>";
+										}
+									}
+								 ?></td>
 						</tr>
 						<?php
 					} ?>
