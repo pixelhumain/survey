@@ -110,9 +110,11 @@ class Form {
 			$scenario[$key] = false;
 		}
 
-		//Rest::json($answers); exit ;
+		//Rest::json($answers);exit ;
 		foreach ( $answers as $key => $value) {
-			
+			if(empty($results[ $value["user"] ]))
+				$results[ $value["user"] ] = array("userId" => $value["user"]);
+
 			if( !empty($value["answers"]) && 
 				!empty($value["answers"][Organization::CONTROLLER]) && 
 				!in_array( $value["answers"][Organization::CONTROLLER]["id"], $uniqO )  && 
@@ -133,7 +135,7 @@ class Form {
 				!empty($value["answers"][Project::CONTROLLER]) && 
 				!in_array( $value["answers"][Project::CONTROLLER]["id"], $uniqP ) ){
 
-				$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email"));
+				$orga = Element::getElementById($value["answers"][Project::CONTROLLER]["id"], Project::COLLECTION, null, array("name", "email", "shortDescription", "shortDescription"));
 				$orga["id"] = $value["answers"][Project::CONTROLLER]["id"];
 				$orga["type"] = Project::COLLECTION;
 
@@ -165,19 +167,25 @@ class Form {
 				$results[ $value["user"]]["userId"] = @$orga["userId"];
 				$results[ $value["user"]]["userName"] = @$orga["userName"];
 
+				if(!empty($orga["shortDescription"]) )
+					$results[ $value["user"]]["desc"] = $orga["shortDescription"];
+				else if(!empty($orga["description"]) )
+						$results[ $value["user"]]["desc"] = $orga["description"];
+
 				$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
 			}
 
-
+			//var_dump($value["name"]);echo "<br/>";
 			if ( !empty($results[$value["user"]]) ) {
 
 				if ( empty($results[$value["user"]]["scenario"]) )
 					$results[$value["user"]]["scenario"] = $scenario;
-				//var_dump($results[$value["user"]]); echo "</br></br>";
-				if ( isset($results[$value["user"]]["scenario"][$value["formId"]]) )
+
+				if ( isset( $results[$value["user"]]["scenario"][$value["formId"]] ) )
 					$results[$value["user"]]["scenario"][$value["formId"]] = true;
 			}
 		}
+		// exit;
 		// Rest::json($results);exit ;
 		return $results ;	
 	}
@@ -288,18 +296,19 @@ class Form {
         }else if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){
 			$res = true;
 		}
-
+		//Rest::json($res); exit ;
         return $res ;
 	}
 
-	public static function canSuperAdmin($id,$session, $form = array(), $formAdmin = array()){
+	public static function canSuperAdmin($id, $session, $form = array(), $formAdmin = array()){
 		if(empty($form))
 			$form = PHDB::findOne( Form::COLLECTION , array( "id"=>$id ));
 
 		if(empty($formAdmin))
-			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session));
+			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin", "session"=>$session));
+
 		if(@$formAdmin["adminRole"])
-			$res = self::canAdminRoles((string)$form["_id"], $formAdmin["adminRole"], $form = array() ) ;
+			$res = self::canAdminRoles( (String)$form["_id"], $formAdmin["adminRole"], $form ) ;
 		else
 			$res = false;
         return $res ;
