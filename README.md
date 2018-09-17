@@ -32,6 +32,7 @@ a survey is build dynamically according to it's structure , it put's together di
 [ ] check json editor exists
 
 # Amélioration : 
+- invité des collaborateur sur un dépot de dossier (avoir plusieurs admin d'un dossier ) user could be an array
 - faire tourner le survey sur le server TCO
 - générer un mode brouillon : un pad avec les questions 
 - DOSSIER : save onBlur 

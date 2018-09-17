@@ -29,7 +29,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		border-color: #333;
  	}
 </style>
-<div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding" >
+<div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
+	
 	<div class="col-md-12 col-sm-12 col-xs-12 ">
 		<h1 class="text-center">Liste des projets <!-- <a href="<?php //echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php // echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a>  --></h1>
 		<br/>
@@ -60,26 +61,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		<div>
 			<!-- <a href="<?php //echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a> -->
 			<span><b>Il y a <span id="nbLine"><?php echo count(@$results); ?></span> réponses</b></span> 
-<<<<<<< HEAD
-			<span> <a href="javascript:;" id="csv"><i class='fa fa-2x fa-table text-green'></i></a></span> 
-			<br/><br/>
-			<div style="max-height: 480px;; overflow: auto">
+			<a href="<?php echo Yii::app()->createUrl('survey/co/roles/id/'.$_GET["id"].'/session/1'); ?>" class="pull-right btn btn-xs btn-primary margin-10">Fiche Action</a>
+			<br/>
+
 			<table class="table table-striped table-bordered table-hover directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
 						<th>#</th>
 						<th>Nom du projet</th>
-						<th>Description</th>
 						<th>Organisation</th>
-						<th>Référent</th>
+						<th>Utilisateur</th>
 						<th>Etape</th>
 						<th>Voir la réponse</th>
 						<th>Eligibilité</th>
-						<th>Étiquetage</th>
+						<th>Priorisation</th>
 						<th>Contraintes</th>
 						<th>Fiche Action</th>
-						<th>PDF</th>
-						<th>Budget</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -123,7 +120,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 									echo "<span class='".$classText."'>".$c." / ".count(@$form['scenario'])."</span>"; 
 								?>
 							</td>
-							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/answer/id/<?php echo $form['id'] ?>/session/<?php echo $_GET['session'] ?>/user/<?php echo @$k  ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
+							<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/answer/id/<?php echo $v['_id'] ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
 							<td class="<?php echo $colorEligible ?>"><?php echo $lblEligible ?></td>
 							<td>
 								<?php 
@@ -162,10 +159,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 							<td>
 								<?php echo (@$v["step"] == "ficheAction") ? "Selectionné" : ""; ?>		
 							</td>
-						</tr>						
-					</tbody>
-				</table>
-			</div>
+						</tr>
+						<?php
+					} ?>
+				</tbody>
+			</table>
 			
 		</div>
 	</div>
@@ -174,8 +172,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 <script type="text/javascript">
 
-
-var results  = <?php echo json_encode($results); ?>;
 function showType (type) { 
 	$(".line").hide();
 	$("."+type).show();
@@ -191,44 +187,6 @@ jQuery(document).ready(function() {
 	    });
 	});
 
-	$("#csv").off().on('click',function(){
-    	var chaine = "";
-    	var csv = '"Num";"Projet";"Desc";"Organisation";"Référent";"Etape";"Eligibilité";"Etiquetage";"Contraintes";"Fiche Action"' ;
-    	var i = 1 ;
-    	if(typeof results != "undefined"){
-        	$.each(results, function(key, value2){
-        		console.log(value2)
-        		csv += "\n";
-        		csv += '"'+i+'";';
-        		csv += '"'+(notNull(value2.name) ? value2.name: "")+'";';
-        		csv += '"'+(notNull(value2.desc) ? value2.desc: "")+'";';
-        		csv += '"'+(notNull(value2.parentName) ? value2.parentName: "")+'";';
-        		csv += '"'+(notNull(value2.userName) ? value2.userName: "")+'";';
-        		csv += '"'+$("#"+key+"etape").html()+'";';
-        		csv += '"'+$("#"+key+"eligible").html()+'";';
-        		csv += '"'+$("#"+key+"etiquetage").html()+'";';
-        		csv += '"'+(notNull($("#"+key+"risk").html()) ? $("#"+key+"risk").html(): "")+'";';
-        		csv += '"'+$("#"+key+"action").html()+'";';
-        		// csv += '"'+(notNull(value2.name) ? value2.name: "")+'";';
-        		// csv += '"'+value2.info+'";"'+baseUrl+value2.url+'";"'+value2.type+'";"'+value2.id+'";' ;
-
-        		i++;
-        		
-			});
-  		}
-  		
-    	$("<a />", {
-		    "download": "cte.csv",
-		    "href" : "data:application/csv," + encodeURIComponent(csv)
-		  }).appendTo("body")
-		  .click(function() {
-		     $(this).remove()
-		  })[0].click() ;
-
-			$("#bodyResult").html(chaine);
-    	$.unblockUI();
-	});
-
 });
 
 function countLine(){
@@ -237,9 +195,6 @@ function countLine(){
 			}).length ;
 	$("#nbLine").html(nbLine);
 }
-
-
-
 
 
 
