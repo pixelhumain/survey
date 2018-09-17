@@ -393,7 +393,6 @@ $(document).ready(function() {
 			        data: data,
 					type: "POST",
 			    }).done(function (data) {
-			    	alert("dossier");
 			    	listObject=$('.fine-uploader-manual-trigger').fineUploader('getUploads');
 			    	goToUpload=false;
 			    	if(listObject.length > 0){
@@ -402,16 +401,14 @@ $(document).ready(function() {
 			    				goToUpload=true;
 			    		});
 			    	}
-					if( !goToUpload ){
-						alert("notGoToUpload");
-				    	//window.location.reload();
+					if(typeof updateForm.goToUpload == "undefined" ){
+						window.location.reload();
 				    	updateForm = null;
 				    } 
 			    });
 			};
 
 			var editData = answers[$(this).data("form")]['answers'][$(this).data("step")];
-			console.log("editForm",editForm,updateForm,editData);
 			dyFObj.editStep( editForm , editData);	
 		}
 	});
