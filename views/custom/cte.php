@@ -74,15 +74,15 @@
 		<?php 
 			}else{
       ?> 
-        <table class="table table-striped table-bordered table-hover  directoryTable" >
+        <table class="table table-striped table-bordered table-hover  directoryTable" style="table-layout: fixed; width:100%; word-wrap:break-word;">
         <thead>
           <tr>
-            <th class="text-center">Session</th>
+            <th class="text-center col-xs-1">Session</th>
             <th class="text-center">Avancement</th>
             <th class="text-center">Organisation</th>
             <th class="text-center">Projet</th>
             <th class="text-center">Action</th>
-            <th class="text-center">Delete</th>
+            <th class="text-center col-xs-1">Delete</th>
           </tr> 
         </thead>
         <tbody>
@@ -117,7 +117,7 @@
               			
       				if($count > 0)
               { ?> 
-              	<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)@$av['_id'] ?> " style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> VOIR VOTRE CANDIDATURE </a>
+              	<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)@$av['_id'] ?> " style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> Lire </a>
           	<?php	}
                       echo "</td>";
                       echo "<td> <a href='javascript:;' data-id='".(string)$av['_id']."' class='deleteAnswer pull-left btn btn-default'><i class='fa text-red fa-times'></i></a></td>";
