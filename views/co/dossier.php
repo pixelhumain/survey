@@ -385,6 +385,7 @@ $(document).ready(function() {
 			        data: data,
 					type: "POST",
 			    }).done(function (data) {
+			    	alert("dossier");
 			    	listObject=$('.fine-uploader-manual-trigger').fineUploader('getUploads');
 			    	goToUpload=false;
 			    	if(listObject.length > 0){
@@ -394,7 +395,8 @@ $(document).ready(function() {
 			    		});
 			    	}
 					if( !goToUpload ){
-				    	window.location.reload();
+						alert("notGoToUpload");
+				    	//window.location.reload();
 				    	updateForm = null;
 				    } 
 			    });
