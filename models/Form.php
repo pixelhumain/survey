@@ -296,7 +296,7 @@ class Form {
         }else if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){
 			$res = true;
 		}
-		Rest::json($res); exit ;
+		//Rest::json($res); exit ;
         return $res ;
 	}
 
