@@ -35,7 +35,7 @@ class Update2Action extends CAction
                                     array('$pull' => array($_POST["pull"] => null )));
                 }
 
-                if($value != null){
+                if($_POST["collection"]==Action::COLLECTION && $value != null && !empty($value["project"]) ){
                     $child = array(   "idLink" => $value["project"],
                                         "typeLink" => Project::COLLECTION,
                                         "idAction" => (String)$el["_id"],
@@ -50,6 +50,6 @@ class Update2Action extends CAction
                 $msg= "Element not found";
         } 
 
-        echo json_encode( array("result"=>$res, "msg"=>$msg, "msgLink" => $msgLink) );
+        echo json_encode( array("result"=>$res, "msg"=>$msg, "msgLink" => @$msgLink) );
     }
 }
