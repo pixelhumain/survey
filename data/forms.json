@@ -386,7 +386,7 @@
                             "contentKey" : "survey",
                             "placeholder" : "Budget prévisionel",
                             "domElement" : "previsionelFile",
-                            "endPoint" : "/subDir/previsionel.cte3.status/surveyId/cte",
+                            "endPoint" : "/subDir/previsionel.cte3.previsionel/surveyId/cte",
                             "template" : "qq-template-manual-trigger",
                             "filetypes" : [ 
                                 "pdf"
