@@ -287,9 +287,9 @@ $(document).ready(function() {
 			if(typeof answers.links != "undefined" &&
 				typeof answers.links.projects != "undefined" &&
 				typeof answers.links.projects[i] != "undefined")
-				projectsLink[i] = el.name;
+				projectsLink[i] = el;
 			else
-				projectsList[i] = el.name;
+				projectsList[i] = el;
 		});
 	}
 	

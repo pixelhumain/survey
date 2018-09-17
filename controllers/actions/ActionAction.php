@@ -21,19 +21,42 @@ class ActionAction extends CAction
 			$projects = [] ;
 			$formParent = PHDB::findOne( Form::COLLECTION, array( "id"=> $parentSurvey["id"] ), array("links"));
 			//Rest::json($action["role"]); exit ;
-			if(!empty($formParent["links"]["projectExtern"])){
+			// if(!empty($formParent["links"]["projectExtern"])){
 
-				foreach ($formParent["links"]["projectExtern"] as $key => $value) {
-					foreach ($action["role"] as $keyR => $valueR) {
-						if(in_array(trim ($valueR), $value["roles"]))
-							$idProject[] = new MongoId($key) ;
-					}
+			// 	foreach ($formParent["links"]["projectExtern"] as $key => $value) {
+			// 		foreach ($action["role"] as $keyR => $valueR) {
+			// 			if(in_array(trim ($valueR), $value["roles"]))
+			// 				$idProject[] = new MongoId($key) ;
+			// 		}
 					
+			// 	}
+				
+			// 	if(!empty($idProject))
+			// 		$projects = PHDB::find(	Project::COLLECTION, 
+			// 								array( "_id" => array('$in' => $idProject)) );
+			// }
+
+			if(!empty($action["role"])){
+				$where = array();
+				foreach ($action["role"] as $keyR => $valueR) {
+					$where["categories.".$keyR.".name"] = $valueR;
 				}
 				
-				if(!empty($idProject))
-					$projects = PHDB::find(	Project::COLLECTION, 
-											array( "_id" => array('$in' => $idProject)) );
+				$projectsA = null ;
+				if(!empty($where))
+					$projectsA = PHDB::find(Form::ANSWER_COLLECTION, $where );
+				//Rest::json($projectsA); exit ;
+				if(!empty($projectsA)){
+					foreach ($projectsA as $key => $value) {
+
+						if( !empty($value["answers"]["cte2"]["answers"]["project"]) ) {
+							$projects[$value["answers"]["cte2"]["answers"]["project"]["id"]] = $value["answers"]["cte2"]["answers"]["project"]["name"];
+						}
+					}
+
+				}
+
+
 			}
 
 			$params = array( "answers" => $action, 
