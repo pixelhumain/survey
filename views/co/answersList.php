@@ -116,10 +116,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								<td >
 									<?php
 									$c = 0 ;
+									
 									foreach ($v['scenario'] as $key => $value) {
 										if($value == true)
 											$c++;
 									}
+
 									$classText = ($c == count(@$v['scenario'])) ? 'text-success' : 'text-red';
 									echo "<span id='".$k."etape' class='".$classText."'>".$c." / ".count(@$v['scenario'])."</span>"; ?>
 								</td>

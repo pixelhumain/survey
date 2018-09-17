@@ -110,7 +110,7 @@ class Form {
 			$scenario[$key] = false;
 		}
 
-		//Rest::json($answers); exit ;
+		
 		foreach ( $answers as $key => $value) {
 			
 			if( !empty($value["answers"]) && 
@@ -179,7 +179,7 @@ class Form {
 				if ( empty($results[$value["user"]]["scenario"]) )
 					$results[$value["user"]]["scenario"] = $scenario;
 				//var_dump($results[$value["user"]]); echo "</br></br>";
-				if ( isset($results[$value["user"]]["scenario"][$value["formId"]]) )
+				if ( $results[$value["user"]]["scenario"][$value["formId"]] == false )
 					$results[$value["user"]]["scenario"][$value["formId"]] = true;
 			}
 		}
@@ -293,7 +293,7 @@ class Form {
         }else if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){
 			$res = true;
 		}
-
+		Rest::json($res); exit ;
         return $res ;
 	}
 

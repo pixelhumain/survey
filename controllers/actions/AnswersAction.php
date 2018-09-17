@@ -37,8 +37,9 @@ class AnswersAction extends CAction{
 						}
 					}
 				}
+				
 				$results = ( empty($answers) ? array() : Form::listForAdminNews($form, $answers) );
-				//Rest::json($userAdminAnswer); exit;
+				
 	 			$ctrl->render("answersList",
 	 												array(  "results" => $results,
 												 			"form"=> $form,
