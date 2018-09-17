@@ -110,9 +110,11 @@ class Form {
 			$scenario[$key] = false;
 		}
 
-		
+		//Rest::json($answers);exit ;
 		foreach ( $answers as $key => $value) {
-			
+			if(empty($results[ $value["user"] ]))
+				$results[ $value["user"] ] = array("userId" => $value["user"]);
+
 			if( !empty($value["answers"]) && 
 				!empty($value["answers"][Organization::CONTROLLER]) && 
 				!in_array( $value["answers"][Organization::CONTROLLER]["id"], $uniqO )  && 
@@ -173,16 +175,17 @@ class Form {
 				$uniqP[] = $value["answers"][Project::CONTROLLER]["id"];
 			}
 
-
+			//var_dump($value["name"]);echo "<br/>";
 			if ( !empty($results[$value["user"]]) ) {
 
 				if ( empty($results[$value["user"]]["scenario"]) )
 					$results[$value["user"]]["scenario"] = $scenario;
-				//var_dump($results[$value["user"]]); echo "</br></br>";
-				if ( $results[$value["user"]]["scenario"][$value["formId"]] == false )
+
+				if ( isset( $results[$value["user"]]["scenario"][$value["formId"]] ) )
 					$results[$value["user"]]["scenario"][$value["formId"]] = true;
 			}
 		}
+		// exit;
 		// Rest::json($results);exit ;
 		return $results ;	
 	}

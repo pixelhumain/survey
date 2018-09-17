@@ -116,7 +116,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								<td >
 									<?php
 									$c = 0 ;
-									
+
 									foreach ($v['scenario'] as $key => $value) {
 										if($value == true)
 											$c++;
