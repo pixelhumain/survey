@@ -63,7 +63,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 		$lblRole[InflectorHelper::slugify($key)] = $key;
 		?>
 
-		<a href="<?php echo Yii::app()->createUrl("/survey/co/roles/id/".$_GET["id"]."/session/".$_GET["session"]."/role/".InflectorHelper::slugify($key) ) ?>" class="btn btn-xs btn-default"><?php echo $key; ?></a>
+		<a href="<?php echo Yii::app()->createUrl("/survey/co/roles/id/".$_GET["id"]."/session/".$_GET["session"]."/role/".InflectorHelper::slugify($key) ) ?>" class="btn btn-xs btn-default bold"><?php echo $key; ?></a>
 	<?php } ?>
 	</h2>
 
