@@ -129,7 +129,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								<td id='<?php echo $k."eligible";?>' class="<?php echo $colorEligible ?>"><?php echo $lblEligible ?></td>
 								<td id='<?php echo $k."etiquetage";?>'><?php if(@$userAdminAnswer[$k]["categories"]){
 									foreach ($userAdminAnswer[$k]["categories"] as $key => $value) {
-										echo $value["name"]."<br/>";
+										echo @$value["name"]."<br/>";
 									}
 									} ?></td>
 								<td><?php 
