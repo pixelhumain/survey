@@ -130,7 +130,7 @@
                 echo "<td class='bold'>Date de début </br>".( ( @$sv["startDate"] ) ? date('d/m/Y H:i', $sv["startDate"]->sec) : "Pas de date")."</td>";
                 echo "<td class='bold'>Date de fin<br/>".( ( @$sv["endDate"] ) ? date('d/m/Y H:i', $sv["endDate"]->sec) : "Pas de date")."</td>";
                 echo "<td>";
-                if( !Form::isFinish( $form["session"][$session]["endDate"]) ){
+                if( !Form::isFinish( $sv["endDate"]) ){
                   echo " <a href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/new/id/".$form['id']."/session/".$s."' class='pull-left btn btn-primary'><i class='fa fa-plus'></i> Ajouter une réponse</a>";
                 }
                 echo "</td>";
