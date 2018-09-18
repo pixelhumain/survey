@@ -67,7 +67,7 @@ if(@$adminAnswers["categories"]){
 				</tr>
 				<tr>
 					<?php foreach ($adminAnswers["categories"] as $ka => $va ) {?>
-					<td><a href="javascript:;" onclick="changeCategoryWeight('<?php echo $ka ?>','<?php echo @$va["pourcentage"] ?>')"><?php echo @$va["pourcentage"]."%" ?></a></td>
+					<td><a href="javascript:;"><?php echo @$va["pourcentage"]."%" ?></a></td>
 					<?php } ?>
 					<td>100%</td>
 					<!-- td>Note</td-->
