@@ -202,35 +202,32 @@ if(@$adminAnswers["categories"]){
 								<?php 
 								if(@$adminAnswers[$prioKey][ $key ][ $prioType ]){
 								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {
-									?>
-									<?php 
+									 
 										if (!in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") )  && $k != "total")
 											echo (@$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["weight"]) ? '<td>'.@$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["weight"]."% </td>" : "";
-											 ?>
-								<?php }} ?>
+								}} ?>
 							</tr>
 						
 
 							<tr class="<?php echo $key?>_<?php echo $prioType ?>ResultAnswer">
 								<?php 
 								if(@$adminAnswers[$prioKey][ $key ][ $prioType ]){
-								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {?>
-									<?php 
+								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {
 										if(! in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) && $k != "total" )
-											echo '<td>'.$v.'</td>' ?>
-								<?php }} ?>
+											echo '<td>'.$v.'</td>';
+								}} ?>
 							</tr>
 
 							<tr class="<?php echo $key?>_<?php echo $prioType ?>LabelAnswer">
 								<?php 
 								if(@$adminAnswers[$prioKey][ $key ][ $prioType ]){
-								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {?>
-									<?php 
+								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {
+
 										if(! in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) 
 											&& $k != "total" 
-											&& @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v])
-											echo '<td class="padding-10">'.$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v].'</td>'; ?>
-								<?php }} ?>
+											&& @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v] )
+											echo '<td class="padding-10">'.$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v].'</td>'; 
+								}} ?>
 							</tr>
 						
 

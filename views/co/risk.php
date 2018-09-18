@@ -64,7 +64,7 @@
 			}?>
 		</table>
 		<?php if( @$adminAnswers["risks"] ){ ?>
-		<a href="javascript:;" onclick="riskObj.pingUserRisk()" class="btn btn-danger pull-left"> <i class="fa-thumbs-down fa"></i> Demande de complément</a>
+		<a href="javascript:;" onclick="riskObj.pingUserRisk()" class="btn btn-danger pull-left"> <i class="fa-thumbs-down fa"></i> Informer le porteur d'une demande de complément </a>
 		<?php } ?>
 		<div id="toto" style="clear:both"></div>
 	</div>
@@ -165,7 +165,7 @@ $(document).ready(function() {
 	});
 
 	$('.editRisk').click( function() { 
-		dyFObj.editElement("risks", $(this).parent().data('id'),riskForm);
+		dyFObj.editElement( "risks", $(this).parent().data('id'),riskForm);
 	})
 
 	riskObj.initAddBtn();
