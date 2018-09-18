@@ -37,14 +37,30 @@ class AnswersAction extends CAction{
 						}
 					}
 				}
+
+				// $userAdminAnswer = array();
+				// foreach ($answers as $key => $value) {
+
+				// 	if()
+				// 	$userAdminAnswer[ $value["user"] ] = $value;
+
+				// 	foreach ($adminAnswers2 as $key2 => $value2) {
+				// 		if($value["user"] ==  $value2["user"] && in_array($value2["formId"], array("cte1", "cte2", "cte3")) ){
+				// 			if(empty($userAdminAnswer[ $value["user"] ]["scenario"]))
+				// 				$userAdminAnswer[ $value["user"] ]["scenario"] = array();
+
+				// 			$userAdminAnswer[ $value["user"] ]["scenario"][$value2["formId"]] = $value2["answers"] ;
+				// 		}
+				// 	}
+				// }
 				
 				$results = ( empty($answers) ? array() : Form::listForAdminNews($form, $answers) );
-				
+				//Rest::json($userAdminAnswer); exit ;
 	 			$ctrl->render("answersList",
-	 												array(  "results" => $results,
-												 			"form"=> $form,
-												 			"userAdminAnswer" => $userAdminAnswer,
-												 			"roles" => $form["custom"]["roles"] ));
+ 												array(  "results" => $results,
+											 			"form"=> $form,
+											 			"userAdminAnswer" => $userAdminAnswer,
+											 			"roles" => $form["custom"]["roles"] ));
 
 	 		} else if(@$answers = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>@$id) )){
 		 		$ctrl->render("answers",array( 

@@ -159,9 +159,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 
 								<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".$form['id']."/session/".$_GET['session']."/user/".@$k."' target='_blanck'><i class='fa fa-2x fa-file-pdf-o text-red' ></i></a>"; ?></td>
 
-								<td><?php 
+								<td><?php
+									//var_dump($userAdminAnswer[$k]["scenario"]["cte3"]);
 									if(!empty($userAdminAnswer[$k]["scenario"]["cte3"]["previsionnel"]["previsionel"]["id"])){
 										$a = $userAdminAnswer[$k]["scenario"]["cte3"]["previsionnel"]["previsionel"];
+										//var_dump($a );
 										$document=Document::getById($a["id"]);
 										if(!empty($document)){ 
 											$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
