@@ -57,10 +57,10 @@ class AnswersAction extends CAction{
 // >>>>>>> master
 				//Rest::json($results); exit ;
 	 			$ctrl->render("answersList",
-	 												array(  "results" => $results,
-												 			"form"=> $form,
-												 			"userAdminAnswer" => $userAdminAnswer,
-												 			"roles" => $form["custom"]["roles"] ));
+ 												array(  "results" => $results,
+											 			"form"=> $form,
+											 			"userAdminAnswer" => $userAdminAnswer,
+											 			"roles" => $form["custom"]["roles"] ));
 
 	 		} else if(@$answers = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>@$id) )){
 		 		$ctrl->render("answers",array( 

@@ -66,7 +66,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 </div>
 <?php
 
-$adminTCO = Form::canSuperAdmin($form["id"],$_GET["session"], $form);
+$adminTCO = Form::canSuperAdmin($form["id"], $_GET["session"], $form);
 ?>
 <script type="text/javascript">
 

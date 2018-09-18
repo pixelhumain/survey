@@ -281,7 +281,8 @@ function getAnswers(dynJson, noTotal)
 		    		});
 		    	}
 		    	editAnswers[field] = "";
-				if( goToUpload ){       		
+		    	if( goToUpload ){ 
+					updateForm.goToUpload=true;      		
          			$('#'+fieldObj.domElement).fineUploader('uploadStoredFiles');
             	}else if(typeof releventDoc != "undefined"){
             		editAnswers[field] = {"type":"documents", "id":releventDoc.uuid};
