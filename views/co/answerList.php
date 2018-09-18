@@ -385,16 +385,18 @@ function nextState(step,c) {
 			    			session : formSession,
 			    			answerSection : "step" ,
 			    			answers : step.substring(1),
-			    			answerUser : adminAnswers.user
+			    			answerUser : adminAnswers.user,
+			    			tplMail : adminAnswers.email
 			    		};
 
 			    		dataMail = adminForm.scenarioAdmin[step.substring(1)].mail;
 			    		dataMail = $.extend(dataMail, paramsMail);
-			    		$.each( answers , function(k,v) {
-			    			if(typeof v.email != null){
-			    				dataMail.tplMail = v.email ;
-			    			}
-			    		});
+			    		// $.each( adminAnswers , function(k,v) {
+
+			    		// 	if(typeof v.email != null){
+			    		// 		dataMail.tplMail = v.email ;
+			    		// 	}
+			    		// });
 
 			    		$.ajax({ 
 			          		type: "POST",
