@@ -204,6 +204,8 @@ $canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"],$form, $adminF
 var form = <?php echo json_encode($form); ?>;
 var formSession = "<?php echo $session; ?>";
 
+
+
 var adminForm = <?php echo json_encode($adminForm); ?>;
 
 var adminAnswers  = <?php echo json_encode($answer); ?>;
@@ -213,7 +215,8 @@ var canSuperAdmin = "<?php echo $canSuperAdmin; ?>";
 var updateForm = null;
 
 $(document).ready(function() { 
-	
+	uploadObj.formId = form.id;
+	uploadObj.answerId = "<?php echo $_GET['id']; ?>";	
 	bindAnwserList();
 
 	initWizard();
