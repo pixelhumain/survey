@@ -108,33 +108,33 @@ SECTION STEPPER WIZARD
 	if( $canAdmin ){
 ?>				
 
-		<div id="wizard" class="swMain">
-			<ul id="wizardLinks">
-				<?php 
-				$ct = 0;
-				$currentStep = (@$answer["step"]) ? $answer["step"] : "" ;
-				if($adminForm["scenarioAdmin"]){
-					foreach ( @$adminForm["scenarioAdmin"] as $k => $v) { 
-						$aClass = ( $currentStep != "") ? $currentStep : "";
-						if( $aClass != "" && $currentStep != $k )
-							$aClass == "class='done'";
-						else if( $aClass != "" && $currentStep == $k )
-							$aClass == "class='selected'";
-						?>
-						<li><a onclick="nextState($(this).attr('href'),$(this).attr('class'));" href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
-					<?php } 
-				}?>
-			</ul>
-			<?php  ?>
-			<div class="progress progress-xs transparent-black no-radius active">
-				<div aria-valuemax="100" aria-valuemin="0" role="progressbar" class="progress-bar partition-green step-bar">
-					<span class="sr-only"> 0% Complete (success)</span>
-				</div>
+	<div id="wizard" class="swMain">
+		<ul id="wizardLinks">
+			<?php 
+			$ct = 0;
+			$currentStep = (@$answer["step"]) ? $answer["step"] : "" ;
+			if($adminForm["scenarioAdmin"]){
+				foreach ( @$adminForm["scenarioAdmin"] as $k => $v) { 
+					$aClass = ( $currentStep != "") ? $currentStep : "";
+					if( $aClass != "" && $currentStep != $k )
+						$aClass == "class='done'";
+					else if( $aClass != "" && $currentStep == $k )
+						$aClass == "class='selected'";
+					?>
+					<li><a onclick="nextState($(this).attr('href'),$(this).attr('class'));" href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
+				<?php } 
+			}?>
+		</ul>
+		<?php  ?>
+		<div class="progress progress-xs transparent-black no-radius active">
+			<div aria-valuemax="100" aria-valuemin="0" role="progressbar" class="progress-bar partition-green step-bar">
+				<span class="sr-only"> 0% Complete (success)</span>
 			</div>
-		
-			<div class="errorHandler alert alert-danger no-display">
-				<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
-			</div>
+		</div>
+
+		<div class="errorHandler alert alert-danger no-display">
+			<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
+		</div>
 
 <?php 
 	}
@@ -324,7 +324,7 @@ function getAnswers(dynJson, noTotal)
     $("."+updateForm.cat+"_Priorisation").removeClass('hide');	
     
     calcPrio( updateForm.cat );
-	
+	calcTotal();
 	console.log("editAnswers",editAnswers);
     return editAnswers;
 }
@@ -333,13 +333,25 @@ function calcPrio (key)
 {
 	var t = 0;
 	$("."+key+"_Total").each( function(i,v){ 
-		console.log(i,v);
+		//console.log(i,v);
 		t += parseFloat( $(v).html() );
 	} );
 	t = parseFloat( t / $("."+key+"_Total").length ).toFixed(2) ;
 	//alert(t);
 	$( "."+key+"_Totaldesc" ).html( t );
 	$( "."+key+"_totalTotal" ).html( t );
+	return false;
+}
+
+function calcTotal () 
+{
+	var t = 0;
+	$("._Totaldesc").each( function(i,v){ 
+		t += parseFloat( $(v).html() );
+	} );
+	t = parseFloat( t / $("._Totaldesc").length ).toFixed(2) ;
+	//alert(t);
+	$( ".global_Totaldesc" ).html( t );
 	return false;
 }
 

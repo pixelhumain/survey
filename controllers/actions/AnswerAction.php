@@ -15,11 +15,12 @@ class AnswerAction extends CAction
 			if(!@$form["session"][ $answer["session"] ])
 	 				$ctrl->render("co2.views.default.unTpl",array("msg"=>"Session introuvable sur ".$answer["formId"],"icon"=>"fa-search")); 
 
+	 		$this->getController()->pageTitle = @$answer["name"];
     		if( $form["surveyType"] == "surveyList" && @$answer["answers"] )
     		{
 				$adminForm = ( Form::canAdmin((string)$form["_id"], $form) ) 
-								? PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin","session"=>$answer["session"] ) ) 
-								: PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin","session"=>$answer["session"] ), array("scenarioAdmin") ) ;
+								? PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin" ) ) 
+								: PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin" ), array("scenarioAdmin") ) ;
 
 				$userO = Person::getById($answer["user"]);
 				if( !@$adminAnswers ){

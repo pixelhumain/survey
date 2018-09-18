@@ -291,7 +291,7 @@ if(@$adminAnswers["risks"] )
 	<?php 
 
 		echo "<h3 style='' class=''> <i class='fa fa-2x fa-exclamation-triangle'></i> ".Yii::t("surveys","This step {num} hasn't been filed yet",array('{num}'=>$k))."</h3>";
-		if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$_GET['session']]["endDate"] ) ) {
+		if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$session]["endDate"] ) ) {
 				echo "<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k.'/session/'.$session.'/answer/'.(string)$_GET['id'])."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
 		}
 	}

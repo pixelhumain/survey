@@ -76,22 +76,29 @@ if(@$adminAnswers["categories"]){
 					<?php 
 					$tot = 0;
 					$ctot = 0;
-					if(@$adminAnswers[$prioKey]){ 
-						foreach ( @$adminAnswers[$prioKey] as $ka => $va ) {?>
-							<td class="<?php echo $ka ?>_Totaldesc">
-							<?php if(@$va['total']){
-										echo $va['total'];
-										$ctot++;
-									} 
-										else 
-										echo "-"; ?>
+					if(@$adminAnswers[$prioKey])
+					{ 
+						foreach ( @$adminAnswers[$prioKey] as $ka => $va ) 
+						{?>
+							<td class="<?php echo $ka ?>_Totaldesc _Totaldesc ">
+							<?php 
+								if(@$va['total']){
+									echo $va['total'];
+									$ctot++;
+								} 
+								else 
+									echo "-"; ?>
 							</td>
 							<?php 
 							$w = 1 + ((int)$adminAnswers["categories"][$ka] / 100);
 							$tot += (floor( (float)@$va['total']*100 / $w))/100;
 						} 
+					} else if(@$adminAnswers["categories"]){
+						foreach ($adminAnswers["categories"] as $ka => $va ) {?>
+							<td class="<?php echo $ka ?>_Totaldesc _Totaldesc ">-</td>
+					<?php }
 					}?>
-					<td ><?php if($ctot == count($adminAnswers["categories"]) ) echo $tot; ?></td>
+					<td class="global_Totaldesc"><?php if($ctot == count($adminAnswers["categories"]) ) echo $tot; ?></td>
 					<!--td></td-->
 				</tr>
 			</table>
@@ -202,35 +209,32 @@ if(@$adminAnswers["categories"]){
 								<?php 
 								if(@$adminAnswers[$prioKey][ $key ][ $prioType ]){
 								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {
-									?>
-									<?php 
+									 
 										if (!in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") )  && $k != "total")
 											echo (@$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["weight"]) ? '<td>'.@$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["weight"]."% </td>" : "";
-											 ?>
-								<?php }} ?>
+								}} ?>
 							</tr>
 						
 
 							<tr class="<?php echo $key?>_<?php echo $prioType ?>ResultAnswer">
 								<?php 
 								if(@$adminAnswers[$prioKey][ $key ][ $prioType ]){
-								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {?>
-									<?php 
+								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {
 										if(! in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) && $k != "total" )
-											echo '<td>'.$v.'</td>' ?>
-								<?php }} ?>
+											echo '<td>'.$v.'</td>';
+								}} ?>
 							</tr>
 
 							<tr class="<?php echo $key?>_<?php echo $prioType ?>LabelAnswer">
 								<?php 
 								if(@$adminAnswers[$prioKey][ $key ][ $prioType ]){
-								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {?>
-									<?php 
+								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {
+
 										if(! in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) 
 											&& $k != "total" 
-											&& @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v])
-											echo '<td class="padding-10">'.$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v].'</td>'; ?>
-								<?php }} ?>
+											&& @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v] )
+											echo '<td class="padding-10">'.$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v].'</td>'; 
+								}} ?>
 							</tr>
 						
 

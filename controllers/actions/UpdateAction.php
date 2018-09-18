@@ -5,7 +5,8 @@ class UpdateAction extends CAction
     {
         $res=false;
         $msg=Yii::t("common","Please Login First");
-        if ( Person::logguedAndValid() ) 
+        //ajouter Form::canAdmin( (string)$form["_id"], $form )
+        if ( Person::logguedAndValid()  ) 
         {
             $answer = PHDB::findOne( Form::ANSWER_COLLECTION , array( "_id"=>new MongoId(@$_POST["answerId"]) ) );
             if(!empty($answer)){
