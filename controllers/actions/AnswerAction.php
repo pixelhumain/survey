@@ -18,8 +18,8 @@ class AnswerAction extends CAction
     		if( $form["surveyType"] == "surveyList" && @$answer["answers"] )
     		{
 				$adminForm = ( Form::canAdmin((string)$form["_id"], $form) ) 
-								? PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin","session"=>$answer["session"] ) ) 
-								: PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin","session"=>$answer["session"] ), array("scenarioAdmin") ) ;
+								? PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin" ) ) 
+								: PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin" ), array("scenarioAdmin") ) ;
 
 				$userO = Person::getById($answer["user"]);
 				if( !@$adminAnswers ){
