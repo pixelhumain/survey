@@ -289,8 +289,11 @@ if(@$adminAnswers["risks"] )
 	} else { ?>
 	<div class="bg-red col-xs-12 text-center text-large text-white margin-bottom-20"><h1> <?php echo $v["form"]["title"]; ?></h1>
 	<?php 
-		echo "<h3 style='' class=''> <i class='fa fa-2x fa-exclamation-triangle'></i> ".Yii::t("surveys","This step {num} hasn't been filed yet",array('{num}'=>$k))."</h3>".
-			"<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k.'/session/'.$session.'/answer/'.(string)$_GET['id'])."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
+
+		echo "<h3 style='' class=''> <i class='fa fa-2x fa-exclamation-triangle'></i> ".Yii::t("surveys","This step {num} hasn't been filed yet",array('{num}'=>$k))."</h3>";
+		if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$_GET['session']]["endDate"] ) ) {
+				echo "<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k.'/session/'.$session.'/answer/'.(string)$_GET['id'])."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
+		}
 	}
 	echo "</div>";
 }
@@ -374,15 +377,14 @@ $(document).ready(function() {
 			    				goToUpload=true;
 			    		});
 			    	}
-					if( !goToUpload ){
-				    	window.location.reload();
+					if(typeof updateForm.goToUpload == "undefined" ){
+						window.location.reload();
 				    	updateForm = null;
 				    } 
 			    });
 			};
 
 			var editData = answers[$(this).data("form")]['answers'][$(this).data("step")];
-			console.log("editForm",editForm,updateForm,editData);
 			dyFObj.editStep( editForm , editData);	
 		}
 	});
