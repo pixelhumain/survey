@@ -30,7 +30,7 @@ class AnswerAction extends CAction
 					    "name"   => $userO["name"],
 					);
 					if(@$adminForm["scenarioAdmin"] && Form::canAdmin((string)$form["_id"], $form) )
-						$adminAnswers["step"] = array_keys( $adminForm["scenarioAdmin"] )[0];
+						$adminAnswers["step"] = array_keys( $adminForm["scenarioAdmin"] )[1];
 				}
     			
     			$ctrl->layout = "//layouts/empty";	
