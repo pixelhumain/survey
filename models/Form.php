@@ -367,6 +367,7 @@ class Form {
 
 		if(empty($formAdmin))
 			$formAdmin = PHDB::findOne( Form::COLLECTION , array("id"=>$id."Admin","session"=>$session));
+		
 		if(@$formAdmin["adminRole"])
 			$res = self::canAdminRoles((string)$form["_id"], $formAdmin["adminRole"], $form = array() ) ;
 		else
