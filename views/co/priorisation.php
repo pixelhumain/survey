@@ -76,22 +76,29 @@ if(@$adminAnswers["categories"]){
 					<?php 
 					$tot = 0;
 					$ctot = 0;
-					if(@$adminAnswers[$prioKey]){ 
-						foreach ( @$adminAnswers[$prioKey] as $ka => $va ) {?>
-							<td class="<?php echo $ka ?>_Totaldesc">
-							<?php if(@$va['total']){
-										echo $va['total'];
-										$ctot++;
-									} 
-										else 
-										echo "-"; ?>
+					if(@$adminAnswers[$prioKey])
+					{ 
+						foreach ( @$adminAnswers[$prioKey] as $ka => $va ) 
+						{?>
+							<td class="<?php echo $ka ?>_Totaldesc _Totaldesc ">
+							<?php 
+								if(@$va['total']){
+									echo $va['total'];
+									$ctot++;
+								} 
+								else 
+									echo "-"; ?>
 							</td>
 							<?php 
 							$w = 1 + ((int)$adminAnswers["categories"][$ka] / 100);
 							$tot += (floor( (float)@$va['total']*100 / $w))/100;
 						} 
+					} else if(@$adminAnswers["categories"]){
+						foreach ($adminAnswers["categories"] as $ka => $va ) {?>
+							<td class="<?php echo $ka ?>_Totaldesc _Totaldesc ">-</td>
+					<?php }
 					}?>
-					<td ><?php if($ctot == count($adminAnswers["categories"]) ) echo $tot; ?></td>
+					<td class="global_Totaldesc"><?php if($ctot == count($adminAnswers["categories"]) ) echo $tot; ?></td>
 					<!--td></td-->
 				</tr>
 			</table>

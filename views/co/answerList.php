@@ -324,7 +324,7 @@ function getAnswers(dynJson, noTotal)
     $("."+updateForm.cat+"_Priorisation").removeClass('hide');	
     
     calcPrio( updateForm.cat );
-	
+	calcTotal();
 	console.log("editAnswers",editAnswers);
     return editAnswers;
 }
@@ -333,13 +333,25 @@ function calcPrio (key)
 {
 	var t = 0;
 	$("."+key+"_Total").each( function(i,v){ 
-		console.log(i,v);
+		//console.log(i,v);
 		t += parseFloat( $(v).html() );
 	} );
 	t = parseFloat( t / $("."+key+"_Total").length ).toFixed(2) ;
 	//alert(t);
 	$( "."+key+"_Totaldesc" ).html( t );
 	$( "."+key+"_totalTotal" ).html( t );
+	return false;
+}
+
+function calcTotal () 
+{
+	var t = 0;
+	$("._Totaldesc").each( function(i,v){ 
+		t += parseFloat( $(v).html() );
+	} );
+	t = parseFloat( t / $("._Totaldesc").length ).toFixed(2) ;
+	//alert(t);
+	$( ".global_Totaldesc" ).html( t );
 	return false;
 }
 

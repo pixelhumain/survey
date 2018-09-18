@@ -15,6 +15,7 @@ class AnswerAction extends CAction
 			if(!@$form["session"][ $answer["session"] ])
 	 				$ctrl->render("co2.views.default.unTpl",array("msg"=>"Session introuvable sur ".$answer["formId"],"icon"=>"fa-search")); 
 
+	 		$this->getController()->pageTitle = @$answer["name"];
     		if( $form["surveyType"] == "surveyList" && @$answer["answers"] )
     		{
 				$adminForm = ( Form::canAdmin((string)$form["_id"], $form) ) 
