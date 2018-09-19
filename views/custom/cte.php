@@ -104,7 +104,8 @@
                 echo "<tr>";
                     echo "<td>#".$s."</td>";
                     $c = ($count < count($form["scenario"])) ? "orange" : $form["custom"]["color"];
-                    echo "<td class=' bold'><span class='text-dark badge' style='background-color:".$c."'>".$count." / ".count($form["scenario"])." </span></td>";
+                    $step = ( $count == count($form["scenario"]) ) ? "<span class='badge' style='background-color:#1A242F'> ".strtoupper(@$av["step"])." </span>" : "<span class='badge' style='background-color:red'>INCOMPLET</span>" ;
+                    echo "<td class=' bold'><span class='text-dark badge margin-bottom-5' style='background-color:".$c."'>".$count." / ".count($form["scenario"])." </span> <br/>".$step."</td>";
                     echo "<td>".@$av["answers"]["cte1"]["answers"]["organization"]["name"]."</td>";
                     echo "<td>".@$av["answers"]["cte2"]["answers"]["project"]["name"]."</td>";
                     echo "<td>";
