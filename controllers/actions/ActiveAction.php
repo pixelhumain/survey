@@ -41,6 +41,30 @@ class ActiveAction extends CTKAction{
 			$res[] = Link::multiconnect($child, $_POST["form"], Form::COLLECTION);
 
 			$orga = array();
+// =======
+
+// 			// $form = Form::getByIdMongo($_POST["form"], array("parentId", "parentType"));
+// 			// $orga = PHDB::findOne($form["parentType"],array("_id"=>new MongoId((String) $form["parentId"])), array("name"));
+// 			// // pour le projet
+// 			// $child = array();
+// 			// // $child[] = array( 	"childId" => $_POST["childId"],
+// 			// // 					"childType" => Element::getCollectionByControler($_POST["childType"]),
+// 			// // 					"childName" => $_POST["childName"],
+// 			// // 					"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()));
+
+// 			// // $res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+
+// 			// $child[] = array( 	"childId" => (String) $form["parentId"],
+// 			// 					"childType" => $form["parentType"],
+// 			// 					"childName" => $orga["name"],
+// 			// 					"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()) );
+
+// 			// $res[] = Link::multiconnect($child, $_POST["childId"], Element::getCollectionByControler($_POST["childType"]));
+
+// 			// //Rest::json($res); exit ;
+
+// 			// if(!empty($_POST["parentId"]) && !empty($_POST["parentType"])){
+// >>>>>>> master
 
 			if(!empty($answer["answers"]["cte1"]["answers"]["organization"])){
 				$orga = array("id" => $answer["answers"]["cte1"]["answers"]["organization"]["id"],
@@ -53,7 +77,6 @@ class ActiveAction extends CTKAction{
 				$existParent =PHDB::findOne( Element::getCollectionByControler($orga["type"]) , array("_id"=>new MongoId($orga["id"])) );
 				//Rest::json($existParent); exit; 
 				if(!empty($existParent)){
-					$form = Form:: getByIdMongo($_POST["form"], array("parentId", "parentType"));
 
 					// pour l'orga
 					$child = array();
@@ -72,8 +95,18 @@ class ActiveAction extends CTKAction{
 										"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()));
 
 					$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+// =======
+// 					$child[] = array( 	"childId" => $_POST["parentId"],
+// 										"childType" => Element::getCollectionByControler($_POST["parentType"]),
+// 										"childName" => $_POST["parentName"],
+// 										"roles" =>  !empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array());
+// 					//Rest::json( $form ); exit ;
+// 					$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+// >>>>>>> master
 				}
 			}
+
+			
 
 			$data["eligible"] = true ;
 			$data["step"] = array_keys($adminForm["scenarioAdmin"])[2] ;
