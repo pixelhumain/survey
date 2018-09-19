@@ -36,7 +36,7 @@ class Form {
 				"session"=>$data["session"],
 				"name"=>$data["name"],
 				"email"=>$data["email"],
-				"step" => "eligible",
+				"step" => "dossier",
 				"created"=>time()
 			);
 			PHDB::insert( self::ANSWER_COLLECTION, $answer);
