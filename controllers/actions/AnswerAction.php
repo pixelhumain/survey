@@ -10,7 +10,7 @@ class AnswerAction extends CAction
 
     	if ( ! Person::logguedAndValid() ) 
 			$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
-		else if( Form::canAdmin( (string)$form["_id"], $form ) || $user == Yii::app()->session["userId"])
+		else if( Form::canAdmin( (string)$form["_id"], $form ) || $answer["user"] == Yii::app()->session["userId"])
 		{ 
 			if(!@$form["session"][ $answer["session"] ])
 	 				$ctrl->render("co2.views.default.unTpl",array("msg"=>"Session introuvable sur ".$answer["formId"],"icon"=>"fa-search")); 
