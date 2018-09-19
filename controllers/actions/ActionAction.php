@@ -50,7 +50,9 @@ class ActionAction extends CAction
 					foreach ($projectsA as $key => $value) {
 
 						if( !empty($value["answers"]["cte2"]["answers"]["project"]) ) {
+
 							$projects[$value["answers"]["cte2"]["answers"]["project"]["id"]] = $value["answers"]["cte2"]["answers"]["project"]["name"];
+							$idProject[] = new MongoId($value["answers"]["cte2"]["answers"]["project"]["id"]) ;
 						}
 					}
 
@@ -59,12 +61,18 @@ class ActionAction extends CAction
 
 			}
 
+			if(!empty($idProject)){
+				$projectsDetails = PHDB::find(	Project::COLLECTION, 
+												array( "_id" => array('$in' => $idProject)), array("name", "shortDescription", "email") );
+			}
+
 			$params = array( "answers" => $action, 
 							 'answerCollection' => "actions",
 							 'answerId' => (string)$action["_id"] ,
 							 "parentSurvey"=>$parentSurvey,
 							 'form' => $form ,
 							 'projects' => $projects,
+							 'projectsDetails' => $projectsDetails,
 							 "user" => $user,
 							 'scenario' => "scenarioFicheAction" );
 			//todo apply cte customisation ???

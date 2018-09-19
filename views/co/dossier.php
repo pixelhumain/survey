@@ -14,6 +14,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 ?>
 			
 <h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
+<?php
+if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){ ?>
+	<a class="btn btn-default btn-xs" href="javascript:" id="modifLink">Changer le porteur de projet</a>
+<?php		
+}
+?>
+
 
 
 
@@ -297,6 +304,8 @@ if(@$adminAnswers["risks"] )
 	}
 	echo "</div>";
 }
+
+echo $this->renderPartial( "survey.views.co.modalSwitchLink",array());
 ?>
 
 
@@ -392,6 +401,11 @@ $(document).ready(function() {
 	$('.userActionBtn').off().click(function() {
 		commentRisk($(this).data("answerid"), $(this).data("riskid"));
 	});
+
+	
+	$('#modifLink').off().click(function() {
+		$('#modalSwitchLink').modal("show");
+	});
 });
 function commentRisk(answerId, riskId){
 	var modal = bootbox.dialog({
@@ -422,6 +436,8 @@ function commentRisk(answerId, riskId){
 	   // modal.modal("show");
 	//}
 }
+
+
 </script>
 
 

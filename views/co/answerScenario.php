@@ -155,7 +155,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 								
 								foreach ($props as $ik => $iv) {
 									//chaque propriété a sa réponse 
-									echo "<td>".@$sa[$ik]."</td>";
+									echo "<td>!".@$sa[$ik]."</td>";
 								}
 								echo "<td>".
 									"<a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' data-pos='".$sq."' class='editAF btn btn-default'><i class='fa fa-pencil'></i></a> ".
