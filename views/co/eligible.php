@@ -41,10 +41,11 @@
 					echo $states[$adminAnswers["priorisation"]]["msg"]." </center>";
 				} else 
 					echo "<center><h3><i class='fa fa-2x fa-hourglass-3'></i>Ce dossier est en cours de maturation</h3></center>";
-			} else{
+			} 
 				//var_dump($adminAnswers); echo "<br/><br/><br/>"; echo json_encode($answers); exit;
 				echo $this->renderPartial( "survey.views.co.modalSelectCategorie",array());
 				?>
+				<br/>
 				<center>
 				<?php
 				echo '<div id="active'.$project["id"].$project["type"].'">';
@@ -62,7 +63,7 @@
 				?>
 				</center>
 				<?php 
-			}
+			
 		} else {
 
 			echo "<center><h3 class='text-red'>Ce dossier n'est pas complet.</h3></center>";
