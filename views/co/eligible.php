@@ -8,8 +8,8 @@
 		if(@$answers["cte2"]["answers"][Project::CONTROLLER] && @$answers["cte1"]["answers"] 
 			&& @$answers["cte3"]["answers"])
 		{
-			echo $adminAnswers["step"];
-			if(!empty($adminAnswers["step"]) && $adminAnswers["step"] != "dossier" )
+
+			if( !empty($adminAnswers["step"]) && @$adminAnswers["eligible"] )
 			{
 				if( @$adminAnswers["eligible"] === false)
 					echo "<center><h3 class='text-red'>Ce dossier n'est pas éligible</h3><center>";
