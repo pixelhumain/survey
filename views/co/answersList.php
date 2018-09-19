@@ -82,6 +82,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th class="">Avancement dossier</th>
 						<th class="">Commentaire</th>
 						<th class="col-xs-1">Étiquetage</th>
+						<th class="col-xs-1">Tags</th>
 						<th>Avis COPIL</th>
 						<th >PDF</th>
 						<th >Budget</th>
@@ -137,6 +138,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								if(@$v["categories"]){
 									foreach ($v["categories"] as $kC => $vC) {
 										echo $vC["name"]."<br/>";
+									}
+								} 
+								?>
+							</td>
+							<td id='<?php echo $k."tags";?>'>
+								<?php 
+								if(@$v["tags"]){
+									foreach ($v["tags"] as $kC => $vC) {
+										echo $vC."<br/>";
 									}
 								} 
 								?>
