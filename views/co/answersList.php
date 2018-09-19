@@ -4,6 +4,9 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery-simplePagination/simplePagination.css',
 	'/plugins/select2/select2.min.js' ,
 	'/plugins/select2/select2.css',
+	'/plugins/underscore-master/underscore.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true));
 
@@ -17,6 +20,10 @@ $cssJS = array(
     '/js/dataHelpers.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
+$cssAnsScriptFilesModule = array(
+	'/assets/js/comments.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
 ?>
 
@@ -132,7 +139,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 									echo "<span id='".$k."etape' class='".$classText."'>".$c." / ".count(@$form['scenario'])."</span>"; 
 								?>
 							</td>
-							<td ><a href="javascript:;" class="btn btn-primary"><i class='fa fa-comments'></i></a></td>
+							<td ><a href="javascript:;" class="btn btn-primary openAnswersComment" onclick="commentAnswer('<?php echo $v['_id'] ?>')">
+								<?php echo PHDB::count(Comment::COLLECTION, array("contextId"=>(string)$v['_id'],"contextType"=>Form::ANSWER_COLLECTION)); ?>
+								<i class='fa fa-comments'></i>
+							</a></td>
 							<td id='<?php echo $k."etiquetage";?>'>
 								<?php 
 								if(@$v["categories"]){
@@ -380,7 +390,35 @@ jQuery(document).ready(function() {
 	})
 
 });
+function commentAnswer(answerId){
+	var modal = bootbox.dialog({
+	        message: '<div class="content-risk-comment-tree"></div>',
+	        title: "Fil de commentaire du projet",
+	        buttons: [
+	        
+	          {
+	            label: "Annuler",
+	            className: "btn btn-default pull-left",
+	            callback: function() {
+	              console.log("just do something on close");
+	            }
+	          }
+	        ],
+	        onEscape: function() {
+	          modal.modal("hide");
+	        }
+	    });
+		modal.on("shown.bs.modal", function() {
+		  $.unblockUI();
+		  	getAjax(".content-risk-comment-tree",baseUrl+"/"+moduleId+"/comment/index/type/answers/id/"+answerId,
+			function(){  //$(".commentCount").html( $(".nbComments").html() ); 
+			},"html");
 
+		  //bindEventTextAreaNews('#textarea-edit-news'+idNews, idNews, updateNews[idNews]);
+		});
+	   // modal.modal("show");
+	//}
+}
 function countLine(){
 	var nbLine = $("#panelAdmin tr.line").filter(function() {
 			    return $(this).css('display') !== 'none';
