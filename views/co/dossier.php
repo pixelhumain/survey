@@ -14,8 +14,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 ?>
 			
 <h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
+<?php
+if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){ ?>
+	<a class="btn btn-default btn-xs" href="javascript:" id="modifLink">Changer le porteur de projet</a>
+<?php		
+}
+?>
 
-<a class="btn btn-default btn-xs" href="javascript:" id="modifLink">Modif Link</a>
 
 
 

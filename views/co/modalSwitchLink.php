@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-green-k text-white">
-                <h4 class="modal-title"><i class="fa fa-check"></i> <?php echo Yii::t("login","Choisissez la catégorie du projet") ?></h4>
+                <h4 class="modal-title"><i class="fa fa-check"></i> <?php echo Yii::t("login","Changer le porteur de projet") ?></h4>
             </div>
             <div class="modal-body center text-dark" style="height: 300px;">
 	            <div class="col-xs-12">
