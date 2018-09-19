@@ -22,6 +22,7 @@ function bindAnwserList(){
 	// });
 
 	$(".activeBtn").on("click",function(e){
+		
 			$('#modalCatgeorieAnswers').modal("show");
 			$("#answerId").val($(this).data("id"));
 			$("#eligible").val(true);

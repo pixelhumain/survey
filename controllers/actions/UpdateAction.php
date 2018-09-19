@@ -57,6 +57,6 @@ class UpdateAction extends CAction
                 $msg= "Answer not found";
         } 
 
-        echo json_encode( array("result"=>$res, "msg"=>$msg, "total"=>$total ) );
+        echo json_encode( array("result"=>$res, "msg"=>$msg, "total"=>@$total ) );
     }
 }

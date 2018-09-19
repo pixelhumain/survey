@@ -30,7 +30,7 @@
             rolesList = form.custom.roles ;
 
         $('#modalCatgeorieAnswers #selectCategorie').select2({tags:rolesList});
-        $("#validEligible").on("click",function(e){
+        $("#modalCatgeorieAnswers #validEligible").on("click",function(e){
             var params = {
                 answerId : $("#answerId").val(),
                 form : form._id.$id,
