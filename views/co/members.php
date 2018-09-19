@@ -44,7 +44,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
 	<div class="panel-body">
 		<div>
-			<a href="<?php echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-success btn-xs pull-right margin-10 lbhp"><i class="fa fa-user-plus"></i> Inviter des Admins et des Participants</a>
+			<a href="<?php echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'].'.session.'.$_GET['session'] ; ?>" class="btn btn-success btn-xs pull-right margin-10 lbhp"><i class="fa fa-user-plus"></i> Inviter des Admins et des Participants</a>
 			<table class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
 				<thead>
 					<tr>
@@ -65,6 +65,7 @@ $this->renderPartial( $layoutPath.'modals.'.Yii::app()->params["CO2DomainName"].
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
 <?php
+
 $adminTCO = Form::canSuperAdmin($form["id"], $_GET["session"], $form);
 ?>
 <script type="text/javascript">
@@ -289,7 +290,7 @@ $adminTCO = Form::canSuperAdmin($form["id"], $_GET["session"], $form);
 							var str = "";
 							if( typeof data.roles != "undefined") {
 								$.each(data.roles, function(kR, vR){
-									str += vR+" ";
+									str += vR+" <br/>";
 								});
 							}
 							mylog.log("afterSave", "#role"+childId+childType, str);

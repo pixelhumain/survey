@@ -74,50 +74,66 @@
 		<?php 
 			}else{
       ?> 
-        <table class="table table-striped table-bordered table-hover  directoryTable" >
+        <table class="table table-striped table-bordered table-hover  directoryTable" style="table-layout: fixed; width:100%; word-wrap:break-word;">
         <thead>
           <tr>
-            <th class="text-center">Session</th>
-            <th class="text-center">Date de début</th>
-            <th class="text-center">Date de fin</th>
+            <th class="text-center col-xs-1">Session</th>
+            <th class="text-center">Avancement</th>
+            <th class="text-center">Organisation</th>
+            <th class="text-center">Projet</th>
             <th class="text-center">Action</th>
           </tr> 
         </thead>
         <tbody>
-        <?php
-        $sessions = array();
-        if(@$_GET["session"])
-          $sessions[(string)$_GET["session"]] = $form["session"][$_GET["session"]];
-        else 
-          $sessions = $form["session"];
+<?php
+$sessions = array();
+if(@$_GET["session"])
+  $sessions[(string)$_GET["session"]] = $form["session"][$_GET["session"]];
+else 
+  $sessions = $form["session"];
 
-        foreach ($sessions as $s => $sv) 
-        {
-            //var_dump($answers);
-            if(isset($answers[$s]))
-            {
-                echo "<tr>";
-                    echo "<td>#".$s."</td>";
-                    echo "<td>".( ( @$sv["startDate"] ) ? date('d/m/Y H:i', $sv["startDate"]->sec) : "Pas de date")."</td>";
-                    echo "<td>".( ( @$sv["endDate"] ) ? date('d/m/Y H:i', $sv["endDate"]->sec) : "Pas de date")."</td>";
-                    echo "<td>";
-    				$count=count( @$answers[$s] );
+foreach ($sessions as $s => $sv) {
+    //var_dump($answers);
+    if(@$answers[$s]){
 
-    				if( $count < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
-                    {
-                		$label=( $count > 0 ) ? "Reprendre la candidature" : "Déposer une candidature"; 
-                	?>
-                		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> <?php echo $label ?></a>
-        	  <?php }
-            			
-    				if($count > 0)
-                    { ?>
-            			<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo $form['id'] ?>/session/<?php echo $s ?>/user/<?php echo Yii::app()->session['userId'] ?>" style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> VOIR VOTRE CANDIDATURE  </a>
-        	<?php	}
-                    echo "</td>";
-                echo "</tr>";
-            } 
-        } ?>
+    foreach (@$answers[$s] as $a => $av){
+      $count = count( @$av["answers"] );
+        echo "<tr>";
+            echo "<td>#".$s."</td>";
+            $c = ($count < count($form["scenario"])) ? "orange" : $form["custom"]["color"];
+            $step = ( $count == count($form["scenario"]) ) ? "<span class='badge' style='background-color:#1A242F'> ".strtoupper(@$av["step"])." </span>" : "<span class='badge' style='background-color:red'>INCOMPLET</span>" ;
+            echo "<td class=' bold'><span class='text-dark badge margin-bottom-5' style='background-color:".$c."'>".$count." / ".count($form["scenario"])." </span> <br/>".$step."</td>";
+            echo "<td>".@$av["answers"]["cte1"]["answers"]["organization"]["name"]."</td>";
+            echo "<td>".@$av["answers"]["cte2"]["answers"]["project"]["name"]."</td>";
+
+            echo "<td>";
+			
+      				if( $count < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
+              { 
+              	?>
+              		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>/answer/<?php echo (string)$av['_id'] ?>" style="background-color:orange" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> Reprendre</a>
+          	  <?php }
+              			
+      				if($count > 0)
+              { ?> 
+              	<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)@$av['_id'] ?> " style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> Lire </a>
+          	<?php	}
+              
+              echo " <a href='javascript:;' data-id='".(string)$av['_id']."' class='deleteAnswer pull-right btn btn-default'><i class='fa text-red fa-times'></i> Suppr</a></td>";
+          echo "</tr>";
+      } 
+    }
+
+	echo "<tr><td>#".$s."</td>";
+	echo " <td  colspan='4' class='text-center'>";
+	if( Form::notOpen(@$sv["startDate"]) )
+		echo "<h2 class='btn bold ' style='background-color:red'>La session n'a pas encore commencé.</h2>";
+	else if( Form::isFinish(@$sv["endDate"]) )  
+		echo "<h2 class='btn bold ' style='background-color:red'>La session est cloturé.</h2>";
+	else 
+		echo " <a href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/new/id/".$form['id']."/session/".$s."' class='btn btn-primary' style='width:100%' ><i class='fa fa-plus'></i> Ajouter une réponse</a>";
+	echo "</td></tr>";
+} ?>
         </tbody>
         </table>
 			<?php }?>
@@ -307,4 +323,29 @@
 
 </div>
 
- 
+ <script type="text/javascript">
+   $(document).ready(function() { 
+  
+  $('.deleteAnswer').off().click( function(){
+      id = $(this).data("id");
+      bootbox.dialog({
+          title: "Confirmez la suppression du dossier",
+          message: "<span class='text-red bold'><i class='fa fa-warning'></i> Cette action sera irréversible</span>",
+          buttons: [
+            {
+              label: "Ok",
+              className: "btn btn-primary pull-left",
+              callback: function() {
+                window.location.href = baseUrl+"/survey/co/delete/id/"+id;
+              }
+            },
+            {
+              label: "Annuler",
+              className: "btn btn-default pull-left",
+              callback: function() {}
+            }
+          ]
+      });
+    });
+});
+ </script>

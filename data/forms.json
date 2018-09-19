@@ -128,12 +128,19 @@
         "endTpl" : "home",
         "color" : "#00B795",
         "roles" : [ 
-            "Ville jardin désirable et support de biodiversité ", 
-            "Production renouvelable ", 
-            "Maîtrise de l’énergie ", 
-            "Eco-mobilités ", 
-            "Economie Sociale et solidaire ", 
+            "Ville jardin désirable et support de biodiversité", 
+            "Production renouvelable", 
+            "Maîtrise de l’énergie", 
+            "Eco-mobilités", 
+            "Economie Sociale et solidaire", 
             "Economie circulaire et circuits courts"
+        ],
+        "tags" : [ 
+            "Eco Quartier de la Possession", 
+            "Plateforme de Transition Ecologique", 
+            "Port Maritime Durable", 
+            "Filière papier carton", 
+            "Animation évaluation"
         ],
         "mail" : {
             "invitation" : {
@@ -161,54 +168,6 @@
             "title" : "Dépot de l'action",
             "description" : "Objectif et prévisionnel de l'action dans le cadre du CTE",
             "icon" : "fa-list"
-        }
-    },
-    "links" : {
-        "members" : {
-            "55e042ffe41d754428848363" : {
-                "type" : "citoyens",
-                "invitorId" : "55e042ffe41d754428848363",
-                "invitorName" : "Raphael RIVIERE",
-                "isAdmin" : true
-            },
-            "5b46fe2bdd0452bd27000693" : {
-                "type" : "citoyens",
-                "invitorId" : "55e042ffe41d754428848363",
-                "invitorName" : "Raphael RIVIERE",
-                "isInviting" : true,
-                "roles" : [ 
-                    "ECO CONSTRUCTION"
-                ]
-            },
-            "55ee8d59e41d756612558516" : {
-                "type" : "citoyens",
-                "invitorId" : "55e042ffe41d754428848363",
-                "invitorName" : "Raphael RIVIERE",
-                "isInviting" : true,
-                "isAdmin" : true
-            }
-        },
-        "projectExtern" : {
-            "5b45b851dd04525a14000694" : {
-                "type" : "projects",
-                "invitorId" : "55e042ffe41d754428848363",
-                "invitorName" : "Raphael RIVIERE",
-                "isInviting" : true,
-                "roles" : [ 
-                    "ENERGIE", 
-                    "AGRICULTURE"
-                ]
-            },
-            "5b3f5b8edd0452f8240a4b07" : {
-                "type" : "projects",
-                "invitorId" : "55e042ffe41d754428848363",
-                "invitorName" : "Raphael RIVIERE",
-                "isInviting" : true,
-                "roles" : [ 
-                    "ECO CONSTRUCTION", 
-                    "AGRICULTURE"
-                ]
-            }
         }
     },
     "updated" : NumberLong(1531826331),
@@ -429,8 +388,9 @@
             "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "mail" : {
-                "tpl" : "priorisationCTE",
-                "tplObject" : "Etape de priorisation CTE"
+                "tpl" : "eligibilite",
+                "tplObject" : "Etape de priorisation CTE",
+                "messages" : "Votre projet est passé à l'étape de priorisation"
             }
         },
         "risk" : {
@@ -439,8 +399,9 @@
             "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "mail" : {
-                "tpl" : "riskCTE",
-                "tplObject" : "Etape de risque CTE"
+                "tpl" : "eligibilite",
+                "tplObject" : "Etape des contrainte du CTE",
+                "messages" : "Votre projet est passé à l'étape des contraintes"
             }
         },
         "ficheAction" : {
@@ -449,8 +410,9 @@
             "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "mail" : {
-                "tpl" : "actionCTE",
-                "tplObject" : "Etape de risque CTE"
+                "tpl" : "eligibilite",
+                "tplObject" : "Etape de risque CTE",
+                "messages" : "Votre projet est passé à l'étape d'etre ajouté à une fiche action"
             }
         }
     },

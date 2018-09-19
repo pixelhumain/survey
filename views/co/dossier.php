@@ -14,6 +14,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 ?>
 			
 <h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
+<?php
+if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){ ?>
+	<a class="btn btn-default btn-xs" href="javascript:" id="modifLink">Changer le porteur de projet</a>
+<?php		
+}
+?>
+
 
 
 
@@ -51,12 +58,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 				<td><a class="btn btn-default btn-xs" target="_blank" href="<?php echo Yii::app()->createUrl( "#@cteTco"); ?>">Lien</a></td>
 			</tr>
 
-			<tr>
-				<td>PDF </td>
-				<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".$_GET['id']."/session/".$_GET['session']."/user/".@$_GET['user']."' target='_blanck'><i class='fa fa-2x fa-file' ></i></a>"; ?></td>
-			</tr>
-			
-
 		</tbody>
 	</table>					
 </div>
@@ -67,6 +68,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->get
 	/* ---------------------------------------------
 	RISQUE BLOQUANT
 	---------------------------------------------- */
+	/*
  ?>
 
 <?php 
@@ -97,7 +99,7 @@ if(@$adminAnswers["risks"] )
 				$list.
 				'</tbody></table></div>';
 	}
-} ?>
+} */ ?>
 
 
 <?php 
@@ -154,6 +156,7 @@ if(@$adminAnswers["risks"] )
 
  ?>
 
+
  <?php foreach ($form["scenario"] as $k => $v) {
 	if(@$answers[$k]){  ?>
 		
@@ -161,12 +164,13 @@ if(@$adminAnswers["risks"] )
 			<h1> 
 			<?php echo $v["form"]["title"]; ?><i class="fa pull-right <?php echo @$v["form"]["icon"]; ?>"></i>
 			</h1>
-			<span class="text-dark"><?php echo date('d/m/Y h:i', @$answers[$k]["created"]) ?></span>
+			<span class="text-dark"><?php echo date('d/m/Y h:i', $answers[$k]["created"]) ?></span>
 		</div>
 		<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
 		<?php 
 		foreach ( $answers[$k]["answers"] as $key => $value) {
 			$editBtn = "";
+			
 			if( (string)$user["_id"] == Yii::app()->session["userId"] /*&& !Form::isFinish($form["session"][$_GET['session']]["endDate"] ) */  ) {
 				if(@$v["form"]["scenario"][$key]["saveElement"]) 
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
@@ -195,6 +199,8 @@ if(@$adminAnswers["risks"] )
 							echo "<td class='".$markdown."'>".$a."</td>";
 						echo '</tr>';
 					}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
+
+					
 						$document=Document::getById($a["id"]);
 						if(!empty($document)){ 
 							$document["docId"]=$a["id"];
@@ -261,29 +267,6 @@ if(@$adminAnswers["risks"] )
 						echo "</td>";
 					echo '</tr>';
 				}
-				if(@$el["address"]){
-					$address = "";
-					$address .= '<span> '.
-									(( @$el["address"]["streetAddress"]) ? 
-										$el["address"]["streetAddress"]."<br/>": 
-										((@$el["address"]["codeInsee"])?"":Yii::t("common","Unknown Locality")));
-					$address .= (( @$el["address"]["postalCode"]) ?
-									 $el["address"]["postalCode"].", " :
-									 "")
-									." ".(( @$el["address"]["addressLocality"]) ? 
-											 $el["address"]["addressLocality"] : "") ;
-					$address .= (( @$el["address"]["addressCountry"]) ?
-									 ", ".OpenData::$phCountries[ $el["address"]["addressCountry"] ] 
-					 				: "").
-					 			'</span>';
-					echo '<tr>';
-						echo "<td>".Yii::t("common","Locality")."</td>";
-						echo "<td>";
-						echo $address;
-						echo "</td>";
-					echo '</tr>';
-				}
-				
 				if(@$el["shortDescription"]){
 					echo '<tr>';
 						echo "<td>".Yii::t("common","Short description")."</td>";
@@ -315,13 +298,16 @@ if(@$adminAnswers["risks"] )
 	} else { ?>
 	<div class="bg-red col-xs-12 text-center text-large text-white margin-bottom-20"><h1> <?php echo $v["form"]["title"]; ?></h1>
 	<?php 
+
 		echo "<h3 style='' class=''> <i class='fa fa-2x fa-exclamation-triangle'></i> ".Yii::t("surveys","This step {num} hasn't been filed yet",array('{num}'=>$k))."</h3>";
-		if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$_GET['session']]["endDate"] ) ) {
-				echo "<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k."/session/".$_GET['session'])."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
+		if( (string)$user["_id"] == Yii::app()->session["userId"] && !Form::isFinish($form["session"][$session]["endDate"] ) ) {
+				echo "<a href='".Yii::app()->createUrl('survey/co/index/id/'.$k.'/session/'.$session.'/answer/'.(string)$_GET['id'])."' class='btn btn-success margin-bottom-10'>".Yii::t("surveys","Go back to this form")."</a>";
 		}
 	}
 	echo "</div>";
 }
+
+echo $this->renderPartial( "survey.views.co.modalSwitchLink",array());
 ?>
 
 
@@ -379,9 +365,10 @@ $(document).ready(function() {
 			editForm.jsonSchema.save = function(){
 				
 				data={
+					answerId : adminAnswers["_id"]["$id"],
 	    			formId : updateForm.form,
 	    			session : formSession,
-	    			answerSection : "answers."+updateForm.step ,
+	    			answerSection : "answers."+updateForm.form+".answers."+updateForm.step ,
 	    			answers : getAnswers(form.scenario[updateForm.form].form.scenario[updateForm.step].json , true),
 	    			answerUser : adminAnswers.user 
 	    		};
@@ -416,46 +403,18 @@ $(document).ready(function() {
 	$('.userActionBtn').off().click(function() {
 		commentRisk($(this).data("answerid"), $(this).data("riskid"));
 	});
+
+	
+	$('#modifLink').off().click(function() {
+		$('#modalSwitchLink').modal("show");
+	});
 });
 function commentRisk(answerId, riskId){
 	var modal = bootbox.dialog({
-	        message: '<div class="content-risk-comment-tree">'+
-				      //'<label for="comment">Justifier</label>'+
-				      //'<br/><textarea type="text" id="riskComment" name="riskComment" style="width:100%"></textarea>'+
-				      '</div>',
+	        message: '<div class="content-risk-comment-tree"></div>',
 	        title: "Fil de commentaire du risque",
 	        buttons: [
-	        //{
-	           /* label: "Enregistrer",
-	            className: "btn btn-primary pull-left",
-	            callback: function() {
-	            	if ($('#riskComment').last().val()) 
-	            	{
-			            var comment = $('#riskComment').last().val();
-			            modal.modal("hide");
-			            data={
-			    			formId : form.id,
-			    			session : formSession,
-			    			answerSection : "risks."+riskId+".userAction" ,
-			    			answers : $('#riskComment').last().val(),
-			    			answerUser : adminAnswers.user 
-			    		};
-			    		console.log("saving",data);
-			          	$.ajax({ 
-			          		type: "POST",
-					        url: baseUrl+"/survey/co/update",
-					        data: data
-					    }).done(function (data) { 
-					    	toastr.success('risk successfully saved!');
-					    	$("#userAction"+riskId).html($('#riskComment').last().val());
-					    });
-
-					} else {
-						bootbox.alert({ message: "Vous devez renseigner les poids du risque." });
-					}
-	              return false;
-	            }
-	          },*/
+	        
 	          {
 	            label: "Annuler",
 	            className: "btn btn-default pull-left",
@@ -479,60 +438,8 @@ function commentRisk(answerId, riskId){
 	   // modal.modal("show");
 	//}
 }
- /*function commentRisk(riskId) { 
-		var modal = bootbox.dialog({
-	        message: '<div class="form-group">'+
-				      '<label for="comment">Justifier</label>'+
-				      '<br/><textarea type="text" id="riskComment" name="riskComment" style="width:100%"></textarea>'+
-				      '</div>',
-	        title: "Justifier le risque bloquant",
-	        buttons: [
-	          {
-	            label: "Enregistrer",
-	            className: "btn btn-primary pull-left",
-	            callback: function() {
-	            	if ($('#riskComment').last().val()) 
-	            	{
-			            var comment = $('#riskComment').last().val();
-			            modal.modal("hide");
-			            data={
-			    			formId : form.id,
-			    			session : formSession,
-			    			answerSection : "risks."+riskId+".userAction" ,
-			    			answers : $('#riskComment').last().val(),
-			    			answerUser : adminAnswers.user 
-			    		};
-			    		console.log("saving",data);
-			          	$.ajax({ 
-			          		type: "POST",
-					        url: baseUrl+"/survey/co/update",
-					        data: data
-					    }).done(function (data) { 
-					    	toastr.success('risk successfully saved!');
-					    	$("#userAction"+riskId).html($('#riskComment').last().val());
-					    });
 
-					} else {
-						bootbox.alert({ message: "Vous devez renseigner les poids du risque." });
-					}
-	              return false;
-	            }
-	          },
-	          {
-	            label: "Annuler",
-	            className: "btn btn-default pull-left",
-	            callback: function() {
-	              console.log("just do something on close");
-	            }
-	          }
-	        ],
-	        show: false,
-	        onEscape: function() {
-	          modal.modal("hide");
-	        }
-	    });
-	    modal.modal("show");
-	}*/
+
 </script>
 
 

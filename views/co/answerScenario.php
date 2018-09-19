@@ -264,6 +264,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 	}
 	echo "</div>";
 
+var_dump($projectsDetails);
 ?>
 
 <script type="text/javascript">
@@ -273,6 +274,7 @@ var formSession = "<?php echo $_GET["session"]; ?>";
 //if(typeof answers == "undefined ")
 var answers  = <?php echo json_encode($answers); ?>;
 var projects  = <?php echo json_encode(@$projects); ?>;
+var projectsDetails  = <?php echo json_encode(@$projectsDetails); ?>;
 var projectsList = {};
 var projectsLink = {};
 var scenarioKey = "<?php echo $scenario ?>";
@@ -287,9 +289,9 @@ $(document).ready(function() {
 			if(typeof answers.links != "undefined" &&
 				typeof answers.links.projects != "undefined" &&
 				typeof answers.links.projects[i] != "undefined")
-				projectsLink[i] = el.name;
+				projectsLink[i] = el;
 			else
-				projectsList[i] = el.name;
+				projectsList[i] = el;
 		});
 	}
 	
@@ -353,6 +355,7 @@ $(document).ready(function() {
 				//alert("save");
 				data = {
 	    			formId : updateForm.form,
+	    			answerId : "<?php echo $answerId ?>",
 	    			//session : formSession,
 	    			answerSection : updateForm.form+".answers."+updateForm.step ,
 	    			answers : arrayForm.getAnswers(editForm , true)
@@ -373,8 +376,8 @@ $(document).ready(function() {
 			        data: data,
 					type: "POST",
 			    }).done(function (data) {
+			    	//alert("done")
 			    	if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length == 0 ){
-				    	window.location.reload();
 				    	updateForm = null;
 				    }
 				    window.location.reload();
@@ -408,6 +411,17 @@ $(document).ready(function() {
 				projectsLinked : {
 					title : "Projets associés",
 	                icon : "fa-lightbulb-o",
+	                onLoads : {
+			    		onload : function(){
+			    			
+				    		$("#ajax-modal #project").change(function(){
+				    			if(typeof projectsDetails[$(this).val()] != null){
+				    				$("#ajax-modal #name").val(projectsDetails[$(this).val()].name);
+				    				$("#ajax-modal #description").val(projectsDetails[$(this).val()].shortDescription);
+				    			}
+				    		});
+		    	   		}
+		    	   	},
 					properties : {
 						project :  dyFInputs.inputSelect("project", "project", projectsList, {required : true},
 									function(){

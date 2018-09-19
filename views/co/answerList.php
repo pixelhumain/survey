@@ -57,7 +57,7 @@ if( $this->layout != "//layouts/empty"){
 
 
 	$canAdmin = Form::canAdmin((string)$form["_id"]);
-	$canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"], $form, $adminForm);
+	$canSuperAdmin = Form::canSuperAdmin($form["id"],$session, $form, $adminForm);
 	$showStyle = ( $canAdmin ) ? "display:none; " : "";
 ?>
 
@@ -71,16 +71,16 @@ if( $this->layout != "//layouts/empty"){
 		          <a class="dropdown-item" href="#">Documents</a><br/>
 		          <a class="dropdown-item" href="#">URLs</a><br/>
 		          <a class="dropdown-item" href="#">Chat(bientot)</a><br/>
-		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/".$form["id"]."/session/".$_GET["session"]."/user/".(string)$user['_id'])?>">Logs</a><br/>
+		          <a class="dropdown-item" href="<?php echo Yii::app()->createUrl("/survey/co/logs/id/".(string)$answer["_id"])?>">Logs</a><br/>
 		        </div>
-				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $_GET["id"]; ?>/session/<?php echo $_GET["session"]; ?>"> 
+				<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answers/id/<?php echo $answer["formId"]; ?>/session/<?php echo $session; ?>"> 
 				<?php 
 				} ?>
 					<?php /*if(@$form["custom"]['logo']){ ?>
 					<img class="img-responsive margin-20" style="vertical-align: middle; height:150px" src='<?php echo Yii::app()->getModule("survey")->assetsUrl.$form["custom"]['logo']; ?>'  >
 					<?php } */ 
 					
-					echo @$answers["cte2"]["answers"]["project"]["name"]."<br/><small> par ".@$answers["cte1"]["answers"]["organization"]["name"]."</small>";//$form["title"]; 
+					echo @$answer['answers']["cte2"]["answers"]["project"]["name"]."<br/><small> par ".@$answer['answers']["cte1"]["answers"]["organization"]["name"]."</small>";//$form["title"]; 
 					
 				if( $canAdmin ){ ?>
 				</a>
@@ -108,33 +108,33 @@ SECTION STEPPER WIZARD
 	if( $canAdmin ){
 ?>				
 
-		<div id="wizard" class="swMain">
-			<ul id="wizardLinks">
-				<?php 
-				$ct = 0;
-				$currentStep = (@$adminAnswers["step"]) ? $adminAnswers["step"] : "" ;
-				if($adminForm["scenarioAdmin"]){
-					foreach ( @$adminForm["scenarioAdmin"] as $k => $v) { 
-						$aClass = ( $currentStep != "") ? $currentStep : "";
-						if( $aClass != "" && $currentStep != $k )
-							$aClass == "class='done'";
-						else if( $aClass != "" && $currentStep == $k )
-							$aClass == "class='selected'";
-						?>
-						<li><a onclick="nextState($(this).attr('href'),$(this).attr('class'));" href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
-					<?php } 
-				}?>
-			</ul>
-			<?php  ?>
-			<div class="progress progress-xs transparent-black no-radius active">
-				<div aria-valuemax="100" aria-valuemin="0" role="progressbar" class="progress-bar partition-green step-bar">
-					<span class="sr-only"> 0% Complete (success)</span>
-				</div>
+	<div id="wizard" class="swMain">
+		<ul id="wizardLinks">
+			<?php 
+			$ct = 0;
+			$currentStep = (@$answer["step"]) ? $answer["step"] : "" ;
+			if($adminForm["scenarioAdmin"]){
+				foreach ( @$adminForm["scenarioAdmin"] as $k => $v) { 
+					$aClass = ( $currentStep != "") ? $currentStep : "";
+					if( $aClass != "" && $currentStep != $k )
+						$aClass == "class='done'";
+					else if( $aClass != "" && $currentStep == $k )
+						$aClass == "class='selected'";
+					?>
+					<li><a onclick="nextState($(this).attr('href'),$(this).attr('class'));" href="#<?php echo $k ?>" <?php echo $aClass ?> ><div class="stepNumber"><i class="fa  fa-<?php echo $v["icon"] ?>"></i></div><span class="stepDesc"> <?php echo $v["title"] ?> </span></a></li>	
+				<?php } 
+			}?>
+		</ul>
+		<?php  ?>
+		<div class="progress progress-xs transparent-black no-radius active">
+			<div aria-valuemax="100" aria-valuemin="0" role="progressbar" class="progress-bar partition-green step-bar">
+				<span class="sr-only"> 0% Complete (success)</span>
 			</div>
-		
-			<div class="errorHandler alert alert-danger no-display">
-				<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
-			</div>
+		</div>
+
+		<div class="errorHandler alert alert-danger no-display">
+			<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
+		</div>
 
 <?php 
 	}
@@ -143,16 +143,20 @@ each section must have a template , with the same key name
 ---------------------------------------------- */
 if(!isset($adminForm["scenarioAdmin"]))
 	$adminForm["scenarioAdmin"] = array("dossier"=>[]);
+if(!isset($answer["step"]))
+	$answer["step"] = "";
+
 $pageParams = array(
-	"adminAnswers"=>$adminAnswers,
+	"adminAnswers"=>$answer,
 	"adminForm"=>$adminForm,
-	"answers" => $answers,
+	"answers" => $answer['answers'],
 	"form" => $form,
 	"user" => $user,
 	"prioKey" => @$adminForm['key'],
 	"canAdmin" => $canAdmin,
 	"canSuperAdmin" => $canSuperAdmin,
-	"steps" => array_keys($adminForm["scenarioAdmin"])
+	"steps" => array_keys($adminForm["scenarioAdmin"]),
+	"session"=>$session
 ); 
 
 $ct = 0;
@@ -161,7 +165,7 @@ $showHide = "";
 
 foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
 	
-	if( in_array( @$adminAnswers["step"] , array( "risk","ficheAction" ) ) ){
+	if( in_array( @$answer["step"] , array( "risk","ficheAction" ) ) ){
 		$pageParams["riskTypes"] = @$riskTypes;
 		$pageParams["riskCatalog" ] = @$riskCatalog;
 	}
@@ -190,7 +194,7 @@ foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
 
 <?php 
 if(@$form["custom"]['footer']){
-	echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answers));
+	echo $this->renderPartial( $form["custom"]["footer"],array("form"=>$form,"answers"=>$answer['answers']));
 }
 
 $canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"],$form, $adminForm);
@@ -198,18 +202,21 @@ $canSuperAdmin = Form::canSuperAdmin($form["id"],$form["session"],$form, $adminF
 
 <script type="text/javascript">
 var form = <?php echo json_encode($form); ?>;
-var formSession = "<?php echo $_GET["session"]; ?>";
+var formSession = "<?php echo $session; ?>";
+
+
 
 var adminForm = <?php echo json_encode($adminForm); ?>;
 
-var adminAnswers  = <?php echo json_encode($adminAnswers); ?>;
+var adminAnswers  = <?php echo json_encode($answer); ?>;
 var rolesListCustom = <?php echo json_encode(@$roles); ?>;
 var canAdmin = "<?php echo $canAdmin; ?>";
 var canSuperAdmin = "<?php echo $canSuperAdmin; ?>";
 var updateForm = null;
 
 $(document).ready(function() { 
-	
+	uploadObj.formId = form.id;
+	uploadObj.answerId = "<?php echo $_GET['id']; ?>";	
 	bindAnwserList();
 
 	initWizard();
@@ -308,6 +315,7 @@ function getAnswers(dynJson, noTotal)
     });
     
     if(!noTotal){
+    	//alert("total"+total);
 	    $("."+updateForm.cat+"_"+updateForm.step+"Total").html( "[ Note : "+( parseFloat(total).toFixed(2) )+" ]" );
 	    $("."+updateForm.cat+"_"+updateForm.step+"TotalNum").html( parseFloat(total).toFixed(2) );
 	    $("."+updateForm.cat+"_"+updateForm.step+"ResultTitle").append( "<td class='bold'>Note</td>" );
@@ -319,7 +327,7 @@ function getAnswers(dynJson, noTotal)
     $("."+updateForm.cat+"_Priorisation").removeClass('hide');	
     
     calcPrio( updateForm.cat );
-	
+	calcTotal();
 	console.log("editAnswers",editAnswers);
     return editAnswers;
 }
@@ -328,13 +336,25 @@ function calcPrio (key)
 {
 	var t = 0;
 	$("."+key+"_Total").each( function(i,v){ 
-		console.log(i,v);
+		//console.log(i,v);
 		t += parseFloat( $(v).html() );
 	} );
 	t = parseFloat( t / $("."+key+"_Total").length ).toFixed(2) ;
 	//alert(t);
 	$( "."+key+"_Totaldesc" ).html( t );
 	$( "."+key+"_totalTotal" ).html( t );
+	return false;
+}
+
+function calcTotal () 
+{
+	var t = 0;
+	$("._Totaldesc").each( function(i,v){ 
+		t += parseFloat( $(v).html() );
+	} );
+	t = parseFloat( t / $("._Totaldesc").length ).toFixed(2) ;
+	//alert(t);
+	$( ".global_Totaldesc" ).html( t );
 	return false;
 }
 
@@ -362,6 +382,7 @@ function nextState(step,c) {
 	          callback: function() {
 	          	data={
 	    			formId : form.id,
+	    			answerId : adminAnswers["_id"]["$id"],
 	    			session : formSession,
 	    			answerSection : "step" ,
 	    			answers : step.substring(1),
@@ -379,16 +400,18 @@ function nextState(step,c) {
 			    			session : formSession,
 			    			answerSection : "step" ,
 			    			answers : step.substring(1),
-			    			answerUser : adminAnswers.user
+			    			answerUser : adminAnswers.user,
+			    			tplMail : adminAnswers.email
 			    		};
 
 			    		dataMail = adminForm.scenarioAdmin[step.substring(1)].mail;
 			    		dataMail = $.extend(dataMail, paramsMail);
-			    		$.each( answers , function(k,v) {
-			    			if(typeof v.email != null){
-			    				dataMail.tplMail = v.email ;
-			    			}
-			    		});
+			    		// $.each( adminAnswers , function(k,v) {
+
+			    		// 	if(typeof v.email != null){
+			    		// 		dataMail.tplMail = v.email ;
+			    		// 	}
+			    		// });
 
 			    		$.ajax({ 
 			          		type: "POST",
@@ -419,6 +442,7 @@ function nextState(step,c) {
 			        url: baseUrl+"/survey/co/update",
 			        data: {
 		    			formId        : form.id,
+		    			answerId : adminAnswers["_id"]["$id"],
 		    			session : formSession,
 		    			answerSection : "categories."+key ,
 		    			answers       : result,

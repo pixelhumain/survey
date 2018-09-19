@@ -1,80 +1,87 @@
 <?php
 class ActiveAction extends CTKAction{
 	public function run(){
-		$adminForm =  PHDB::findOne( Form::COLLECTION , array("id"=>$_POST["formId"]."Admin","session"=>$_POST["session"]) );
+		
+
+		$answer =  Form::getAnswerById($_POST["answerId"]);
+
+		$adminForm =  PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]."Admin","session"=>$answer["session"]) );
+
+		$form = Form::getByIdMongo( $_POST["form"] );
+
+		//echo Rest::json( $_POST );
+		
 		$data = array(
-			"formId" => $_POST["formId"],
-			"user" => $_POST["userId"],
-			"name" => $_POST["userName"],
 			"eligible" => false,
-			"session" => $_POST["session"],
 			"step" => array_keys($adminForm["scenarioAdmin"])[1]
 		);
 
 		$paramMail = array( "tpl" => "eligibilite",
 								"tplObject" => "Vous n'êtes pas éligible au CTE",
-								"tplMail" => $_POST["email"],
+								"tplMail" => $answer["email"],
 								"messages" => "Vous n'êtes pas éligible au CTE");
 		$res = array("result" => false,
 					"msg" => "N\'est pas éligible");
 		
+		$projet = array();
+
+		if(!empty($answer["answers"]["cte2"]["answers"]["project"])){
+			$project = array("id" => $answer["answers"]["cte2"]["answers"]["project"]["id"],
+								"type" => $answer["answers"]["cte2"]["answers"]["project"]["type"],
+								"name" => $answer["answers"]["cte2"]["answers"]["project"]["name"]);
+		}
 	
-		if(!empty($_POST["eligible"]) && ($_POST["eligible"] === true || $_POST["eligible"] == "true")) {
+		if(!empty($_POST["eligible"]) && ($_POST["eligible"] === true || $_POST["eligible"] == "true") && !empty($project)) {
 
 			$child = array();
-			$child[] = array( 	"childId" => $_POST["childId"],
-								"childType" => Element::getCollectionByControler($_POST["childType"]),
-								"childName" => $_POST["childName"],
+			$child[] = array( 	"childId" => $project["id"],
+								"childType" => Element::getCollectionByControler($project["type"]),
+								"childName" => $project["name"],
 								"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()),
 							 	"link" => "projectExtern");
 
-			//Rest::json($child);exit ;
-
 			$res[] = Link::multiconnect($child, $_POST["form"], Form::COLLECTION);
 
+			
 
-			$form = Form::getByIdMongo($_POST["form"], array("parentId", "parentType"));
-			$orga = PHDB::findOne($form["parentType"],array("_id"=>new MongoId((String) $form["parentId"])), array("name"));
-			// pour le projet
+			$orgaForm = PHDB::findOne($form["parentType"],array("_id"=>new MongoId((String) $form["parentId"])), array("name")); 
 			$child = array();
-			// $child[] = array( 	"childId" => $_POST["childId"],
-			// 					"childType" => Element::getCollectionByControler($_POST["childType"]),
-			// 					"childName" => $_POST["childName"],
-			// 					"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()));
-
-			// $res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
-
 			$child[] = array( 	"childId" => (String) $form["parentId"],
 								"childType" => $form["parentType"],
-								"childName" => $orga["name"],
-								"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()) );
+								"childName" => $orgaForm["name"],
+								"roles" =>  (!empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array()));
 
-			$res[] = Link::multiconnect($child, $_POST["childId"], Element::getCollectionByControler($_POST["childType"]));
+			$res[] = Link::multiconnect($child, $project["id"], Element::getCollectionByControler($project["type"]) );
 
-			//Rest::json($res); exit ;
+			$orga = array();
+			if(!empty($answer["answers"]["cte1"]["answers"]["organization"])){
+				$orga = array("id" => $answer["answers"]["cte1"]["answers"]["organization"]["id"],
+									"type" => $answer["answers"]["cte1"]["answers"]["organization"]["type"],
+									"name" => $answer["answers"]["cte1"]["answers"]["organization"]["name"]);
+			}
 
-			if(!empty($_POST["parentId"]) && !empty($_POST["parentType"])){
+			if(!empty($orga["id"]) && !empty($orga["type"])){
 
-				$existParent =PHDB::findOne( $_POST["parentType"] , array("_id"=>new MongoId($_POST["parentId"])) );
-
+				$existParent =PHDB::findOne( Element::getCollectionByControler($orga["type"]) , array("_id"=>new MongoId($orga["id"])) );
 				if(!empty($existParent)){
 
 					// pour l'orga
 					$child = array();
-					$child[] = array( 	"childId" => $_POST["parentId"],
-										"childType" => Element::getCollectionByControler($_POST["parentType"]),
-										"childName" => $_POST["parentName"],
+					$child[] = array( 	"childId" => $orga["id"],
+										"childType" => Element::getCollectionByControler($orga["type"]),
+										"childName" => $orga["name"],
 										"roles" =>  !empty($_POST["roles"]) ? explode(",", $_POST["roles"]) : array());
-					//Rest::json( $form ); exit ;
 					$res[] = Link::multiconnect($child, (String) $form["parentId"], $form["parentType"]);
+
 				}
 			}
 
-			
+			//Rest::json($res); exit ;
 
 			$data["eligible"] = true ;
 			$data["step"] = array_keys($adminForm["scenarioAdmin"])[2] ;
 			$roles = explode(",", $_POST["roles"]);
+			$data["tags"]= explode(",", $_POST["tags"]);
 
 			$pourcentage = round(100 / count($roles), 2);
 
@@ -95,7 +102,9 @@ class ActiveAction extends CTKAction{
 							"data" => $data);
 		}
 
-		Form::save($data);
+		PHDB::update(Form::ANSWER_COLLECTION, 
+						  	array("_id"=>new MongoId($_POST["answerId"])),
+	                        array(	'$set' => $data));
 		Mail::createAndSend($paramMail);
 		echo Rest::json( $res );
 		

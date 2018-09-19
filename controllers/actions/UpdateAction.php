@@ -5,11 +5,10 @@ class UpdateAction extends CAction
     {
         $res=false;
         $msg=Yii::t("common","Please Login First");
-        if ( Person::logguedAndValid() ) 
+        //ajouter Form::canAdmin( (string)$form["_id"], $form )
+        if ( Person::logguedAndValid()  ) 
         {
-            $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array("formId"=>@$_POST["formId"],
-                                                                    "session"=>@$_POST["session"], 
-                                                                    "user"=>$_POST["answerUser"]));
+            $answer = PHDB::findOne( Form::ANSWER_COLLECTION , array( "_id"=>new MongoId(@$_POST["answerId"]) ) );
             if(!empty($answer)){
                 $key = $_POST["answerSection"];
                 $value = $_POST["answers"];
@@ -30,28 +29,25 @@ class UpdateAction extends CAction
                 //****************************
                 //update total scores 
                 //****************************
-                $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array( 
-                                "formId"=>@$_POST["formId"], 
-                                "session"=>@$_POST["session"],
-                                "user"=>@Yii::app()->session["userId"]));
+                $answer = PHDB::findOne(Form::ANSWER_COLLECTION , array( "_id"=>new MongoId(@$_POST["answerId"])) );
                 $form = PHDB::findOne(Form::COLLECTION , array( "id"=>@$_POST["formId"]."Admin","session"=>@$_POST["session"]));
 
                 $total = null;
                 
                 if( ( @$_POST["answerKey"] && @$_POST["answerStep"] ) && 
-                        ( @$answer[ "answers" ][ @$_POST["answerKey"] ][ @$_POST["answerStep"] ]["total"] || count( $answer[ "answers" ][ @$_POST["answerKey"] ][ @$_POST["answerStep"] ] ) == count( $form["scenario"] ) ) )
+                        ( @$answer[ @$_POST["answerKey"] ][ @$_POST["answerStep"] ]["total"] || count( $answer[ @$_POST["answerKey"] ][ @$_POST["answerStep"] ] ) == count( $form["scenario"] ) ) )
                 {
                     //calculate total and update in DB
                     $total = 0;
-                    foreach ( $answer[ "answers" ][ $_POST["answerKey"] ][ $_POST["answerStep"] ] as $key => $value) {
+                    foreach ( $answer[ $_POST["answerKey"] ][ $_POST["answerStep"] ] as $key => $value) {
                         //FOR THE MOMENT ALL steps have same weight
                         if(@$value[ "total" ])
                             $total += (float)$value[ "total" ];
                     }
                     $total = floor( ($total / count( $form["scenario"] ))*100 ) / 100;
-                    PHDB::update(Form::ANSWER_COLLECTION,
+                    PHDB::update ( Form::ANSWER_COLLECTION,
                         array( "_id"=>new MongoId( (string)$answer["_id"]) ), 
-                        array( '$set' => array( 'answers.'.$_POST["answerKey"].".".$_POST["answerStep"].".total" => $total ) ) );
+                        array( '$set' => array( $_POST["answerKey"].".".$_POST["answerStep"].".total" => $total ) ) );
                 }
                 
                 

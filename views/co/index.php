@@ -73,6 +73,10 @@ if(@$form["custom"]['footer']){
 var answers = null;
 var surveyContry = "<?php echo @$form["countryCode"] ?>";
 var formSession = "<?php echo @$_GET["session"]; ?>";
+var answerId = "<?php echo @$_GET["answer"]; ?>";
+
+
+
 jQuery(document).ready(function() {
 
     $(".openFile").click( function() { 
@@ -86,6 +90,9 @@ jQuery(document).ready(function() {
     startDate = <?php echo json_encode( @$startDate )?>;
     endDate = <?php echo json_encode( @$endDate )?>;
     dySObj.surveys.json={};
+
+uploadObj.formId = (jsonHelper.notNull( "dySObj.surveys.parentSurvey")) ? dySObj.surveys.parentSurvey.id :dySObj.surveys.id ;
+uploadObj.answerId = "<?php echo @$_GET['answer']; ?>";
 
     //scenario is a list of many survey definitions that can be put together in different ways
     //$("#surveyDesc").html("");

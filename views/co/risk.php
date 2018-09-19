@@ -50,8 +50,8 @@
 								// 	$labelR = "Lire";
 								// else
 								// 	$labelR = "Ajouter un commentaire";
-
-								$userAction = "<a class='btn btn-danger userActionBtn' data-riskid='".$key."' data-answerid='".(string)$adminAnswers["_id"]."' href='javascript:;'><i class='fa fa-comment'></i> Ajouter un commentaire</a>";
+			
+								$userAction = "<a class='btn btn-danger userActionBtn' data-riskid='".$key."' data-answerid='".(string)$adminAnswers["_id"]."' href='javascript:;'>".PHDB::count(Comment::COLLECTION, array("contextId"=>(string)$adminAnswers["_id"],"contextType"=>Form::ANSWER_COLLECTION, "path"=>"risks.".$key))." <i class='fa fa-comment'></i></a>";
 								echo $userAction ;
 							?>
 						</td>
@@ -63,9 +63,9 @@
 			<?php } 
 			}?>
 		</table>
-		<?php if( @$adminAnswers["risks"] ){ ?>
-		<a href="javascript:;" onclick="riskObj.pingUserRisk()" class="btn btn-danger pull-left"> <i class="fa-thumbs-down fa"></i> Demande de complément</a>
-		<?php } ?>
+		<?php //if( @$adminAnswers["risks"] ){ ?>
+			<a href="javascript:;" onclick="riskObj.pingUserRisk()" class="btn btn-warning pull-left"> <i class="fa-envelope fa"></i> Informer le porteur d'une demande de complément </a>
+		<?php //} ?>
 		<div id="toto" style="clear:both"></div>
 	</div>
 	<div id="riskCatalogue" class=" padding-10"  style="display:none;border:1px solid  #ccc">
@@ -165,7 +165,7 @@ $(document).ready(function() {
 	});
 
 	$('.editRisk').click( function() { 
-		dyFObj.editElement("risks", $(this).parent().data('id'),riskForm);
+		dyFObj.editElement( "risks", $(this).parent().data('id'),riskForm);
 	})
 
 	riskObj.initAddBtn();
@@ -253,6 +253,7 @@ var riskObj = {
 
 						data={
 			    			formId : form.id,
+			    			answerId : adminAnswers["_id"]["$id"],
 			    			session : formSession,
 			    			answerSection : "risks."+riskId ,
 			    			answers : riskObj.selectedRisks[ riskId ],
@@ -314,19 +315,45 @@ var riskObj = {
 	            className: "btn btn-primary pull-left",
 	            callback: function() {
 	            	//ajout attribut sur answer.cte.infoRequest
-	            	data={
+	       //      	data={
+		    		// 	formId : form.id,
+		    		// 	answerId : adminAnswers["_id"]["$id"],
+		    		// 	session : formSession,
+		    		// 	answerSection : "infoRequest" ,
+		    		// 	answers : true,
+		    		// 	answerUser : adminAnswers.user ,
+		    		// };
+
+		    		// console.log("saving",data);
+		      //     	$.ajax({ 
+		      //     		type: "POST",
+				    //     url: baseUrl+"/survey/co/update",
+				    //     data: data
+				    // }).done(function (data) { 
+				    // 	toastr.success('Demande envoyée avec succès');
+				    // });
+
+				    paramsMail={
 		    			formId : form.id,
 		    			session : formSession,
-		    			answerSection : "infoRequest" ,
-		    			answers : true,
-		    			answerUser : adminAnswers.user ,
+		    			answerId : adminAnswers._id.$id,
+		    			// answerSection : "step" ,
+		    			// answers : step.substring(1),
+		    			answerUser : adminAnswers.user,
+		    			tplMail : adminAnswers.email,
+		    			tplObject : "Demande de réponses",
+		    			tpl : "eligibilite",
+		    			messages : "Le CTE souhaite avoir quelque retour sur votre projet concernant quelque contraintes"
 		    		};
-		    		console.log("saving",data);
-		          	$.ajax({ 
+
+		    		// dataMail = adminForm.scenarioAdmin[step.substring(1)].mail;
+		    		// dataMail = $.extend(dataMail, paramsMail);
+
+		    		$.ajax({ 
 		          		type: "POST",
-				        url: baseUrl+"/survey/co/update",
-				        data: data
-				    }).done(function (data) { 
+				        url: baseUrl+"/"+moduleId+"/mailmanagement/createandsend/",
+				        data: paramsMail
+				    }).done(function (data) {
 				    	toastr.success('Demande envoyée avec succès');
 				    });
 	            }
@@ -338,7 +365,6 @@ var riskObj = {
 	          }
 	        ]
 	    });
-
 	}
 };
 

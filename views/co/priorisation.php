@@ -1,4 +1,4 @@
-<?php 
+<?php /*
 if( $canAdmin && array_search('priorisation', $steps) <= array_search($adminAnswers["step"], $steps)) {
 
 if(@$adminAnswers["categories"]){
@@ -13,7 +13,7 @@ if(@$adminAnswers["categories"]){
 	}
 </script>
 <style type="text/css">
-	.nav li a{font-size:17px;}
+	.nav li a{font-size:14px;}
 	.nav li.active {border-right : 3px solid red;border-left : 3px solid red}
 	.nav li.active a{font-weight: bolder;}
 </style>
@@ -33,7 +33,7 @@ if(@$adminAnswers["categories"]){
 
 		foreach ($adminAnswers["categories"] as $ka => $va ) { ?>
 		  <li id="<?php echo $ka?>Btn" class="catElLI bold"><a href="javascript:;" onclick="EliTabs('<?php echo $ka ?>')"><?php 
-		  	$ic = ( !@$adminAnswers["answers"][$prioKey][ $va["name"]]["total"] && Form::canAdminRoles((string)$form["_id"], $va["name"], $form) ) ? " <i class='text-red fa fa-cog'></i>" : "";
+		  	$ic = ( !@$adminAnswers[$prioKey][ $va["name"]]["total"] && Form::canAdminRoles((string)$form["_id"], $va["name"], $form) ) ? " <i class='text-red fa fa-cog'></i>" : "";
 			echo mb_strtoupper($va["name"]).$ic; ?></a></li>
 		  <?php } ?>
 			<li class="pull-right">
@@ -67,7 +67,7 @@ if(@$adminAnswers["categories"]){
 				</tr>
 				<tr>
 					<?php foreach ($adminAnswers["categories"] as $ka => $va ) {?>
-					<td><a href="javascript:;"><?php echo @$va["pourcentage"]."%" ?></a></td>
+					<td><a href="javascript:;" onclick="changeCategoryWeight('<?php echo $ka ?>','<?php echo @$va["pourcentage"] ?>')"><?php echo @$va["pourcentage"]."%" ?></a></td>
 					<?php } ?>
 					<td>100%</td>
 					<!-- td>Note</td-->
@@ -76,22 +76,29 @@ if(@$adminAnswers["categories"]){
 					<?php 
 					$tot = 0;
 					$ctot = 0;
-					if(@$adminAnswers["answers"][$prioKey]){ 
-						foreach ( @$adminAnswers["answers"][$prioKey] as $ka => $va ) {?>
-							<td class="<?php echo $ka ?>_Totaldesc">
-							<?php if(@$va['total']){
-										echo $va['total'];
-										$ctot++;
-									} 
-										else 
-										echo "-"; ?>
+					if(@$adminAnswers[$prioKey])
+					{ 
+						foreach ( @$adminAnswers[$prioKey] as $ka => $va ) 
+						{?>
+							<td class="<?php echo $ka ?>_Totaldesc _Totaldesc ">
+							<?php 
+								if(@$va['total']){
+									echo $va['total'];
+									$ctot++;
+								} 
+								else 
+									echo "-"; ?>
 							</td>
 							<?php 
 							$w = 1 + ((int)$adminAnswers["categories"][$ka] / 100);
 							$tot += (floor( (float)@$va['total']*100 / $w))/100;
 						} 
+					} else if(@$adminAnswers["categories"]){
+						foreach ($adminAnswers["categories"] as $ka => $va ) {?>
+							<td class="<?php echo $ka ?>_Totaldesc _Totaldesc ">-</td>
+					<?php }
 					}?>
-					<td ><?php if($ctot == count($adminAnswers["categories"]) ) echo $tot; ?></td>
+					<td class="global_Totaldesc"><?php if($ctot == count($adminAnswers["categories"]) ) echo $tot; ?></td>
 					<!--td></td-->
 				</tr>
 			</table>
@@ -104,7 +111,7 @@ if(@$adminAnswers["categories"]){
 					<h2 class=""><?php echo mb_strtoupper($prioKey) ?> <?php echo $key ?></h2>
 
 					<?php 
-						$showHide = (@$adminAnswers["answers"][$prioKey][$key]) ? "" : "hide";
+						$showHide = (@$adminAnswers[$prioKey][$key]) ? "" : "hide";
 						$showHide = "";
 					// ---------------------------------------
 					// GLOBAL RESULT TABLE FOR EACH CATEGORY
@@ -138,10 +145,10 @@ if(@$adminAnswers["categories"]){
 								foreach ($prioTypes as $prioType ) 
 								{  ?>
 								<td class="<?php echo $key?>_Total <?php echo $key?>_<?php echo $prioType ?>TotalNum">
-									<?php if( @$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]["total"] ) {
-										echo $adminAnswers["answers"][$prioKey][ $key ][ $prioType ]["total"]; 
+									<?php if( @$adminAnswers[$prioKey][ $key ][ $prioType ]["total"] ) {
+										echo $adminAnswers[$prioKey][ $key ][ $prioType ]["total"]; 
 										$countRes++;
-										$countTotal += (float)$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]["total"];
+										$countTotal += (float)$adminAnswers[$prioKey][ $key ][ $prioType ]["total"];
 									} ?>
 								</td>
 								<?php } ?>
@@ -168,8 +175,8 @@ if(@$adminAnswers["categories"]){
 						$btnColor = "btn-default" ;
 						$hideTable = "";
 						$hideTable = "display:none;";
-						if(@$adminAnswers["answers"][$prioKey][$key][ $prioType ]["total"]){
-							$score = "[NOTE : ".$adminAnswers["answers"][$prioKey][$key][ $prioType ]["total"]."]";
+						if(@$adminAnswers[$prioKey][$key][ $prioType ]["total"]){
+							$score = "[NOTE : ".$adminAnswers[$prioKey][$key][ $prioType ]["total"]."]";
 							$titleResult = "résultat ".$prioType;
 							$btnColor = "btn-default" ;
 							//$hideTable = "display:none;";
@@ -188,11 +195,11 @@ if(@$adminAnswers["categories"]){
 
 							<tr class="<?php echo $key?>_<?php echo $prioType ?>ResultTitle">
 								<?php 
-								if(@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]){
-								foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ] as $k => $v ) {
+								if(@$adminAnswers[$prioKey][ $key ][ $prioType ]){
+								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {
 
 									if(!in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") )  && $k != "total")
-										echo '<td class="padding-10">'.@$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["placeholder"]."</td>"; 
+										echo '<th class="padding-10">'.@$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["placeholder"]."</th>"; 
 									
 								}} ?>
 							</tr>
@@ -200,42 +207,39 @@ if(@$adminAnswers["categories"]){
 
 							<tr class="<?php echo $key?>_<?php echo $prioType ?>ResultWeight">
 								<?php 
-								if(@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]){
-								foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ] as $k => $v ) {
-									?>
-									<?php 
+								if(@$adminAnswers[$prioKey][ $key ][ $prioType ]){
+								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {
+									 
 										if (!in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") )  && $k != "total")
 											echo (@$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["weight"]) ? '<td>'.@$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["weight"]."% </td>" : "";
-											 ?>
-								<?php }} ?>
+								}} ?>
 							</tr>
 						
 
 							<tr class="<?php echo $key?>_<?php echo $prioType ?>ResultAnswer">
 								<?php 
-								if(@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]){
-								foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ] as $k => $v ) {?>
-									<?php 
+								if(@$adminAnswers[$prioKey][ $key ][ $prioType ]){
+								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {
 										if(! in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) && $k != "total" )
-											echo '<td>'.$v.'</td>' ?>
-								<?php }} ?>
+											echo '<td>'.$v.'</td>';
+								}} ?>
 							</tr>
 
 							<tr class="<?php echo $key?>_<?php echo $prioType ?>LabelAnswer">
 								<?php 
-								if(@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]){
-								foreach (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ] as $k => $v ) {?>
-									<?php 
+								if(@$adminAnswers[$prioKey][ $key ][ $prioType ]){
+								foreach (@$adminAnswers[$prioKey][ $key ][ $prioType ] as $k => $v ) {
+
 										if(! in_array( @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["inputType"],array("text", "textarea") ) 
 											&& $k != "total" 
-											&& @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v])
-											echo '<td class="padding-10">'.$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v].'</td>'; ?>
-								<?php }} ?>
+											&& @$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v] )
+											echo '<td class="padding-10">'.$adminForm["scenario"][$prioType][ "json" ][ "jsonSchema" ][ "properties" ][$k]["options"][$v].'</td>'; 
+								}} ?>
 							</tr>
 						
 
 						</table>
-						<div class="col-xs-12 <?php echo $key?>_<?php echo $prioType ?>Comment"><?php echo (@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]["prioDesc"]) ? "Commentaire : <br/>".@$adminAnswers["answers"][$prioKey][ $key ][ $prioType ]["prioDesc"]:""; ?></div>
+						<div class="col-xs-12 <?php echo $key?>_<?php echo $prioType ?>Comment"><?php echo (@$adminAnswers[$prioKey][ $key ][ $prioType ]["prioDesc"]) ? "Commentaire : <br/>".@$adminAnswers[$prioKey][ $key ][ $prioType ]["prioDesc"]:""; ?></div>
 						<div style="clear:both"></div>
 					</div>
 					<hr>
@@ -259,7 +263,8 @@ if(@$adminAnswers["categories"]){
 			form : $(this).data("form")	,
 			category : $(this).data("section")+"."+$(this).data("category")	,
 			cat : $(this).data("category"),
-			step : $(this).data("step")	
+			step : $(this).data("step"),
+			section : $(this).data("section")
 		};
 
 		var editForm = adminForm.scenario[$(this).data("step")].json;
@@ -277,8 +282,9 @@ if(@$adminAnswers["categories"]){
 		{
 			data={
     			formId : updateForm.form,
+    			answerId : adminAnswers["_id"]["$id"],
     			session : formSession,
-    			answerSection : "answers."+updateForm.category+"."+updateForm.step ,
+    			answerSection : updateForm.category+"."+updateForm.step ,
     			answerKey : "<?php echo $adminForm['key'] ?>" ,
     			answerStep : updateForm.cat ,
     			answers : getAnswers( adminForm.scenario[ updateForm.step ].json ),
@@ -304,11 +310,18 @@ if(@$adminAnswers["categories"]){
 		    });
 		};
 
-		if(adminAnswers.answers &&
-			adminAnswers.answers.priorisation && 
-			adminAnswers.answers.priorisation[updateForm.cat] &&
-			adminAnswers.answers.priorisation[updateForm.cat][updateForm.step])
-			dyFObj.editStep( editForm, adminAnswers.answers.priorisation[updateForm.cat][updateForm.step] );
+//<<<<<<< HEAD
+		if( adminAnswers[updateForm.section] && 
+			adminAnswers[updateForm.section][updateForm.cat] &&
+			adminAnswers[updateForm.section][updateForm.cat][updateForm.step])
+			dyFObj.editStep( editForm, adminAnswers[updateForm.section][updateForm.cat][updateForm.step] );
+// =======
+// 		if(adminAnswers.answers &&
+// 			adminAnswers.answers.priorisation && 
+// 			adminAnswers.answers.priorisation[updateForm.cat] &&
+// 			adminAnswers.answers.priorisation[updateForm.cat][updateForm.step])
+// 			dyFObj.editStep( editForm, adminAnswers.answers.priorisation[updateForm.cat][updateForm.step] );
+// >>>>>>> master
 		else 
 			dyFObj.editStep( editForm );	
 
@@ -382,4 +395,4 @@ function updateRoles(childId, childType, childName, connectType, roles, answer) 
 </script>
 <?php } 
 }
-?>
+*/ ?>

@@ -4,6 +4,9 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery-simplePagination/simplePagination.css',
 	'/plugins/select2/select2.min.js' ,
 	'/plugins/select2/select2.css',
+	'/plugins/underscore-master/underscore.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
+	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true));
 
@@ -17,10 +20,17 @@ $cssJS = array(
     '/js/dataHelpers.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
+$cssAnsScriptFilesModule = array(
+	'/assets/js/comments.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
 
 ?>
 
 <style type="text/css">
+	.clickOpen{
+		cursor: pointer;
+	}
 	.round{
 		border-radius: 100%;
 		width: 250px;
@@ -29,7 +39,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 		border-color: #333;
  	}
 </style>
-<div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding" >
+<div class="panel panel-white col-lg-offset-1 col-lg-10 col-xs-12 no-padding">
+	
 	<div class="col-md-12 col-sm-12 col-xs-12 ">
 		<h1 class="text-center">Liste des projets <!-- <a href="<?php //echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php // echo $form["id"] ?>"><i class="fa fa-arrow-circle-right"></i></a>  --></h1>
 		<br/>
@@ -56,140 +67,195 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 	    </div>
     </div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20 text-center"></div>
+</div>
+<div class="panel panel-white col-lg-12 col-xs-12 no-padding">
 	<div class="panel-body">
 		<div>
 			<!-- <a href="<?php //echo '#element.invite.type.'.Form::COLLECTION.'.id.'.(string)$form['_id'] ; ?>" class="btn btn-primary btn-xs pull-right margin-10 lbhp">Invite Admins & Participants</a> -->
-			<span><b>Il y a <span id="nbLine"><?php echo count(@$results); ?></span> réponses</b></span> 
-			<span> <a href="javascript:;" id="csv"><i class='fa fa-2x fa-table text-green'></i></a></span> 
-			<!-- <a href="<?php //echo Yii::app()->createUrl('survey/co/roles/id/'.$_GET["id"].'/session/1'); ?>" class="pull-right btn btn-xs btn-primary margin-10">Fiche Action</a> -->
-			<br/><br/>
 			
-			<div style="max-height: 480px;; overflow: auto">
-				<table class="table table-striped table-bordered table-hover directoryTable" id="panelAdmin">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Nom du projet</th>
-							<th>Description</th>
-							<th>Organisation</th>
-							<th>Référent</th>
-							<th>Etape</th>
-							<th>Voir la réponse</th>
-							<th>Eligibilité</th>
-							<th>Étiquetage</th>
-							<th>Contraintes</th>
-							<th>Fiche Action</th>
-							<th>PDF</th>
-							<th>Budget</th>
-						</tr>
-					</thead>
-					<tbody class="directoryLines">
-						<?php
-							$nb = 0;
-							foreach ($results as $k => $v) {
-								$nb++;
-								$lblEligible = "À faire";
-								$classEligible = "todoeligible";
-								$colorEligible = "black";
-								if(isset($userAdminAnswer[$k]["eligible"])){ 
-									if($userAdminAnswer[$k]["eligible"]) {
-										$lblEligible = "Éligible";
-										$classEligible = "eligible";
-										$colorEligible = "text-green";
+
+			<span><b>Il y a <span id="nbLine"><?php echo count(@$results); ?></span> réponses</b></span> 
+			<span> <a href="javascript:;" id="csv"><i class='fa fa-2x fa-table text-green'></i></a></span>
+			<br/><br/>
+
+			<table class="table table-striped table-bordered table-hover directoryTable" id="panelAdmin" style="table-layout: fixed; width:100%; word-wrap:break-word;">
+				<thead>
+					<tr>
+						<th class="">#</th>
+						<th class="col-xs-1">Projet</th>
+						<th class="col-xs-1">Description</th>
+						<th class="col-xs-1">Porteur</th>
+						<th class="">Personne référente</th>
+						<th class="">Avancement dossier</th>
+						<th class="">Commentaire</th>
+						<th class="col-xs-1">Étiquetage</th>
+						<th class="col-xs-1">Tags</th>
+						<th>Status</th>
+						<th >PDF</th>
+						<th >Budget</th>
+					</tr>
+				</thead>
+				<tbody class="directoryLines">
+					<?php
+						$nb = 0;
+						foreach ($results as $k => $v) {
+							$nb++;
+
+							$lblEligible = "";
+							$classEligible = "todoeligible";
+							$colorEligible = "black";
+							if(isset($v["eligible"])){ 
+								if($v["eligible"]) {
+									$lblEligible = "Éligible";
+									$classEligible = "eligible";
+									$colorEligible = "text-green";
+								}
+								else  {
+									$lblEligible = "Non Éligible"; 
+									$classEligible = "noteligible";
+									$colorEligible = "text-red";
+								}
+							} 
+								 ?>
+						<tr data-id="<?php echo $v['_id'] ?>" class="<?php echo $classEligible." "; if(@$v["categories"])foreach (@$v["categories"] as $key => $value) {
+									echo $key." ";
+								}
+								 ?> line">
+							<td class="clickOpen"><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/logs/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" ><?php echo @$nb ?></a></td>
+							<td class=" clickOpen"  id='<?php echo $k."project";?>'><?php echo @$v[Project::CONTROLLER]["name"] ?></td>
+							<td class=" clickOpen"  id='<?php echo $k."desc";?>'><?php echo @$v[Project::CONTROLLER]["shortDescription"] ?></td>
+							<td class=" clickOpen"  id='<?php echo $k."orga";?>'><?php echo @$v[Organization::CONTROLLER]["name"] ?></td>
+							<td class=" clickOpen"  id='<?php echo $k."user";?>'><?php echo @$v['name'] ?></td>
+							<td class=" clickOpen" >
+								<?php
+									$c = 0 ;
+									if(@$v['answers']){
+										foreach ($v['answers'] as $key => $value) {
+											if($value == true)
+												$c++;
+										}
 									}
-									else  {
-										$lblEligible = "Non Éligible"; 
-										$classEligible = "noteligible";
-										$colorEligible = "text-red";
+									$classText = ($c == count(@$v['answers'])) ? 'text-success' : 'text-red';
+									echo "<span id='".$k."etape' class='".$classText."'>".$c." / ".count(@$form['scenario'])."</span>"; 
+								?>
+							</td>
+							<td ><a href="javascript:;" class="btn btn-primary openAnswersComment" onclick="commentAnswer('<?php echo $v['_id'] ?>')">
+								<?php echo PHDB::count(Comment::COLLECTION, array("contextId"=>(string)$v['_id'],"contextType"=>Form::ANSWER_COLLECTION)); ?>
+								<i class='fa fa-comments'></i>
+							</a></td>
+							<td id='<?php echo $k."etiquetage";?>'>
+								<?php 
+								if(@$v["categories"]){
+									foreach ($v["categories"] as $kC => $vC) {
+										echo $vC["name"]."<br/>";
 									}
 								} 
-									 ?>
-							<tr class="<?php echo $classEligible." "; if(@$userAdminAnswer[$k]["categories"])foreach (@$userAdminAnswer[$k]["categories"] as $key => $value) {
-										echo $key." ";
+								?>
+							</td>
+							<td id='<?php echo $k."tags";?>'>
+								<?php 
+								if(@$v["tags"]){
+									foreach ($v["tags"] as $kC => $vC) {
+										echo $vC."<br/>";
 									}
-									 ?> line">
-								<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/logs/id/<?php echo $form['id'] ?>/user/<?php echo @$k  ?>" ><?php echo @$nb ?></a></td>
-								<td><?php echo @$v['name'] ?></td>
-								<td><?php echo @$v['desc'] ?></td>
-								<td><?php echo @$v['parentName'] ?></td>
-								<td><?php echo @$v['userName'] ?></td>
-								<td >
-									<?php
-									$c = 0 ;
-
-									foreach ($v['scenario'] as $key => $value) {
-										if($value == true)
-											$c++;
-									}
-
-									$classText = ($c == count(@$v['scenario'])) ? 'text-success' : 'text-red';
-									echo "<span id='".$k."etape' class='".$classText."'>".$c." / ".count(@$v['scenario'])."</span>"; ?>
-								</td>
-								<td><a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ; ?>/survey/co/answer/id/<?php echo $form['id'] ?>/session/<?php echo $_GET['session'] ?>/user/<?php echo @$k  ?>" target="_blanck" class="btn btn-primary">Lire</a></td>
-								<td id='<?php echo $k."eligible";?>' class="<?php echo $colorEligible ?>"><?php echo $lblEligible ?></td>
-								<td id='<?php echo $k."etiquetage";?>'><?php if(@$userAdminAnswer[$k]["categories"]){
-									foreach ($userAdminAnswer[$k]["categories"] as $key => $value) {
-										echo @$value["name"]."<br/>";
-									}
-									} ?></td>
-								<td><?php 
-									
-									if(@$userAdminAnswer[$k]["risks"]){
-										$list= "";
-										$globrcol = "success";
-										foreach ($userAdminAnswer[$k]["risks"] as $kr => $vr) {
-
-											$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
-
-											if( $globrcol == "success" && $rcol == "orange" )
-												$globrcol = "warning";
-											else if ( ($globrcol == "success" && $rcol == "red") || 
-													  ($globrcol == "orange" && $rcol == "red") )
-												$globrcol = "danger";
-											
-											$list .= "<li class='padding-5' style='background-color:".$rcol."'>".$vr["desc"]."(".$vr["weight"].")</li>";
-										}
-										
-										echo "<a  id='".$k."risk' class='btn btn-xs btn-".$globrcol."' href='javascript:;' onclick='$(\"#riskList".$k."\").toggle();'>".count(@$userAdminAnswer[$k]["risks"])." risque(s)</a>";
-										echo "<ul id='riskList".$k."' style='list-style:none; width:100%;display:none;'>";
-											echo $list; 
-										echo "</ul>";
-									} ?></td>
-								<td id='<?php echo $k."action";?>'><?php echo (@$userAdminAnswer[$k]["step"] == "ficheAction") ? "Selectionné" : ""; ?></td>
-
-								<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".$form['id']."/session/".$_GET['session']."/user/".@$k."' target='_blanck'><i class='fa fa-2x fa-file-pdf-o text-red' ></i></a>"; ?></td>
-
-								<td><?php
-									//var_dump($userAdminAnswer[$k]["scenario"]["cte3"]);
-									if(!empty($userAdminAnswer[$k]["scenario"]["cte3"]["previsionnel"]["previsionel"]["id"])){
-										$a = $userAdminAnswer[$k]["scenario"]["cte3"]["previsionnel"]["previsionel"];
-										//var_dump($a );
-										$document=Document::getById($a["id"]);
-										if(!empty($document)){ 
-											$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
-											echo "<a href='".$path."' target='_blank'><i class='fa fa-2x fa-file-pdf-o text-red'></i></a>";
-										}
-									}
-								 ?></td>
-
-							</tr>
+								} 
+								?>
+							</td>
+							<td>
 							<?php
-						} ?>
-					</tbody>
-				</table>
-			</div>
+								// if(!empty($v["risks"])){
+								// 	$list= "";
+								// 	$globrcol = "success";
+								// 	foreach ($v["risks"] as $kr => $vr) {
+								// 		$rcol = Form::$riskWeight[$vr["probability"].$vr["gravity"]]["c"];
+
+								// 		if( $globrcol == "success" && $rcol == "orange" )
+								// 			$globrcol = "warning";
+								// 		else if ( ($globrcol == "success" && $rcol == "red") || 
+								// 				  ($globrcol == "orange" && $rcol == "red") )
+								// 			$globrcol = "danger";
+										
+								// 		$list .= "<li class='padding-5' style='background-color:".$rcol."'>".$vr["desc"]."(".$vr["weight"].")</li>";
+								// 	}
+									
+								// 	echo "<a id='".$k."risk' class='btn btn-xs btn-".$globrcol."' href='javascript:;' onclick='$(\"#riskList".$k."\").toggle();'>".count(@$v["risks"])." risque(s)</a>";
+								// 	echo "<ul id='riskList".$k."' style='list-style:none; width:100%;display:none;'>";
+								// 		echo $list; 
+								// 	echo "</ul>";
+								// } 
+							$col = "white";
+							$icon = "fa-star";
+							$states = array(
+								"selected"   => array("color"=>"green","icon"=>"fa-thumbs-up"),
+								"prioritary" => array("color"=>"#d8e54b","icon"=>" fa-hand-pointer-o"),
+								"reserved"   => array("color"=>"orange","icon"=>"fa-question-circle"),
+								"abandoned"  => array("color"=>"red","icon"=>"fa-times")
+							);
+							if( @$v["priorisation"] ){
+								if(@$states[$v["priorisation"]]){
+									$col = $states[$v["priorisation"]]["color"];
+									$icon = $states[$v["priorisation"]]["icon"];
+								}
+							}
+							?>
+
+							<a href="javascript:;" data-id="<?php echo $v['_id'] ?>" id="prio<?php echo $v['_id'] ?>" class="prioritize  btn btn-default" style="background-color:<?php echo $col ?>"> 
+								<i class="fa fa-2x <?php echo $icon ?>"></i>
+							
+							</a>
+								
+							</td>
+							<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".@$k."' target='_blanck'><i class='fa fa-2x fa-file-pdf-o text-red' ></i></a>"; ?></td>
+
+							<td>
+								<?php
+								//var_dump($userAdminAnswer[$k]["scenario"]["cte3"]);
+								if(!empty($v["answers"]["cte3"]["answers"]["previsionnel"]["previsionel"]["id"])){
+									$a = $v["answers"]["cte3"]["answers"]["previsionnel"]["previsionel"];
+									//var_dump($a );
+									$document=Document::getById($a["id"]);
+									if(!empty($document)){ 
+										$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
+										echo "<a href='".$path."' target='_blank'><i class='fa fa-2x fa-file-pdf-o text-red'></i></a>";
+									}
+								} ?>
+							</td>
+						</tr>
+						<?php
+					} ?>
+				</tbody>
+			</table>
 			
 		</div>
 	</div>
 	<div class="pageTable col-md-12 col-sm-12 col-xs-12 padding-20"></div>
 </div>
 
-<script type="text/javascript">
+<div class="form-prioritize" style="display:none;">
+  <form class="inputProritary" role="form">
 
+	<a href="javascript:;" data-value="selected" class=" prioBtn btn btn-success">SELECTIONNÉ</a><br/><br/>
+	
+	<a href="javascript:;" data-value="prioritary" class="prioBtn btn" style="background-color: #d8e54b">PRIORITAIRE</a> mais à compléter, Manque d'informations, BP incomplet<br/><br/>
+	
+	<a href="javascript:;" data-value="reserved" class="prioBtn btn btn-warning">RESERVE FORTE </a>   Risques potentiels, dossier très incomplet<br/><br/>
+
+	<a href="javascript:;" data-value="abandoned"  class="prioBtn btn btn-danger">ABANDONNÉ</a> Risques avérés, bloquage reglementaire, incompatible CTE...<br/><br/>
+	<br/><br/>
+	
+  </form>
+</div>
+
+<script type="text/javascript">
 
 var results  = <?php echo json_encode($results); ?>;
 var formId = "<?php echo $form['id']; ?>";
 var sessionId = "<?php echo $_GET['session'] ?>";
+var avis = null;
+var answerId = null;
+var prioModal = null;
+var states  = <?php echo json_encode($states); ?>;
+
 function showType (type) { 
 	$(".line").hide();
 	$("."+type).show();
@@ -204,7 +270,9 @@ jQuery(document).ready(function() {
 	    	countLine();
 	    });
 	});
-
+	$(".clickOpen").off().on('click',function(){
+		window.open("<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/answer/id/" ; ?>"+$(this).parent().data('id')) ;
+	});
 	$("#csv").off().on('click',function(){
     	var chaine = "";
     	var csv = '"Num";"Projet";"Desc";"Organisation";"Référent";"Etape";"Lire";"Eligibilité";"Etiquetage";"Contraintes";"Fiche Action"' ;
@@ -214,14 +282,25 @@ jQuery(document).ready(function() {
         		console.log(value2)
         		csv += "\n";
         		csv += '"'+i+'";';
-        		csv += '"'+(notNull(value2.name) ? value2.name: "")+'";';
-        		csv += '"'+(notNull(value2.desc) ? value2.desc: "")+'";';
-        		csv += '"'+(notNull(value2.parentName) ? value2.parentName: "")+'";';
-        		csv += '"'+(notNull(value2.userName) ? value2.userName: "")+'";';
+        		csv += '"'+$("#"+key+"project").html()+'";';
+        		csv += '"'+$("#"+key+"desc").html()+'";';
+        		csv += '"'+$("#"+key+"orga").html()+'";';
+        		csv += '"'+$("#"+key+"user").html()+'";';
         		csv += '"'+$("#"+key+"etape").html()+'";';
-        		csv += '"'+baseUrl + "/survey/co/answer/id/"+formId+"/session/"+sessionId+"/user/"+key+'";';
+        		csv += '"'+ baseUrl + "/survey/co/answer/id/"+key+'";'; 
         		csv += '"'+$("#"+key+"eligible").html()+'";';
-        		csv += '"'+$("#"+key+"etiquetage").html()+'";';
+        		csv += '"'
+        		if(notNull(value2.categories)){
+        			var j = 1;
+					$.each(value2.categories, function(keyC, valC){
+						if(j != 1)
+							csv += ", ";
+						csv += valC.name;
+						j++;
+					});
+				}
+				csv += '";';
+        		//csv += '"'+$("#"+key+"etiquetage").html()+'";';
         		csv += '"'+(notNull($("#"+key+"risk").html()) ? $("#"+key+"risk").html(): "")+'";';
         		csv += '"'+$("#"+key+"action").html()+'";';
         		// csv += '"'+(notNull(value2.name) ? value2.name: "")+'";';
@@ -238,21 +317,102 @@ jQuery(document).ready(function() {
 		  .click(function() {
 		     $(this).remove()
 		  })[0].click() ;
-
 			$("#bodyResult").html(chaine);
     	$.unblockUI();
 	});
 
-});
+	$('.prioritize').off().on("click",function() { 
+		answerId = $(this).data("id");
+		prioModal = bootbox.dialog({
+	        message: $(".form-prioritize").html(),
+	        title: "Qualifiez ce dossier",
+	        show: false,
+	        onEscape: function() {
+	          prioModal.modal("hide");
+	        }
+	    });
+	    prioModal.modal("show");
 
+	    $(".prioBtn").off().on("click",function() { 
+			prioValue = $(this).data("value");
+			prioModal.modal("hide");
+	        postdata={
+				formId : formId,
+				answerId : answerId,
+				answerSection : "priorisation" ,
+				answers : $(this).data("value"),
+				answerUser : userId 
+			};
+			
+			console.log("saving",postdata);
+			// /alert(answerId);
+	      	$.ajax({ 
+	      		type: "POST",
+		        url: baseUrl+"/survey/co/update",
+		        data: postdata
+		    }).done(function (data) { 
+		    	
+		    	toastr.success('Status changé avec succès');
+		    	
+		    	$('#prio'+answerId).css("background-color",states[postdata.answers].color).html("<i class='fa fa-2x  "+states[postdata.answers].icon+"'></i>");
+
+		    	
+		    	postdata.answerSection = "step";
+		    	postdata.answers = ( prioValue == "selected") ? "ficheAction" : "eligible"; 
+
+				$.ajax({ 
+		      		type: "POST",
+			        url: baseUrl+"/survey/co/update",
+			        data: postdata
+			    }).done(function (data) { 
+			    	toastr.success('Step changé avec succès');
+			    });
+			    
+		    });
+
+		    
+
+		});
+	});
+
+	
+
+});
+function commentAnswer(answerId){
+	var modal = bootbox.dialog({
+	        message: '<div class="content-risk-comment-tree"></div>',
+	        title: "Fil de commentaire du projet",
+	        buttons: [
+	        
+	          {
+	            label: "Annuler",
+	            className: "btn btn-default pull-left",
+	            callback: function() {
+	              console.log("just do something on close");
+	            }
+	          }
+	        ],
+	        onEscape: function() {
+	          modal.modal("hide");
+	        }
+	    });
+		modal.on("shown.bs.modal", function() {
+		  $.unblockUI();
+		  	getAjax(".content-risk-comment-tree",baseUrl+"/"+moduleId+"/comment/index/type/answers/id/"+answerId,
+			function(){  //$(".commentCount").html( $(".nbComments").html() ); 
+			},"html");
+
+		  //bindEventTextAreaNews('#textarea-edit-news'+idNews, idNews, updateNews[idNews]);
+		});
+	   // modal.modal("show");
+	//}
+}
 function countLine(){
 	var nbLine = $("#panelAdmin tr.line").filter(function() {
 			    return $(this).css('display') !== 'none';
 			}).length ;
 	$("#nbLine").html(nbLine);
 }
-
-
 
 
 

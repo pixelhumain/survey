@@ -6,23 +6,16 @@
             </div>
             <div class="modal-body center text-dark hidden" id="modalRegisterSuccessContent"></div>
             <div class="modal-body center text-dark">
-                
                 <h5><i class="fa fa-angle-down"></i> Catégorie</h5>
                 <input id="selectCategorie" class="" type="text" data-type="select2" name="roles" placeholder="Choisissez une catégorie" style="width:100%;">
-                 <input type="hidden" name="childId" id="childId" value=""/>
-                <input type="hidden" name="childType" id="childType" value=""/>
-                <input type="hidden" name="childName" id="childName" value=""/>
-                <input type="hidden" name="userName" id="userName" value=""/>
-                <input type="hidden" name="userId" id="userId" value=""/>
-                <input type="hidden" name="form" id="form" value=""/>
-                <input type="hidden" name="email" id="email" value=""/>
-                <input type="hidden" name="formId" id="formId" value=""/>
-                <input type="hidden" name="eligible" id="eligible" value=""/>
-                <input type="hidden" name="parentId" id="parentId" value=""/>
-                <input type="hidden" name="parentType" id="parentType" value=""/>
-                <input type="hidden" name="parentName" id="parentName" value=""/>
-                <input type="hidden" name="form" id="form" value=""/>
-                <input type="hidden" name="formId" id="formId" value=""/>
+                 <input type="hidden" name="answerId" id="answerId" value=""/>
+                 <input type="hidden" name="eligible" id="eligible" value=""/>
+            </div>
+            <div class="modal-body center text-dark">
+                <h5><i class="fa fa-angle-down"></i> Tags</h5>
+                <input id="selectTag" class="" type="text" data-type="select2" name="tags" placeholder="Choisissez une catégorie" style="width:100%;">
+                 <input type="hidden" name="answerId" id="answerId" value=""/>
+                 <input type="hidden" name="eligible" id="eligible" value=""/>
             </div>
             <div class="modal-footer">
                  <button id="validEligible" type="button" class="btn btn-default letter-green" data-dismiss="modal"><i class="fa fa-check"></i> Validez </button>
@@ -37,27 +30,31 @@
     jQuery(document).ready(function() {
         if(typeof rolesListCustom != "undefined" && notNull(rolesListCustom) && rolesListCustom.length > 0)
             rolesList = rolesListCustom ;
-        $('#modalCatgeorieAnswers #selectCategorie').select2({tags:rolesList});
-        $("#validEligible").on("click",function(e){
-            var params = {
-                childId : $("#childId").val(),
-                childType : $("#childType").val(),
-                childName : $("#childName").val(),
-                userName : $("#userName").val(),
-                userId : $("#userId").val(),
-                form : $("#form").val(),
-                formId : $("#formId").val(),
-                eligible : $("#eligible").val(),
-                email : $("#email").val(),
-                session : formSession,
-                roles : $("#selectCategorie").val()
-            };
 
-            if($("#parentId").val() != "" && $("#parentType").val() != ""){
-                params["parentId"] = $("#parentId").val();
-                params["parentType"] =$("#parentType").val();
-                params["parentName"] = $("#parentName").val();
-            }
+        if(typeof form != "undefined" && typeof form.custom != "undefined" && typeof form.custom.roles != "undefined" && notNull(form.custom.roles) && form.custom.roles.length > 0)
+            rolesList = form.custom.roles ;
+
+        var tagsC = {};
+        if(typeof form != "undefined" && typeof form.custom != "undefined" && typeof form.custom.tags != "undefined" && notNull(form.custom.tags) && form.custom.tags.length > 0)
+            tagsC = form.custom.tags ;
+
+        $('#modalCatgeorieAnswers #selectCategorie').select2({tags:rolesList});
+        $('#modalCatgeorieAnswers #selectTag').select2({
+            tags:tagsC,
+            maximumSelectionLength : 1
+        });
+
+
+        $("#modalCatgeorieAnswers #validEligible").on("click",function(e){
+            var params = {
+                answerId : $("#answerId").val(),
+                form : form._id.$id,
+                formId : form.id,
+                session : formSession,
+                eligible : $("#eligible").val(),
+                roles : $("#selectCategorie").val(),
+                tags : $("#selectTag").val()
+            };
 
             eligibleFct(params);
         });
