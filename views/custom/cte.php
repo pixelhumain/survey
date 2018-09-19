@@ -128,9 +128,9 @@ foreach ($sessions as $s => $sv)
 
       echo "<tr> <td  colspan='5' class='text-center'>";
         if( Form::notOpen(@$sv["startDate"]) )
-          echo "<h2 class='btn' style='background-color:red'>La session n'a pas encore commencé.</h2>";
+          echo "<h2 class='btn bold ' style='background-color:red'>La session n'a pas encore commencé.</h2>";
         else if( Form::isFinish(@$sv["endDate"]) )  
-          echo "<h2 class='btn' style='background-color:red'>La session est cloturé.</h2>";
+          echo "<h2 class='btn bold ' style='background-color:red'>La session est cloturé.</h2>";
         else 
           echo " <a href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/new/id/".$form['id']."/session/".$s."' class='btn btn-primary' style='width:100%' ><i class='fa fa-plus'></i> Ajouter une réponse</a>";
       echo "</td></tr>";

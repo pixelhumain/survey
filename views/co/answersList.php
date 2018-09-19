@@ -82,7 +82,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 						<th class="">Avancement dossier</th>
 						<th class="">Commentaire</th>
 						<th class="col-xs-1">Étiquetage</th>
-						<th>Avis COPIL</th>
+						<th>Status</th>
 						<th >PDF</th>
 						<th >Budget</th>
 					</tr>
@@ -163,16 +163,25 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 								// 		echo $list; 
 								// 	echo "</ul>";
 								// } 
-							$col = "green";
-							$count = 4;
-							$icon = "star-o"
+							$col = "white";
+							$icon = "fa-star";
+							$states = array(
+								"selected"   => array("color"=>"green","icon"=>"fa-thumbs-up"),
+								"prioritary" => array("color"=>"#d8e54b","icon"=>" fa-hand-pointer-o"),
+								"reserved"   => array("color"=>"orange","icon"=>"fa-question-circle"),
+								"abandoned"  => array("color"=>"red","icon"=>"fa-times")
+							);
+							if( @$v["priorisation"] ){
+								if(@$states[$v["priorisation"]]){
+									$col = $states[$v["priorisation"]]["color"];
+									$icon = $states[$v["priorisation"]]["icon"];
+								}
+							}
 							?>
 
-							<a href="javascript:;" class="prioritize btn btn-default"> 
-							<?php 
-							for ($i=0; $i < $count+1; $i++) { ?>
-							<i class="fa fa-<?php echo $icon ?>"  style="color:<?php echo $col ?>"></i>
-							<?php } ?>
+							<a href="javascript:;" data-id="<?php echo $v['_id'] ?>" id="prio<?php echo $v['_id'] ?>" class="prioritize  btn btn-default" style="background-color:<?php echo $col ?>"> 
+								<i class="fa fa-2x <?php echo $icon ?>"></i>
+							
 							</a>
 								
 							</td>
@@ -205,13 +214,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 <div class="form-prioritize" style="display:none;">
   <form class="inputProritary" role="form">
 
-	<a href="javascript:;" data-value="selected" class="prioritize  btn btn-success">SELECTIONNÉ</a><br/><br/>
+	<a href="javascript:;" data-value="selected" class=" prioBtn btn btn-success">SELECTIONNÉ</a><br/><br/>
 	
-	<a href="javascript:;" data-value="prioritary" class="prioritize btn" style="background-color: #d8e54b">PRIORITAIRE</a> mais à compléter, Manque d'informations, BP incomplet<br/><br/>
+	<a href="javascript:;" data-value="prioritary" class="prioBtn btn" style="background-color: #d8e54b">PRIORITAIRE</a> mais à compléter, Manque d'informations, BP incomplet<br/><br/>
 	
-	<a href="javascript:;" data-value="reserve" class="prioritize btn btn-warning">RESERVE FORTE </a>   Risques potentiels, dossier très incomplet<br/><br/>
+	<a href="javascript:;" data-value="reserved" class="prioBtn btn btn-warning">RESERVE FORTE </a>   Risques potentiels, dossier très incomplet<br/><br/>
 
-	<a href="javascript:;" data-value="abandon"  class="prioritize btn btn-danger">ABANDONNÉ</a> Risques avérés, bloquage reglementaire, incompatible CTE...<br/><br/>
+	<a href="javascript:;" data-value="abandoned"  class="prioBtn btn btn-danger">ABANDONNÉ</a> Risques avérés, bloquage reglementaire, incompatible CTE...<br/><br/>
 	<br/><br/>
 	
   </form>
@@ -222,6 +231,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()
 var results  = <?php echo json_encode($results); ?>;
 var formId = "<?php echo $form['id']; ?>";
 var sessionId = "<?php echo $_GET['session'] ?>";
+var avis = null;
+var answerId = null;
+var prioModal = null;
+var states  = <?php echo json_encode($states); ?>;
 
 function showType (type) { 
 	$(".line").hide();
@@ -288,86 +301,62 @@ jQuery(document).ready(function() {
     	$.unblockUI();
 	});
 
-	$('.prioritize').click(function() { 
+	$('.prioritize').off().on("click",function() { 
+		answerId = $(this).data("id");
+		prioModal = bootbox.dialog({
+	        message: $(".form-prioritize").html(),
+	        title: "Qualifiez ce dossier",
+	        show: false,
+	        onEscape: function() {
+	          prioModal.modal("hide");
+	        }
+	    });
+	    prioModal.modal("show");
 
-			var modal = bootbox.dialog({
-		        message: $(".form-prioritize").html(),
-		        title: "Qualifiez ce dossier",
-		        buttons: [
-		          {
-		            label: "Enregistrer",
-		            className: "btn btn-primary pull-left",
-		            callback: function() {
-		            	if ($('.inputprobGrav #probability').last().val() && $('.inputprobGrav #gravity').last().val()) 
-		            	{
-				            riskObj.selectedRisks[ riskId ].probability = $('.inputprobGrav #probability').last().val();
-				            riskObj.selectedRisks[ riskId ].gravity = $('.inputprobGrav #gravity').last().val();
-				            riskObj.selectedRisks[ riskId ].weight = riskObj.riskWeight[$('.inputprobGrav #probability').last().val()+""+$('.inputprobGrav #gravity').last().val()].w;
-				            //riskObj.selectedRisks[ riskId ].comment = $('.inputprobGrav #comment').last().val();
-				            modal.modal("hide");
-				            console.log("riskObj.selectedRisks",riskObj.selectedRisks);
-							$("#noriskTtile").hide();
-							$("#riskList").show();
-							var line = "<tr id='srisk"+riskId+"'>"+
-							"<td>"+userConnected.name+"</td>"+
-							"<td>"+riskObj.selectedRisks[ riskId ].type+"</td>"+
-							"<td>"+riskObj.selectedRisks[ riskId ].desc+"</td>"+
-							"<td>"+riskObj.selectedRisks[ riskId ].actions.join("<br/>")+"</td>"+
-							//"<td>"+riskObj.selectedRisks[ riskId ].comment+"</td>"+
-							"<td><a class='btn btn-danger userActionBtn' data-riskid='"+riskId+"' data-answerid='"+adminAnswers._id.$id+"' href='javascript:;'><i class='fa fa-comment'></i> "+trad.answer+"</a></td>"+
-							"<td>"+riskObj.selectedRisks[ riskId ].probability+"</td>"+
-							"<td>"+riskObj.selectedRisks[ riskId ].gravity+"</td>"+
-							"<td style='color:black;background-color:"+riskObj.riskWeight[riskObj.selectedRisks[ riskId ].probability+""+riskObj.selectedRisks[ riskId ].gravity].c+"'>"+riskObj.selectedRisks[ riskId ].weight+"</td></tr>";
-							$("#riskList").append( line );
-							delete riskObj.selectedRisks[ riskId ]["_id"];
-							riskObj.selectedRisks[ riskId ].addUserId = userId;
-							riskObj.selectedRisks[ riskId ].addUserName = userConnected.name;
-							
+	    $(".prioBtn").off().on("click",function() { 
+			
+			prioModal.modal("hide");
+	        postdata={
+				formId : formId,
+				answerId : answerId,
+				answerSection : "priorisation" ,
+				answers : $(this).data("value"),
+				answerUser : userId 
+			};
+			
+			console.log("saving",postdata);
 
-							data={
-				    			formId : form.id,
-				    			answerId : adminAnswers["_id"]["$id"],
-				    			session : formSession,
-				    			answerSection : "risks."+riskId ,
-				    			answers : riskObj.selectedRisks[ riskId ],
-				    			answerUser : adminAnswers.user ,
-				    			date : true
-				    		};
-				    		console.log("saving",data);
-				          	$.ajax({ 
-				          		type: "POST",
-						        url: baseUrl+"/survey/co/update",
-						        data: data
-						    }).done(function (data) { 
-						    	toastr.success('Risque ajouté avec succès');
-						    	$(".add"+riskId).html("");
-						    	$('.userActionBtn').off().click(function() {
-									commentRisk($(this).data("answerid"), $(this).data("riskid"));
-								});
-						    });
+	      	$.ajax({ 
+	      		type: "POST",
+		        url: baseUrl+"/survey/co/update",
+		        data: postdata
+		    }).done(function (data) { 
+		    	
+		    	toastr.success('Status changé avec succès');
+		    	
+		    	$('#prio'+answerId).css("background-color",states[postdata.answers].color).html("<i class='fa fa-2x  "+states[postdata.answers].icon+"'></i>");
 
-						} else {
-							bootbox.alert({ message: "Vous devez renseigner les poids du risque." });
-						}
-		              return false;
-		            }
-		          },
-		          {
-		            label: "Annuler",
-		            className: "btn btn-default pull-left",
-		            callback: function() {
-		              console.log("just do something on close");
-		            }
-		          }
-		        ],
-		        show: false,
-		        onEscape: function() {
-		          modal.modal("hide");
-		        }
+		    	if($(this).data("value") == "selected")
+			    {
+			    	postdata.answerSection = "step";
+			    	postdata.answers = "ficheAction";
+
+					$.ajax({ 
+			      		type: "POST",
+				        url: baseUrl+"/survey/co/update",
+				        data: postdata
+				    }).done(function (data) { 
+				    	toastr.success('Step changé avec succès');
+				    });
+			    }
 		    });
-		    modal.modal("show");
-		
-	})
+
+		    
+
+		});
+	});
+
+	
 
 });
 
