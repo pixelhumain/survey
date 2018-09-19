@@ -81,6 +81,7 @@ class ActiveAction extends CTKAction{
 			$data["eligible"] = true ;
 			$data["step"] = array_keys($adminForm["scenarioAdmin"])[2] ;
 			$roles = explode(",", $_POST["roles"]);
+			$data["tags"]= explode(",", $_POST["tags"]);
 
 			$pourcentage = round(100 / count($roles), 2);
 

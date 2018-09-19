@@ -50,8 +50,8 @@
 								// 	$labelR = "Lire";
 								// else
 								// 	$labelR = "Ajouter un commentaire";
-
-								$userAction = "<a class='btn btn-danger userActionBtn' data-riskid='".$key."' data-answerid='".(string)$adminAnswers["_id"]."' href='javascript:;'><i class='fa fa-comment'></i> Ajouter un commentaire</a>";
+			
+								$userAction = "<a class='btn btn-danger userActionBtn' data-riskid='".$key."' data-answerid='".(string)$adminAnswers["_id"]."' href='javascript:;'>".PHDB::count(Comment::COLLECTION, array("contextId"=>(string)$adminAnswers["_id"],"contextType"=>Form::ANSWER_COLLECTION, "path"=>"risks.".$key))." <i class='fa fa-comment'></i></a>";
 								echo $userAction ;
 							?>
 						</td>

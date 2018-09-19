@@ -135,6 +135,13 @@
             "Economie Sociale et solidaire", 
             "Economie circulaire et circuits courts"
         ],
+        "tags" : [ 
+            "Eco Quartier de la Possession", 
+            "Plateforme de Transition Ecologique", 
+            "Port Maritime Durable", 
+            "Filière papier carton", 
+            "Animation évaluation"
+        ],
         "mail" : {
             "invitation" : {
                 "msg" : "Bienvenue sur la plate-forme des projets du CTE"
