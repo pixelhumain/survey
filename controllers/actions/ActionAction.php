@@ -19,22 +19,9 @@ class ActionAction extends CAction
 		{ 
 			$idProject = [];
 			$projects = [] ;
+			$projectsDetails = array();
 			$formParent = PHDB::findOne( Form::COLLECTION, array( "id"=> $parentSurvey["id"] ), array("links"));
-			//Rest::json($action["role"]); exit ;
-			// if(!empty($formParent["links"]["projectExtern"])){
 
-			// 	foreach ($formParent["links"]["projectExtern"] as $key => $value) {
-			// 		foreach ($action["role"] as $keyR => $valueR) {
-			// 			if(in_array(trim ($valueR), $value["roles"]))
-			// 				$idProject[] = new MongoId($key) ;
-			// 		}
-					
-			// 	}
-				
-			// 	if(!empty($idProject))
-			// 		$projects = PHDB::find(	Project::COLLECTION, 
-			// 								array( "_id" => array('$in' => $idProject)) );
-			// }
 
 			if(!empty($action["role"])){
 				$where = array();
@@ -65,7 +52,7 @@ class ActionAction extends CAction
 				$projectsDetails = PHDB::find(	Project::COLLECTION, 
 												array( "_id" => array('$in' => $idProject)), array("name", "shortDescription", "email") );
 			}
-
+			
 			$params = array( "answers" => $action, 
 							 'answerCollection' => "actions",
 							 'answerId' => (string)$action["_id"] ,

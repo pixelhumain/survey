@@ -63,6 +63,7 @@ $params = array( "answers" => $answers,
 							 'answerId' => (string)$answers["_id"] ,
 							 'form' => $form ,
 							 'projects' => $projects ,
+							 'projectsDetails' => $projectsDetails ,
 							 "user" => @$user,
 							 'scenario' => "scenarioFicheAction" );
 			//todo apply cte customisation ???

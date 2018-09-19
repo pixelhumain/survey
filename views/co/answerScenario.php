@@ -155,7 +155,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 								
 								foreach ($props as $ik => $iv) {
 									//chaque propriété a sa réponse 
-									echo "<td>!".@$sa[$ik]."</td>";
+									echo "<td>".@$sa[$ik]."</td>";
 								}
 								echo "<td>".
 									"<a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' data-pos='".$sq."' class='editAF btn btn-default'><i class='fa fa-pencil'></i></a> ".
@@ -264,6 +264,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 	}
 	echo "</div>";
 
+var_dump($projectsDetails);
 ?>
 
 <script type="text/javascript">
@@ -273,6 +274,7 @@ var formSession = "<?php echo $_GET["session"]; ?>";
 //if(typeof answers == "undefined ")
 var answers  = <?php echo json_encode($answers); ?>;
 var projects  = <?php echo json_encode(@$projects); ?>;
+var projectsDetails  = <?php echo json_encode(@$projectsDetails); ?>;
 var projectsList = {};
 var projectsLink = {};
 var scenarioKey = "<?php echo $scenario ?>";
@@ -409,6 +411,17 @@ $(document).ready(function() {
 				projectsLinked : {
 					title : "Projets associés",
 	                icon : "fa-lightbulb-o",
+	                onLoads : {
+			    		onload : function(){
+			    			
+				    		$("#ajax-modal #project").change(function(){
+				    			if(typeof projectsDetails[$(this).val()] != null){
+				    				$("#ajax-modal #name").val(projectsDetails[$(this).val()].name);
+				    				$("#ajax-modal #description").val(projectsDetails[$(this).val()].shortDescription);
+				    			}
+				    		});
+		    	   		}
+		    	   	},
 					properties : {
 						project :  dyFInputs.inputSelect("project", "project", projectsList, {required : true},
 									function(){
