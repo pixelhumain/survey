@@ -297,6 +297,7 @@ class Form {
 		if(!empty($answers)){
 			foreach ( $answers as $key => $value) {
 				$new = $value ;
+				if( @$value["answers"] ){
 				foreach ( $value["answers"] as $keyA => $valA) {
 					
 					
@@ -315,6 +316,7 @@ class Form {
 						$new[Project::CONTROLLER] = $project;
 					}
 				}
+			}
 				$res[$key] = $new ;
 			}
 		}
@@ -424,7 +426,7 @@ class Form {
 	}
 
 	public static function notOpen($d){
-		$res = true;
+		$res = false;
 		$today = date(DateTime::ISO8601, strtotime("now"));
 		if(!empty($d) ){
 			$d = date(DateTime::ISO8601, $d->sec);
