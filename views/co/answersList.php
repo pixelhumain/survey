@@ -345,7 +345,7 @@ jQuery(document).ready(function() {
 			};
 			
 			console.log("saving",postdata);
-			alert(answerId);
+			// /alert(answerId);
 	      	$.ajax({ 
 	      		type: "POST",
 		        url: baseUrl+"/survey/co/update",
@@ -358,7 +358,7 @@ jQuery(document).ready(function() {
 
 		    	
 		    	postdata.answerSection = "step";
-		    	postdata.answers = ( prioValue == "selected") ? "ficheAction" : "priorisation"; 
+		    	postdata.answers = ( prioValue == "selected") ? "ficheAction" : "eligible"; 
 
 				$.ajax({ 
 		      		type: "POST",

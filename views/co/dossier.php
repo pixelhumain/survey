@@ -68,6 +68,7 @@ if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){ ?
 	/* ---------------------------------------------
 	RISQUE BLOQUANT
 	---------------------------------------------- */
+	/*
  ?>
 
 <?php 
@@ -98,7 +99,7 @@ if(@$adminAnswers["risks"] )
 				$list.
 				'</tbody></table></div>';
 	}
-} ?>
+} */ ?>
 
 
 <?php 

@@ -1,4 +1,4 @@
-<?php 
+<?php /*
 if( $canAdmin && array_search('priorisation', $steps) <= array_search($adminAnswers["step"], $steps)) {
 
 if(@$adminAnswers["categories"]){
@@ -395,4 +395,4 @@ function updateRoles(childId, childType, childName, connectType, roles, answer) 
 </script>
 <?php } 
 }
-?>
+*/ ?>
