@@ -381,8 +381,9 @@
             "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "mail" : {
-                "tpl" : "priorisationCTE",
-                "tplObject" : "Etape de priorisation CTE"
+                "tpl" : "eligibilite",
+                "tplObject" : "Etape de priorisation CTE",
+                "messages" : "Votre projet est passé à l'étape de priorisation"
             }
         },
         "risk" : {
@@ -391,8 +392,9 @@
             "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "mail" : {
-                "tpl" : "riskCTE",
-                "tplObject" : "Etape de risque CTE"
+                "tpl" : "eligibilite",
+                "tplObject" : "Etape des contrainte du CTE",
+                "messages" : "Votre projet est passé à l'étape des contraintes"
             }
         },
         "ficheAction" : {
@@ -401,8 +403,9 @@
             "startDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "endDate" : ISODate("2018-09-17T12:01:14.000Z"),
             "mail" : {
-                "tpl" : "actionCTE",
-                "tplObject" : "Etape de risque CTE"
+                "tpl" : "eligibilite",
+                "tplObject" : "Etape de risque CTE",
+                "messages" : "Votre projet est passé à l'étape d'etre ajouté à une fiche action"
             }
         }
     },
