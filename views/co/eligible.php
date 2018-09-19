@@ -7,9 +7,10 @@
 		$project = @$answers["cte2"]["answers"][Project::CONTROLLER];
 		if(@$answers["cte2"]["answers"][Project::CONTROLLER] && @$answers["cte1"]["answers"] 
 			&& @$answers["cte3"]["answers"]){
-			if(!empty($adminAnswers["step"]) ){
+			if(!empty($adminAnswers["step"]) && $adminAnswers["step"]!= "dossier" ){
 				if( @$adminAnswers["eligible"] === false)
 					echo "<center><h3 class='text-red'>Ce dossier n'est pas éligible</h3><center>";
+
 			 	if( !empty($adminAnswers["priorisation"]) )
 			 	{
 					$states = array(
