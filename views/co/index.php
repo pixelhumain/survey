@@ -91,7 +91,7 @@ jQuery(document).ready(function() {
     endDate = <?php echo json_encode( @$endDate )?>;
     dySObj.surveys.json={};
 
-uploadObj.formId = dySObj.surveys.parentSurvey.id;
+uploadObj.formId = (jsonHelper.notNull( "dySObj.surveys.parentSurvey")) ? dySObj.surveys.parentSurvey.id :dySObj.surveys.id ;
 uploadObj.answerId = "<?php echo @$_GET['answer']; ?>";
 
     //scenario is a list of many survey definitions that can be put together in different ways
