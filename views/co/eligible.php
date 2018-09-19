@@ -11,8 +11,7 @@
 				if( @$adminAnswers["eligible"] === false)
 					echo "<center><h3 class='text-red'>Ce dossier n'est pas éligible</h3><center>";
 
-			 	if( !empty($adminAnswers["priorisation"]) )
-			 	{
+			 	if( !empty($adminAnswers["priorisation"]) ){
 					$states = array(
 						"selected"  => array(
 							"color" =>"green",

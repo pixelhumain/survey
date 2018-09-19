@@ -210,15 +210,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 							<td>
 								<?php
 								//var_dump($userAdminAnswer[$k]["scenario"]["cte3"]);
-								if(!empty($v["answers"]["cte3"]["answers"]["previsionnel"]["previsionel"]["id"])){
-									$a = $v["answers"]["cte3"]["answers"]["previsionnel"]["previsionel"];
-									//var_dump($a );
-									$document=Document::getById($a["id"]);
-									if(!empty($document)){ 
-										$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
-										echo "<a href='".$path."' target='_blank'><i class='fa fa-2x fa-file-pdf-o text-red'></i></a>";
-									}
-								} ?>
+								// if(!empty($v["answers"]["cte3"]["answers"]["previsionnel"]["previsionel"]["id"])){
+								// 	$a = $v["answers"]["cte3"]["answers"]["previsionnel"]["previsionel"];
+								// 	//var_dump($a );
+								// 	$document=Document::getById($a["id"]);
+								// 	if(!empty($document)){ 
+								// 		$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
+								// 		echo "<a href='".$path."' target='_blank'><i class='fa fa-2x fa-file-pdf-o text-red'></i></a>";
+								// 	}
+								// } ?>
 							</td>
 						</tr>
 						<?php
