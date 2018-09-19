@@ -82,63 +82,59 @@
             <th class="text-center">Organisation</th>
             <th class="text-center">Projet</th>
             <th class="text-center">Action</th>
-            <th class="text-center col-xs-1">Delete</th>
           </tr> 
         </thead>
         <tbody>
-        <?php
-        $sessions = array();
-        if(@$_GET["session"])
-          $sessions[(string)$_GET["session"]] = $form["session"][$_GET["session"]];
-        else 
-          $sessions = $form["session"];
+<?php
+$sessions = array();
+if(@$_GET["session"])
+  $sessions[(string)$_GET["session"]] = $form["session"][$_GET["session"]];
+else 
+  $sessions = $form["session"];
 
-        foreach ($sessions as $s => $sv) 
-        {
-            //var_dump($answers);
-            if(@$answers[$s]){
+foreach ($sessions as $s => $sv) 
+{
+    //var_dump($answers);
+    if(@$answers[$s]){
 
-            foreach (@$answers[$s] as $a => $av) 
-            {
-              $count = count( @$av["answers"] );
-                echo "<tr>";
-                    echo "<td>#".$s."</td>";
-                    $c = ($count < count($form["scenario"])) ? "orange" : $form["custom"]["color"];
-                    $step = ( $count == count($form["scenario"]) ) ? "<span class='badge' style='background-color:#1A242F'> ".strtoupper(@$av["step"])." </span>" : "<span class='badge' style='background-color:red'>INCOMPLET</span>" ;
-                    echo "<td class=' bold'><span class='text-dark badge margin-bottom-5' style='background-color:".$c."'>".$count." / ".count($form["scenario"])." </span> <br/>".$step."</td>";
-                    echo "<td>".@$av["answers"]["cte1"]["answers"]["organization"]["name"]."</td>";
-                    echo "<td>".@$av["answers"]["cte2"]["answers"]["project"]["name"]."</td>";
-                    echo "<td>";
-      				
+    foreach (@$answers[$s] as $a => $av) 
+    {
+      $count = count( @$av["answers"] );
+        echo "<tr>";
+            echo "<td>#".$s."</td>";
+            $c = ($count < count($form["scenario"])) ? "orange" : $form["custom"]["color"];
+            $step = ( $count == count($form["scenario"]) ) ? "<span class='badge' style='background-color:#1A242F'> ".strtoupper(@$av["step"])." </span>" : "<span class='badge' style='background-color:red'>INCOMPLET</span>" ;
+            echo "<td class=' bold'><span class='text-dark badge margin-bottom-5' style='background-color:".$c."'>".$count." / ".count($form["scenario"])." </span> <br/>".$step."</td>";
+            echo "<td>".@$av["answers"]["cte1"]["answers"]["organization"]["name"]."</td>";
+            echo "<td>".@$av["answers"]["cte2"]["answers"]["project"]["name"]."</td>";
+
+            echo "<td>";
+			
       				if( $count < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
               { 
               	?>
-              		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>/answer/<?php echo (string)$av['_id'] ?>" style="background-color:orange" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> Reprendre la candidature</a>
+              		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>/answer/<?php echo (string)$av['_id'] ?>" style="background-color:orange" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> Reprendre</a>
           	  <?php }
               			
       				if($count > 0)
               { ?> 
               	<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)@$av['_id'] ?> " style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> Lire </a>
           	<?php	}
-                      echo "</td>";
-                      echo "<td> <a href='javascript:;' data-id='".(string)$av['_id']."' class='deleteAnswer pull-left btn btn-default'><i class='fa text-red fa-times'></i></a></td>";
-                  echo "</tr>";
-              } 
-            }
+              
+              echo " <a href='javascript:;' data-id='".(string)$av['_id']."' class='deleteAnswer pull-right btn btn-default'><i class='fa text-red fa-times'></i> Suppr</a></td>";
+          echo "</tr>";
+      } 
+    }
 
-              echo "<tr>";
-                echo "<td>#".$s."</td>"; 
-                echo "<td class='bold'>Date de début </br>".( ( @$sv["startDate"] ) ? date('d/m/Y H:i', $sv["startDate"]->sec) : "Pas de date")."</td>";
-                echo "<td class='bold'>Date de fin<br/>".( ( @$sv["endDate"] ) ? date('d/m/Y H:i', $sv["endDate"]->sec) : "Pas de date")."</td>";
-                echo "<td>";
-                if( !Form::isFinish( $sv["endDate"]) ){
-                  echo " <a href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/new/id/".$form['id']."/session/".$s."' class='pull-left btn btn-primary'><i class='fa fa-plus'></i> Ajouter une réponse</a>";
-                }
-                echo "</td>";
-
-
-              echo "</tr>";
-        } ?>
+      echo "<tr> <td  colspan='5' class='text-center'>";
+        if( Form::notOpen(@$sv["startDate"]) )
+          echo "<h2 class='btn' style='background-color:red'>La session n'a pas encore commencé.</h2>";
+        else if( Form::isFinish(@$sv["endDate"]) )  
+          echo "<h2 class='btn' style='background-color:red'>La session est cloturé.</h2>";
+        else 
+          echo " <a href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/new/id/".$form['id']."/session/".$s."' class='btn btn-primary' style='width:100%' ><i class='fa fa-plus'></i> Ajouter une réponse</a>";
+      echo "</td></tr>";
+} ?>
         </tbody>
         </table>
 			<?php }?>

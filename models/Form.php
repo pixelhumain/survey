@@ -423,6 +423,17 @@ class Form {
 		return $res ;
 	}
 
+	public static function notOpen($d){
+		$res = true;
+		$today = date(DateTime::ISO8601, strtotime("now"));
+		if(!empty($d) ){
+			$d = date(DateTime::ISO8601, $d->sec);
+			if($d > $today)
+				$res = true;
+		}
+		return $res ;
+	}
+
 	
 
 	
