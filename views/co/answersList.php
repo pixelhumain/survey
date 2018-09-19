@@ -271,7 +271,7 @@ jQuery(document).ready(function() {
 	    });
 	});
 	$(".clickOpen").off().on('click',function(){
-		window.location.href = "<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/answer/id/" ; ?>"+$(this).parent().data('id') ;
+		window.open("<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/answer/id/" ; ?>"+$(this).parent().data('id')) ;
 	});
 	$("#csv").off().on('click',function(){
     	var chaine = "";
@@ -334,7 +334,7 @@ jQuery(document).ready(function() {
 	    prioModal.modal("show");
 
 	    $(".prioBtn").off().on("click",function() { 
-			
+			prioValue = $(this).data("value");
 			prioModal.modal("hide");
 	        postdata={
 				formId : formId,
@@ -345,7 +345,7 @@ jQuery(document).ready(function() {
 			};
 			
 			console.log("saving",postdata);
-
+			alert(answerId);
 	      	$.ajax({ 
 	      		type: "POST",
 		        url: baseUrl+"/survey/co/update",
@@ -356,19 +356,18 @@ jQuery(document).ready(function() {
 		    	
 		    	$('#prio'+answerId).css("background-color",states[postdata.answers].color).html("<i class='fa fa-2x  "+states[postdata.answers].icon+"'></i>");
 
-		    	if($(this).data("value") == "selected")
-			    {
-			    	postdata.answerSection = "step";
-			    	postdata.answers = "ficheAction";
+		    	
+		    	postdata.answerSection = "step";
+		    	postdata.answers = ( prioValue == "selected") ? "ficheAction" : "priorisation"; 
 
-					$.ajax({ 
-			      		type: "POST",
-				        url: baseUrl+"/survey/co/update",
-				        data: postdata
-				    }).done(function (data) { 
-				    	toastr.success('Step changé avec succès');
-				    });
-			    }
+				$.ajax({ 
+		      		type: "POST",
+			        url: baseUrl+"/survey/co/update",
+			        data: postdata
+			    }).done(function (data) { 
+			    	toastr.success('Step changé avec succès');
+			    });
+			    
 		    });
 
 		    
