@@ -380,14 +380,14 @@ $(document).ready(function() {
 			        data: data,
 					type: "POST",
 			    }).done(function (data) {
-			    	listObject=$('.fine-uploader-manual-trigger').fineUploader('getUploads');
+			    	/*listObject=$('.fine-uploader-manual-trigger').fineUploader('getUploads');
 			    	goToUpload=false;
 			    	if(listObject.length > 0){
 			    		$.each(listObject, function(e,v){
 			    			if(v.status == "submitted")
 			    				goToUpload=true;
 			    		});
-			    	}
+			    	}*/
 					if(typeof updateForm.goToUpload == "undefined" ){
 						window.location.reload();
 				    	updateForm = null;
