@@ -21,11 +21,11 @@ class UpdateAction extends CAction
                 Log::save( array( "userId" => Yii::app()->session["userId"], 
                                  "created" => new MongoDate(time()), 
                                  "action" => "survey.updateAction", 
-                                 "params" => array( "session" => ( @$answer["parentSurvey"] ) ? $answer[ "parentSurvey" ] : $_POST[ "formId" ],
+                                 "params" => array( 
+                                                "id" => $_POST["answerId"],
                                                 "answersUser" => $_POST["answerUser"],
-                                                "key" => $key, 
-                                                //"value" => $value
-                                                 )));
+                                                "key" => $key )));
+                
                 //****************************
                 //update total scores 
                 //****************************
