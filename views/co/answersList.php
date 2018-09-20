@@ -280,7 +280,8 @@ jQuery(document).ready(function() {
 	});
 	$("#csv").off().on('click',function(){
     	var chaine = "";
-    	var csv = '"Num";"Projet";"Desc";"Organisation";"Référent";"Etape";"Lire";"Eligibilité";"Etiquetage";"Contraintes";"Fiche Action"' ;
+    	var csv = '"Num";"Projet";"Desc";"Porteur";"Référent";"Avancement dossier";"Lire";"Etiquetage";"Tags";"Status"' ;
+
     	var i = 1 ;
     	if(typeof results != "undefined"){
         	$.each(results, function(key, value2){
@@ -293,7 +294,7 @@ jQuery(document).ready(function() {
         		csv += '"'+$("#"+key+"user").html()+'";';
         		csv += '"'+$("#"+key+"etape").html()+'";';
         		csv += '"'+ baseUrl + "/survey/co/answer/id/"+key+'";'; 
-        		csv += '"'+$("#"+key+"eligible").html()+'";';
+        		//csv += '"'+$("#"+key+"eligible").html()+'";';
         		csv += '"'
         		if(notNull(value2.categories)){
         			var j = 1;
@@ -305,11 +306,24 @@ jQuery(document).ready(function() {
 					});
 				}
 				csv += '";';
+				csv += '"'
+        		if(notNull(value2.tags)){
+        			var j = 1;
+					$.each(value2.tags, function(keyC, valC){
+						if(j != 1)
+							csv += ", ";
+						csv += valC;
+						j++;
+					});
+				}
+				csv += '";';
+
+				csv += '"'+( notNull(value2.priorisation ) ? value2.priorisation : "" )+'";';
+
         		//csv += '"'+$("#"+key+"etiquetage").html()+'";';
-        		csv += '"'+(notNull($("#"+key+"risk").html()) ? $("#"+key+"risk").html(): "")+'";';
-        		csv += '"'+$("#"+key+"action").html()+'";';
+        		//csv += '"'+(notNull($("#"+key+"risk").html()) ? $("#"+key+"risk").html(): "")+'";';
+        		//csv += '"'+$("#"+key+"action").html()+'";';
         		// csv += '"'+(notNull(value2.name) ? value2.name: "")+'";';
-        		
         		i++;
         		
 			});
