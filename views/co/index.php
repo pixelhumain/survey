@@ -36,9 +36,11 @@ $cssJS = array(
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
 $cssJS = array(
 '/assets/css/default/dynForm.css',
-
+'/assets/js/comments.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
+
+
 ?>
 
 
