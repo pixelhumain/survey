@@ -1,4 +1,14 @@
 <?php 
+$cssAnsScriptFilesModule = array(
+  '/plugins/underscore-master/underscore.js',
+  '/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
+  '/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true));
+$cssAnsScriptFilesModule = array(
+  '/assets/js/comments.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
     Yii::app()->params["logoUrl"]=Yii::app()->getModule("eco")->assetsUrl."/images/custom/leport/tco.png";
     Yii::app()->params["logoUrl2"]=Yii::app()->getModule("eco")->assetsUrl."/images/custom/leport/tco.png";
 ?> 

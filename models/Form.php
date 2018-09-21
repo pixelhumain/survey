@@ -436,9 +436,47 @@ class Form {
 		return $res ;
 	}
 
-	
+	public static function createNotificationAnswer($comment){
+		$answer=Form::getAnswerById($comment["contextId"]);
+		$form=Form::getById($answer["formId"]);
+		$projectName= (@$answer["answers"]["cte2"]["answers"]["project"]["name"]) ? @$answer["answers"]["cte2"]["answers"]["project"]["name"]." " : "";
+		if($answer["user"]==Yii::app()->session["userId"]){
+			//Notify admin and if answer
+			$mails=[];
+			if(@$form["links"] && @$form["links"]["members"]){
+				foreach($form["links"]["members"] as $key => $v){
+					if(@$v["isAdmin"] && $key!=Yii::app()->session["userId"] ){
+						$email=Person::getEmailById($key);
+						array_push($mails, $email["email"]);
+					}
+				}
+			}
+			$tplObject="[".$form["title"]."] Un candidat a laissé un message";
+			$messages="<p>".$answer["name"]." a envoyé un message sur son projet ".$projectName.":</p>";
+		}else{
+			$tplObject="[".$form["title"]."] Vous avez reçu un message";
+			$messages="<p>".Yii::app()->session["user"]["name"]." a envoyé un message sur votre projet ".$projectName.":</p>";
+			$mails=[$answer["email"]];
+		}
+		$messages.="<br/><br/><p style='padding:10px 20px;margin:1%;border:1px solid lightgray; font-style:italic; border-radius:10px; width:90%;white-space: pre-line;'>".$comment["text"]."</p>".
+				"<br/><br/><div style='text-align:center'><a href='".Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["custom"]["url"]."' target='_blank' style='padding:7px 10px; border-radius:5px; background-color:#00b795;color:white;font-weight:800;font-variant:small-caps;'>Répondre</a></div>";
+		$params=array(
+			'formId'=>$answer["formId"],
+			'session'=>$answer["session"],
+			'answerId'=>(string)$answer["_id"],
+			'answerUser'=>$answer["name"],
+			"tpl"=>"eligibilite",
+			"tplObject"=>$tplObject,
+			"messages"=>$messages,
+			"tplMail"=>""
+		);
+		foreach($mails as $email){
+			$params["tplMail"]=$email;
+			Mail::createAndSend($params);
+		}
+	}  			
 
 	
 
-}
+	}
 ?>
