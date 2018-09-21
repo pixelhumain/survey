@@ -53,11 +53,20 @@
     <div id="surveyContent" class="formChart  col-xs-offset-1 col-xs-10 padding-bottom-20" >
 
 <div class="row">
+	 <div class="content-header col-xs-offset-1 col-xs-10 no-padding margin-bottom-20">
+  		<div class="col-xs-12 col-md-12  header-survey text-center padding-20">
+  			<span><h5>
+				Les projets déposés entre juin et le 17 septembre 2018 pour la 1er session du CTE sont modifiables jusqu'au 1er octobre 2018. <br/><br/>
+				De nouveaux projets peuvent toujours être déposés mais ne seront pas intégrés à cette session.</h5>
+			</span>
+  		</div>
+  	</div>
+</div>
   
   <div class="content-header col-xs-offset-1 col-xs-10 no-padding margin-bottom-20">
-
+ 
 		<div class="col-xs-12 col-md-12  header-survey text-center padding-20" >
-
+			
 		<?php 
 			if(@$form["description"]) 
 				echo "<span class='pull-left padding-20' style='font-size: 16px; text-align: left;'>".$form["description"]."</span>";

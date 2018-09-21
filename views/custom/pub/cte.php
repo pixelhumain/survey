@@ -27,8 +27,8 @@
 		<img class="img-responsive" style="display: block; margin: 0 auto;" src="<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/contrats-de-transition-ecologique.png">
 	</div>
 	<div class="col-xs-9 text-center">
-		<span class="bold text-dark col-xs-12 padding-10">Dans le cadre de l’avis d’appel à projets CTE du TCO,<br/> les acteurs économiques peuvent déclarer leurs projets en ligne,<br/> jusqu’au 18 août 2018</span>
-		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte" target="_blank" class="btn col-xs-10 col-xs-offset-1 link-custom margin-top-10">Déposer votre projet</a>
+		<span class="bold text-dark col-xs-12 padding-10">Dans le cadre de l’avis d’appel à projets CTE du TCO,<br/> les acteurs économiques ne peuvent plus déclarer leurs projets en ligne au delà du 17 septembre, pour cette 1er session du CTE, Toutefois, ces projets sont accessibles en modification jusqu'au 31 octobre 2018 <br/> jusqu’au 18 août 2018</span>
+		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte" target="_blank" class="btn col-xs-10 col-xs-offset-1 link-custom margin-top-10">En savoir +</a>
 	</div>
 </div>
 </div>
@@ -38,8 +38,8 @@
 		<img class="img-responsive" style="display: block; margin: 0 auto;" src="<?php echo Yii::app()->getModule("survey")->assetsUrl; ?>/images/custom/cte/contrats-de-transition-ecologique.png">
 	</div>
 	<div class="col-xs-12 text-center no-padding margin-top-5">
-		<span class="bold text-dark margin-bottom-10">Dans le cadre de l’avis d’appel à projets CTE du TCO, les acteurs économiques peuvent déclarer leurs projets en ligne, jusqu’au 18 août 2018</span>
-		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte" target="_blank" class="btn col-xs-12 link-custom margin-top-10">Déposer <span class="hidden-md">votre projet</span></a>
+		<span class="bold text-dark col-xs-12 padding-10">Dans le cadre de l’avis d’appel à projets CTE du TCO,<br/> les acteurs économiques ne peuvent plus déclarer leurs projets en ligne au delà du 17 septembre, pour cette 1er session du CTE, Toutefois, ces projets sont accessibles en modification jusqu'au 31 octobre 2018 <br/> jusqu’au 18 août 2018</span>
+		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/cte" target="_blank" class="btn col-xs-10 col-xs-offset-1 link-custom margin-top-10">En savoir +</a>
 	</div>
 </div>
 <?php } ?>
