@@ -117,6 +117,11 @@ foreach ($sessions as $s => $sv) {
       				if($count > 0)
               { ?> 
               	<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/answer/id/<?php echo (string)@$av['_id'] ?> " style="background-color:<?php echo $form["custom"]["color"] ?>" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-list"></i> Lire </a>
+
+                <a href="javascript:;" class="btn btn-primary openAnswersComment" onclick="commentAnswer('<?php echo $av['_id'] ?>')">
+                  <?php echo PHDB::count(Comment::COLLECTION, array("contextId"=>(string)$av['_id'],"contextType"=>Form::ANSWER_COLLECTION)); ?>
+                  <i class='fa fa-comments'></i>
+                </a>
           	<?php	}
               
               echo " <a href='javascript:;' data-id='".(string)$av['_id']."' class='deleteAnswer pull-right btn btn-default'><i class='fa text-red fa-times'></i> Suppr</a></td>";
@@ -348,4 +353,34 @@ foreach ($sessions as $s => $sv) {
       });
     });
 });
+
+   function commentAnswer(answerId){
+  var modal = bootbox.dialog({
+          message: '<div class="content-risk-comment-tree"></div>',
+          title: "Fil de commentaire du projet",
+          buttons: [
+          
+            {
+              label: "Annuler",
+              className: "btn btn-default pull-left",
+              callback: function() {
+                console.log("just do something on close");
+              }
+            }
+          ],
+          onEscape: function() {
+            modal.modal("hide");
+          }
+      });
+    modal.on("shown.bs.modal", function() {
+      $.unblockUI();
+        getAjax(".content-risk-comment-tree",baseUrl+"/"+moduleId+"/comment/index/type/answers/id/"+answerId,
+      function(){  //$(".commentCount").html( $(".nbComments").html() ); 
+      },"html");
+
+      //bindEventTextAreaNews('#textarea-edit-news'+idNews, idNews, updateNews[idNews]);
+    });
+     // modal.modal("show");
+  //}
+}
  </script>
