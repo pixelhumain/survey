@@ -5,9 +5,10 @@
 	<div class="col-xs-12  padding-20" style="border:1px solid #ccc;">
 		<?php
 		$project = @$answers["cte2"]["answers"][Project::CONTROLLER];
-		if(@$answers["cte2"]["answers"][Project::CONTROLLER] && @$answers["cte1"]["answers"] 
-			&& @$answers["cte3"]["answers"])
-		{
+		//ce n'est plus obligatoire d'avoir un dossier complet 
+		// if(@$answers["cte2"]["answers"][Project::CONTROLLER] && @$answers["cte1"]["answers"] 
+		// 	&& @$answers["cte3"]["answers"])
+		// {
 
 			if( !empty($adminAnswers["step"]) && @$adminAnswers["eligible"] )
 			{
@@ -61,10 +62,10 @@
 				</center>
 				<?php 
 			
-		} else {
+		// } else {
 
-			echo "<center><h3 class='text-red'>Ce dossier n'est pas complet.</h3></center>";
-		}
+		// 	echo "<center><h3 class='text-red'>Ce dossier n'est pas complet.</h3></center>";
+		// }
 		?>
 	</div>
 </div>
