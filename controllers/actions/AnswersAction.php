@@ -13,10 +13,32 @@ class AnswersAction extends CAction{
                 $ctrl->render("co2.views.default.unTpl",array("msg"=>"Session introuvable sur ".$id,"icon"=>"fa-search")); 
 
 			if( $form["surveyType"] == "surveyList" )  {
-				$answers = PHDB::find( Form::ANSWER_COLLECTION , 
-										array( "formId" => @$id ) );
+				$where = array();
 
+				if( !empty( $form["links"]["members"][Yii::app()->session["userId"]]["roles"] ) ){
+					if(in_array("TCO", $form["links"]["members"][Yii::app()->session["userId"]]["roles"]) || Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ){
+						$where = array("formId" => @$id);
+					}else{
+						$or = array();
+						foreach ($form["links"]["members"][Yii::app()->session["userId"]]["roles"] as $key => $value) {
 
+							$or[] = array("categories.".InflectorHelper::slugify( $value ) => array('$exists' => 1));
+							# code...
+						}
+						$where = array('$and' => array(
+										array("formId" => @$id),
+										array('$or' => $or)
+									));
+					}
+
+				}
+
+				//Rest::json($where); exit;
+
+				if(!empty($where))
+					$answers = PHDB::find( Form::ANSWER_COLLECTION , $where );
+
+				//Rest::json($answers); exit;
 				$results = Form::listForAdmin($answers) ;
 
 

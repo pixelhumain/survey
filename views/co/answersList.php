@@ -197,12 +197,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 									$icon = $states[$v["priorisation"]]["icon"];
 								}
 							}
-							?>
 
-							<a href="javascript:;" data-id="<?php echo $v['_id'] ?>" id="prio<?php echo $v['_id'] ?>" class="prioritize  btn btn-default" style="background-color:<?php echo $col ?>"> 
-								<i class="fa fa-2x <?php echo $icon ?>"></i>
-							
-							</a>
+
+							if(Form::canAdminRoles((String) $form["_id"], "TCO", $form )){?>
+
+								<a href="javascript:;" data-id="<?php echo $v['_id'] ?>" id="prio<?php echo $v['_id'] ?>" class="prioritize  btn btn-default" style="background-color:<?php echo $col ?>"> 
+									<i class="fa fa-2x <?php echo $icon ?>"></i>
+								
+								</a>
+							<?php
+							}else{
+								echo '<span class="btn btn-default" style="background-color:'.$col.'" ><i class="fa fa-2x '.$icon.' "></i></span>';
+							}
+							?>
 								
 							</td>
 							<td><?php echo "<a class='btn btn-xs' href='".Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/pdf/id/".@$k."' target='_blanck'><i class='fa fa-2x fa-file-pdf-o text-red' ></i></a>"; ?></td>
