@@ -37,6 +37,8 @@ class AnswersAction extends CAction{
 
 				if(!empty($where))
 					$answers = PHDB::find( Form::ANSWER_COLLECTION , $where );
+				else
+					$answers =array();
 
 				//Rest::json($answers); exit;
 				$results = Form::listForAdmin($answers) ;
