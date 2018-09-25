@@ -15,8 +15,8 @@ class AnswersAction extends CAction{
 			if( $form["surveyType"] == "surveyList" )  {
 				$where = array();
 
-				if( !empty( $form["links"]["members"][Yii::app()->session["userId"]]["roles"] ) ){
-					if(in_array("TCO", $form["links"]["members"][Yii::app()->session["userId"]]["roles"]) || Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ){
+				if( !empty( $form["links"]["members"][Yii::app()->session["userId"]]["roles"] ) || Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ){
+					if( (!empty( $form["links"]["members"][Yii::app()->session["userId"]]["roles"] ) && in_array("TCO", $form["links"]["members"][Yii::app()->session["userId"]]["roles"]) ) || Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ){
 						$where = array("formId" => @$id);
 					}else{
 						$or = array();
