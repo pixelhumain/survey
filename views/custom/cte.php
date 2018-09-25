@@ -93,6 +93,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 		<?php 
 			}else{
       ?> 
+
+      <div class="">
+        <a href="https://www.communecter.org/upload/communecter/citoyens/55e042ffe41d754428848363/file/5ba9c87640bb4ed35d3c7a76/CTE-TCO-DYopYEt-de-candidature---guide-utilisateur.pdf" class="btn btn-success" target="_blank" ><i class="fa fa-file-pdf-o" ></i> Guide utilisateur</a><br/><br/>
+      </div>
         <table class="table table-striped table-bordered table-hover  directoryTable" style="table-layout: fixed; width:100%; word-wrap:break-word;">
         <thead>
           <tr>
