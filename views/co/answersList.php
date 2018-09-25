@@ -24,7 +24,7 @@ $cssAnsScriptFilesModule = array(
 	'/assets/js/comments.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
-
+$states = array();
 ?>
 
 <style type="text/css">
