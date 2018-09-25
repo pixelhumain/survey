@@ -293,7 +293,7 @@ class Form {
 	public static function listForAdmin($answers){
 		//Rest::json($answers); exit ;
 		$uniq = array();
-		
+		$res = array();
 		if(!empty($answers)){
 			foreach ( $answers as $key => $value) {
 				$new = $value ;
