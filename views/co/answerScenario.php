@@ -263,7 +263,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 	}
 	echo "</div>";
 
-var_dump($projectsDetails);
+//var_dump($projectsDetails);
 ?>
 
 <script type="text/javascript">

@@ -80,7 +80,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 		<?php 
 			if(@$form["description"]) 
 				echo "<span class='pull-left padding-20' style='font-size: 16px; text-align: left;'>".$form["description"]."</span>";
-
+      ?>
+       <div class="">
+        <a href="https://www.communecter.org/upload/communecter/citoyens/55e042ffe41d754428848363/file/5ba9c87640bb4ed35d3c7a76/CTE-TCO-DYopYEt-de-candidature---guide-utilisateur.pdf" class="text-red " style="font-size: 20px; text-align : right" target="_blank" ><b> <i class="fa fa-file-pdf-o" ></i> Guide utilisateur</b></a><br/><br/>
+      </div>
+      <?php
 			if(!isset(Yii::app()->session['userId'])) { ?>
 				<br/>
 				<button class="btn btn-default bg-green margin-top-15 btn-lg" data-toggle="modal" data-target="#modalLogin">
@@ -94,9 +98,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 			}else{
       ?> 
 
-      <div class="">
-        <a href="https://www.communecter.org/upload/communecter/citoyens/55e042ffe41d754428848363/file/5ba9c87640bb4ed35d3c7a76/CTE-TCO-DYopYEt-de-candidature---guide-utilisateur.pdf" class="btn btn-success" target="_blank" ><i class="fa fa-file-pdf-o" ></i> Guide utilisateur</a><br/><br/>
-      </div>
+     
         <table class="table table-striped table-bordered table-hover  directoryTable" style="table-layout: fixed; width:100%; word-wrap:break-word;">
         <thead>
           <tr>
@@ -131,7 +133,7 @@ foreach ($sessions as $s => $sv) {
 
             echo "<td>";
 			
-      				if( $count < count($form["scenario"]) && !Form::isFinish(@$form["session"][$s]["endDate"] ) )
+      				if( $count < count($form["scenario"]) /*&& !Form::isFinish(@$form["session"][$s]["endDate"]  ) */ )
               { 
               	?>
               		<a href="<?php echo Yii::app()->getRequest()->getBaseUrl(true) ?>/survey/co/index/id/<?php echo $form['id'] ?><?php echo $count+1 ?>/session/<?php echo $s ?>/answer/<?php echo (string)$av['_id'] ?>" style="background-color:orange" class="pull-left btn btn-default answered<?php echo $count+1 ?>"  style="width:90%"><i class="fa fa-sign-in"></i> Reprendre</a>
