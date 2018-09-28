@@ -30,15 +30,6 @@ class IndexAction extends CAction
 				 							array("formId"=>$id,
 				 								  "session"=>(string)$s,
 				 								  "user"=> @Yii::app()->session["userId"] ) );
-				 			
-				 			/*if( $form["surveyType"] == "surveyList" || @$form["parentSurvey"] ){
-				 				$pId = (@$form["parentSurvey"] ) ? $form["parentSurvey"]  : $id;
-				 				$answers[$s] = PHDB::find( Form::ANSWER_COLLECTION , 
-				 									array( "parentSurvey"=>$pId,
-				 										   "session"=>(string)$s, 
-				 										   "user"=> @Yii::app()->session["userId"] ) );	 				
-				 			}*/
-
 				 		}
 				 	} 
 				 	//si on est sur un form child du scenario
@@ -66,7 +57,6 @@ class IndexAction extends CAction
 	 					$startDate = $form["session"][$session]["startDate"];
 	 				if(@$form["session"][$session]["endDate"])
 	 					$endDate = $form["session"][$session]["endDate"];
-		 			
 	 			}
 
 	 			$params = array( "form"    => $form, 

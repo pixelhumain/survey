@@ -22,7 +22,8 @@ class NewAction extends CAction
                         "session" => $session
                     );
                     $res = Form::newAnswer( $new );
-                    $ctrl->redirect(Yii::app()->createUrl("/survey/co/index/id/".array_keys($form["scenario"])[0]."/session/".$session."/answer/".(string)$res["answer"]['_id']));
+                    $firstId = (@$form["scenario"]) ? array_keys($form["scenario"])[0] : $form["id"];
+                    $ctrl->redirect(Yii::app()->createUrl("/survey/co/index/id/".$firstId."/session/".$session."/answer/".(string)$res["answer"]['_id']));
                 }
             } else 
             $ctrl->render("co2.views.default.unTpl",array("msg"=>"Session introuvable","icon"=>"fa-search")); 

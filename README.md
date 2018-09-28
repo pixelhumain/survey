@@ -32,6 +32,11 @@ a survey is build dynamically according to it's structure , it put's together di
 [ ] check json editor exists
 
 # Amélioration : 
+- outil extract   ion des points clefs sur les dossier : highlither 
+- creer un event , un atelier, 
+    - invite 
+    - validation de présence 
+    - émargement   
 - survey en full JS
 - déposer juste avec un email 
 - invité des collaborateur sur un dépot de dossier (avoir plusieurs admin d'un dossier ) user could be an array

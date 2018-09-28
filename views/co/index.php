@@ -8,7 +8,7 @@ $cssJS = array(
     '/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
     '/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
 
-	'/plugins/jquery-validation/dist/jquery.validate.min.js',
+    '/plugins/jquery-validation/dist/jquery.validate.min.js',
     '/plugins/select2/select2.min.js' , 
     '/plugins/moment/min/moment.min.js' ,
     '/plugins/moment/min/moment-with-locales.min.js',
@@ -24,7 +24,7 @@ $cssJS = array(
     '/plugins/ladda-bootstrap/dist/ladda.min.css',
     '/plugins/ladda-bootstrap/dist/ladda-themeless.min.css',
     '/plugins/animate.css/animate.min.css',
-);
+); 
 
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
 $cssJS = array(
@@ -93,9 +93,10 @@ jQuery(document).ready(function() {
     endDate = <?php echo json_encode( @$endDate )?>;
     dySObj.surveys.json={};
 
-uploadObj.formId = (jsonHelper.notNull( "dySObj.surveys.parentSurvey")) ? dySObj.surveys.parentSurvey.id :dySObj.surveys.id ;
-uploadObj.answerId = "<?php echo @$_GET['answer']; ?>";
+    uploadObj.formId = (jsonHelper.notNull( "dySObj.surveys.parentSurvey")) ? dySObj.surveys.parentSurvey.id :dySObj.surveys.id ;
+    uploadObj.answerId = "<?php echo @$_GET['answer']; ?>";
 
+    
     //scenario is a list of many survey definitions that can be put together in different ways
     //$("#surveyDesc").html("");
     if(userId && dySObj.surveys.scenario ){
@@ -182,7 +183,7 @@ uploadObj.answerId = "<?php echo @$_GET['answer']; ?>";
                     }
 
                 } else {
-                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.id : dySObj.surveys.parentSurvey.id )+"/session/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.session : dySObj.surveys.parentSurvey.session )+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir votre candidature</span></a></center>");
+                    $("#surveyDesc").append("<h1 class='text-center text-azure bold'> Vous avez déjà répondu à cette étapes </h1><center><a href='"+baseUrl+"/survey/co/answer/id/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.id : dySObj.surveys.parentSurvey.id )+"/session/"+( typeof dySObj.surveys.parentSurvey == 'undefined' ? dySObj.surveys.session : dySObj.surveys.parentSurvey.session )+"/user/"+userId+"' style='' class='btn bg-azure'><span>Voir votre candidature</span>build</a></center>");
                     //TODO goto read your answers
                 }
             }
@@ -190,8 +191,57 @@ uploadObj.answerId = "<?php echo @$_GET['answer']; ?>";
             
     } else {
         // other wise it's jsut one survey that can be shown
-        //dySObj.surveys.commons = <?php echo json_encode( $form ) ?>;  
-        //dyFObj.buildSurvey( dySObj.surveyId, dySObj.buildSurveySections( surveys["commons"].json) );
+        
+        dyFObj[dyFObj.activeElem] = dySObj.surveys;
+        var btnLbl = (dySObj.surveys.custom.btnAcceptLbl) ? dySObj.surveys.custom.btnAcceptLbl : "J'accepte et je signe";
+        if(uploadObj.answerId){
+            if( answers[ "<?php echo @$_GET['session']; ?>" ][ uploadObj.answerId ] ){
+                
+                    
+                    dyFObj[dyFObj.activeElem].dynForm.jsonSchema.save = function() { 
+                        data={
+                            answerId : uploadObj.answerId,
+                            formId : uploadObj.formId,
+                            session : "<?php echo @$_GET['session']; ?>",
+                            answerSection : "answer",
+                            answers : arrayForm.getAnswers( dyFObj[dyFObj.activeElem].dynForm),
+                            answerUser : userId 
+                        };
+                        
+                        console.log("save",data);
+                        
+                        $.ajax({ type: "POST",
+                            url: baseUrl+"/survey/co/update",
+                            data: data,
+                            type: "POST",
+                        }).done(function (data) {
+                           //$(dySObj.surveyId).html("<h1>Merci pour votre participation</h1>");
+                           window.location.href = baseUrl+"/survey/co/index/id/"+uploadObj.formId+"/session/<?php echo @$_GET['session']; ?>";
+                        });
+                        return false;
+                    };
+                    dyFObj.buildDynForm (null,null,null,dySObj.surveyId);
+               
+            }
+            else 
+                window.location.href = baseUrl+"/survey/co/new/id/"+uploadObj.formId+"/session/<?php echo @$_GET['session']; ?>";
+        }
+        else {
+            
+            if( dySObj.surveys.oneAnswer == true && Object.keys(answers[ "<?php echo @$_GET['session']; ?>" ]).length > 0){
+                $(dySObj.surveyId).html("<h1 class='text-center'>Vous avez déjà participé<br/>merci</h1>");
+            }
+            else 
+                $(dySObj.surveyId).html("<div class='margin-bottom-20 text-center col-xs-12'>"+
+                                        "<h1><i class='fa fa-check-circle-o'></i> <a href='"+baseUrl+"/survey/co/new/id/"+uploadObj.formId+"/session/<?php echo @$_GET['session']; ?>'>"+btnLbl+"</a>"+
+                                    "</h1></div>");
+
+            if ( Object.keys(answers[ "<?php echo @$_GET['session']; ?>" ]).length > 0 ){
+                drawAnswers(answers[ "<?php echo @$_GET['session']; ?>" ]);
+            }
+        }
+
+
     } 
     if( location.hash.indexOf("#panel") >= 0 ){
         panelName = location.hash.substr(7);
@@ -206,6 +256,28 @@ uploadObj.answerId = "<?php echo @$_GET['answer']; ?>";
     }
 });
 
+function drawAnswers() {
+    str = "";
+    prop = dyFObj[dyFObj.activeElem].dynForm.jsonSchema.properties;
+    $.each(answers[ "<?php echo @$_GET['session']; ?>" ],function(i,v) { 
+        str += "<span>"+new Date(v.created*1000)+"</span>";
+
+        //LES REPONSE
+        str += '<table class="table table-striped table-bordered table-hover">'+
+        '<thead><tr>';
+            $.each(v.answer,function(ai,av) { 
+                str += '<th>'+((prop[ai].placeholder) ? prop[ai].placeholder : ai)+'</th>';
+            });
+        str += '</tr></thead><tbody><tr>';
+        $.each(v.answer,function(ai,av) { 
+            str += "<td>"+av+"</td>";
+        });
+        str += "</tr></tbody></table></div>";
+
+        //formater la reponse 
+    });
+    $(dySObj.surveyId).append(str);
+}
 /*
 "login" : {
     "title" : "Identity",
