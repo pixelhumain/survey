@@ -95,7 +95,9 @@ jQuery(document).ready(function() {
 
     uploadObj.formId = (jsonHelper.notNull( "dySObj.surveys.parentSurvey")) ? dySObj.surveys.parentSurvey.id :dySObj.surveys.id ;
     uploadObj.answerId = "<?php echo @$_GET['answer']; ?>";
-
+    <?php if(@$_GET['session']){ ?>
+        uploadObj.session = "<?php echo @$_GET['session']; ?>";
+    <?php } ?>
     
     //scenario is a list of many survey definitions that can be put together in different ways
     //$("#surveyDesc").html("");
@@ -194,50 +196,58 @@ jQuery(document).ready(function() {
         
         dyFObj[dyFObj.activeElem] = dySObj.surveys;
         var btnLbl = (dySObj.surveys.custom.btnAcceptLbl) ? dySObj.surveys.custom.btnAcceptLbl : "J'accepte et je signe";
-        if(uploadObj.answerId){
-            if( answers[ "<?php echo @$_GET['session']; ?>" ][ uploadObj.answerId ] ){
-                
-                    
-                    dyFObj[dyFObj.activeElem].dynForm.jsonSchema.save = function() { 
-                        data={
-                            answerId : uploadObj.answerId,
-                            formId : uploadObj.formId,
-                            session : "<?php echo @$_GET['session']; ?>",
-                            answerSection : "answer",
-                            answers : arrayForm.getAnswers( dyFObj[dyFObj.activeElem].dynForm),
-                            answerUser : userId 
-                        };
-                        
-                        console.log("save",data);
-                        
-                        $.ajax({ type: "POST",
-                            url: baseUrl+"/survey/co/update",
-                            data: data,
-                            type: "POST",
-                        }).done(function (data) {
-                           //$(dySObj.surveyId).html("<h1>Merci pour votre participation</h1>");
-                           window.location.href = baseUrl+"/survey/co/index/id/"+uploadObj.formId+"/session/<?php echo @$_GET['session']; ?>";
-                        });
-                        return false;
-                    };
-                    dyFObj.buildDynForm (null,null,null,dySObj.surveyId);
-               
-            }
-            else 
-                window.location.href = baseUrl+"/survey/co/new/id/"+uploadObj.formId+"/session/<?php echo @$_GET['session']; ?>";
-        }
-        else {
-            
-            if( dySObj.surveys.oneAnswer == true && Object.keys(answers[ "<?php echo @$_GET['session']; ?>" ]).length > 0){
-                $(dySObj.surveyId).html("<h1 class='text-center'>Vous avez déjà participé<br/>merci</h1>");
-            }
-            else 
-                $(dySObj.surveyId).html("<div class='margin-bottom-20 text-center col-xs-12'>"+
-                                        "<h1><i class='fa fa-check-circle-o'></i> <a href='"+baseUrl+"/survey/co/new/id/"+uploadObj.formId+"/session/<?php echo @$_GET['session']; ?>'>"+btnLbl+"</a>"+
-                                    "</h1></div>");
+        if(uploadObj.answerId && uploadObj.session ){
 
-            if ( Object.keys(answers[ "<?php echo @$_GET['session']; ?>" ]).length > 0 ){
-                drawAnswers(answers[ "<?php echo @$_GET['session']; ?>" ]);
+            if( answers[ uploadObj.session ][ uploadObj.answerId ] ){
+                dyFObj[dyFObj.activeElem].dynForm.jsonSchema.save = function() { 
+                    data={
+                        answerId : uploadObj.answerId,
+                        formId : uploadObj.formId,
+                        session : uploadObj.session,
+                        answerSection : "answer",
+                        answers : arrayForm.getAnswers( dyFObj[dyFObj.activeElem].dynForm),
+                        answerUser : userId 
+                    };
+                    
+                    console.log("save",data);
+                    
+                    $.ajax({ type: "POST",
+                        url: baseUrl+"/survey/co/update",
+                        data: data,
+                        type: "POST",
+                    }).done(function (data) {
+                       //$(dySObj.surveyId).html("<h1>Merci pour votre participation</h1>");
+                       window.location.href = baseUrl+"/survey/co/index/id/"+uploadObj.formId+"/session/"+uploadObj.session;
+                    });
+                    return false;
+                };
+                dyFObj.buildDynForm (null,null,null,dySObj.surveyId);
+            }
+            else 
+                window.location.href = baseUrl+"/survey/co/new/id/"+uploadObj.formId+"/session/"+uploadObj.session;
+        }
+        else 
+        {
+            
+            //show Btn new or just message
+            if( dySObj.surveys.oneAnswer == true && uploadObj.session && Object.keys(answers[ uploadObj.session ]).length > 0 )
+                $(dySObj.surveyId).html("<h1 class='text-center'>Vous avez déjà participé<br/>merci</h1>");
+            else if( uploadObj.session )
+                $(dySObj.surveyId).html("<div class='margin-bottom-20 text-center col-xs-12'><h1><i class='fa fa-check-circle-o'></i> <a href='"+baseUrl+"/survey/co/new/id/"+uploadObj.formId+"/session/"+uploadObj.session+"'>"+btnLbl+"</a></h1></div>");
+
+            //Draw a table of all the answers
+            if(uploadObj.session) {
+                if ( Object.keys( answers[ uploadObj.session ] ).length > 0 ){
+                    dyFObj.elementData = answers[ uploadObj.session ];
+                    dyFObj.drawAnswers(dySObj.surveyId, {session:"#"+uploadObj.session} );
+                }
+            } else {
+                $.each( dySObj.surveys.session ,function(i,v) {
+                    if ( Object.keys( answers[ i ] ).length > 0 ){
+                        dyFObj.elementData = answers[ i ];
+                        dyFObj.drawAnswers( dySObj.surveyId ,  {session:"#"+i} );
+                    }
+                });
             }
         }
 
@@ -256,28 +266,7 @@ jQuery(document).ready(function() {
     }
 });
 
-function drawAnswers() {
-    str = "";
-    prop = dyFObj[dyFObj.activeElem].dynForm.jsonSchema.properties;
-    $.each(answers[ "<?php echo @$_GET['session']; ?>" ],function(i,v) { 
-        str += "<span>"+new Date(v.created*1000)+"</span>";
 
-        //LES REPONSE
-        str += '<table class="table table-striped table-bordered table-hover">'+
-        '<thead><tr>';
-            $.each(v.answer,function(ai,av) { 
-                str += '<th>'+((prop[ai].placeholder) ? prop[ai].placeholder : ai)+'</th>';
-            });
-        str += '</tr></thead><tbody><tr>';
-        $.each(v.answer,function(ai,av) { 
-            str += "<td>"+av+"</td>";
-        });
-        str += "</tr></tbody></table></div>";
-
-        //formater la reponse 
-    });
-    $(dySObj.surveyId).append(str);
-}
 /*
 "login" : {
     "title" : "Identity",

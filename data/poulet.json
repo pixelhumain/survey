@@ -1,0 +1,61 @@
+{
+    "_id" : ObjectId("5ba8ac78bed1284d73e452b7"),
+    "id" : "poulet",
+    "session" : {
+        "1" : {
+            "startDate" : "",
+            "endDate" : ""
+        }
+    },
+    "title" : "Engagment Poulet Bio Assuré",
+    "seo" : {
+        "title" : "je m'engage à prendre 12 poulet Bio Didier Gallietti",
+        "keywords" : "contrat, poulet, engagement"
+    },
+    "author" : "5534fd9da1aa14201b0041cb",
+    "custom" : {
+        "logo" : "/images/custom/poulet/logo.png",
+        "color" : "#00B795",
+        "mail" : {
+            "invitation" : {
+                "msg" : "Bienvenue sur la plate-forme des projets du CTE"
+            }
+        }
+    },
+    "countryCode" : "RE",
+    "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "parentType" : "organizations",
+    "parentId" : "5b47451ddd0452ca52000693",
+    "surveyType" : "dynForm",
+    "oneAnswer" : true,
+    "dynForm" : {
+        "jsonSchema" : {
+            "title" : "partixxxx",
+            "type" : "object",
+            "properties" : {
+                "separator1" : {
+                    "title" : "Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
+                },
+                "description" : {
+                    "inputType" : "textarea",
+                    "placeholder" : "Description",
+                    "class" : "description3"
+                },
+                "value" : {
+                    "inputType" : "select",
+                    "placeholder" : "---- Select a value ----",
+                    "options" : {
+                        "0" : "Ne souhaite pas",
+                        "20" : "Pas applicable",
+                        "40" : "Souhait mais pas démarré",
+                        "60" : "Démarré",
+                        "80" : "En progression",
+                        "100" : "Réalisé"
+                    }
+                }
+            }
+        }
+    },
+    "updated" : NumberLong(1537392206),
+    "modified" : ISODate("2018-09-19T21:23:26.000Z")
+}

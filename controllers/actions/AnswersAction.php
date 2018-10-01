@@ -7,7 +7,7 @@ class AnswersAction extends CAction{
 		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$id));
 		if ( ! Person::logguedAndValid() ) {
 			$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("common","Please Login First"),"icon"=>"fa-sign-in"));
-		}else if( Form::canAdmin((string)$form["_id"], $form) ){ 
+		} else if( Form::canAdmin((string)$form["_id"], $form) ){ 
 			
 			if(!@$form["session"][$session])
                 $ctrl->render("co2.views.default.unTpl",array("msg"=>"Session introuvable sur ".$id,"icon"=>"fa-search")); 
@@ -23,7 +23,6 @@ class AnswersAction extends CAction{
 						foreach ($form["links"]["members"][Yii::app()->session["userId"]]["roles"] as $key => $value) {
 
 							$or[] = array("categories.".InflectorHelper::slugify( $value ) => array('$exists' => 1));
-							# code...
 						}
 						$where = array('$and' => array(
 										array("formId" => @$id),
@@ -50,12 +49,17 @@ class AnswersAction extends CAction{
 										 			"roles" => $form["custom"]["roles"] ));
 
 	 		} else if(@$answers = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>@$id) )){
-		 		$ctrl->render("answers",array( 
-													 			"results" => $answers,
-													 			"form"=> $form ));
+	 			if( @$form["custom"]["answersTpl"] )
+	 				$ctrl->render( $form["custom"]["answersTpl"] ,array( 
+						 			"answers" => $answers,
+						 			"form" => $form ));
+	 			else 
+		 			$ctrl->render("answers",array( 
+						 			"results" => $answers,
+						 			"form"=> $form ));
 	 		} 
 		 	else 
-		 		echo "No answers found"; 
+		 		$ctrl->render("co2.views.default.unTpl",array("msg"=>"No Answers Found","icon"=>"fa-search"));
 		} else 
 			$ctrl->render("co2.views.default.unTpl",array("msg"=>Yii::t("project", "Unauthorized Access."),"icon"=>"fa-lock"));
 	}
