@@ -43,18 +43,17 @@ class AnswersAction extends CAction{
 
 				$userAdminAnswer = array();
 
-	 			$ctrl->render("answersList", array( "results" => $results,
+				$page  = ( @$form["custom"]["answersTpl"] ) ? $form["custom"]["answersTpl"] : "answersList";
+	 			$ctrl->render($page, array( "results" => $results,
 										 			"form"=> $form,
 										 			"userAdminAnswer" => $userAdminAnswer,
 										 			"roles" => $form["custom"]["roles"] ));
 
 	 		} else if(@$answers = PHDB::find( Form::ANSWER_COLLECTION , array("formId"=>@$id) )){
-	 			if( @$form["custom"]["answersTpl"] )
-	 				$ctrl->render( $form["custom"]["answersTpl"] ,array( 
-						 			"answers" => $answers,
-						 			"form" => $form ));
-	 			else 
-		 			$ctrl->render("answers",array( 
+	 			
+	 			$page  = ( @$form["custom"]["answersTpl"] ) ? $form["custom"]["answersTpl"] : "answers";
+		 		
+		 		$ctrl->render($page,array( 
 						 			"results" => $answers,
 						 			"form"=> $form ));
 	 		} 

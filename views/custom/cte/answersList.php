@@ -1,12 +1,4 @@
-
 <?php
-
-$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
-
-if(@Yii::app()->session["userId"])
-    $this->renderPartial($layoutPath.'.rocketchat'); 
-
-
 $cssAnsScriptFilesModule = array(
     '/plugins/jquery-simplePagination/jquery.simplePagination.js',
 	'/plugins/jquery-simplePagination/simplePagination.css',
@@ -15,7 +7,6 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/underscore-master/underscore.js',
 	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
 	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
-	'/plugins/jquery.dynForm.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true));
 
@@ -29,7 +20,6 @@ $cssJS = array(
     '/js/dataHelpers.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->getModule( Yii::app()->params["module"]["parent"] )->getAssetsUrl() );
-
 $cssAnsScriptFilesModule = array(
 	'/assets/js/comments.js',
 );
@@ -161,13 +151,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 									echo "<span id='".$k."etape' class='".$classText."'>".$c." / ".count(@$form['scenario'])."</span>"; 
 								?>
 							</td>
-							<td >
-								<a href="javascript:;" class="btn btn-primary openAnswersComment" onclick="commentAnswer('<?php echo $v['_id'] ?>')">
-									<?php echo PHDB::count(Comment::COLLECTION, array("contextId"=>(string)$v['_id'],"contextType"=>Form::ANSWER_COLLECTION)); ?> <i class='fa fa-commenting'></i>
-								</a>
-								<a href="javascript:;" class="btn btn-default btn-open-chat" data-name-el="<?php echo @$v[Project::CONTROLLER]["name"] ?>" data-username="<?php echo Yii::app()->session["user"]["username"] ?>" data-slug="<?php echo @$v[Project::CONTROLLER]["name"] ?>" data-type-el="projects"  data-open="<?php echo (@$v[Project::CONTROLLER]["value"]["preferences"]["isOpenEdition"]) ? "true" : "false" ?>"  data-hasRC="<?php echo (@$v[Project::CONTROLLER]["hasRC"]) ? "true" : "false" ?>" data-id="<?php echo (string)@$v[Project::CONTROLLER]["_id"] ?>"> <i class='fa fa-comments-o'></i>
-								</a>
-							</td>
+							<td ><a href="javascript:;" class="btn btn-primary openAnswersComment" onclick="commentAnswer('<?php echo $v['_id'] ?>')">
+								<?php echo PHDB::count(Comment::COLLECTION, array("contextId"=>(string)$v['_id'],"contextType"=>Form::ANSWER_COLLECTION)); ?>
+								<i class='fa fa-comments'></i>
+							</a></td>
 							<td id='<?php echo $k."etiquetage";?>'>
 								<?php 
 								if(@$v["categories"]){
@@ -421,26 +408,7 @@ jQuery(document).ready(function() {
 		});
 	});
 
-	$(".btn-open-chat").click( function() { 
-    	var nameElo = $(this).data("name-el");
-    	var idEl = $(this).data("id");
-    	var usernameEl = $(this).data("username");
-    	var slugEl = $(this).data("slug");
-    	var typeEl = dyFInputs.get($(this).data("type-el")).col;
-    	var openEl = $(this).data("open");
-    	var hasRCEl = ( $(this).data("hasRC") ) ? true : false;
-    	//alert(nameElo +" | "+typeEl +" | "+openEl +" | "+hasRCEl);
-    	var ctxData = {
-    		name : nameElo,
-    		type : typeEl,
-    		id : idEl
-    	}
-    	if(typeEl == "citoyens")
-    		ctxData.username = usernameEl;
-    	else if(slugEl)
-    		ctxData.slug = slugEl;
-    	rcObj.loadChat(nameElo ,typeEl ,openEl ,hasRCEl, ctxData );
-    });
+	
 
 });
 function commentAnswer(answerId){
