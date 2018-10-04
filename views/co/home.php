@@ -1,5 +1,38 @@
 <div class="row margin-top-20  padding-20">
 
+	<h1 class="text-center bold"> Tout les Formulaires </h1>
+	<a href="javascript:;" onclick="dyFObj.openForm('action','sub')" class="btn btn-primary"><i class="fa fa-plus"></i> Demander un formulaire</a>
+	<div class="card-columns col-xs-12 padding-15 ">
+		<?php
+		if( @$forms )
+		{
+			foreach ( $forms as $key => $value ) 
+			{ ?>
+				<div class="card col-xs-12 col-md-4 margin-bottom-10">
+					<div class="card-body padding-15 " style="border: 2px solid MidnightBlue;border-radius: 10px;min-height:265px;">
+						<h4 class="card-title bold text-dark text-center padding-5" style="border-bottom:1px solid white">
+							<i class="margin-5 fa fa-lightbulb fa-2x"></i><br><?php echo $value["title"] ?></h4>
+						
+						<span class="card-text text-center col-xs-12 no-padding margin-bottom-20"><?php echo @$value["description"] ?></span> 
+						<a href="<?php echo Yii::app()->createUrl("/survey/co/index/id/".$value["id"]); ?>" class="btn btn-default answeredfalse" style="width:100%"> Découvrir </a>
+						 <div class="margin-top-10 rounded-bottom mdb-color lighten-3 text-center pt-3">
+						    <ul class="list-unstyled list-inline font-small">
+						      <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i> <?php echo date("d/m/Y",@$value["created"]) ?></li>
+						      <li class="list-inline-item pr-2"><i class="fa fa-users pr-1"></i>12</li>
+						    </ul>
+						  </div>
+					</div>
+				</div>
+			<?php 
+			} 
+		}?>
+
+	</div>
+
+</div>
+
+<div class="row margin-top-20  padding-20">
+
 	<h1 class="text-center bold"> TERRITORIAL SURVEYS & WEBFORMS </h1>
 	
 	<div class="col-xs-12">

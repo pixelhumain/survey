@@ -45,9 +45,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 ?>
 
 <?php 
-	/* ---------------------------------------------
-	ETAPE DU SCENARIO
-	---------------------------------------------- */
+/* ---------------------------------------------
+ETAPE DU SCENARIO
+---------------------------------------------- */
 
 foreach ( $form[ $scenario ] as $k => $v ) {
 	//echo count(array_keys( $v["form"] ));
@@ -279,7 +279,7 @@ var projectsLink = {};
 var scenarioKey = "<?php echo $scenario ?>";
 var answerCollection = "<?php echo @$answerCollection ?>";
 var answerId = "<?php echo @$answerId ?>";
-
+var ctxDynForms = null;
 
 $(document).ready(function() { 
 
@@ -483,7 +483,7 @@ $(document).ready(function() {
 
 });
 
-var ctxDynForms = null;
+
 
 
 /* Make it better 

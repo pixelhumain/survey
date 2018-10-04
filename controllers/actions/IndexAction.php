@@ -73,7 +73,9 @@ class IndexAction extends CAction
 	 		}
 		 	else 
 		 		$this->getController()->render("co2.views.default.unTpl",array("msg"=>"Formulaire introuvable","icon"=>"fa-search")); 
-		 } else 
-		 	echo $this->getController()->render("home");
+		 } else {
+		 	$forms = PHDB::find( Form::COLLECTION , array("parentSurvey"=>array('$exists'=>0) ) );
+		 	echo $this->getController()->render("home" , array( "forms"=>$forms ));
+		 }
     }
 }

@@ -234,6 +234,11 @@ jQuery(document).ready(function() {
                 $(dySObj.surveyId).html("<h1 class='text-center'>Vous avez déjà participé<br/>merci</h1>");
             else if( uploadObj.session )
                 $(dySObj.surveyId).html("<div class='margin-bottom-20 text-center col-xs-12'><h1><i class='fa fa-check-circle-o'></i> <a href='"+baseUrl+"/survey/co/new/id/"+uploadObj.formId+"/session/"+uploadObj.session+"'>"+btnLbl+"</a></h1></div>");
+            else {
+                $.each( dySObj.surveys.session ,function(i,v) {
+                    $(dySObj.surveyId).html("<div class='margin-bottom-20 text-center col-xs-12'><h1><i class='fa fa-check-circle-o'></i> <a href='"+baseUrl+"/survey/co/new/id/"+uploadObj.formId+"/session/"+i+"'>"+btnLbl+" #"+i+"</a></h1></div>");
+                });
+            }
 
             //Draw a table of all the answers
             if(uploadObj.session) {

@@ -224,7 +224,7 @@ $(document).ready(function() {
 
 function initWizard () { 
 	$("#wizard").smartWizard({
-	    selected: 0,
+	    //selected: 1,
 	    keyNavigation: false,
 	    //enableAllSteps : true,
 	    //onLeaveStep: function(){ console.log("leaveAStepCallback");},
@@ -247,13 +247,16 @@ function initWizard () {
 		$.each(adminForm.scenarioAdmin, function(k,v) { 
 			ix++;
 			if( adminAnswers.step && k == adminAnswers.step ){
-				$("#wizard").smartWizard("goToStep",ix);
+				//$("#wizard").smartWizard("goToStep",ix);
 				return false;
 			}else{
 				$("#wizard").smartWizard("enableStep",ix);
 			}
 		});
+		//setTimeout(function  () { $("#wizard").smartWizard("goToStep",1); },500)
+		
 	}
+
 //dySObj.animateBar();
 }
 

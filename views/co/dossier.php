@@ -158,6 +158,41 @@ if(@$adminAnswers["risks"] )
 
 
  <?php foreach ($form["scenario"] as $k => $v) {
+
+ 	//echo count(array_keys( $v["form"] ));
+	if(	!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"]["scenario"] )) )
+	{
+		foreach ( $v["form"]["scenario"] as $step => $f ) 
+		{
+			if( !@$answers[$k]["answers"][$step] )
+			{
+				$answers["answers"] = array();
+				$answers["answers"][$step] = array();
+				if( @$f["json"]['jsonSchema']["properties"] )
+				{
+					foreach ( $f["json"]['jsonSchema']["properties"] as $key => $value ) 
+					{
+						if (@$value["properties"]){
+							$answers[$k]["answers"][$step][$key] = []; 
+							$tmp = array();
+							foreach ($value["properties"] as $ki => $vi) {
+								$tmp[$ki] = "";
+							}
+							//$answers[$k]["answers"][$step][$key][] = $tmp;
+						}
+						else 
+							$answers[$k]["answers"][$step][$key] = "";
+					}
+				}
+				$answers[$k]["created"] = time();
+			} 
+
+		}
+		$v["form"]["title"] = $v["title"];
+		$v["form"]["description"] = $v["description"];
+		$v["form"]["icon"] = $v["icon"];
+	}
+
 	if(@$answers[$k]){  ?>
 		
 		<div class=" titleBlock col-xs-12 text-center" style="cursor:pointer;background-color: <?php echo $form["custom"]["color"] ?>"  onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();">
@@ -174,25 +209,70 @@ if(@$adminAnswers["risks"] )
 			if( (string)$user["_id"] == Yii::app()->session["userId"] /*&& !Form::isFinish($form["session"][$_GET['session']]["endDate"] ) */  ) {
 				if(@$v["form"]["scenario"][$key]["saveElement"]) 
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' data-type='".$value["type"]."' data-id='".$value["id"]."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
-				else 
+				else if(!@$v["form"]["scenario"][$key]["arrayForm"])
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 			}
 			echo "<div class='col-xs-12'>".
-					"<h2> [ étape ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
-			echo '<table class="table table-striped table-bordered table-hover  directoryTable">'.
-				'<thead>'.
-					'<tr>'.
+					"<h2 id='".$key."'> [ étape ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
+
+			$head =  '<thead><tr>'.
 						'<th>'.Yii::t("common","Question").'</th>'.
 						'<th>Réponse</th>'.
-					'</tr>'.
-				'</thead>'.
+					'</tr></thead>';
+
+			if(@@$v["form"]["scenario"][$key]["arrayForm"]  ){
+				$ki = (@$v["form"]["scenario"][$key]["key"]) ? $v["form"]["scenario"][$key]["key"] : array_keys($v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"])[0];
+				$head =  '<thead><tr>'.
+						'<th>Ajouter une ligne</th>'.
+						"<th><a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$ki."' class='addAF btn btn-primary'><i class='fa fa-plus'></i> Ajouter</a></th>".
+					'</tr></thead>';
+				if( count($value[$ki]) > 0 )
+					$head = "";
+			}
+
+			echo '<table class="table table-striped table-bordered table-hover  directoryTable">'.
+				$head.
 				'<tbody class="directoryLines">';
 			if( @$v["form"]["scenario"][$key]["json"] )
 			{
 				$formQ = @$v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"];
 				foreach ($value as $q => $a) 
 				{
-					if(is_string($a)){
+					if( @$formQ[$q]["inputType"] == "arrayForm" || @$v["form"]["scenario"][$key]["key"] == $q ){
+						
+						//Tout les titre du tableau de réponses 
+						echo '<tr>';
+							if(@$v["form"]["scenario"][$key]["properties"])
+								$props = $v["form"]["scenario"][$key]["properties"];
+							else 
+								$props = $formQ[$q]["properties"];
+
+							foreach ( $props as $ik => $iv) {
+								echo "<th>".( ( is_string($iv) ) ? $iv : $iv["placeholder"] )."</th>";
+							}
+
+							echo "<th><a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' class='addAF btn btn-primary'><i class='fa fa-plus'></i> Ajouter</a></th>";
+						echo '</tr>';
+
+						//Toutes les réponses du tableau
+						foreach ($a as $sq => $sa) {
+							echo '<tr>';
+								
+								foreach ($props as $ik => $iv) {
+									//chaque propriété a sa réponse 
+									$ans = @$sa[$ik];
+									if($iv["inputType"] == "select" && @$iv["options"][ @$sa[$ik] ])
+										$ans = $iv["options"][ @$sa[$ik] ];
+									echo "<td>".$ans."</td>";
+								}
+								echo "<td>".
+									"<a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' data-pos='".$sq."' class='editAF btn btn-default'><i class='fa fa-pencil'></i></a> ".
+									"<a href='javascript:;' data-form='".$k."' data-step='".$key."' data-q='".$q."' data-pos='".$sq."' class='deleteAF btn btn-danger'><i class='fa fa-times'></i></a>".
+								"</td>";
+							echo '</tr>';
+						}
+					}
+					else if(is_string($a)){
 						echo '<tr>';
 							echo "<td>".@$formQ[ $q ]["placeholder"]."</td>";
 							$markdown = (strpos(@$formQ[ $q ]["class"], 'markdown') !== false) ? 'markdown' : "";
@@ -314,8 +394,17 @@ echo $this->renderPartial( "survey.views.co.modalSwitchLink",array());
 
 <script type="text/javascript">
 var answers  = <?php echo json_encode($answers); ?>;
+var ctxDynForms = null;
+var scenarioKey = "scenario";
+var answerCollection = "answers";
+var answerId = "<?php echo $_GET['id']; ?>";
+var answerSection = "";
+
 $(document).ready(function() { 
 	
+	ctxDynForms = {
+		ficheAction : {}
+	}
 	$('#doc').html( dataHelper.markdownToHtml( $('#doc').html() ) );
 	
 	$.each($('.markdown'),function(i,el) { 
@@ -407,6 +496,21 @@ $(document).ready(function() {
 	
 	$('#modifLink').off().click(function() {
 		$('#modalSwitchLink').modal("show");
+	});
+
+	$('.deleteAF').off().click(function() { 
+		answerSection = "answers."+$(this).data("form")+".answers."+$(this).data("step")+"."+$(this).data("q");
+		arrayForm.del($(this).data("form"),$(this).data("step"),$(this).data("q"),$(this).data("pos"));
+	});
+
+	$('.addAF').off().click(function() { 
+		answerSection = "answers."+$(this).data("form")+".answers."+$(this).data("step")+"."+$(this).data("q");
+		arrayForm.add($(this).data("form"),$(this).data("step"),$(this).data("q"));
+	});
+
+	$('.editAF').off().click(function() { 
+		answerSection = "answers."+$(this).data("form")+".answers."+$(this).data("step")+"."+$(this).data("q");
+		arrayForm.edit($(this).data("form"),$(this).data("step"),$(this).data("q"),$(this).data("pos"));
 	});
 });
 function commentRisk(answerId, riskId){

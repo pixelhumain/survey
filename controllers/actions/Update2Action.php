@@ -36,10 +36,10 @@ class Update2Action extends CAction
                 }
 
                 if($_POST["collection"]==Action::COLLECTION && $value != null && !empty($value["project"]) ){
-                    $child = array(   "idLink" => $value["project"],
-                                        "typeLink" => Project::COLLECTION,
-                                        "idAction" => (String)$el["_id"],
-                                        "verbLink" => "projects" );
+                    $child = array( "idLink"   => $value["project"],
+                                    "typeLink" => Project::COLLECTION,
+                                    "idAction" => (String)$el["_id"],
+                                    "verbLink" => "projects" );
                     $msgLink=Actions::assign($child);
                 }                    
 
