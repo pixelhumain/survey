@@ -1,4 +1,15 @@
 <?php
+/*
+
+add 
+email > 
+name 
+location 
+checkbox : j'accepte les poulet 
+checkbox : je veux rejoindre communecter  
+
+*/
+
 $cssJS = array(
     '/plugins/jquery.dynForm.js',
     '/plugins/jquery.dynSurvey.js',
@@ -46,7 +57,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
 <script type="text/javascript">
 
 jQuery(document).ready(function() {
-	dyFObj.elementData = <?php echo json_encode( $answers ) ?>;
+	dyFObj.elementData = <?php echo json_encode( $results ) ?>;
 	dyFObj[dyFObj.activeElem] = <?php echo json_encode( $form ) ?>;
     dyFObj.drawAnswers( "#answerList", { session : "#<?php echo @$_GET['session']; ?>" } );
 });	

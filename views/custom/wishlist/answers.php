@@ -53,7 +53,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->request->baseUrl);
 
 jQuery(document).ready(function() {
 
-	dyFObj.elementData = <?php echo json_encode( @$answers ) ?>;
+	dyFObj.elementData = <?php echo json_encode( @$results ) ?>;
 	dyFObj[dyFObj.activeElem] = <?php echo json_encode( $form ) ?>;
 	var after = { 
 		
