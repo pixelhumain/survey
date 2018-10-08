@@ -27,6 +27,7 @@ class CoController extends CommunecterController {
 	        'update2'=> 'survey.controllers.actions.Update2Action',
 	        'delete'  => 'survey.controllers.actions.DeleteAction',
 	        'roles'=> 'survey.controllers.actions.RolesAction',
+	        'step'=> 'survey.controllers.actions.StepAction',
 	        'logs'=> 'survey.controllers.actions.LogsAction',
 	        'answers'  => 'survey.controllers.actions.AnswersAction',
 	        'answer'  => 'survey.controllers.actions.AnswerAction',
