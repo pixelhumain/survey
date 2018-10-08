@@ -12,12 +12,14 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getRequest()->getBaseUrl(true))
 ?>
-			
-<h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
-<?php
-if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){ ?>
-	<a class="btn btn-default btn-xs" href="javascript:" id="modifLink">Changer le porteur de projet</a>
-<?php		
+
+<?php if(!@$_GET["step"]) { ?>
+	<h1 class="text-center"> <i class="fa fa-folder-open-o"></i> DOSSIER </h1>
+	<?php
+	if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){ ?>
+		<a class="btn btn-default btn-xs" href="javascript:" id="modifLink">Changer le porteur de projet</a>
+	<?php		
+	}
 }
 ?>
 
@@ -30,7 +32,7 @@ if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){ ?
 	---------------------------------------------- */
  ?>
 
-
+<?php if(!@$_GET["step"]) { ?>
 <div class='col-xs-12'>
 	<h2 class="padding-20"  onclick="$('#state').toggle();" style="background-color:lightgrey;cursor:pointer;">ÉTAT DU DOSSIER <i class="fa pull-right  fa-heartbeat"></i></h2>
 	<table id="state" class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
@@ -61,7 +63,7 @@ if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )){ ?
 		</tbody>
 	</table>					
 </div>
-
+<?php } ?>
 
 
 <?php 
@@ -108,6 +110,7 @@ if(@$adminAnswers["risks"] )
 	---------------------------------------------- */
  ?>
 
+<?php if(!@$_GET["step"]) { ?>
 <div class='col-xs-12' onclick="$('#by').toggle();">
 	<h2 class="padding-20" style="background-color:lightgrey;cursor:pointer;"> Réponse par <i class="fa pull-right fa-user"></i></h2>
 	<table id="by"  class="table table-striped table-bordered table-hover  directoryTable" id="panelAdmin">
@@ -141,7 +144,7 @@ if(@$adminAnswers["risks"] )
 		</tbody>
 	</table>
 </div>
-
+<?php } ?>
 
 
 <?php 
@@ -156,8 +159,27 @@ if(@$adminAnswers["risks"] )
 
  ?>
 
+<?php 
+//used when we want to show only a sub section of a survey 
+if(@$_GET["step"]) 
+{
+	foreach ($form["scenario"] as $k => $v) 
+	{
+		if( $k != $path[1] )
+			unset( $form[ "scenario" ][$k] );
+		else 
+		{
+			foreach ($v["form"][ "scenario" ] as $ki => $vi) 
+			{
+				if( $ki != $path[2] )
+					unset( $form[ "scenario" ][$k]["form"][ "scenario" ][$ki] );	
+			}
+		}
+	}
+}  
 
- <?php foreach ($form["scenario"] as $k => $v) {
+//fills empty sections of answers
+foreach ($form["scenario"] as $k => $v) {
 
  	//echo count(array_keys( $v["form"] ));
 	if(	!@$answers[$k]["answers"] || count( array_keys($answers[$k]["answers"])) != count(array_keys( $v["form"]["scenario"] )) )
@@ -195,12 +217,14 @@ if(@$adminAnswers["risks"] )
 
 	if(@$answers[$k]){  ?>
 		
+		<?php if(!@$_GET["step"]) { ?>
 		<div class=" titleBlock col-xs-12 text-center" style="cursor:pointer;background-color: <?php echo $form["custom"]["color"] ?>"  onclick="$('#<?php echo $v["form"]["id"]; ?>').toggle();">
 			<h1> 
 			<?php echo $v["form"]["title"]; ?><i class="fa pull-right <?php echo @$v["form"]["icon"]; ?>"></i>
 			</h1>
 			<span class="text-dark"><?php echo date('d/m/Y h:i', $answers[$k]["created"]) ?></span>
 		</div>
+		<?php } ?>
 		<div class='col-xs-12' id='<?php echo $v["form"]["id"]; ?>'>
 		<?php 
 		foreach ( $answers[$k]["answers"] as $key => $value) {
@@ -212,13 +236,14 @@ if(@$adminAnswers["risks"] )
 				else if(!@$v["form"]["scenario"][$key]["arrayForm"])
 					$editBtn = "<a href='javascript:'  data-form='".$k."' data-step='".$key."' class='editStep btn btn-default'><i class='fa fa-pencil'></i></a>";
 			}
-			echo "<div class='col-xs-12'>".
-					"<h2 id='".$key."'> [ étape ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
+			echo "<div class='col-xs-12'>";
+			if(!@$_GET["step"] || $key == $path[2]) 
+				echo "<h2 id='".$key."'> [ étape ] ".@$v["form"]["scenario"][$key]["title"]." ".$editBtn."</h2>";
 
-			$head =  '<thead><tr>'.
+			$head =  (!@$_GET["step"] || $key == $path[2]) ? '<thead><tr>'.
 						'<th>'.Yii::t("common","Question").'</th>'.
 						'<th>Réponse</th>'.
-					'</tr></thead>';
+					'</tr></thead>' : "" ;
 
 			if(@@$v["form"]["scenario"][$key]["arrayForm"]  ){
 				$ki = (@$v["form"]["scenario"][$key]["key"]) ? $v["form"]["scenario"][$key]["key"] : array_keys($v["form"]["scenario"][$key]["json"]["jsonSchema"]["properties"])[0];

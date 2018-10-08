@@ -109,6 +109,7 @@ SECTION STEPPER WIZARD
 ?>				
 
 	<div id="wizard" class="swMain">
+		<?php if(!@$_GET["step"]) { ?>
 		<ul id="wizardLinks">
 			<?php 
 			$ct = 0;
@@ -136,7 +137,7 @@ SECTION STEPPER WIZARD
 			<i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
 		</div>
 
-<?php 
+<?php }
 	}
 /* ---------------------------------------------
 each section must have a template , with the same key name
@@ -162,20 +163,29 @@ $pageParams = array(
 $ct = 0;
 $showHide = "";
 
+if(@$_GET["step"]){
+	$path = explode(".", $_GET["step"]);
 
-foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
-	
-	if( in_array( @$answer["step"] , array( "risk","ficheAction" ) ) ){
-		$pageParams["riskTypes"] = @$riskTypes;
-		$pageParams["riskCatalog" ] = @$riskCatalog;
-	}
-	
-	echo "<div id='".$k."' class='section".$ct." ".$showHide."'>";
-	echo $this->renderPartial( $k , $pageParams ); 
+	echo "<div'>";
+	$pageParams["path"] = $path;
+	echo $this->renderPartial( $path[0] , $pageParams ); 
 	echo "</div>";
 
-	$ct++;
-	$showHide = "hide";
+} else {
+	foreach ( @$adminForm["scenarioAdmin"] as $k => $v ) {
+		
+		if( in_array( @$answer["step"] , array( "risk","ficheAction" ) ) ){
+			$pageParams["riskTypes"] = @$riskTypes;
+			$pageParams["riskCatalog" ] = @$riskCatalog;
+		}
+		
+		echo "<div id='".$k."' class='section".$ct." ".$showHide."'>";
+		echo $this->renderPartial( $k , $pageParams ); 
+		echo "</div>";
+
+		$ct++;
+		$showHide = "hide";
+	}
 }
 
 
