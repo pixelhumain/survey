@@ -253,7 +253,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 								} 
 								?>
 							</td>
-							<td><a href="javascript:;" class="openfinanceModal btn btn-primary" onclick="showFinancial('<?php echo $v['_id'] ?>')"><i class="fa fa-money"></i></a></td>
+							<td><a href="/survey/co/answer/id/<?php echo $v['_id'] ?>/step/dossier.cte3.planFinancement" target="_blank" class=" btn btn-primary"><i class="fa fa-money"></i></a></td>
 						</tr>
 						<?php
 					} ?>
@@ -465,13 +465,13 @@ function showFinancial(answerId){
 	    });
 		modal.on("shown.bs.modal", function() {
 		  $.unblockUI();
-		  	/*getAjax(".content-risk-comment-tree",baseUrl+"/"+moduleId+"/survey/answerstep/type/answers/id/"+answerId,
+		  	getAjax(".content-risk-comment-tree",baseUrl+"/survey/co/answer/id/"+answerId+"/step/dossier.cte3.planFinancement",
 			function(){  //$(".commentCount").html( $(".nbComments").html() ); 
-			},"html");*/
+			},"html");
 
 		  //bindEventTextAreaNews('#textarea-edit-news'+idNews, idNews, updateNews[idNews]);
 		});
-	   // modal.modal("show");
+	    modal.modal("show");
 	//}
 }
 function commentAnswer(answerId){

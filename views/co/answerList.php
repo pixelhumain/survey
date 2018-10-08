@@ -229,7 +229,9 @@ $(document).ready(function() {
 	uploadObj.answerId = "<?php echo $_GET['id']; ?>";	
 	bindAnwserList();
 
+	<?php if(!@$_GET["step"]) { ?>
 	initWizard();
+	<?php } ?>
 });
 
 function initWizard () { 
