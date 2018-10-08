@@ -253,7 +253,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 								} 
 								?>
 							</td>
-							<td><a href="javascript:;" class="openfinanceModal btn btn-primary"><i class="fa fa-money"></i></a></td>
+							<td><a href="javascript:;" class="openfinanceModal btn btn-primary" onclick="showFinancial('<?php echo $v['_id'] ?>')"><i class="fa fa-money"></i></a></td>
 						</tr>
 						<?php
 					} ?>
@@ -445,6 +445,35 @@ jQuery(document).ready(function() {
     });
 
 });
+function showFinancial(answerId){
+	var modal = bootbox.dialog({
+	        message: '<div class="content-financial-tree"></div>',
+	        title: "Point fincancier",
+	        buttons: [
+	        
+	          {
+	            label: "Annuler",
+	            className: "btn btn-default pull-left",
+	            callback: function() {
+	              console.log("just do something on close");
+	            }
+	          }
+	        ],
+	        onEscape: function() {
+	          modal.modal("hide");
+	        }
+	    });
+		modal.on("shown.bs.modal", function() {
+		  $.unblockUI();
+		  	/*getAjax(".content-risk-comment-tree",baseUrl+"/"+moduleId+"/survey/answerstep/type/answers/id/"+answerId,
+			function(){  //$(".commentCount").html( $(".nbComments").html() ); 
+			},"html");*/
+
+		  //bindEventTextAreaNews('#textarea-edit-news'+idNews, idNews, updateNews[idNews]);
+		});
+	   // modal.modal("show");
+	//}
+}
 function commentAnswer(answerId){
 	var modal = bootbox.dialog({
 	        message: '<div class="content-risk-comment-tree"></div>',
