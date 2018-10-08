@@ -115,6 +115,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 						<th>Status</th>
 						<th >PDF</th>
 						<th >Budget</th>
+						<th >Financement</th>
 					</tr>
 				</thead>
 				<tbody class="directoryLines">
@@ -252,6 +253,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->the
 								} 
 								?>
 							</td>
+							<td><a href="javascript:;" class="openfinanceModal btn btn-primary"><i class="fa fa-money"></i></a></td>
 						</tr>
 						<?php
 					} ?>

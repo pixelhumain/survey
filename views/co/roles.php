@@ -125,7 +125,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 							<i class="margin-5 fa fa-lightbulb fa-2x"></i><br><?php echo "#".$c." ".$value["answers"]["cte2"]["answers"]["project"]["name"] ?></h4>
 
 						<span class="card-text text-center col-xs-12 no-padding margin-bottom-20"><?php echo @$value["answers"]["cte2"]["answers"]["project"]["shortDescription"] ?></span> 
-						<a href="<?php echo Yii::app()->createUrl('/survey/co/answer/id/'.$value["_id"]) ; ?>" class="btn btn-default answeredfalse" style="width:100%" target="_blank"> Voir Réponses </a>
+						<a href="<?php echo Yii::app()->createUrl('/survey/co/action/id/'.@$_GET["id"].'/aid/'.$value["_id"]) ; ?>" class="btn btn-default answeredfalse" style="width:100%" target="_blank"> Voir Réponses </a>
 						 <div class="margin-top-10 rounded-bottom mdb-color lighten-3 text-center pt-3">
 						    <ul class="list-unstyled list-inline font-small">
 						      <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i><?php echo date("d/m/Y",@$value["answers"]["cte2"]["created"]) ?></li>

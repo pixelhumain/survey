@@ -172,7 +172,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 					}else if(@$a["type"] && $a["type"]==Document::COLLECTION){
 
 						$document=Document::getById($a["id"]);
-						var_dump($answers[$k]["answers"][$key]);
+						//var_dump($answers[$k]["answers"][$key]);
 						$answers[$k]["answers"][$key]["files"]=$document;
 						$path=Yii::app()->getRequest()->getBaseUrl(true)."/upload/communecter/".$document["folder"]."/".$document["name"];
 						echo '<tr>';
@@ -263,7 +263,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 	}
 	echo "</div>";
 
-var_dump($projectsDetails);
+//var_dump($projectsDetails);
 ?>
 
 <script type="text/javascript">
