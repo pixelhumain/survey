@@ -253,7 +253,30 @@ $states = array();
 								} 
 								?>
 							</td>
-							<td><a href="/survey/co/answer/id/<?php echo $v['_id'] ?>/step/dossier.cte3.planFinancement" target="_blank" class=" btn btn-primary"><i class="fa fa-money"></i></a></td>
+							<td>
+							<?php 
+							$typeLbl = array(
+								"F"=>array("lbl"=>"Financement","total"=>0,"col"=>"PaleGreen" ),
+								"D"=>array("lbl"=>"Dépenses","total"=>0,"col"=>"Salmon"),
+								"M" => array("lbl"=>"Mesure","total"=>0,"col"=>"Pink")
+								);
+							if(@$v["answers"]["cte3"]["answers"]["planFinancement"]["planFinancement"]){
+								foreach ($v["answers"]["cte3"]["answers"]["planFinancement"]["planFinancement"] as $f => $fv) {
+									if(@$fv["amountTotal"] ){
+										//echo "amountTotal : ".@$fv["amountTotal"]."type : ".@$fv["type"]."<br/>";
+										$typeLbl[ @$fv["type"] ] ["total"] += (int)$fv["amountTotal"];  
+									}
+								}
+
+								foreach ($typeLbl as $f => $fv) {
+									if( $fv["total"] != 0 )
+										echo "<div class='bold' style='padding:5px;background-color:".$fv["col"]."'>".$fv["lbl"]."<br/>".$fv["total"]." €</div>";
+								}
+							} ?>
+							<div class="margin-top-10"><a href="/survey/co/answer/id/<?php echo $v['_id'] ?>/step/dossier.cte3.planFinancement" target="_blank" class=" btn btn-primary">Détail <i class="fa fa-money"></i></a></div>
+
+							</td>
+							
 						</tr>
 						<?php
 					} ?>
@@ -304,9 +327,11 @@ jQuery(document).ready(function() {
 	    	countLine();
 	    });
 	});
+
 	$(".clickOpen").off().on('click',function(){
 		window.open("<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/answer/id/" ; ?>"+$(this).parent().data('id')) ;
 	});
+
 	$("#csv").off().on('click',function(){
     	var chaine = "";
     	var csv = '"Num";"Projet";"Desc";"Porteur";"Référent";"Avancement dossier";"Lire";"Etiquetage";"Tags";"Status"' ;
