@@ -104,7 +104,7 @@ jQuery(document).ready(function() {
     if(userId && dySObj.surveys.scenario ){
         if( startDate && (startDate.sec > (new Date().getTime()/1000)) )
             $("#surveyDesc").append("<h1 class='text-center text-red bold'> Période de Collecte pas encore lancé.<br/>Revenez bientot! </h1>");
-        else if( endDate && (endDate.sec < (new Date().getTime()/1000)) )
+        else if( false && endDate && (endDate.sec < (new Date().getTime()/1000)) )
             $("#surveyDesc").append("<h1 class='text-center text-red bold'> Période de Collecte cloturé. </h1>");
         else {
             if( (dySObj.surveys.parentSurvey && 
