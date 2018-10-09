@@ -262,7 +262,7 @@ $states = array();
 								);
 							if(@$v["answers"]["cte3"]["answers"]["planFinancement"]["planFinancement"]){
 								foreach ($v["answers"]["cte3"]["answers"]["planFinancement"]["planFinancement"] as $f => $fv) {
-									if(@$fv["amountTotal"] ){
+									if(@$fv["amountTotal"] && @$typeLbl[ @$fv["type"] ]){
 										//echo "amountTotal : ".@$fv["amountTotal"]."type : ".@$fv["type"]."<br/>";
 										$typeLbl[ @$fv["type"] ] ["total"] += (int)$fv["amountTotal"];  
 									}
