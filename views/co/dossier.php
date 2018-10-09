@@ -531,7 +531,7 @@ $(document).ready(function() {
 	$('.addAF').off().click(function() { 
 
 		answerSection = "answers."+$(this).data("form")+".answers."+$(this).data("step")+"."+$(this).data("q");
-		alert(answerSection);
+		//alert(answerSection);
 		arrayForm.add($(this).data("form"),$(this).data("step"),$(this).data("q"));
 	});
 
