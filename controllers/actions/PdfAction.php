@@ -28,6 +28,13 @@ class PdfAction extends CTKAction{
 
 		$answer = PHDB::findOne( Form::ANSWER_COLLECTION, array("_id"=>new MongoId($id)));
 		$form = PHDB::findOne( Form::COLLECTION , array("id"=>$answer["formId"]));
+		$forms = PHDB::find( Form::COLLECTION , array("parentSurvey"=>$answer["formId"]));
+
+		foreach ($forms as $key => $value) {
+			$forms[$value["id"]] = $value;
+		}
+
+		//Rest::json($forms); exit;
 
 		$title = ( @$answer["answers"]["cte2"]["answers"]["project"]  ) ?  $answer["answers"]["cte2"]["answers"]["project"]["name"] : "Dossier";
 
@@ -39,7 +46,8 @@ class PdfAction extends CTKAction{
 			"custom" => $form["custom"],
 			"footer" => true,
 			"tplData" => "cteDossier",
-			"form" => $form
+			"form" => $form,
+			"forms" => $forms
 		);
 
 		$html = $controller->renderPartial('application.views.pdf.dossierCte', $params, true);
