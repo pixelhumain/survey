@@ -166,8 +166,10 @@ $states = array();
 								<a href="javascript:;" class="btn btn-primary openAnswersComment" onclick="commentAnswer('<?php echo $v['_id'] ?>')">
 									<?php echo PHDB::count(Comment::COLLECTION, array("contextId"=>(string)$v['_id'],"contextType"=>Form::ANSWER_COLLECTION)); ?> <i class='fa fa-commenting'></i>
 								</a>
+								<?php /* ?>
 								<a href="javascript:;" class="btn btn-default btn-open-chat" data-name-el="<?php echo @$v[Project::CONTROLLER]["name"] ?>" data-username="<?php echo Yii::app()->session["user"]["username"] ?>" data-slug="<?php echo @$v[Project::CONTROLLER]["name"] ?>" data-type-el="projects"  data-open="<?php echo (@$v[Project::CONTROLLER]["value"]["preferences"]["isOpenEdition"]) ? "true" : "false" ?>"  data-hasRC="<?php echo (@$v[Project::CONTROLLER]["hasRC"]) ? "true" : "false" ?>" data-id="<?php echo (string)@$v[Project::CONTROLLER]["_id"] ?>"> <i class='fa fa-comments-o'></i>
 								</a>
+								*/?>
 							</td>
 							<td id='<?php echo $k."etiquetage";?>'>
 								<?php 
