@@ -166,8 +166,10 @@ $states = array();
 								<a href="javascript:;" class="btn btn-primary openAnswersComment" onclick="commentAnswer('<?php echo $v['_id'] ?>')">
 									<?php echo PHDB::count(Comment::COLLECTION, array("contextId"=>(string)$v['_id'],"contextType"=>Form::ANSWER_COLLECTION)); ?> <i class='fa fa-commenting'></i>
 								</a>
+								<?php /* ?>
 								<a href="javascript:;" class="btn btn-default btn-open-chat" data-name-el="<?php echo @$v[Project::CONTROLLER]["name"] ?>" data-username="<?php echo Yii::app()->session["user"]["username"] ?>" data-slug="<?php echo @$v[Project::CONTROLLER]["name"] ?>" data-type-el="projects"  data-open="<?php echo (@$v[Project::CONTROLLER]["value"]["preferences"]["isOpenEdition"]) ? "true" : "false" ?>"  data-hasRC="<?php echo (@$v[Project::CONTROLLER]["hasRC"]) ? "true" : "false" ?>" data-id="<?php echo (string)@$v[Project::CONTROLLER]["_id"] ?>"> <i class='fa fa-comments-o'></i>
 								</a>
+								*/?>
 							</td>
 							<td id='<?php echo $k."etiquetage";?>'>
 								<?php 
@@ -253,7 +255,30 @@ $states = array();
 								} 
 								?>
 							</td>
-							<td><a href="/survey/co/answer/id/<?php echo $v['_id'] ?>/step/dossier.cte3.planFinancement" target="_blank" class=" btn btn-primary"><i class="fa fa-money"></i></a></td>
+							<td>
+							<?php 
+							$typeLbl = array(
+								"F"=>array("lbl"=>"Financement","total"=>0,"col"=>"PaleGreen" ),
+								"D"=>array("lbl"=>"Dépenses","total"=>0,"col"=>"Salmon"),
+								"M" => array("lbl"=>"Mesure","total"=>0,"col"=>"Pink")
+								);
+							if(@$v["answers"]["cte3"]["answers"]["planFinancement"]["planFinancement"]){
+								foreach ($v["answers"]["cte3"]["answers"]["planFinancement"]["planFinancement"] as $f => $fv) {
+									if(@$fv["amountTotal"] && @$typeLbl[ @$fv["type"] ]){
+										//echo "amountTotal : ".@$fv["amountTotal"]."type : ".@$fv["type"]."<br/>";
+										$typeLbl[ @$fv["type"] ] ["total"] += (int)$fv["amountTotal"];  
+									}
+								}
+
+								foreach ($typeLbl as $f => $fv) {
+									if( $fv["total"] != 0 )
+										echo "<div class='bold' style='padding:5px;background-color:".$fv["col"]."'>".$fv["lbl"]."<br/>".$fv["total"]." €</div>";
+								}
+							} ?>
+							<div class="margin-top-10"><a href="/survey/co/answer/id/<?php echo $v['_id'] ?>/step/dossier.cte3.planFinancement" target="_blank" class=" btn btn-primary">Détail <i class="fa fa-money"></i></a></div>
+
+							</td>
+							
 						</tr>
 						<?php
 					} ?>
@@ -293,6 +318,7 @@ var states  = <?php echo json_encode($states); ?>;
 function showType (type) { 
 	$(".line").hide();
 	$("."+type).show();
+	countLine();
 }
 
 jQuery(document).ready(function() {
@@ -304,9 +330,11 @@ jQuery(document).ready(function() {
 	    	countLine();
 	    });
 	});
+
 	$(".clickOpen").off().on('click',function(){
 		window.open("<?php echo Yii::app()->getRequest()->getBaseUrl(true)."/survey/co/answer/id/" ; ?>"+$(this).parent().data('id')) ;
 	});
+
 	$("#csv").off().on('click',function(){
     	var chaine = "";
     	var csv = '"Num";"Projet";"Desc";"Porteur";"Référent";"Avancement dossier";"Lire";"Etiquetage";"Tags";"Status"' ;
@@ -504,10 +532,12 @@ function commentAnswer(answerId){
 	//}
 }
 function countLine(){
-	var nbLine = $("#panelAdmin tr.line").filter(function() {
-			    return $(this).css('display') !== 'none';
-			}).length ;
-	$("#nbLine").html(nbLine);
+	// var nbLine = $("#panelAdmin tr.line").filter(function() {
+	// 		    return $(this).css('display') !== 'none';
+	// 		}).length ;
+
+	//;
+	$("#nbLine").html($('#panelAdmin tr.line:visible').length);
 }
 
 
