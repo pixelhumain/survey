@@ -316,6 +316,7 @@ var states  = <?php echo json_encode($states); ?>;
 function showType (type) { 
 	$(".line").hide();
 	$("."+type).show();
+	countLine();
 }
 
 jQuery(document).ready(function() {
@@ -529,10 +530,12 @@ function commentAnswer(answerId){
 	//}
 }
 function countLine(){
-	var nbLine = $("#panelAdmin tr.line").filter(function() {
-			    return $(this).css('display') !== 'none';
-			}).length ;
-	$("#nbLine").html(nbLine);
+	// var nbLine = $("#panelAdmin tr.line").filter(function() {
+	// 		    return $(this).css('display') !== 'none';
+	// 		}).length ;
+
+	//;
+	$("#nbLine").html($('#panelAdmin tr.line:visible').length);
 }
 
 
