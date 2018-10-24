@@ -190,7 +190,7 @@ foreach ( $form[ $scenario ] as $k => $v ) {
 
 				echo '<tr>';
 					echo "<td> ".Yii::t("common","Name")."</td>";
-					echo "<td> <a target='_blank' class='btn btn-default' href='".Yii::app()->createUrl("#@".$el["slug"]).".view.detail'>".$el["name"]."</a></td>";
+					echo "<td> <a target='_blank' class='btn btn-default' href='".Yii::app()->createUrl("#@".@$el["slug"]).".view.detail'>".$el["name"]."</a></td>";
 				echo '</tr>';
 
 				if(@$el["type"]){
