@@ -41,6 +41,18 @@ $cssJS = array(
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 
+//gettting asstes from parent module repo
+$cssAnsScriptFilesModule = array(
+    '/leaflet/leaflet.css',
+    '/leaflet/leaflet.js',
+    '/markercluster/MarkerCluster.css',
+    '/markercluster/MarkerCluster.Default.css',
+    '/markercluster/leaflet.markercluster.js',
+    '/css/map.css',
+    '/js/map.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule( Map::MODULE )->getAssetsUrl() );
+
 ?>
 
 
