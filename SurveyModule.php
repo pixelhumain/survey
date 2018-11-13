@@ -83,6 +83,7 @@ class SurveyModule extends CWebModule {
 			'classifieds.models.*',
 			'places.models.*',
 			'eco.models.*',
+			'map.models.*',
 			Yii::app()->params["module"]["parent"].'.models.*',
 			Yii::app()->params["module"]["parent"].'.components.*',
 			$this->id.'.models.*',
