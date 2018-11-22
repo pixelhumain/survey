@@ -119,7 +119,7 @@ if(@$adminAnswers["risks"] )
 
 			<tr>
 				<td>Nom</td>
-				<td><b><a href="<?php echo Yii::app()->createUrl( "#@".$user["slug"]) ?>" target="_blank"><?php echo $user["name"]; ?></a></b></td>
+				<td><b><a href="<?php echo Yii::app()->createUrl( "#@".@$user["slug"]) ?>" target="_blank"><?php echo $user["name"]; ?></a></b></td>
 			</tr>
 
 			<tr>
