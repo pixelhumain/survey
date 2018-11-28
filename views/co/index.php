@@ -272,14 +272,5 @@ jQuery(document).ready(function() {
 });
 
 
-/*
-"login" : {
-    "title" : "Identity",
-    "description" : "please login to conintu please login to conintu please login ",
-    "path" : "/surveys/login.js",
-    "type" : "script",
-    "icon" : "fa-vcard-o"
-},
-*/
 
 </script>
