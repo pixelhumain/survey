@@ -41,18 +41,6 @@ $cssJS = array(
 HtmlHelper::registerCssAndScriptsFiles($cssJS, Yii::app()->theme->baseUrl);
 
 
-//gettting asstes from parent module repo
-$cssAnsScriptFilesModule = array(
-    '/leaflet/leaflet.css',
-    '/leaflet/leaflet.js',
-    '/markercluster/MarkerCluster.css',
-    '/markercluster/MarkerCluster.Default.css',
-    '/markercluster/leaflet.markercluster.js',
-    '/css/map.css',
-    '/js/map.js',
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule( Map::MODULE )->getAssetsUrl() );
-
 ?>
 
 
@@ -284,14 +272,5 @@ jQuery(document).ready(function() {
 });
 
 
-/*
-"login" : {
-    "title" : "Identity",
-    "description" : "please login to conintu please login to conintu please login ",
-    "path" : "/surveys/login.js",
-    "type" : "script",
-    "icon" : "fa-vcard-o"
-},
-*/
 
 </script>
